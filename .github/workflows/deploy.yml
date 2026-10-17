@@ -1,0 +1,110 @@
+name: Deploy FANG-dev to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  NEXT_TELEMETRY_DISABLED: 1
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Add the secret environment variables
+        run: |
+          echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
+          echo "JWT_ACCESS_SECRET=${{ secrets.JWT_ACCESS_SECRET }}" >> .env
+          echo "JWT_REFRESH_SECRET=${{ secrets.JWT_REFRESH_SECRET }}" >> .env
+          echo "GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}" >> .env
+          echo "GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}" >> .env
+          echo "FACEBOOK_APP_ID=${{ secrets.FACEBOOK_APP_ID }}" >> .env
+          echo "FACEBOOK_APP_SECRET=${{ secrets.FACEBOOK_APP_SECRET }}" >> .env
+          echo "GOOGLE_CALLBACK_URL=${{ secrets.GOOGLE_CALLBACK_URL }}" >> .env
+          echo "FACEBOOK_CALLBACK_URL=${{ secrets.FACEBOOK_CALLBACK_URL }}" >> .env
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Next.js Application
+        run: npm run build
+
+      - name: Prepare Standalone Package
+        run: |
+          mkdir -p deploy
+
+          # standalone
+          cp -r .next/standalone/. deploy/
+
+          # static assets ONLY
+          mkdir -p deploy/.next
+          cp -r .next/static deploy/.next/
+
+          # public assets
+          if [ -d public ]; then
+            cp -r public deploy/
+          fi
+
+          cd deploy
+          tar -czf ../app.tar.gz .
+
+      - name: Upload Package to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          source: "app.tar.gz"
+          target: "/home/ubuntu"
+
+      - name: Deploy Application
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          script: |
+            set -e
+
+            APP_DIR=/home/ubuntu/my-next-app
+
+            echo "Cleaning previous deployment..."
+            rm -rf $APP_DIR
+            mkdir -p $APP_DIR
+
+            echo "Extracting..."
+            tar -xzf /home/ubuntu/app.tar.gz -C $APP_DIR
+
+            cd $APP_DIR
+
+            if ! command -v pm2 > /dev/null
+            then
+              sudo npm install -g pm2
+            fi
+
+            echo "Starting server..."
+
+            pm2 delete next-app || true
+            pm2 start server.js --name next-app
+
+            pm2 save
+
+            rm -f /home/ubuntu/app.tar.gz
+
+            echo ""
+            echo "================================="
+            echo "Deployment Successful 🚀"
+            echo "Application URL:"
+            echo "http://${{ vars.EC2_DEV_DOMAIN }}:3000"
+            echo "================================="

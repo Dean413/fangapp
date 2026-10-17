@@ -1,0 +1,12 @@
+{
+    "NavBar": {
+        "Home": "Ana Sayfa",
+        "Browse": "Keşfet",
+        "Genres": "Türler",
+        "Rankings": "Sıralamalar",
+        "WriterArena": "Yazar Arenası",
+        "Library": "Kütüphane",
+        "SignIn": "Giriş Yap",
+        "SignUp": "Kayıt Ol"
+    }
+}

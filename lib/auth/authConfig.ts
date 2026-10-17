@@ -1,0 +1,16 @@
+export const AUTH_CONFIG = {
+    appName: "Fang",
+    siteUrl: process.env.SITE_URL || "",
+    logoUrl: "",
+    supportEmail: "support@fangwriters.com",
+    publicIdPrefix: "FR",
+    jwtAccessSecret: process.env.JWT_ACCESS_SECRET || "",
+    jwtRefreshSecret: process.env.JWT_REFRESH_SECRET || "",
+    emailCodePepper: process.env.EMAIL_CODE_PEPPER || "",
+    resendApiKey: process.env.RESEND_API_KEY || "",
+    emailFrom: "no-reply@fangapp.io",
+    googleClientId: process.env.GOOGLE_CLIENT_ID || "",
+    googleClientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+    facebookAppId: process.env.FACEBOOK_APP_ID || "",
+    facebookAppSecret: process.env.FACEBOOK_APP_SECRET || "",
+};

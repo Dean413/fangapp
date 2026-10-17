@@ -1,0 +1,12 @@
+{
+    "NavBar": {
+        "Home": "Startseite",
+        "Browse": "Entdecken",
+        "Genres": "Genres",
+        "Rankings": "Ranglisten",
+        "WriterArena": "Autorenarena",
+        "Library": "Bibliothek",
+        "SignIn": "Anmelden",
+        "SignUp": "Registrieren"
+    }
+}

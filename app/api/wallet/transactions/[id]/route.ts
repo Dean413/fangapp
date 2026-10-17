@@ -1,0 +1,20 @@
+// app/api/wallet/transactions/[id]/route.ts
+// One entry of the signed-in reader's wallet history (never anyone else's)
+import { getCurrentUser } from "@/lib/auth/session";
+import { getTransaction } from "@/lib/transaction";
+import { reply } from "@/lib/auth/rules";
+
+export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
+    const user = await getCurrentUser();
+    if (!user) return reply(401, "Please sign in first");
+
+    const { id } = await params;
+    try {
+        const transaction = await getTransaction(user.id, id);
+        if (!transaction) return reply(404, "Transaction not found");
+        return reply(200, "OK", { transaction });
+    } catch (error) {
+        console.error("Transaction error:", error);
+        return reply(500, "Couldn't load this transaction. Please try again.");
+    }
+}

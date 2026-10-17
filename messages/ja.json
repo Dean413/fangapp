@@ -1,0 +1,12 @@
+{
+    "NavBar": {
+        "Home": "ホーム",
+        "Browse": "閲覧",
+        "Genres": "ジャンル",
+        "Rankings": "ランキング",
+        "WriterArena": "作家アリーナ",
+        "Library": "ライブラリ",
+        "SignIn": "ログイン",
+        "SignUp": "登録"
+    }
+}

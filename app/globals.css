@@ -1,0 +1,193 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* dark mode palette */
+@theme {
+    --color-dark: #0A0A0A;          /* page background */
+    --color-dark-card: #141414;     /* cards and panels */
+    --color-dark-raised: #1F1F1F;   /* inputs, chips, hover states inside cards */
+    --color-dark-border: #262626;   /* borders and dividers */
+}
+
+html,
+body {
+    transition: background-color 0.2s ease, color 0.2s ease;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.dark body {
+    background-color: var(--color-dark);
+    color: #fff;
+}
+
+/* native form controls and scrollbars follow the site theme */
+.dark {
+    color-scheme: dark;
+}
+
+/* borders without an explicit colour default to currentColor (white in dark mode) */
+@layer base {
+    .dark *,
+    .dark ::before,
+    .dark ::after {
+        border-color: var(--color-dark-border);
+    }
+}
+
+/* charts (recharts) */
+:root {
+    --chart-area-fill: #fecaca;
+}
+
+.dark {
+    --chart-area-fill: rgb(220 38 38 / 0.25);
+}
+
+.dark .recharts-cartesian-axis-tick-value {
+    fill: #a3a3a3;
+}
+
+.dark .recharts-default-tooltip {
+    background-color: var(--color-dark-raised) !important;
+    border-color: var(--color-dark-border) !important;
+    color: #fff;
+}
+
+/* sweetalert2 dialogs */
+.dark .swal2-popup {
+    background: var(--color-dark-card);
+    color: #fff;
+}
+
+.dark .swal2-title,
+.dark .swal2-html-container {
+    color: #fff;
+}
+
+.dark .swal2-icon.swal2-success [class^="swal2-success-circular-line"],
+.dark .swal2-icon.swal2-success .swal2-success-fix {
+    background-color: var(--color-dark-card) !important;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+@keyframes soft-ping {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    75% {
+        transform: scale(1.09);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(1.09);
+        opacity: 0.7;
+    }
+}
+
+.animate-soft-ping {
+    animation: soft-ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.book-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+@keyframes spin-slow {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spin-slow {
+    animation: spin-slow 3s linear infinite;
+}
+
+.swiper-slide {
+    opacity: 0.8;
+    transform: scale(0.85);
+    transition: 0.3s;
+}
+
+.swiper-slide-active {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.reader-wrapper {
+    --font-size: 18px;
+    --font-family: serif;
+    --line-height: 1.6;
+}
+
+/* CONTENT */
+.reader-content {
+    font-size: var(--font-size);
+    font-family: var(--font-family);
+    line-height: var(--line-height);
+    padding: 20px;
+    transition: 0.3s ease;
+}
+
+/* TOP BAR */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+/* OVERLAY */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+}
+
+/* TOC */
+.toc-drawer {
+    width: 300px;
+    background: white;
+    height: 100%;
+    padding: 20px;
+}
+
+/* SETTINGS BOTTOM SHEET */
+.settings-sheet {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: white;
+    padding: 20px;
+    border-radius: 20px 20px 0 0;
+}
+
+/* THEMES */
+.reader-wrapper[data-theme="dark"] {
+    background: #111;
+    color: #eee;
+}
+
+.reader-wrapper[data-theme="sepia"] {
+    background: #f4ecd8;
+}
+
+.reader-wrapper[data-theme="black"] {
+    background: #000;
+    color: #fff;
+}
