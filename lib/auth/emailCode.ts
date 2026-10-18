@@ -1,14 +1,33 @@
+// lib/auth/emailCode.ts
+// Codes sent by email: confirm a new account's email, reset a password, two-factor sign-in,
+// confirm a new email address, and confirm deleting the account.
+// Same rules and same email_codes table as FangWriters (one account across both apps).
+// - 6 digits from a secure random source, stored only as an HMAC keyed with a secret outside the database
+// - each code allows 5 wrong tries over its whole life (asking for a new code doesn't give the old one
+//   more tries); a right code works once
+// - a new code at most once a minute, and at most 10 in any 24 hours (rolling), per account and purpose;
+//   the limit check and the save are one atomic statement, so simultaneous requests can't get around it
+// - the previous code also works until it expires, so it doesn't matter which email arrives last
+// Also the one-time "reset pass" given after a right reset code: a random token, stored as an HMAC,
+// used up in the same transaction that sets the new password. A reset also signs the account out on
+// every other device (sessions_valid_after) and ends any sign-in lock.
 import "server-only";
 import crypto from "crypto";
 import { dbPool as db } from "@/lib/db";
-import { withTransaction } from "./transaction";
-import { AUTH_CONFIG } from "./authConfig";
+import { withTransaction } from "@/lib/auth/transaction";
+import { AUTH_CONFIG } from "@/lib/auth/authConfig";
 
-export type CodePurpose = "verify_email" | "reset_password";
+export type CodePurpose = "verify_email" | "reset_password" | "login_2fa" | "change_email" | "delete_account";
 export type CodeCheck = "ok" | "wrong" | "expired" | "too_many";
 export type ResetResult = "ok" | "invalid" | "blocked";
 
-const CODE_MINUTES: Record<CodePurpose, number> = { verify_email: 15, reset_password: 10 };
+const CODE_MINUTES: Record<CodePurpose, number> = {
+    verify_email: 15,
+    reset_password: 10,
+    login_2fa: 10,
+    change_email: 15,
+    delete_account: 10,
+};
 export const RESET_SESSION_MINUTES = 10;
 export const RESET_SESSION_COOKIE_PATH = "/api/auth/reset-password";
 const MAX_ATTEMPTS = 5;
@@ -190,6 +209,7 @@ export async function resetPasswordWithSession(token: string | undefined, passwo
             const { rows: changed } = await client.query(
                 `UPDATE users
                  SET password_hash = $2,
+                     password_changed_at = now(),
                      email_verified_at = COALESCE(email_verified_at, now()),
                      sessions_valid_after = now()
                  WHERE id = $1 AND COALESCE(account_status, 'active') NOT IN ('banned', 'deleted')

@@ -1,10 +1,12 @@
 // app/api/auth/google/callback/route.ts
 // Google sends the browser back here. Checks the state, gets the verified Google profile,
 // signs in (or creates the account), gives the sign-up bonus once, and goes back to the page the reader was on.
+// From Settings (link mode): connects the account to the signed-in reader instead.
 import { NextRequest, NextResponse } from "next/server";
 import { backTo, clearStateCookie, googleProfile, readState } from "@/lib/auth/oauth";
 import { prepareReader, signInWithProvider } from "@/lib/auth/account";
-import { startSession } from "@/lib/auth/session";
+import { getCurrentUser, startSession } from "@/lib/auth/session";
+import { linkProvider } from "@/lib/settings";
 
 export async function GET(request: NextRequest) {
     const saved = readState(request, "google");
@@ -23,6 +25,15 @@ export async function GET(request: NextRequest) {
 
     try {
         const profile = await googleProfile(request, code, saved.verifier);
+
+        // From Settings: connect it to the signed-in account
+        if (saved.mode === "link") {
+            const current = await getCurrentUser();
+            if (!current) return finish("link_signin");
+            const linked = await linkProvider(current.id, "google", profile.providerUserId, profile.email);
+            return finish(linked === "ok" ? undefined : "linked_elsewhere");
+        }
+
         const result = await signInWithProvider(profile);
         if (!result.ok) return finish(result.code.toLowerCase());
 

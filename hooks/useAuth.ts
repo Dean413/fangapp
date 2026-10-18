@@ -26,7 +26,6 @@ export const useAuth = (open: boolean) => {
     const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
     const [savingProfile, setSavingProfile] = useState(false);
     const [resending, setResending] = useState(false);
-    // Block a second click before the page has re-drawn (state alone can't catch a fast double-click)
     const sendBusy = useRef(false);
     const verifyBusy = useRef(false);
     const profileBusy = useRef(false);
@@ -194,7 +193,6 @@ export const useAuth = (open: boolean) => {
 
     const nextStep = async () => {
         if (!canCreateAccount || sendBusy.current) return;
-
         if (!agreed) {
             setMessage("You must agree to the terms");
             return;

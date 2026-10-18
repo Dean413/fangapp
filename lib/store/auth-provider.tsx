@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { useAuthStore } from "./authStore";
 import { useLibraryStore } from "./library-store";
+import TwoFactorCard from "@/components/authCards/twoFactorCards";
 
 // Messages for ?auth_error=<code>, added to the address when Google/Facebook sign-in fails
 const AUTH_ERRORS: Record<string, string> = {
@@ -16,6 +17,8 @@ const AUTH_ERRORS: Record<string, string> = {
     link_expired: "Please sign in with your email and password.",
     account_closed: "This account has been closed. If you think this is a mistake, contact support@fangwriters.com.",
     not_allowed: "This account can't be used to sign in here.",
+    link_signin: "Please sign in first, then connect your account in Settings.",
+    linked_elsewhere: "That account is already connected to another Fang account.",
 };
 
 export default function AuthProvider({
@@ -46,5 +49,11 @@ export default function AuthProvider({
         window.history.replaceState(window.history.state, "", url.pathname + url.search + url.hash);
     }, []);
 
-    return <>{children}</>;
+    return (
+        <>
+            {children}
+            {/* Two-factor sign-in code card (opens after the right password when two-factor is on) */}
+            <TwoFactorCard />
+        </>
+    );
 }

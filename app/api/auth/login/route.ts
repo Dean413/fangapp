@@ -5,6 +5,8 @@
 // - banned and deleted accounts can't sign in; suspended accounts can
 // - a right password on an account whose email was never confirmed sends a code and answers
 //   EMAIL_NOT_VERIFIED, so the app shows the code step
+// - two-factor on: a right password sends a sign-in code and answers TWO_FACTOR_REQUIRED;
+//   the code is checked at /api/auth/verify-login
 import { NextRequest } from "next/server";
 import crypto from "crypto";
 import { dbPool } from "@/lib/db";
@@ -38,7 +40,7 @@ export async function POST(request: NextRequest) {
         }
 
         const { rows } = await dbPool.query(
-            `SELECT u.id, u.email, u.role, u.password_hash, u.email_verified_at, u.account_status
+            `SELECT u.id, u.email, u.role, u.password_hash, u.email_verified_at, u.account_status, u.two_factor_enabled
              FROM users u WHERE u.email = $1`,
             [email]
         );
@@ -65,6 +67,17 @@ export async function POST(request: NextRequest) {
                 console.error("Verification code email error:", emailError);
             }
             return reply(403, "Please confirm your email. We've sent you a code.", { code: "EMAIL_NOT_VERIFIED", email: user.email });
+        }
+
+        // Two-factor: email a sign-in code; the login starts once the code is entered
+        if (user.two_factor_enabled) {
+            try {
+                const issued = await issueCode(user.id, "login_2fa");
+                if ("code" in issued) await sendCodeEmail("login_2fa", user.email, issued.code);
+            } catch (emailError) {
+                console.error("Sign-in code email error:", emailError);
+            }
+            return reply(403, "Enter the code we sent to your email.", { code: "TWO_FACTOR_REQUIRED", email: user.email });
         }
 
         await startSession({ id: user.id, email: user.email, role: user.role });

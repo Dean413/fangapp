@@ -32,7 +32,7 @@ const startSocialSignIn = (provider: "google" | "facebook") => {
 const ReusableInput = ({ fullName, placeholder, label, showStrengthBar, email, showNameField, passWord, setEmail, setPassword, setShowPassword, showPassword, setFullName, strength }: Form) => {
     return (
         <div className="mx-auto ">
-            <div className="flex dark:text-white gap-4">
+            {/* <div className="flex dark:text-white gap-4">
                 <button
                     type="button"
                     onClick={() => startSocialSignIn("google")}
@@ -45,8 +45,7 @@ const ReusableInput = ({ fullName, placeholder, label, showStrengthBar, email, s
                 <button
                     type="button"
                     onClick={() => startSocialSignIn("facebook")}
-                    className=" border bg-gray-100 dark:bg-dark-raised border-gray-300 dark:border-neutral-700 rounded-3xl py-3 px-4 flex items-center justify-center md:gap-3 gap-1 hover:bg-gray-50 dark:hover:bg-neutral-800 transition cursor-pointer"
-                >
+                    className=" border bg-gray-100 dark:bg-dark-raised border-gray-300 dark:border-neutral-700 rounded-3xl py-3 px-4 flex items-center justify-center md:gap-3 gap-1 hover:bg-gray-50 dark:hover:bg-neutral-800 transition cursor-pointer">
                     <div className="w-5 h-5 rounded-full bg-[#1877F2] flex items-center justify-center text-white">
                         <FaFacebookF size={11} />
                     </div>
@@ -57,14 +56,14 @@ const ReusableInput = ({ fullName, placeholder, label, showStrengthBar, email, s
                     <Image src="https://www.svgrepo.com/show/503173/apple-logo.svg" alt="apple-logo" width={20} height={20} />
                     <span className="font-medium md:text-sm text-xs">Apple</span>
                 </button>
-            </div>
+            </div> */}
 
             {/* DIVIDER */}
-            <div className="flex items-center gap-3 my-5">
+            {/* <div className="flex items-center gap-3 my-5">
                 <div className="grow h-px bg-gray-300 dark:bg-neutral-800"></div>
                 <span className="text-xs text-gray-500 dark:text-neutral-400">or</span>
                 <div className="grow h-px bg-gray-300 dark:bg-neutral-800"></div>
-            </div>
+            </div> */}
 
             {/* FORM */}
             <div className="space-y-4">

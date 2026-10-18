@@ -1,3 +1,7 @@
+// components/email/codeEmail.tsx
+// The 6-digit code emails (confirm email, reset password, two-factor sign-in, new email address, delete account)
+// and the "your email was changed" notice: same look as FangWriters' code email, with this app's name and logo.
+// React Email escapes every value, so nothing in it can turn into HTML.
 import {
     Body,
     Container,
@@ -11,16 +15,16 @@ import {
     Text,
 } from "@react-email/components";
 
-export type CodeEmailKind = "verify_email" | "reset_password";
+export type CodeEmailKind = "verify_email" | "reset_password" | "login_2fa" | "change_email" | "delete_account" | "email_changed";
 
 const socialLinks = [
-    { name: "X", icon: "x.png", href: "https://x.com/fangwriters?s=11" },
-    { name: "TikTok", icon: "tiktok.png", href: "https://www.tiktok.com/@fangwriters?_r=1&_t=ZN-996jgSrMzSw" },
-    { name: "Facebook", icon: "facebook.png", href: "https://www.facebook.com/fangwriters" },
+    { name: "X", icon: "x.png", href: "https://x.com/fangappio?s=11" },
+    { name: "TikTok", icon: "tiktok.png", href: "https://www.tiktok.com/@fangappio?_r=1&_t=ZP-9AdbUCzjQv1" },
+    { name: "Facebook", icon: "facebook.png", href: "https://www.facebook.com/fangappio?" },
     { name: "Instagram", icon: "instagram.png", href: "https://www.instagram.com/fangwriters?igsi=OWFjYms5Y2RjZ25i&utm_source=qr" },
-    { name: "YouTube", icon: "youtube.png", href: "https://www.youtube.com/@fangwriters" },
-    { name: "LinkedIn", icon: "linkedin.png", href: "https://www.linkedin.com/company/fangwriters/" },
-    { name: "Discord", icon: "discord.png", href: "https://discord.gg/7PDuynS9U" },
+    { name: "YouTube", icon: "youtube.png", href: "https://youtube.com/@fangappio?si=rehBWrVdPZji-tf6" },
+    { name: "LinkedIn", icon: "linkedin.png", href: "https://www.linkedin.com/company/fangappio/" },
+    // { name: "Discord", icon: "discord.png", href: "https://discord.gg/7PDuynS9U" },
 ];
 
 // The social icons already live on the FangWriters site
@@ -29,13 +33,33 @@ const ICONS_URL = "https://fangwriters.com/pictures/social";
 const COPY: Record<CodeEmailKind, { heading: string; line: (app: string) => string; ignore: (app: string) => string }> = {
     verify_email: {
         heading: "Confirm your email",
-        line: (app) => `Enter this code to finish creating your ${app} account:`,
+        line: (app) => `Enter this code to finish setting up your ${app} account:`,
         ignore: (app) => `If you didn’t try to create a ${app} account, you can ignore this email.`,
     },
     reset_password: {
         heading: "Reset your password",
         line: (app) => `Enter this code to choose a new password for your ${app} account:`,
-        ignore: () => "If you didn’t ask to reset your password, you can ignore this email. Your password stays the same.",
+        ignore: () => "If you didn’t ask to reset your password, you can ignore this email.",
+    },
+    login_2fa: {
+        heading: "Your sign-in code",
+        line: (app) => `Enter this code to finish signing in to your ${app} account:`,
+        ignore: () => "If you didn’t try to sign in, someone may know your password. Change it in Settings right away.",
+    },
+    change_email: {
+        heading: "Confirm your new email",
+        line: (app) => `Enter this code to use this email address for your ${app} account:`,
+        ignore: () => "If you didn’t ask to change your email, you can ignore this email.",
+    },
+    delete_account: {
+        heading: "Confirm deleting your account",
+        line: (app) => `Enter this code to delete your ${app} account. This can’t be undone:`,
+        ignore: () => "If you didn’t ask to delete your account, ignore this email and change your password.",
+    },
+    email_changed: {
+        heading: "Your email was changed",
+        line: (app) => `The email address associated with your ${app} account was just changed.`,
+        ignore: (app) => `If you didn’t do this, please contact support.`,
     },
 };
 
@@ -54,7 +78,8 @@ export default function CodeEmail({ kind, code, minutes, appName, logoUrl, suppo
     return (
         <Html>
             <Head />
-            <Preview>Your {appName} code is {code}</Preview>
+            <Preview>{code ? `Your ${appName} code is ${code}` : copy.heading}</Preview>
+
             <Body
                 style={{
                     margin: 0,
@@ -96,32 +121,36 @@ export default function CodeEmail({ kind, code, minutes, appName, logoUrl, suppo
                     <Section style={{ padding: "0 42px 25px" }}>
                         <Text style={textStyle}>{copy.line(appName)}</Text>
 
-                        <Section style={{ textAlign: "center", margin: "6px 0 20px" }}>
-                            <Text
-                                style={{
-                                    display: "inline-block",
-                                    margin: 0,
-                                    padding: "14px 26px",
-                                    backgroundColor: "#f3f4f6",
-                                    borderRadius: "8px",
-                                    fontSize: "30px",
-                                    lineHeight: "36px",
-                                    fontWeight: 700,
-                                    letterSpacing: "10px",
-                                    color: "#111827",
-                                }}
-                            >
-                                {code}
+                        {code && (
+                            <Section style={{ textAlign: "center", margin: "6px 0 20px" }}>
+                                <Text
+                                    style={{
+                                        display: "inline-block",
+                                        margin: 0,
+                                        padding: "14px 26px",
+                                        backgroundColor: "#f3f4f6",
+                                        borderRadius: "8px",
+                                        fontSize: "30px",
+                                        lineHeight: "36px",
+                                        fontWeight: 700,
+                                        letterSpacing: "10px",
+                                        color: "#111827",
+                                    }}
+                                >
+                                    {code}
+                                </Text>
+                            </Section>
+                        )}
+
+                        <Text style={textStyle}>
+                            {code ? `The code works for ${minutes} minutes. ` : ""}{copy.ignore(appName)}
+                        </Text>
+
+                        {code && (
+                            <Text style={textStyle}>
+                                Never share this code with anyone. {appName} will never ask you for it.
                             </Text>
-                        </Section>
-
-                        <Text style={textStyle}>
-                            The code works for {minutes} minutes. {copy.ignore(appName)}
-                        </Text>
-
-                        <Text style={textStyle}>
-                            Never share this code with anyone. {appName} will never ask you for it.
-                        </Text>
+                        )}
 
                         <Text style={textStyle}>
                             Warmly,

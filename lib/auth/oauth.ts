@@ -1,9 +1,15 @@
+// lib/auth/oauth.ts
+// Google and Facebook sign-in by redirect:
+//   /api/auth/<provider>/login  → the provider's sign-in page → /api/auth/<provider>/callback
+// A random "state" (and for Google a PKCE verifier) is kept in a short-lived httpOnly cookie and checked
+// on the way back, so nobody can trick a browser into signing in to someone else's account.
+// mode "link" (from Settings, ?link=1) attaches the Google / Facebook account to the signed-in account instead.
 import "server-only";
 import crypto from "crypto";
 import * as jose from "jose";
 import type { NextRequest, NextResponse } from "next/server";
-import { AUTH_CONFIG } from "./authConfig";
-import type { Provider, ProviderProfile } from "./account";
+import { AUTH_CONFIG } from "@/lib/auth/authConfig";
+import type { Provider, ProviderProfile } from "@/lib/auth/account";
 
 const STATE_MINUTES = 10;
 const FB_VERSION = "v21.0";
@@ -34,7 +40,8 @@ export function backTo(request: NextRequest, next: string, error?: string) {
 
 const base64url = (buf: Buffer) => buf.toString("base64url");
 
-type StateCookie = { state: string; verifier: string; next: string };
+export type OAuthMode = "signin" | "link";
+type StateCookie = { state: string; verifier: string; next: string; mode: OAuthMode };
 
 export function setStateCookie(response: NextResponse, provider: Provider, value: StateCookie) {
     response.cookies.set(cookieName(provider), JSON.stringify(value), {
@@ -60,14 +67,14 @@ export function readState(request: NextRequest, provider: Provider): StateCookie
         const a = Buffer.from(saved.state ?? "");
         const b = Buffer.from(returned);
         if (a.length === 0 || a.length !== b.length || !crypto.timingSafeEqual(a, b)) return null;
-        return { state: saved.state, verifier: saved.verifier ?? "", next: safeNext(saved.next) };
+        return { state: saved.state, verifier: saved.verifier ?? "", next: safeNext(saved.next), mode: saved.mode === "link" ? "link" : "signin" };
     } catch {
         return null;
     }
 }
 
-export function newState(next: string): StateCookie {
-    return { state: base64url(crypto.randomBytes(32)), verifier: base64url(crypto.randomBytes(48)), next: safeNext(next) };
+export function newState(next: string, mode: OAuthMode = "signin"): StateCookie {
+    return { state: base64url(crypto.randomBytes(32)), verifier: base64url(crypto.randomBytes(48)), next: safeNext(next), mode };
 }
 
 // ---------- Google ----------

@@ -1,11 +1,13 @@
 // app/api/auth/facebook/callback/route.ts
 // Facebook sends the browser back here. Checks the state, gets the Facebook profile,
 // signs in (or creates the account), gives the sign-up bonus once, and goes back to the page the reader was on.
+// From Settings (link mode): connects the account to the signed-in reader instead.
 // An email that already has an account is never taken over through Facebook (see lib/auth/accounts.ts).
 import { NextRequest, NextResponse } from "next/server";
 import { backTo, clearStateCookie, facebookProfile, readState } from "@/lib/auth/oauth";
 import { prepareReader, signInWithProvider } from "@/lib/auth/account";
-import { startSession } from "@/lib/auth/session";
+import { getCurrentUser, startSession } from "@/lib/auth/session";
+import { linkProvider } from "@/lib/settings";
 
 export async function GET(request: NextRequest) {
     const saved = readState(request, "facebook");
@@ -24,6 +26,15 @@ export async function GET(request: NextRequest) {
 
     try {
         const profile = await facebookProfile(request, code);
+
+        // From Settings: connect it to the signed-in account
+        if (saved.mode === "link") {
+            const current = await getCurrentUser();
+            if (!current) return finish("link_signin");
+            const linked = await linkProvider(current.id, "facebook", profile.providerUserId, profile.email);
+            return finish(linked === "ok" ? undefined : "linked_elsewhere");
+        }
+
         const result = await signInWithProvider(profile);
         if (!result.ok) return finish(result.code.toLowerCase());
 

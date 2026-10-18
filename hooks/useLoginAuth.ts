@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useAuthModals } from "@/lib/store/auth-card-store";
 import { useAuthStore } from "@/lib/store/authStore";
+import { useTwoFactorStore } from "@/lib/store/twoFactorStore";
 
 export const useLoginAuth = (open: boolean) => {
     const [showPassword, setShowPassword] = useState(false);
@@ -15,6 +16,7 @@ export const useLoginAuth = (open: boolean) => {
     const busy = useRef(false);
     const closeAll = useAuthModals((s) => s.closeAll);
     const openVerify = useAuthModals((s) => s.openVerify);
+    const openTwoFactor = useTwoFactorStore((s) => s.open);
 
     useEffect(() => {
         if (open) {
@@ -54,6 +56,13 @@ export const useLoginAuth = (open: boolean) => {
                 if (data.code === "EMAIL_NOT_VERIFIED") {
                     toast.info(data.message)
                     openVerify(data.email || email.trim().toLowerCase())
+                    return
+                }
+                // Right password, two-factor on: a sign-in code was just sent; show the code card
+                if (data.code === "TWO_FACTOR_REQUIRED") {
+                    setPassword("")
+                    closeAll()
+                    openTwoFactor(data.email || email.trim().toLowerCase())
                     return
                 }
                 toast.error(data.message || "Invalid email or password")
