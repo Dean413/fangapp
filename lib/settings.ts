@@ -219,24 +219,74 @@ export async function linkProvider(userId: string, provider: Provider, providerU
 
 // ---------- Delete ----------
 
-// Closes the account: marked deleted, signed out everywhere, profile cleared (the username becomes free).
-// The wallet history stays (it's permanent). Writers' accounts can't be deleted here.
-export async function deleteAccount(userId: string): Promise<"ok" | "writer"> {
+export type DeleteResult = { ok: true; photos: string[] } | { ok: false; reason: "writer" };
+
+// Closes the account and removes the reader's personal data, in one transaction.
+// Kept (needed by law / to stop sign-up bonus abuse): the account row with only email, dates and status,
+// and the coin records (wallet_lots, wallet_ledger), which are permanent financial records.
+// Removed: full name, username, bio, photo links, password, genres, library, reading history, reward
+// activity, notification switches, email codes, sign-in links, and (for readers) the old user_profiles copy.
+// Returns the photo addresses so the files can be deleted from storage afterwards.
+// Writers' accounts can't be deleted here (it's also their FangWriters account).
+export async function deleteAccount(userId: string): Promise<DeleteResult> {
     return withTransaction(async (client) => {
-        const { rows } = await client.query(`SELECT role FROM users WHERE id = $1 FOR UPDATE`, [userId]);
-        if (rows[0]?.role === "author") return "writer" as const;
-        await client.query(
-            `UPDATE users SET account_status = 'deleted', sessions_valid_after = now(), two_factor_enabled = false WHERE id = $1`,
+        const { rows } = await client.query(`SELECT email, role FROM users WHERE id = $1 FOR UPDATE`, [userId]);
+        const account = rows[0];
+        if (!account) return { ok: true, photos: [] } as const;
+        if (account.role === "author") return { ok: false, reason: "writer" } as const;
+
+        const { rows: profile } = await client.query(
+            `SELECT avatar_url, cover_url FROM reader_profiles WHERE user_id = $1`,
             [userId]
         );
-        await client.query(`DELETE FROM user_identities WHERE user_id = $1`, [userId]);
+        const photos = [profile[0]?.avatar_url, profile[0]?.cover_url].filter(
+            (u): u is string => typeof u === "string" && u.length > 0
+        );
+
+        // The account: closed, signed out everywhere, no password, no two-factor
         await client.query(
-            `UPDATE reader_profiles SET username = NULL, bio = NULL, avatar_url = NULL, cover_url = NULL, updated_at = now() WHERE user_id = $1`,
+            `UPDATE users SET account_status = 'deleted', password_hash = NULL, two_factor_enabled = false,
+                              sessions_valid_after = now()
+             WHERE id = $1`,
             [userId]
         );
-        await client.query(`DELETE FROM reader_favorite_genres WHERE user_id = $1`, [userId]);
-        await client.query(`DELETE FROM reader_library WHERE user_id = $1`, [userId]);
-        await client.query(`DELETE FROM reading_progress WHERE user_id = $1`, [userId]);
-        return "ok" as const;
+        // The profile row stays only so the public ID is never given to someone else; everything personal is cleared
+        await client.query(
+            `UPDATE reader_profiles SET full_name = '', username = NULL, bio = NULL, avatar_url = NULL, cover_url = NULL,
+                                        updated_at = now()
+             WHERE user_id = $1`,
+            [userId]
+        );
+        // Readers made before the reader app had its own profiles also have a copy in user_profiles.
+        // If something else still points at that row, its personal fields are cleared instead.
+        await client.query(`SAVEPOINT old_profile`);
+        try {
+            await client.query(`DELETE FROM user_profiles WHERE user_id = $1`, [userId]);
+            await client.query(`RELEASE SAVEPOINT old_profile`);
+        } catch {
+            await client.query(`ROLLBACK TO SAVEPOINT old_profile`);
+            await client.query(
+                `UPDATE user_profiles SET full_name = '', profile_image = NULL, phone_number = '' WHERE user_id = $1`,
+                [userId]
+            );
+        }
+
+        for (const table of [
+            "user_identities",
+            "reader_favorite_genres",
+            "reader_library",
+            "reading_progress",
+            "reader_settings",
+            "daily_checkins",
+            "reading_time",
+            "reading_reward_claims",
+            "email_change_requests",
+            "email_codes",
+        ]) {
+            await client.query(`DELETE FROM ${table} WHERE user_id = $1`, [userId]);
+        }
+        await client.query(`DELETE FROM login_attempts WHERE email = lower($1)`, [account.email]);
+
+        return { ok: true, photos } as const;
     });
 }
