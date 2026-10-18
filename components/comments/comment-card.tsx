@@ -1,42 +1,110 @@
 "use client";
 
+import { useRef } from "react";
 import { ThumbsUp } from "lucide-react";
+import { toast } from "react-toastify";
+import { useAuthStore } from "@/lib/store/authStore";
+import { useAuthModals } from "@/lib/store/auth-card-store";
+import { Avatar, formatDateTime } from "@/components/reviews/stars";
 
-type Comment = {
+export type Comment = {
     id: string;
     name: string;
-    avatar?: string;
+    avatar?: string | null;
     content: string;
     createdAt: string;
     likes: number;
+    liked?: boolean;
+    mine?: boolean;
+    isAuthor?: boolean;
+    publicId?: string | null;
+    status?: string;
+    replies?: Comment[];
 };
 
-export default function CommentCard({ comment }: { comment: Comment }) {
+type Props = {
+    comment: Comment;
+    isReply?: boolean;
+    onChange?: (c: Comment) => void;
+    onReply?: (c: Comment) => void;
+    onReport?: (c: Comment) => void;
+    onDelete?: (c: Comment) => void;
+};
+
+export default function CommentCard({ comment, isReply, onChange, onReply, onReport, onDelete }: Props) {
+    const signedIn = useAuthStore((s) => Boolean(s.user));
+    const openSignIn = useAuthModals((s) => s.openSignIn);
+    const likeBusy = useRef(false);
+
+    const toggleLike = async () => {
+        if (!signedIn) return openSignIn();
+        if (comment.mine || likeBusy.current || !onChange) return;
+        likeBusy.current = true;
+        const like = !comment.liked;
+        onChange({ ...comment, liked: like, likes: comment.likes + (like ? 1 : -1) });
+        try {
+            const res = await fetch(`/api/comments/${comment.id}/like`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({ like }),
+            });
+            const data = await res.json().catch(() => ({}));
+            if (res.ok) onChange({ ...comment, liked: data.liked, likes: data.likes });
+            else {
+                onChange(comment);
+                toast.error(data.message || "Couldn't update the like");
+            }
+        } catch {
+            onChange(comment);
+            toast.error("Unable to reach the server. Please try again.");
+        } finally {
+            likeBusy.current = false;
+        }
+    };
+
     return (
-        <div className="flex gap-3 py-4 border-b border-gray-200 dark:border-dark-border">
+        <div className={`flex gap-3 py-4 ${isReply ? "" : "border-b border-gray-200 dark:border-dark-border"}`}>
             {/* Avatar */}
-            <div className="shrink-0">
-                <div className="w-10 h-10 rounded-full bg-black dark:bg-neutral-700" />
-            </div>
+            <Avatar src={comment.avatar} name={comment.name} size={isReply ? 32 : 40} />
 
             {/* Content */}
-            <div className="flex-1">
-                <div className="flex items-center justify-between">
-                    <h4 className="font-semibold text-gray-900 dark:text-white">{comment.name}</h4>
+            <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2">
+                    <h4 className="font-semibold text-gray-900 dark:text-white truncate">{comment.name}</h4>
+                    {comment.isAuthor && (
+                        <span className="text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded bg-red-600 text-white">Author</span>
+                    )}
                 </div>
 
-                <p className="text-gray-700 dark:text-neutral-200 mt-1 text-sm leading-relaxed">
+                <p className="text-gray-700 dark:text-neutral-200 mt-1 text-sm leading-relaxed whitespace-pre-line wrap-break-word">
                     {comment.content}
                 </p>
 
                 {/* Footer */}
                 <div className="flex items-center justify-between mt-3 text-xs text-gray-500 dark:text-neutral-400">
-                    <span>{comment.createdAt}</span>
-
-                    <div className="flex items-center gap-1">
-                        <ThumbsUp size={14} />
-                        <span>{comment.likes}</span>
+                    <div className="flex items-center gap-3">
+                        <span>{formatDateTime(comment.createdAt)}</span>
+                        {onReply && (
+                            <button type="button" onClick={() => (signedIn ? onReply(comment) : openSignIn())} className="hover:text-red-500 font-medium">
+                                Reply
+                            </button>
+                        )}
+                        {comment.mine && onDelete && (
+                            <button type="button" onClick={() => onDelete(comment)} className="hover:text-red-500">Delete</button>
+                        )}
+                        {!comment.mine && onReport && (
+                            <button type="button" onClick={() => (signedIn ? onReport(comment) : openSignIn())} className="hover:text-red-500">
+                                Report
+                            </button>
+                        )}
                     </div>
+
+                    <button type="button" onClick={toggleLike} disabled={comment.mine} aria-label="Like"
+                        className={`flex items-center gap-1 disabled:cursor-default ${comment.liked ? "text-red-600" : ""}`}>
+                        <ThumbsUp size={14} className={comment.liked ? "fill-red-600" : ""} />
+                        <span>{comment.likes}</span>
+                    </button>
                 </div>
             </div>
         </div>

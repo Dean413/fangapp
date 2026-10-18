@@ -156,7 +156,6 @@ const NavBar = () => {
                                     </>
                                 ) : (
                                     <>
-                                        <button onClick={openSignIn} className="cursor-pointer">{t("SignIn")}</button>
                                         <button onClick={openSignUp} className="cursor-pointer bg-[#D90404] text-white px-4 py-2 rounded-full text-sm hover:bg-red-700 transition">
                                             {t("SignUp")}
                                         </button>

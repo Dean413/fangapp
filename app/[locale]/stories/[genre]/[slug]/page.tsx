@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { FaLock } from "react-icons/fa6";
 import { useLibraryStore } from "@/lib/store/library-store";
 import { useAuthStore } from "@/lib/store/authStore";
+import BookReviews, { type ReviewSummary } from "@/components/reviews/bookReview";
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
 
@@ -23,7 +24,7 @@ interface Book {
     tags?: string[];
     chapter?: number;     // published chapter count
     chapters: string;
-    rating?: string;      // shown once ratings exist
+    rating?: string;      // average from the reviews (see Reader Reviews)
     status?: string;      // ONGOING | COMPLETED
     image: string;
     summary?: string;
@@ -103,6 +104,9 @@ export default function Page() {
     const saved = useLibraryStore((s) => Boolean(bookKey) && s.saved.some((b) => b.id === bookKey || b.storyId === String(book?.id ?? "")));
     const [savingBook, setSavingBook] = useState(false);
     const [lastChapter, setLastChapter] = useState<number | null>(null);
+    // Average rating and number of reviews, from the Reader Reviews section
+    const [reviewSummary, setReviewSummary] = useState<ReviewSummary | null>(null);
+    const ratingText = reviewSummary?.average != null ? reviewSummary.average.toFixed(1) : book?.rating;
 
     // The book's current link, once it's loaded (the URL may be an old one)
     const bookPath = book ? `/stories/${book.genreSlug}/${book.slug}` : `/stories/${safeGenre}/${safeSlug}`;
@@ -246,10 +250,10 @@ export default function Page() {
                                     <span>👁️ {book.views} Views</span>
                                     <span>•</span>
                                     <span>📚 {chapterCount} Chapters</span>
-                                    {book.rating && (
+                                    {ratingText && (
                                         <>
                                             <span>•</span>
-                                            <span>⭐ {book.rating} Rating</span>
+                                            <span>⭐ {ratingText} Rating</span>
                                         </>
                                     )}
                                 </div>
@@ -353,11 +357,14 @@ export default function Page() {
                     <BookGrid data={books} loading={booksLoading} />
                 </section>
 
-                {/* READER REVIEWS (reviews come later) */}
-                <section className="mt-10 md:mt-12 pb-12 md:pb-20">
-                    <h2 className="text-sm md:text-base font-semibold text-gray-700 dark:text-neutral-300">Reader Reviews (0)</h2>
-                    <p className="mt-4 text-sm text-gray-500 dark:text-neutral-400">No reviews yet.</p>
-                </section>
+                {/* READER REVIEWS */}
+                {book ? (
+                    <BookReviews bookId={book.slug} onSummary={setReviewSummary} />
+                ) : (
+                    <section className="mt-10 md:mt-12 pb-12 md:pb-20">
+                        <h2 className="text-sm md:text-base font-semibold text-gray-700 dark:text-neutral-300">Reader Reviews</h2>
+                    </section>
+                )}
             </div>
             <Footer />
         </div>
