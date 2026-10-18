@@ -112,9 +112,9 @@ const Footer = () => {
                 </div>
 
                 {/* Download Buttons */}
-                <div className="col-span-2 sm:col-span-1 flex flex-col items-center md:items-start space-y-4">
-                    {/* Google Play */}
-                    <div className="border border-gray-500 w-44 p-3 rounded-2xl text-center hover:bg-gray-800 transition cursor-pointer">
+                {/* <div className="col-span-2 sm:col-span-1 flex flex-col items-center md:items-start space-y-4"> */}
+                {/* Google Play */}
+                {/* <div className="border border-gray-500 w-44 p-3 rounded-2xl text-center hover:bg-gray-800 transition cursor-pointer">
                         <div className="flex items-center justify-center gap-2">
                             <FaGooglePlay className="w-5 h-5" />
                             <div className="text-left leading-tight">
@@ -122,10 +122,10 @@ const Footer = () => {
                                 <p className="font-semibold text-sm">Google Play</p>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
-                    {/* App Store */}
-                    <div className="border border-gray-500 w-44 p-3 rounded-2xl text-center hover:bg-gray-800 transition cursor-pointer">
+                {/* App Store */}
+                {/* <div className="border border-gray-500 w-44 p-3 rounded-2xl text-center hover:bg-gray-800 transition cursor-pointer">
                         <div className="flex items-center justify-center gap-2">
                             <FaAppStoreIos className="w-5 h-5" />
                             <div className="text-left leading-tight">
@@ -133,8 +133,8 @@ const Footer = () => {
                                 <p className="font-semibold text-sm">App Store</p>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </div> */}
+                {/* </div> */}
 
 
             </div>

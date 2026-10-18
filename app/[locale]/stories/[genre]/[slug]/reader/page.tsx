@@ -204,7 +204,7 @@ export default function ReaderPage() {
         <>
             <div className="min-h-screen flex justify-center transition-all duration-300 dark:bg-dark"
                 data-theme={settings.theme} style={{ "--font-size": `${settings.fontSize}px`, } as React.CSSProperties}>
-                <div className={`w-full md:w-[90%] mx-auto px-2 py-10 my-10 rounded-lg transition-all duration-300 ${theme.box}`}>
+                <div className={`w-full md:w-[90%] mx-auto px-4 md:px-2 py-8 md:py-10 my-4 md:my-10 rounded-lg transition-all duration-300 ${theme.box}`}>
                     <ReadingSettings
                         onOpenSettings={() => setOpenSettings(true)}
                         onOpenToc={() => setOpenToc(true)}

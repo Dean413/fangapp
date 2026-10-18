@@ -50,7 +50,8 @@ const Library = () => {
                 <div className="mx-auto w-[90%]">
                     <h1 className="text-3xl font-bold mt-8">My Library</h1>
                     <div className="flex flex-col items-center justify-center h-[70vh] gap-4">
-                        <Image src="/fang_pictures/dark-moon.png" alt="Sign in" width={200} height={200} />
+                        <Image src="/fang_pictures/white-moon.png" alt="Sign in" width={200} height={200} className="object-contain hidden dark:block" />
+                        <Image src="/fang_pictures/dark-moon.png" alt="Sign in" width={200} height={200} className="object-contain dark:hidden" />
                         <h2 className="text-2xl font-bold">Sign in to see your library</h2>
                         <button type="button" onClick={openSignIn} className="bg-red-700 text-white px-6 py-3 rounded">
                             Sign in
@@ -71,12 +72,8 @@ const Library = () => {
                 <h1 className="text-3xl font-bold mt-8">My Library</h1>
                 {nothingYet ? (
                     <div className="flex flex-col items-center justify-center h-[70vh] gap-4">
-                        <Image
-                            src="/fang_pictures/dark-moon.png"
-                            alt="Empty Library"
-                            width={200}
-                            height={200}
-                        />
+                        <Image src="/fang_pictures/white-moon.png" alt="Empty Library" width={200} height={200} className="object-contain hidden dark:block" />
+                        <Image src="/fang_pictures/dark-moon.png" alt="Empty Library" width={200} height={200} className="object-contain dark:hidden" />
 
                         <h2 className="text-2xl font-bold">Your Shelf is waiting</h2>
 
@@ -125,7 +122,7 @@ const Library = () => {
                         </div>
 
                         {loading && library.length === 0 ? (
-                            <div className="grid grid-cols-6 gap-8 w-[95%] mx-auto mt-10">
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-8 w-[95%] mx-auto mt-10">
                                 {Array.from({ length: 6 }).map((_, i) => (
                                     <div key={i}>
                                         <div className="w-full aspect-5/7 rounded-lg bg-gray-200 dark:bg-dark-raised animate-pulse" />
@@ -136,7 +133,7 @@ const Library = () => {
                         ) : library.length === 0 ? (
                             <p className="text-gray-500 dark:text-neutral-400 text-center mt-20">{EMPTY_TEXT[tab]}</p>
                         ) : (
-                            <div className="grid grid-cols-6 gap-8 w-[95%] mx-auto mt-10">
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-8 w-[95%] mx-auto mt-10">
 
                                 {library.map((book) => (
                                     <LibraryCard key={book.id} {...book} />

@@ -1,7 +1,7 @@
 const CommunityGuidelines = () => {
   return (
-    <div className="w-full flex justify-center py-10 bg-gray-50 dark:bg-dark">
-      <div className="w-[90%] text-black dark:text-white space-y-8 bg-white dark:bg-dark-card p-8">
+    <div className="w-full flex justify-center py-4 md:py-10 bg-gray-50 dark:bg-dark">
+      <div className="w-[90%] text-black dark:text-white space-y-8 bg-white dark:bg-dark-card p-5 md:p-8">
         <h1 className="text-4xl text-center mb-8 font-bold">FANG Community Guidelines & Policy</h1>
 
         <div className="space-y-3">

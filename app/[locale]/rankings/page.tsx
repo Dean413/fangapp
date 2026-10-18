@@ -93,9 +93,9 @@ function Chips({ book }: { book: any }) {
     );
 }
 
-function Actions({ book }: { book: any }) {
+function Actions({ book, className = "" }: { book: any; className?: string }) {
     return (
-        <div className="flex shrink-0 items-center gap-2">
+        <div className={`flex shrink-0 items-center gap-2 ${className}`}>
             <Link
                 href={readPath(book)}
                 className="rounded-full bg-red-600 px-3 md:px-4 py-1.5 text-[10px] md:text-xs font-semibold text-white hover:bg-red-700">
@@ -114,7 +114,7 @@ function FeaturedCard({ book }: { book: any }) {
     const genreLine = [book.genre, secondTag(book)].filter(Boolean).join(" · ");
 
     return (
-        <div className="flex items-start justify-between gap-4 rounded-lg border border-gray-200 dark:border-dark-border bg-white dark:bg-dark-card p-4 md:p-5">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4 rounded-lg border border-gray-200 dark:border-dark-border bg-white dark:bg-dark-card p-4 md:p-5">
             <div className="min-w-0">
                 {genreLine && (
                     <p className="text-[10px] md:text-xs font-bold uppercase tracking-wide text-red-600">{genreLine}</p>
@@ -151,11 +151,11 @@ function RankRow({ book, rank }: { book: any; rank: number }) {
                 <Cover src={book.image} alt={book.title} sizes="96px" />
             </Link>
 
-            {/* Same height as the cover */}
-            <div className="relative min-w-0 flex-1 self-stretch">
-                <div className="absolute inset-0 flex flex-col overflow-hidden">
+            {/* Same height as the cover (from sm up); on phones the text flows and the actions sit below it */}
+            <div className="relative min-w-0 flex-1 sm:self-stretch">
+                <div className="flex flex-col sm:absolute sm:inset-0 sm:overflow-hidden">
                     <Chips book={book} />
-                    <Link href={bookPath(book)} className="mt-1 block text-sm md:text-base font-bold leading-5 md:leading-6 text-black dark:text-white hover:text-red-600 line-clamp-1">
+                    <Link href={bookPath(book)} className="mt-1 block text-sm md:text-base font-bold leading-5 md:leading-6 text-black dark:text-white hover:text-red-600 line-clamp-2 sm:line-clamp-1">
                         {book.title}
                     </Link>
                     <p className="truncate text-[10px] md:text-[11px] text-gray-500 dark:text-neutral-400">
@@ -170,10 +170,11 @@ function RankRow({ book, rank }: { book: any; rank: number }) {
                             {book.summary}
                         </p>
                     )}
+                    <Actions book={book} className="mt-2 sm:hidden" />
                 </div>
             </div>
 
-            <Actions book={book} />
+            <Actions book={book} className="hidden sm:flex" />
         </div>
     );
 }

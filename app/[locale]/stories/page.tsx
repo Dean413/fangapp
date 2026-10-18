@@ -13,14 +13,14 @@ const ALL = ""; // no genre picked = all books
 // Same shape as a GenreCard: cover on the left, text on the right
 function GenreCardSkeleton() {
     return (
-        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 p-3 sm:p-4 rounded-2xl border-2 border-gray-100 dark:border-dark-border">
-            <Bone className="w-full sm:w-28 md:w-32 aspect-3/4 shrink-0 rounded-lg" />
+        <div className="flex flex-row gap-3 sm:gap-6 p-3 sm:p-4 rounded-2xl border-2 border-gray-100 dark:border-dark-border">
+            <Bone className="w-24 sm:w-28 md:w-32 aspect-3/4 shrink-0 self-start rounded-lg" />
             <div className="flex-1 space-y-2.5 pt-1">
-                <Bone className="h-6 w-3/4" />
+                <Bone className="h-5 sm:h-6 w-3/4" />
                 <Bone className="h-3 w-1/2" />
                 <Bone className="h-3 w-full" />
                 <Bone className="h-3 w-full" />
-                <Bone className="h-3 w-2/3" />
+                <Bone className="h-3 w-2/3 hidden sm:block" />
                 <div className="flex gap-1.5 pt-1">
                     <Bone className="h-4 w-14" />
                     <Bone className="h-4 w-12" />
@@ -121,7 +121,7 @@ const GenreBrowser = () => {
                 </div>
 
                 {loading ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         {Array.from({ length: 6 }, (_, i) => <GenreCardSkeleton key={i} />)}
                     </div>
                 ) : failed ? (
@@ -133,7 +133,7 @@ const GenreBrowser = () => {
                         No books in this genre yet.
                     </p>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         {books.map((item) => (
                             <GenreCard key={item.id} {...item} />
                         ))}
@@ -143,7 +143,7 @@ const GenreBrowser = () => {
             <Footer />
         </div>
     );
-};
+}
 
 // useSearchParams needs a Suspense boundary in Next 16
 const Genre = () => (

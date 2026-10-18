@@ -20,7 +20,7 @@ const SignInCard = ({ open, onClose, onOpenSignUp, onOpenForgotPassWord }: SignI
 
     return (
         <div className="fixed inset-0 z-999 flex items-center justify-center bg-black/60 backdrop-blur-sm p-3 sm:p-4">
-            <div className="w-128.75 relative max-h-[85vh] sm:max-h-[90vh] overflow-y-auto bg-white dark:bg-dark-card rounded-2xl sm:rounded-3xl shadow-2xl no-scrollbar animate-in fade-in zoom-in duration-300">
+            <div className="w-full max-w-128.75 relative max-h-[85vh] sm:max-h-[90vh] overflow-y-auto bg-white dark:bg-dark-card rounded-2xl sm:rounded-3xl shadow-2xl no-scrollbar animate-in fade-in zoom-in duration-300">
                 <button onClick={onClose} className="absolute top-0 right-0 z-0 p-1.5 rounded-full bg-white dark:bg-neutral-800 shadow-md hover:bg-gray-100 dark:hover:bg-neutral-700  
                         transition">
                     <X size={20} />

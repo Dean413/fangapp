@@ -6,7 +6,7 @@ export const AUTH_CONFIG = {
     publicIdPrefix: "FR",
     jwtAccessSecret: process.env.JWT_ACCESS_SECRET || "",
     jwtRefreshSecret: process.env.JWT_REFRESH_SECRET || "",
-    emailCodePepper: process.env.EMAIL_CODE_PEPPER || "",
+    emailCodePepper: process.env.EMAIL_CODE || "",
     resendApiKey: process.env.RESEND_API_KEY || "",
     emailFrom: "no-reply@fangapp.io",
     googleClientId: process.env.GOOGLE_CLIENT_ID || "",

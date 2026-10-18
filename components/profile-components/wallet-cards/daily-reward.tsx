@@ -19,13 +19,29 @@ type CheckinStatus = {
 };
 
 const DEFAULT_REWARDS = [5, 10, 15, 20, 25, 30, 35];
+// Give up on a request the server hasn't answered after this long
+const TIMEOUT_MS = 15000;
+
+async function fetchWithTimeout(url: string, init: RequestInit = {}) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+    try {
+        return await fetch(url, { ...init, signal: controller.signal });
+    } finally {
+        clearTimeout(timer);
+    }
+}
 
 export default function DailyCheckIn() {
     const [status, setStatus] = useState<CheckinStatus | null>(null);
+    const [loadError, setLoadError] = useState<string | null>(null);
+    const [signedOut, setSignedOut] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [remainingTime, setRemainingTime] = useState(0);
     const [claiming, setClaiming] = useState(false);
     // Blocks a second click before the page has re-drawn
     const busy = useRef(false);
+    const loadBusy = useRef(false);
     // When the next claim opens, on this browser's clock (worked out from the server's time)
     const opensAt = useRef<number | null>(null);
 
@@ -42,12 +58,32 @@ export default function DailyCheckIn() {
     }, []);
 
     const loadStatus = useCallback(async () => {
+        if (loadBusy.current) return;
+        loadBusy.current = true;
+        setLoading(true);
+        setLoadError(null);
         try {
-            const res = await fetch("/api/rewards/daily-checkin", { credentials: "include", cache: "no-store" });
+            const res = await fetchWithTimeout("/api/rewards/daily-checkin", { credentials: "include", cache: "no-store" });
             const data = await res.json().catch(() => ({}));
-            if (res.ok && data.status) applyStatus(data.status);
-        } catch {
-            // keep what's shown; the button stays off until the status loads
+            if (res.ok && data.status) {
+                setSignedOut(false);
+                applyStatus(data.status);
+                return;
+            }
+            if (res.status === 401) {
+                setSignedOut(true);
+                return;
+            }
+            setLoadError(data.message || "Couldn't load your check-in");
+        } catch (error) {
+            setLoadError(
+                error instanceof DOMException && error.name === "AbortError"
+                    ? "The server took too long to answer"
+                    : "Unable to reach the server"
+            );
+        } finally {
+            loadBusy.current = false;
+            setLoading(false);
         }
     }, [applyStatus]);
 
@@ -75,7 +111,7 @@ export default function DailyCheckIn() {
         busy.current = true;
         setClaiming(true);
         try {
-            const res = await fetch("/api/rewards/daily-checkin", {
+            const res = await fetchWithTimeout("/api/rewards/daily-checkin", {
                 method: "POST",
                 credentials: "include",
             });
@@ -92,8 +128,12 @@ export default function DailyCheckIn() {
             const user = useAuthStore.getState().user;
             if (user && data.wallet) useAuthStore.getState().setUser({ ...user, wallet: data.wallet });
             toast.success(data.message || "Reward claimed");
-        } catch {
-            toast.error("Unable to reach the server. Please try again.");
+        } catch (error) {
+            toast.error(
+                error instanceof DOMException && error.name === "AbortError"
+                    ? "The server took too long to answer. Check your wallet before trying again."
+                    : "Unable to reach the server. Please try again."
+            );
         } finally {
             busy.current = false;
             setClaiming(false);
@@ -112,13 +152,15 @@ export default function DailyCheckIn() {
     const rewards = (status?.rewards ?? DEFAULT_REWARDS).map((coins, i) => ({ day: i + 1, coins }));
     const claimedDays = status?.claimedDays ?? 0;
     const canClaim = Boolean(status?.canClaim) && !claiming;
+    // Load failed: the button becomes "Try again"
+    const canRetry = !status && !loading && Boolean(loadError);
 
     return (
         <div className="w-full">
             <SectionTitle title={
                 <div className="flex gap-2">
                     <ClipboardCheck className="text-red-500" />
-                    <p>Daily Check-in (7 day loop)</p>
+                    <p>Daily Check-in</p>
                 </div>
             } />
             <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-3 my-4">
@@ -155,9 +197,15 @@ export default function DailyCheckIn() {
                 })}
             </div>
 
-            <button type="button" onClick={handleClaim} disabled={!canClaim}
-                className={`w-full py-3 rounded-xl text-white ${canClaim ? "bg-red-500" : "bg-gray-400 dark:bg-neutral-700 cursor-not-allowed"}`}>
-                {!status ? (
+            <button type="button" onClick={canRetry ? loadStatus : handleClaim} disabled={!canClaim && !canRetry}
+                className={`w-full py-3 rounded-xl text-white ${canClaim || canRetry ? "bg-red-500" : "bg-gray-400 dark:bg-neutral-700 cursor-not-allowed"}`}>
+                {signedOut && !status ? (
+                    <span>Sign in to claim your reward</span>
+                ) : !status && loading ? (
+                    <span>Loading...</span>
+                ) : canRetry ? (
+                    <span>{loadError} · Try again</span>
+                ) : !status ? (
                     <span>Loading...</span>
                 ) : claiming ? (
                     <span>Claiming...</span>

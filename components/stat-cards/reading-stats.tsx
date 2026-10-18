@@ -109,7 +109,7 @@ export default function StatsCard({ title, subtitle, children, className = "" }:
 export function ReadingStats() {
     return (
         <section className="space-y-5 mt-8 pt-8 w-full mx-auto">
-            <div className="bg-white dark:bg-transparent p-8 dark:px-0">
+            <div className="bg-white dark:bg-transparent p-4 md:p-8 dark:px-0">
                 <div className="flex items-center justify-between mb-8">
                     <h2 className="text-xl font-bold">Reading Stats</h2>
                     <select className="border border-gray-100 dark:border-dark-border dark:bg-dark-card rounded-lg px-3 py-2">
@@ -121,7 +121,7 @@ export function ReadingStats() {
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
                     {/* Line Chart */}
-                    <StatsCard title="Books Read Over Time" subtitle="Last 6 months" className="col-span-2 w-full md:w-[85%] min-h-95">
+                    <StatsCard title="Books Read Over Time" subtitle="Last 6 months" className="md:col-span-2 w-full md:w-[85%] min-h-95">
                         <div className="w-full h-75 md:h-100">
                             <ReadingChart />
                         </div>
@@ -145,7 +145,7 @@ export function ReadingStats() {
                         <span className="ml-2 text-gray-500 dark:text-neutral-400">days</span>
                     </div>
 
-                    <div className="grid grid-cols-7 gap-3">
+                    <div className="grid grid-cols-7 gap-2 sm:gap-3">
                         {Array.from({ length: 24 }).map((_, i) => (
                             <div key={i} className={`h-12 rounded-md ${i < 21 ? (i === 20 ? "bg-red-500 dark:bg-red-600" : "bg-red-500 dark:bg-red-300") : "bg-gray-200 dark:bg-neutral-100"}`} />
                         ))}

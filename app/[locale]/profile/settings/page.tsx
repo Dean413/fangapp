@@ -264,7 +264,7 @@ export default function SettingsPage() {
             </SettingsSection>
 
             <SettingsSection title="Help & Info" icon={<FaInfoCircle size={20} className="text-red-500" />}>
-                <div className="grid grid-cols-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-6">
                     <SettingRow icon={<FaFile />}
                         link="/terms-of-service"
                         title="Terms of Service"

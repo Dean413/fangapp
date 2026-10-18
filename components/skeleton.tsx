@@ -96,7 +96,7 @@ export function ChapterSkeleton() {
 export function ReaderSkeleton() {
     return (
         <div className="min-h-screen flex justify-center dark:bg-dark">
-            <div className="w-full md:w-[90%] mx-auto px-2 py-10 my-10 rounded-lg bg-white dark:bg-dark-card">
+            <div className="w-full md:w-[90%] mx-auto px-4 md:px-2 py-8 md:py-10 my-4 md:my-10 rounded-lg bg-white dark:bg-dark-card">
                 <div className="flex flex-col items-center mb-6 space-y-3">
                     <Bone className="w-30 h-45 rounded-md" />
                     <Bone className="h-6 w-1/3" />

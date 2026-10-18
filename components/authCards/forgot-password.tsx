@@ -25,7 +25,7 @@ const ForgotPassword = ({ open, onClose, openSignInCard }: props) => {
     return (
         <>
             <div className="fixed inset-0 z-999 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-                <div className={`relative w-128.75 max-h-[90vh] overflow-auto  ${Auth.currentStep === 4 ? "max-w-0" : "max-w-125"} bg-white dark:bg-dark-card rounded-3xl shadow-2xl no-scrollbar animate-in fade-in zoom-in duration-300`}>
+                <div className={`relative w-full max-w-128.75 max-h-[90vh] overflow-auto  ${Auth.currentStep === 4 ? "max-w-0" : "max-w-125"} bg-white dark:bg-dark-card rounded-3xl shadow-2xl no-scrollbar animate-in fade-in zoom-in duration-300`}>
                     <button onClick={onClose} className={`absolute ${(Auth.currentStep === 2 || Auth.currentStep === 3) ? "hidden" : ""} top-5 right-5 p-2 rounded-full  hover:bg-gray-100 dark:hover:bg-dark-raised transition`}>
                         <X size={18} />
                     </button>

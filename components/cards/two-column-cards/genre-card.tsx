@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { CoverPlaceholder } from "@/components/skeleton";
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
+const MAX_TAGS = 3;
 
 interface cardDataProps {
     title: string;
@@ -33,20 +34,20 @@ export const GenreCard = (genreCard: cardDataProps) => {
     useEffect(() => setFailed(false), [image]);
 
     const completed = String(status).toUpperCase() === "COMPLETED";
-    const tagList = (Array.isArray(tags) ? tags : [tags]).filter(Boolean);
+    const tagList = (Array.isArray(tags) ? tags : [tags]).filter(Boolean).slice(0, MAX_TAGS);
 
     return (
         <Link
             href={`/stories/${genreSlug || "all"}/${slug}`}
-            className="flex flex-col sm:flex-row gap-4 sm:gap-6 p-3 sm:p-4 rounded-2xl border-2 border-gray-100 dark:border-dark-border transition hover:border-gray-200 hover:shadow-sm dark:hover:border-neutral-700">
+            className="flex flex-row gap-3 sm:gap-6 p-3 sm:p-4 rounded-2xl border-2 border-gray-100 dark:border-dark-border transition hover:border-gray-200 hover:shadow-sm dark:hover:border-neutral-700">
             {/* Image */}
-            <div className="w-full sm:w-28 md:w-32 aspect-3/4 relative shrink-0 overflow-hidden rounded-lg">
+            <div className="w-24 sm:w-28 md:w-32 aspect-3/4 relative shrink-0 self-start overflow-hidden rounded-lg">
                 <CoverPlaceholder />
                 <Image
                     src={!image || failed ? FALLBACK_COVER : image}
                     alt={title}
                     fill
-                    sizes="(min-width: 640px) 128px, 90vw"
+                    sizes="(min-width: 768px) 128px, (min-width: 640px) 112px, 96px"
                     onError={() => setFailed(true)}
                     className="object-cover"
                 />
@@ -54,24 +55,24 @@ export const GenreCard = (genreCard: cardDataProps) => {
 
             {/* Content */}
             <div className="flex flex-col justify-center min-w-0 flex-1">
-                <h3 className="line-clamp-2 font-bold text-black dark:text-white text-2xl">
+                <h3 className="line-clamp-2 font-bold text-black dark:text-white text-base sm:text-2xl leading-snug">
                     {title}
                 </h3>
 
-                <div className="flex flex-wrap gap-2 text-xs mt-1 text-gray-500 dark:text-neutral-400">
+                <div className="flex flex-wrap gap-x-2 gap-y-0.5 text-[11px] sm:text-xs mt-1 text-gray-500 dark:text-neutral-400">
                     <p className={completed ? "text-green-500" : "text-red-500"}>{completed ? "Completed" : "Ongoing"}</p>
                     <span>· {chapter} {chapter === 1 ? "Chapter" : "Chapters"}</span>
-                    <span>· {author}</span>
+                    <span className="truncate max-w-full">· {author}</span>
                     {views && <span>· {views} views</span>}
                 </div>
 
-                <p className="text-gray-700 dark:text-neutral-300 text-sm mt-2 line-clamp-3">
+                <p className="text-gray-700 dark:text-neutral-300 text-xs sm:text-sm mt-1.5 sm:mt-2 line-clamp-2 sm:line-clamp-3">
                     {summary}
                 </p>
 
                 {/* Genres */}
                 {tagList.length > 0 && (
-                    <div className="flex flex-wrap gap-1 mt-3">
+                    <div className="flex flex-wrap gap-1 mt-2 sm:mt-3">
                         {tagList.map((g, index) => (
                             <span
                                 key={index}

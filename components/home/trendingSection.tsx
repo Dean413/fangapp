@@ -13,7 +13,7 @@ export default function TrendingSection({ collection }: { collection: HomeCollec
         <section>
             <SectionHeader title={collection.name} href={`/collections/${collection.id}`} />
             {/* Both columns stretch to the same height, so neither side leaves empty space below */}
-            <div className="grid items-stretch gap-4 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
+            <div className="grid grid-cols-[minmax(0,1fr)] items-stretch gap-4 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
                 {/* #1 */}
                 <Link
                     href={bookHref(top)}
@@ -35,15 +35,15 @@ export default function TrendingSection({ collection }: { collection: HomeCollec
                         <Link
                             key={book.id}
                             href={bookHref(book)}
-                            className="group flex flex-1 items-center gap-4 rounded-xl bg-white p-4 shadow-sm dark:bg-dark-card dark:shadow-none"
+                            className="group flex flex-1 items-center gap-3 sm:gap-4 rounded-xl bg-white p-3 sm:p-4 shadow-sm dark:bg-dark-card dark:shadow-none"
                         >
                             <span
-                                className={`w-10 shrink-0 text-center text-3xl font-extrabold ${i === 0 ? "text-red-600 dark:text-red-500" : "text-gray-300 dark:text-neutral-600"
+                                className={`w-8 sm:w-10 shrink-0 text-center text-2xl sm:text-3xl font-extrabold ${i === 0 ? "text-red-600 dark:text-red-500" : "text-gray-300 dark:text-neutral-600"
                                     }`}
                             >
                                 {String(i + 2).padStart(2, "0")}
                             </span>
-                            <Cover book={book} className="aspect-3/4 w-16 shrink-0" />
+                            <Cover book={book} className="aspect-3/4 w-14 sm:w-16 shrink-0" />
                             <div className="min-w-0 flex-1">
                                 <h4 className="line-clamp-1 text-sm font-semibold text-gray-900 dark:text-white">{book.title}</h4>
                                 <p className="text-xs text-gray-500 dark:text-neutral-400">by {book.author}</p>

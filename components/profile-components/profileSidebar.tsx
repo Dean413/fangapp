@@ -7,6 +7,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { FiUser, FiBell, FiSettings, FiUsers, FiCreditCard, FiStar, FiClipboard, FiMessageCircle } from "react-icons/fi";
 import { ClipboardEdit, LucideMessageSquareText, MessageCircle } from "lucide-react";
+import UnreadBadge from "@/components/unreadBadge";
+
+const NOTIFICATIONS_PATH = "/profile/notifications";
 
 const links = [
     {
@@ -33,7 +36,7 @@ const links = [
     },
     {
         name: "Notifications",
-        href: "/profile/notifications",
+        href: NOTIFICATIONS_PATH,
         icon: FiBell,
     },
     {
@@ -106,6 +109,7 @@ export default function ProfileSidebar() {
                         <span className="">
                             {link.name}
                         </span>
+                        {link.href === NOTIFICATIONS_PATH && <UnreadBadge className="ml-auto" />}
                     </Link>
 
                 );
@@ -118,4 +122,3 @@ export default function ProfileSidebar() {
         </nav>
     );
 }
-

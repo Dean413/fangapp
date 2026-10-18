@@ -129,7 +129,7 @@ const NavBar = () => {
                             <Link href="/rankings" className={`transition ${isActive("/rankings") ? "text-red-600" : "border-transparent"}`}>
                                 {t("Rankings")}
                             </Link>
-                            <a href="http://localhost:3001" className={`transition ${isActive("/writer-arena") ? "text-red-600" : "border-transparent"}`}>
+                            <a href="fangwriters.com" className={`transition ${isActive("/writer-arena") ? "text-red-600" : "border-transparent"}`}>
                                 {t("WriterArena")}
                             </a>
                             <Link href="/library" className={` transition ${isActive("/library") ? "text-red-600" : "border-transparent"}`}>
@@ -224,19 +224,19 @@ const NavBar = () => {
                             <NavBarDropDown />
                         </div> */}
 
-                        <Link href="#" onClick={() => setOpen(false)} className="px-6 py-4 hover:text-red-500">
+                        <a href="fangwriters.com" onClick={() => setOpen(false)} className="px-6 py-4 hover:text-red-500">
                             {t("WriterArena")}
-                        </Link>
+                        </a>
                         <Link href="/library" onClick={() => setOpen(false)} className={`px-6 py-4 hover:text-red-500 ${isActive("/library") ? "text-red-600" : ""}`}>
                             {t("Library")}
                         </Link>
                         {user && (
                             <>
-                                <Link href="/library" onClick={() => setOpen(false)} className="px-6 py-4 hover:text-red-500">
+                                <Link href="/profile/transaction-history" onClick={() => setOpen(false)} className="px-6 py-4 hover:text-red-500">
                                     Transaction History
                                 </Link>
 
-                                <Link href="/library" onClick={() => setOpen(false)} className="px-6 py-4 hover:text-red-500">
+                                <Link href="/profile/live-chat" onClick={() => setOpen(false)} className="px-6 py-4 hover:text-red-500">
                                     Live Chat
                                 </Link>
 

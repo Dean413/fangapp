@@ -21,7 +21,7 @@ export const Button = ({
         <div className="flex justify-center">
             <button onClick={onClick} disabled={disabled}
                 className={`
-                    w-90 flex items-center justify-center gap-2
+                    w-full max-w-90 flex items-center justify-center gap-2
                     bg-linear-to-r from-[#8B0000] to-[#D90404]
                     hover:opacity-90
                     disabled:opacity-50 disabled:cursor-not-allowed

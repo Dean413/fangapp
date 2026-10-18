@@ -13,7 +13,7 @@ const topics = [
 
 export default function FangBot() {
     return (
-        <div className="flex flex-col bg-white dark:bg-dark-card border rounded-lg border-gray-300 dark:border-neutral-700 max-w-[75%] mx-auto my-6">
+        <div className="flex flex-col bg-white dark:bg-dark-card border rounded-lg border-gray-300 dark:border-neutral-700 mx-3 md:mx-auto md:max-w-[75%] my-6">
             {/* Main Chat Area */}
             <div className="flex-1 flex flex-col items-center justify-center px-6 py-8">
                 {/* Bot Avatar Placeholder */}
@@ -31,7 +31,7 @@ export default function FangBot() {
                 </p>
 
                 {/* Topic Buttons */}
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 w-[80%]">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 w-full sm:w-[80%]">
                     {topics.map((topic) => (
                         <button key={topic.label}
                             className="flex items-center gap-2 px-3 py-2 border border-gray-200 dark:border-dark-border rounded-lg text-sm text-gray-700 dark:text-neutral-200 hover:bg-pink-50 dark:hover:bg-pink-500/10 hover:border-pink-300 dark:hover:border-pink-500/40 transition-colors">

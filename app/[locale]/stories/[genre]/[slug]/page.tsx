@@ -64,11 +64,11 @@ function HeroSkeleton() {
     return (
         <div className="mt-5 md:mt-6 flex items-start gap-5 md:gap-10">
             <div className="w-32 md:w-44 aspect-3/4 shrink-0 rounded-lg animate-pulse bg-white/10" />
-            <div className="flex-1 space-y-3 pt-1">
+            <div className="min-w-0 flex-1 space-y-3 pt-1">
                 <div className="h-7 w-2/3 rounded animate-pulse bg-white/10" />
                 <div className="h-4 w-1/3 rounded animate-pulse bg-white/10" />
                 <div className="h-4 w-1/2 rounded animate-pulse bg-white/10" />
-                <div className="flex gap-2 pt-1">
+                <div className="flex flex-wrap gap-2 pt-1">
                     {[12, 18, 13, 12, 22].map((w, i) => (
                         <div key={i} style={{ width: `${w * 4}px` }} className="h-5 rounded-full animate-pulse bg-white/10" />
                     ))}

@@ -1,10 +1,10 @@
 import Image from "next/image";
 
-const Banner = ({ ImageSrc }: { ImageSrc: string }) => {
+const Banner = ({ imageSrc }: { imageSrc: string }) => {
     return (
         <div className="relative w-full aspect-13/9 sm:aspect-16/8 lg:aspect-11/4 overflow-hidden rounded-lg">
             <Image
-                src={ImageSrc}
+                src={imageSrc}
                 alt="Card Image"
                 fill
                 className="object-cover"
