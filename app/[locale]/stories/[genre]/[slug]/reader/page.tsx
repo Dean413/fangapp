@@ -1,7 +1,9 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { toast } from "react-toastify";
 import Footer from "@/components/footer";
 import ReadingSettings from "@/components/book-controls/reader-settings";
 import SettingsSheets from "@/components/book-controls/settings";
@@ -12,9 +14,14 @@ import { useRewardTimers } from "@/components/profile-components/wallet-cards/re
 import GiftCard from "@/components/book-controls/gift";
 import ReplyPanel from "@/components/book-controls/reply";
 import ChapterContent from "@/components/reader/chapter-content";
+import ReportBookDialog from "@/components/book-controls/report-book";
+import ReviewPrompt from "@/components/reviews/reviewPrompt";
 import { ChapterSkeleton, ReaderSkeleton } from "@/components/skeleton";
 import { useAuthStore } from "@/lib/store/authStore";
-import { fetchStories } from "@/lib/fetch-stories";
+import { useAuthModals } from "@/lib/store/auth-card-store";
+import { useLocale } from "next-intl";
+import { fetchYouMayLike } from "@/lib/fetchYouMayLike";
+import { languageForLocale } from "@/lib/language";
 import { BookGrid, SectionHeader } from "@/hooks/bookData";
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
@@ -30,7 +37,7 @@ const THEMES: Record<string, { box: string; muted: string; faint: string; line: 
     light: { box: "bg-white text-black", muted: "text-gray-500", faint: "text-gray-400", line: "border-gray-300" },
     sepia: { box: "bg-[#f4ecd8] text-black", muted: "text-gray-600", faint: "text-gray-500", line: "border-[#d9ccb0]" },
     dark: { box: "bg-gray-900 text-white", muted: "text-gray-400", faint: "text-gray-500", line: "border-gray-700" },
-    black: { box: "bg-black text-white", muted: "text-gray-400", faint: "text-gray-500", line: "border-gray-800" },
+    black: { box: "bg-[#0A0A0A] text-white", muted: "text-gray-400", faint: "text-gray-500", line: "border-gray-800" },
 };
 
 // Reader themes that turn the popups dark too
@@ -106,7 +113,11 @@ export default function ReaderPage() {
     const router = useRouter();
     const [active, setActive] = useState(true);
     const [openReplies, setOpenReplies] = useState(false);
-    // You May Like (same genre, most viewed, not this book)
+    const [openReport, setOpenReport] = useState(false);
+    // The chapter text, for the review popup (halfway / end of the chapter)
+    const chapterRef = useRef<HTMLDivElement>(null);
+    // You May Like: the same writer's other books first, then the same genre, in the reader's language
+    const language = languageForLocale(useLocale());
     const [books, setBooks] = useState<any[]>([]);
     const [booksLoading, setBooksLoading] = useState(true);
     // The site's light / dark mode, kept up to date when the theme toggle is used
@@ -117,8 +128,16 @@ export default function ReaderPage() {
 
     // Library: remember the chapter this reader opened (for "Continue reading" and the Viewed / Finished tabs)
     const signedIn = useAuthStore((s) => Boolean(s.user));
+    const wallet = useAuthStore((s) => s.user?.wallet ?? null);
+    const openSignIn = useAuthModals((s) => s.openSignIn);
+    // Unlocking with coins: blocks double taps; auto-unlock is tried once per chapter
+    const unlockBusy = useRef(false);
+    const [autoBusy, setAutoBusy] = useState(false);
+    const autoTried = useRef<string | null>(null);
     const progressBook = data?.story?.slug as string | undefined;
     const progressChapter = data?.chapter?.chapter_number as number | undefined;
+    // Sent again once a paid chapter is unlocked, so it counts as read
+    const progressLocked = Boolean(data?.chapter?.isLocked);
     useEffect(() => {
         if (!signedIn || !progressBook || !progressChapter) return;
         fetch("/api/library/progress", {
@@ -127,7 +146,7 @@ export default function ReaderPage() {
             credentials: "include",
             body: JSON.stringify({ id: progressBook, chapter: progressChapter }),
         }).catch(() => { });
-    }, [signedIn, progressBook, progressChapter]);
+    }, [signedIn, progressBook, progressChapter, progressLocked]);
 
     // Saved choices; a site in dark mode opens the reader on Black even if Light was saved
     useEffect(() => {
@@ -182,7 +201,7 @@ export default function ReaderPage() {
 
     const fetchChapters = async () => {
         try {
-            const res = await fetch(`/api/stories/${slug}/chapters`);
+            const res = await fetch(`/api/stories/${slug}/chapters`, { credentials: "include", cache: "no-store" });
             setChapters(res.ok ? await res.json() : []);
         } catch (err) {
             console.log(err);
@@ -195,7 +214,8 @@ export default function ReaderPage() {
             setLoading(true);
 
             const res = await fetch(
-                `/api/stories/${slug}/chapters/${chapterNumber}`
+                `/api/stories/${slug}/chapters/${chapterNumber}`,
+                { credentials: "include", cache: "no-store" }
             );
 
             setData(res.ok ? await res.json() : null)
@@ -207,32 +227,112 @@ export default function ReaderPage() {
         }
     };
 
+    // Reloads when the reader signs in or out too (which chapters are unlocked depends on the account)
     useEffect(() => {
         if (!slug) return;
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [slug, chapterNumber]);
+    }, [slug, chapterNumber, signedIn]);
 
-    // The chapter list only changes with the book, not with every chapter
+    // The chapter list only changes with the book (and the account), not with every chapter
     useEffect(() => {
         if (!slug) return;
         fetchChapters();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [slug]);
+    }, [slug, signedIn]);
 
-    // You May Like: once per book (not on every chapter change)
-    const likeGenre = data?.story?.genreSlug || genre;
-    const likeExclude = data?.story?.slug || slug;
+    // Unlock the open chapter with coins (bonus coins first). Shows the full chapter straight away.
+    const unlockNow = async (auto = false) => {
+        if (unlockBusy.current) return;
+        const book = data?.story?.slug;
+        const number = data?.chapter?.chapter_number;
+        if (!book || !number) return;
+        if (!signedIn) return openSignIn();
+        unlockBusy.current = true;
+        setUnlocking(true);
+        try {
+            const res = await fetch("/api/unlocks", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({ book, chapter: number }),
+            });
+            const body = await res.json().catch(() => ({}));
+            const user = useAuthStore.getState().user;
+            if (body.wallet && user) useAuthStore.getState().setUser({ ...user, wallet: body.wallet });
+            if (!res.ok) {
+                if (res.status === 401) openSignIn();
+                else if (!auto || res.status !== 402) toast.error(body.message || "Couldn't unlock this chapter");
+                return;
+            }
+            if (body.chapter) {
+                setData((d: any) => (d ? { ...d, chapter: body.chapter } : d));
+                setChapters((list: any) => Array.isArray(list)
+                    ? list.map((c: any) => (c.chapter_number === number ? { ...c, isLocked: false } : c))
+                    : list);
+            }
+            if (body.charged > 0) toast.success(body.message || "Chapter unlocked");
+        } catch {
+            toast.error("Unable to reach the server. Please try again.");
+        } finally {
+            unlockBusy.current = false;
+            setUnlocking(false);
+        }
+    };
+
+    // "Auto-Unlock Next Chapter" for this book
+    const toggleAuto = async () => {
+        const book = data?.story?.slug;
+        if (!book || autoBusy) return;
+        if (!signedIn) return openSignIn();
+        const enabled = !data?.chapter?.autoUnlock;
+        setAutoBusy(true);
+        setData((d: any) => (d?.chapter ? { ...d, chapter: { ...d.chapter, autoUnlock: enabled } } : d));
+        try {
+            const res = await fetch("/api/unlocks/auto", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify({ book, enabled }),
+            });
+            const body = await res.json().catch(() => ({}));
+            if (!res.ok) {
+                setData((d: any) => (d?.chapter ? { ...d, chapter: { ...d.chapter, autoUnlock: !enabled } } : d));
+                toast.error(body.message || "Couldn't change auto-unlock");
+            }
+        } catch {
+            setData((d: any) => (d?.chapter ? { ...d, chapter: { ...d.chapter, autoUnlock: !enabled } } : d));
+            toast.error("Unable to reach the server. Please try again.");
+        } finally {
+            setAutoBusy(false);
+        }
+    };
+
+    // Auto-unlock on: a locked chapter unlocks by itself when opened, if the reader has enough coins (once per chapter)
+    const lockedChapter = !loading && data?.chapter?.isLocked ? data.chapter : null;
+    const balance = (wallet?.coins ?? 0) + (wallet?.bonusCoins ?? 0);
     useEffect(() => {
-        if (!likeGenre || !likeExclude) return;
+        if (!lockedChapter || !lockedChapter.autoUnlock || !signedIn) return;
+        if (autoTried.current === String(lockedChapter.id)) return;
+        if (balance < Number(lockedChapter.price || 0)) return;
+        autoTried.current = String(lockedChapter.id);
+        unlockNow(true);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [lockedChapter?.id, lockedChapter?.autoUnlock, signedIn, balance]);
+
+    // You May Like: once per book (not on every chapter change), and again when the language changes
+    const likeGenre = data?.story?.genreSlug || genre;
+    const likeBook = data?.story?.slug || slug;
+    useEffect(() => {
+        if (!likeBook) return;
         let cancelled = false;
         setBooksLoading(true);
-        fetchStories({ genre: String(likeGenre), exclude: String(likeExclude), sort: "views", limit: 14 })
+        fetchYouMayLike(String(likeBook), language)
             .then((list) => { if (!cancelled) setBooks(list); })
             .catch((error) => console.log(error))
             .finally(() => { if (!cancelled) setBooksLoading(false); });
         return () => { cancelled = true; };
-    }, [likeGenre, likeExclude]);
+    }, [likeBook, language]);
 
     // Opened from an old link (renamed book, or the genre changed): switch to the current one, same chapter
     useEffect(() => {
@@ -289,14 +389,35 @@ export default function ReaderPage() {
         }
     };
 
-    // Unlocking with coins comes with the coin system
-    const handleUnlock = async () => {
-        setUnlocking(false);
-    };
-
     return (
         <>
             <div className="min-h-screen flex flex-col items-center transition-all duration-300 dark:bg-dark">
+                {/* BREADCRUMB: Home / Genre / Book / Chapter */}
+                <nav aria-label="Breadcrumb" className="w-full md:w-[90%] mx-auto px-4 md:px-2 pt-6 md:pt-8 text-sm md:text-base">
+                    <ol className="flex items-center gap-2 md:gap-3 min-w-0 text-gray-500 dark:text-neutral-400">
+                        <li className="shrink-0">
+                            <Link href="/" className="hover:text-gray-900 dark:hover:text-white transition">Home</Link>
+                        </li>
+                        <li aria-hidden="true" className="shrink-0">/</li>
+                        <li className="shrink-0 max-w-[25%] truncate">
+                            <Link href={`/stories/${data?.story?.genreSlug || genre}`} className="hover:text-gray-900 dark:hover:text-white transition">
+                                {data?.story?.genre || "Stories"}
+                            </Link>
+                        </li>
+                        <li aria-hidden="true" className="shrink-0">/</li>
+                        <li className="min-w-0 truncate">
+                            <Link href={`/stories/${data?.story?.genreSlug || genre}/${data?.story?.slug || slug}`} className="hover:text-gray-900 dark:hover:text-white transition">
+                                {data?.story?.title}
+                            </Link>
+                        </li>
+                        <li aria-hidden="true" className="shrink-0">/</li>
+                        <li aria-current="page" className="min-w-0 truncate font-semibold text-gray-900 dark:text-white">
+                            Chapter {data?.chapter?.chapter_number ?? chapterNumber}
+                            {data?.chapter?.title?.trim() ? `: ${data.chapter.title.trim()}` : ""}
+                        </li>
+                    </ol>
+                </nav>
+
                 {/* READING AREA: the reader's theme only applies in here */}
                 <div data-theme={settings.theme} style={{ "--font-size": `${settings.fontSize}px`, } as React.CSSProperties}
                     className={`w-full md:w-[90%] mx-auto px-4 md:px-2 py-8 md:py-10 my-4 md:my-10 rounded-lg transition-all duration-300 ${theme.box}`}>
@@ -306,6 +427,7 @@ export default function ReaderPage() {
                         onClickShare={handleShare}
                         onOpenGift={() => setOpenGift(true)}
                         onOpenReplies={() => { setOpenReplies(true) }}
+                        onOpenReport={() => setOpenReport(true)}
                         bookId={String(slug)}
                         title={data?.story?.title}
                         image={coverImage}
@@ -345,7 +467,6 @@ export default function ReaderPage() {
                             style={fontFamily ? ({ "--reader-font": fontFamily } as React.CSSProperties) : undefined}>
                             {fontFamily && <style>{FORCE_FONT_CSS}</style>}
 
-                            {/* CHAPTER HEADER */}
                             {/* CHAPTER HEADER (the colon only when the chapter has a title) */}
                             <div className="mb-6">
                                 <h2 className="text-xl md:text-2xl font-bold">
@@ -354,12 +475,24 @@ export default function ReaderPage() {
                                 </h2>
                             </div>
 
-                            <ChapterContent
-                                content={data.chapter.content}
-                                locked={data.chapter.isLocked}
-                                unlocking={unlocking}
-                                onUnlock={handleUnlock}
-                            />
+                            <div ref={chapterRef}>
+                                <ChapterContent
+                                    content={data.chapter.content}
+                                    locked={data.chapter.isLocked}
+                                    unlock={{
+                                        price: Number(data.chapter.price) || 0,
+                                        signedIn,
+                                        wallet,
+                                        unlocking,
+                                        onUnlock: () => unlockNow(false),
+                                        onSignIn: openSignIn,
+                                        autoUnlock: Boolean(data.chapter.autoUnlock),
+                                        autoBusy,
+                                        onToggleAuto: toggleAuto,
+                                        dark: popupsDark,
+                                    }}
+                                />
+                            </div>
                         </div>
                     )}
 
@@ -420,6 +553,24 @@ export default function ReaderPage() {
                         chapterId={String(data.chapter.id)}
                     />
                 )}
+
+                <ReportBookDialog
+                    open={openReport}
+                    onClose={() => setOpenReport(false)}
+                    book={{
+                        slug: data?.story?.slug || String(slug),
+                        title: data?.story?.title,
+                        author: data?.story?.author,
+                        image: data?.story?.image,
+                    }}
+                />
+
+                <ReviewPrompt
+                    book={data?.story?.slug || String(slug)}
+                    chapter={Number(data?.chapter?.chapter_number) || chapterNumber}
+                    enabled={signedIn && !loading && Boolean(data?.chapter) && !data?.chapter?.isLocked}
+                    contentRef={chapterRef}
+                />
             </div>
 
             {linkCopied && (

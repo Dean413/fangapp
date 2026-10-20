@@ -6,7 +6,8 @@ import { Bone } from "@/components/skeleton";
 import { ListFilter } from "lucide-react";
 import { useLocale } from "next-intl";
 import { useSearchParams } from "next/navigation";
-import { FaRegBookmark, FaRegEye } from "react-icons/fa";
+import { FaBookmark, FaRegBookmark, FaRegEye } from "react-icons/fa";
+import { useLibraryStore } from "@/lib/store/library-store";
 import { Suspense, useEffect, useRef, useState } from "react";
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
@@ -93,6 +94,36 @@ function Chips({ book }: { book: any }) {
     );
 }
 
+// Bookmark: adds the book to the reader's library, or takes it out (the store shows the message,
+// and the sign-in card when signed out)
+function LibraryButton({ book }: { book: any }) {
+    const toggleBook = useLibraryStore((s) => s.toggleBook);
+    const saved = useLibraryStore((s) => s.saved.some((b) => b.id === book.slug || b.storyId === String(book.id)));
+    const [busy, setBusy] = useState(false);
+
+    const toggle = async () => {
+        if (busy) return;
+        setBusy(true);
+        try {
+            await toggleBook({ id: book.slug, title: book.title, image: book.image || FALLBACK_COVER });
+        } finally {
+            setBusy(false);
+        }
+    };
+
+    return (
+        <button
+            type="button"
+            onClick={toggle}
+            disabled={busy}
+            aria-label={saved ? "Remove from library" : "Add to library"}
+            aria-pressed={saved}
+            className={`p-1 disabled:opacity-50 ${saved ? "text-red-600" : "text-gray-400 dark:text-neutral-500 hover:text-gray-700 dark:hover:text-neutral-200"}`}>
+            {saved ? <FaBookmark className="text-sm" /> : <FaRegBookmark className="text-sm" />}
+        </button>
+    );
+}
+
 function Actions({ book, className = "" }: { book: any; className?: string }) {
     return (
         <div className={`flex shrink-0 items-center gap-2 ${className}`}>
@@ -101,13 +132,13 @@ function Actions({ book, className = "" }: { book: any; className?: string }) {
                 className="rounded-full bg-red-600 px-3 md:px-4 py-1.5 text-[10px] md:text-xs font-semibold text-white hover:bg-red-700">
                 Read Now
             </Link>
-            {/* Library comes later */}
-            <button type="button" aria-label="Add to library" className="p-1 text-gray-400 dark:text-neutral-500 hover:text-gray-700 dark:hover:text-neutral-200">
-                <FaRegBookmark className="text-sm" />
-            </button>
+            <LibraryButton book={book} />
         </div>
     );
 }
+
+// Each new pick fades in
+const FADE_CSS = "@keyframes fangRankFade { from { opacity: 0; transform: translateY(6px) } to { opacity: 1; transform: none } }";
 
 // The big card under the top 4
 function FeaturedCard({ book }: { book: any }) {
@@ -465,26 +496,33 @@ const RankingsPage = () => {
                             <Message>No books match these filters yet.</Message>
                         ) : (
                             <>
-                                {/* Top 4 */}
-                                <div className="grid grid-cols-4 gap-2 md:gap-4">
-                                    {top.map((book, i) => (
-                                        <button
-                                            key={book.id}
-                                            type="button"
-                                            onClick={() => setFeaturedIndex(i)}
-                                            className="relative aspect-3/4 overflow-hidden rounded-md transition hover:opacity-90"
-                                            aria-label={`Rank ${i + 1}: ${book.title}`}>
-                                            <Cover src={book.image} alt={book.title} sizes="(min-width: 768px) 200px, 25vw" />
-                                            <span className="absolute bottom-1.5 left-1.5 md:bottom-3 md:left-3 flex h-7 w-7 md:h-12 md:w-12 items-center justify-center rounded-full bg-white/70 font-serif text-base md:text-3xl font-bold text-gray-800">
-                                                {i + 1}
-                                            </span>
-                                        </button>
-                                    ))}
+                                {/* Top 4: the picked one pops forward, the others step back and fade */}
+                                <div className="grid grid-cols-4 gap-2 md:gap-4 py-3 md:py-5">
+                                    {top.map((book, i) => {
+                                        const picked = i === featuredIndex;
+                                        return (
+                                            <button
+                                                key={book.id}
+                                                type="button"
+                                                onClick={() => setFeaturedIndex(i)}
+                                                aria-pressed={picked}
+                                                aria-label={`Rank ${i + 1}: ${book.title}`}
+                                                className={`relative aspect-3/4 overflow-hidden rounded-md transition-all duration-300 ease-out ${picked
+                                                    ? "z-10 scale-105 md:scale-110 opacity-100 shadow-2xl ring-2 ring-red-600"
+                                                    : "scale-95 opacity-50 brightness-75 hover:opacity-80 hover:brightness-90"}`}>
+                                                <Cover src={book.image} alt={book.title} sizes="(min-width: 768px) 220px, 25vw" />
+                                                <span className="absolute bottom-1.5 left-1.5 md:bottom-3 md:left-3 flex h-7 w-7 md:h-12 md:w-12 items-center justify-center rounded-full bg-white/70 font-serif text-base md:text-3xl font-bold text-gray-800">
+                                                    {i + 1}
+                                                </span>
+                                            </button>
+                                        );
+                                    })}
                                 </div>
 
-                                {/* The picked top book */}
+                                {/* The picked book (fades in on each pick) */}
                                 {featured && (
-                                    <div className="mt-4">
+                                    <div key={featured.id} className="mt-6 animate-[fangRankFade_400ms_ease-out]">
+                                        <style>{FADE_CSS}</style>
                                         <FeaturedCard book={featured} />
                                     </div>
                                 )}

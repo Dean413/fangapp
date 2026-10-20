@@ -4,7 +4,11 @@ import { GenreCard } from "@/components/cards/two-column-cards/genre-card";
 import Footer from "@/components/footer";
 import { Bone } from "@/components/skeleton";
 import { fetchStories } from "@/lib/fetch-stories";
+import { languageForLocale } from "@/lib/language";
 import type { StoryCard } from "@/lib/stories";
+import { useLocale } from "next-intl";
+// TEMPORARY: repeats the books in a random order below the real ones (see the file to remove it)
+import FillerBooks from "@/components/cards/two-column-cards/fillerBooks";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
 
@@ -34,14 +38,16 @@ function GenreCardSkeleton() {
 const GenreBrowser = () => {
     const searchParams = useSearchParams();
     const selected = searchParams.get("genre") ?? ALL;
+    // The language the reader picked on the site: only books in it
+    const language = languageForLocale(useLocale());
 
     const [genres, setGenres] = useState<{ name: string; slug: string }[]>([]);
     const [books, setBooks] = useState<StoryCard[]>([]);
     const [loading, setLoading] = useState(true);
     const [failed, setFailed] = useState(false);
 
-    const cache = useRef(new Map<string, StoryCard[]>()); // books per genre already loaded
-    const latest = useRef(""); // the genre whose books should be on screen
+    const cache = useRef(new Map<string, StoryCard[]>()); // books per genre + language already loaded
+    const latest = useRef(""); // the genre + language whose books should be on screen
 
     // Genre list, once
     useEffect(() => {
@@ -51,11 +57,12 @@ const GenreBrowser = () => {
             .catch((error) => console.log(error));
     }, []);
 
-    // Books for the picked genre (from the cache if already loaded)
+    // Books for the picked genre in the reader's language (from the cache if already loaded)
     useEffect(() => {
-        latest.current = selected;
+        const key = `${language}|${selected}`;
+        latest.current = key;
 
-        const cached = cache.current.get(selected);
+        const cached = cache.current.get(key);
         if (cached) {
             setBooks(cached);
             setLoading(false);
@@ -69,20 +76,20 @@ const GenreBrowser = () => {
             try {
                 // "All" leaves genre out
                 const data = await fetchStories(
-                    selected ? { genre: selected, sort: "new", limit: 60 } : { sort: "new", limit: 60 }
+                    selected ? { genre: selected, language, sort: "new", limit: 60 } : { language, sort: "new", limit: 60 }
                 );
-                cache.current.set(selected, data);
-                if (latest.current === selected) setBooks(data); // ignore answers for a genre no longer picked
+                cache.current.set(key, data);
+                if (latest.current === key) setBooks(data); // ignore answers for a genre / language no longer picked
             } catch (error) {
                 console.log(error);
-                if (latest.current === selected) setFailed(true);
+                if (latest.current === key) setFailed(true);
             } finally {
-                if (latest.current === selected) setLoading(false);
+                if (latest.current === key) setLoading(false);
             }
         };
 
         load();
-    }, [selected]);
+    }, [selected, language]);
 
     // Switch genre on this page: only the address changes (?genre=...), no navigation
     const pick = (slug: string) => {
@@ -133,11 +140,15 @@ const GenreBrowser = () => {
                         No books in this genre yet.
                     </p>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                        {books.map((item) => (
-                            <GenreCard key={item.id} {...item} />
-                        ))}
-                    </div>
+                    <>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                            {books.map((item) => (
+                                <GenreCard key={item.id} {...item} />
+                            ))}
+                        </div>
+                        {/* TEMPORARY: more of the same books in a random order as the reader scrolls */}
+                        <FillerBooks books={books} />
+                    </>
                 )}
             </div>
             <Footer />

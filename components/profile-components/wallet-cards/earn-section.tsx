@@ -18,8 +18,6 @@ const EarnSection = () => {
         <div>
             {active === "earn" && (
                 <>
-
-
                     {/* Sections */}
                     <SectionTitle title={
                         <div className="flex gap-2">

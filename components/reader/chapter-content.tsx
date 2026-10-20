@@ -1,11 +1,10 @@
 "use client";
-import UnlockCard from "./unlock-card";
+import UnlockCard, { type UnlockCardProps } from "./unlock-card";
 
 interface Props {
     content: string; // cleaned HTML from the server (lib/chapterHtml.ts)
     locked: boolean;
-    unlocking: boolean;
-    onUnlock: () => void;
+    unlock: UnlockCardProps; // the unlock card's details (shown when locked)
 }
 
 // Top-level blocks of the cleaned HTML (the server strips all attributes, so tags are plain)
@@ -32,12 +31,7 @@ const PROSE = [
     "[&_hr]:my-8 [&_hr]:border-current [&_hr]:opacity-25",
 ].join(" ");
 
-export default function ChapterContent({
-    content,
-    locked,
-    unlocking,
-    onUnlock,
-}: Props) {
+export default function ChapterContent({ content, locked, unlock }: Props) {
     const [preview, lockedPart] = locked ? splitPreview(content ?? "") : ["", ""];
 
     return (
@@ -56,10 +50,7 @@ export default function ChapterContent({
                         />
                     )}
 
-                    <UnlockCard
-                        unlocking={unlocking}
-                        onUnlock={onUnlock}
-                    />
+                    <UnlockCard {...unlock} />
                 </>
             ) : (
                 <div className={PROSE} dangerouslySetInnerHTML={{ __html: content ?? "" }} />

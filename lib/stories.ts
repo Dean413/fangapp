@@ -1,26 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { dbPool } from "@/lib/db";
 import { chapterHtml, previewHtml } from "@/lib/chapterHtml";
+import { chapterWords, getReaderAccess, priceForWords } from "@/lib/unlock";
 
-/*
- * Reader-facing queries against the production `stories` / `chapters` tables.
- *
- * A story is visible once it has at least one published chapter (and isn't deleted).
- *
- * Paywall: the book's latest signed contract (contracts.start_paywall_chapter, set in the admin) is the
- * first paid chapter number; 0 / none = no paywall. A translation uses its own signed contract if it has
- * one, otherwise its original's. Paid chapters only send a preview.
- *
- * Links: /stories/<genre slug>/<story slug>. The slug is saved on the story (stories.slug, kept unique and
- * updated on renames by the database). Old links still work: a renamed story's old slugs (book_slug_history),
- * its book_id (FS123) and its uuid all find it, and the result says `moved: true` so the page can switch
- * to the current link.
- *
- * Chapter numbers: the chapter's own chapter_number; older chapters without one use their position
- * among the story's published chapters.
- *
- * Chapter content is sent as cleaned HTML (see lib/chapterHtml.ts).
- */
 const PUBLISHED_CHAPTER_STATUS = "published";
 const SHORT_STORY_LENGTH_PATTERN = "short%";
 // Only show stories distributed to this tenant (matched against stories.tenants). Unset = no filter.
@@ -39,6 +21,7 @@ export interface StoryFilters {
     short?: boolean;
     sort?: StorySort;
     exclude?: string | null;    // slug to leave out (e.g. the book being viewed)
+    language?: string | null;   // only books in this language, as saved on the stories (e.g. "English")
     limit?: number;
 }
 
@@ -168,6 +151,10 @@ export async function listStories(filters: StoryFilters = {}): Promise<StoryCard
     if (filters.exclude) {
         params.push(filters.exclude);
         where.push(`COALESCE(s.slug, s.book_id, s.id::text) <> $${params.length}`);
+    }
+    if (filters.language) {
+        params.push(filters.language);
+        where.push(`s.language = $${params.length}`);
     }
 
     let orderBy: string;
@@ -304,46 +291,64 @@ function isLocked(chapterNumber: number, startPaywallChapter: number | null) {
     return startPaywallChapter != null && startPaywallChapter > 0 && chapterNumber >= startPaywallChapter;
 }
 
-export async function listChapters(story: StoryCard) {
-    const { rows } = await dbPool.query(
-        `
-        ${PUBLISHED_CHAPTERS_CTE}
-        SELECT id, title, words, published_at, chapter_number
-        FROM published
-        ORDER BY chapter_number ASC;
-        `,
-        [story.id]
-    );
+// viewerId: the signed-in reader (null = signed out). Paid chapters they unlocked, or all of them for the
+// book's writer, show as unlocked.
+export async function listChapters(story: StoryCard, viewerId: string | null = null) {
+    const [{ rows }, access] = await Promise.all([
+        dbPool.query(
+            `
+            ${PUBLISHED_CHAPTERS_CTE}
+            SELECT id, title, words, published_at, chapter_number,
+                   -- length for the price: the saved count, otherwise counted from the text
+                   COALESCE(NULLIF(words, 0), array_length(regexp_split_to_array(
+                       trim(regexp_replace(COALESCE(content, ''), '<[^>]*>', ' ', 'g')), '\\s+'), 1), 0) AS word_count
+            FROM published
+            ORDER BY chapter_number ASC;
+            `,
+            [story.id]
+        ),
+        getReaderAccess(viewerId, String(story.id)),
+    ]);
 
-    return rows.map((ch) => ({
-        id: ch.id,
-        book_id: story.slug,
-        chapter_number: ch.chapter_number,
-        title: ch.title,
-        words: ch.words,
-        published_at: ch.published_at,
-        isLocked: isLocked(ch.chapter_number, story.startPaywallChapter),
-    }));
+    return rows.map((ch) => {
+        const paid = isLocked(ch.chapter_number, story.startPaywallChapter);
+        const open = access.isWriter || access.unlocked.has(String(ch.id));
+        return {
+            id: ch.id,
+            book_id: story.slug,
+            chapter_number: ch.chapter_number,
+            title: ch.title,
+            words: ch.words,
+            published_at: ch.published_at,
+            isPaid: paid,
+            price: paid ? priceForWords(Number(ch.word_count) || 0) : 0,
+            isLocked: paid && !open,
+        };
+    });
 }
 
-export async function getChapter(story: StoryCard, chapterNumber: number) {
-    const { rows } = await dbPool.query(
-        `
-        ${PUBLISHED_CHAPTERS_CTE}
-        SELECT id, title, content, words, published_at, chapter_number
-        FROM published
-        WHERE chapter_number = $2
-        LIMIT 1;
-        `,
-        [story.id, chapterNumber]
-    );
+export async function getChapter(story: StoryCard, chapterNumber: number, viewerId: string | null = null) {
+    const [{ rows }, access] = await Promise.all([
+        dbPool.query(
+            `
+            ${PUBLISHED_CHAPTERS_CTE}
+            SELECT id, title, content, words, published_at, chapter_number
+            FROM published
+            WHERE chapter_number = $2
+            LIMIT 1;
+            `,
+            [story.id, chapterNumber]
+        ),
+        getReaderAccess(viewerId, String(story.id)),
+    ]);
 
     const ch = rows[0];
     if (!ch) return null;
 
-    const locked = isLocked(ch.chapter_number, story.startPaywallChapter);
+    const paid = isLocked(ch.chapter_number, story.startPaywallChapter);
+    const locked = paid && !(access.isWriter || access.unlocked.has(String(ch.id)));
 
-    // Cleaned HTML. A paywalled chapter only sends its first paragraphs, never the full text.
+    // Cleaned HTML. A locked chapter only sends its first paragraphs, never the full text.
     const html = chapterHtml(ch.content);
     const content = locked ? previewHtml(html, PREVIEW_RATIO) : html;
 
@@ -355,7 +360,10 @@ export async function getChapter(story: StoryCard, chapterNumber: number) {
         words: ch.words,
         published_at: ch.published_at,
         content,
+        isPaid: paid,
+        price: paid ? priceForWords(chapterWords(ch.words, html)) : 0,
         isLocked: locked,
+        autoUnlock: access.autoUnlock,
     };
 }
 
@@ -455,4 +463,82 @@ export async function updateStoryBySlug(slug: string, input: StoryInput) {
     );
 
     return rows[0] || null;
+}
+// You May Like for a book (book page and reader): the same writer's other books first, then books in the same
+// genre (primary or secondary), the most viewed first. Only books in `language` (the language the reader picked
+// on the site; when not given, the book's own language). Never the book itself.
+export async function listYouMayLike(storyId: string, language: string | null, limitValue = 14): Promise<StoryCard[]> {
+    const params: any[] = [];
+    const where = visibility(params);
+
+    params.push(storyId);
+    const book = `$${params.length}`;
+    // The book being read or viewed
+    const current = `(SELECT b.user_id, b.language, ${genreSlugSql("b.genre")} AS g1, ${genreSlugSql("b.secondary_genre")} AS g2
+                      FROM stories b WHERE b.id = ${book})`;
+    const sameAuthor = `(s.user_id = cur.user_id)`;
+    const sameGenre = `(${genreSlugSql("s.genre")} IN (cur.g1, cur.g2) OR ${genreSlugSql("s.secondary_genre")} IN (cur.g1, cur.g2))`;
+
+    where.push(`s.id <> ${book}`);
+    where.push(`(${sameAuthor} OR COALESCE(${sameGenre}, false))`);
+    params.push(language);
+    where.push(`s.language = COALESCE($${params.length}::text, cur.language)`);
+
+    const limit = Math.min(Math.max(Number(limitValue) || 14, 1), 50);
+    params.push(limit);
+
+    const { rows } = await dbPool.query(
+        `
+        SELECT ${STORY_COLUMNS}
+        ${STORY_FROM}
+        CROSS JOIN ${current} cur
+        WHERE ${where.join(" AND ")}
+        ORDER BY ${sameAuthor} DESC, s.views DESC NULLS LAST, s.created_at DESC
+        LIMIT $${params.length};
+        `,
+        params
+    );
+    return rows.map(toCard);
+}
+
+// Search across all books: title, author (pen name) and tags. Titles starting with the words come first,
+// then titles containing them, then the rest, the most viewed first. Only books in `language` when given.
+export async function searchStories(query: string, language: string | null, limitValue = 20): Promise<StoryCard[]> {
+    const q = query.trim().replace(/\s+/g, " ").slice(0, 80);
+    if (q.length < 2) return [];
+
+    const params: any[] = [];
+    const where = visibility(params);
+
+    // The words as typed, with LIKE's own wildcards (% _ \) taken literally
+    const escaped = q.replace(/[\\%_]/g, (c) => `\\${c}`);
+    params.push(`%${escaped}%`);
+    const contains = `$${params.length}`;
+    params.push(`${escaped}%`);
+    const starts = `$${params.length}`;
+
+    where.push(`(
+        s.title ILIKE ${contains}
+        OR p.name ILIKE ${contains}
+        OR EXISTS (SELECT 1 FROM unnest(COALESCE(s.tags, '{}')) t(tag) WHERE t.tag ILIKE ${contains})
+    )`);
+    if (language) {
+        params.push(language);
+        where.push(`s.language = $${params.length}`);
+    }
+
+    const limit = Math.min(Math.max(Number(limitValue) || 20, 1), 60);
+    params.push(limit);
+
+    const { rows } = await dbPool.query(
+        `
+        SELECT ${STORY_COLUMNS}
+        ${STORY_FROM}
+        WHERE ${where.join(" AND ")}
+        ORDER BY (s.title ILIKE ${starts}) DESC, (s.title ILIKE ${contains}) DESC, s.views DESC NULLS LAST
+        LIMIT $${params.length};
+        `,
+        params
+    );
+    return rows.map(toCard);
 }

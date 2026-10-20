@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { Link, usePathname } from "@/i18n/routing";
-import { ChevronDown, Menu, MoonStarIcon, Search, X } from "lucide-react";
+import { Bell, ChevronDown, Menu, MoonStarIcon, Search, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import LanguageChange from "./language-change";
 import { Moon, Sun } from "lucide-react";
@@ -14,9 +14,41 @@ import { useDropDownStore } from "@/lib/store/dropDownStore";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useAuthModals } from "@/lib/store/auth-card-store";
 import Swal from "sweetalert2";
+import UnreadBadge from "@/components/unreadBadge";
 
 // Genres live under /stories (genre list, a genre's books, book pages and the reader)
 const GENRES_PATH = "/stories";
+const NOTIFICATIONS_PATH = "/profile/notifications";
+const WALLET_PATH = "/profile/wallet";
+
+// The reader's photo; no photo (or it fails to load): their initial in a circle
+function Avatar({ src, name }: { src?: string | null; name?: string | null }) {
+    const [failed, setFailed] = useState(false);
+    useEffect(() => setFailed(false), [src]);
+    const initial = (name ?? "").trim().charAt(0).toUpperCase() || "R";
+    if (!src || failed) {
+        return (
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-linear-to-br from-[#8B0000] to-[#D90404] text-sm font-bold text-white">
+                {initial}
+            </span>
+        );
+    }
+    return (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={src} alt="" onError={() => setFailed(true)} className="h-9 w-9 rounded-full object-cover" />
+    );
+}
+
+// Bell with the unread counter, opens the notifications page
+function NotificationBell() {
+    return (
+        <Link href={NOTIFICATIONS_PATH} aria-label="Notifications"
+            className="relative flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 dark:border-dark-border text-gray-700 dark:text-neutral-200 hover:bg-gray-100 dark:hover:bg-dark-raised transition">
+            <Bell size={17} />
+            <UnreadBadge className="absolute -top-1.5 -right-1.5" />
+        </Link>
+    );
+}
 
 const NavBar = () => {
     const pathname = usePathname();
@@ -103,9 +135,9 @@ const NavBar = () => {
                 <div className="flex w-[90%] mx-auto items-center justify-between py-3">
                     {/* LEFT: logo + desktop nav */}
                     <div className="flex items-center gap-8">
-                        <div className="flex items-center gap-2 dark:bg-white rounded-xl shrink-0">
-                            <Image src="/fang_pictures/fang_logo2.png" alt="logo" width={40} height={40} className="w-8 md:w-12" />
-                            <Image src="/fang_pictures/fang_logo1.png" alt="logo text" width={110} height={110} className="mt-1 w-15 md:w-30 sm:block" />
+                        <div className="dark:invert rounded-xl">
+                            <Image src="/fang_pictures/fang-reader-logo.png" alt="logo" width={40} height={40} className="w-20" />
+                            {/* <Image src="/fang_pictures/fang_logo1.png" alt="logo text" width={110} height={110} className="mt-1 w-15 md:w-30 sm:block" /> */}
                         </div>
 
                         {/* Desktop nav links */}
@@ -149,10 +181,19 @@ const NavBar = () => {
 
                         {/* Desktop auth + theme */}
                         <div className="hidden md:flex items-center gap-3 text-sm">
-                            <div className="flex gap-3">
+                            <div className="flex items-center gap-3">
                                 {user ? (
                                     <>
-                                        <Link href="/profile" className="bg-linear-to-r from-[#8B0000] to-[#D90404] py-2 px-4 text-white font-bold rounded-xl">Profile</Link>
+                                        {/* Coins (bought + bonus), opens the wallet */}
+                                        <Link href={WALLET_PATH} aria-label="Wallet"
+                                            className="flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-sm font-semibold text-amber-700 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-300">
+                                            <Image src="/fang_pictures/balance.png" alt="" width={18} height={18} />
+                                            {((user.wallet?.coins ?? 0) + (user.wallet?.bonusCoins ?? 0)).toLocaleString()}
+                                        </Link>
+                                        <NotificationBell />
+                                        <Link href="/profile" aria-label="Profile" className="rounded-full">
+                                            <Avatar src={user.avatar_url} name={user.username || user.full_name} />
+                                        </Link>
                                     </>
                                 ) : (
                                     <>
@@ -176,7 +217,7 @@ const NavBar = () => {
 
                         {/* Mobile: theme toggle + hamburger */}
                         <div className="flex items-center gap-2 md:hidden">
-
+                            {user && <NotificationBell />}
                             <LanguageChange />
                             <button
                                 onClick={() => setOpen(!open)}

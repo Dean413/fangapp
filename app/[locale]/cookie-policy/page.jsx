@@ -1,344 +1,226 @@
-
 const CookiePolicy = () => {
   return (
     <div className="w-full flex justify-center py-10 bg-gray-50">
       <div className="w-[90%] text-black space-y-8 bg-white p-8">
-        <h1 className="text-4xl text-center mb-8 font-bold">FANG Cookie Policy</h1>
+        <h1 className="text-4xl text-center mb-8 font-bold">Cookie Policy</h1>
 
         <div className="space-y-3">
           <p className="font-semibold">Powered by FANGVAULT</p>
 
-          <p>Effective Date: May 22, 2026</p>
+          <p>Effective Date: August 18, 2026</p>
 
           <p>
-            FANG (“FANG,” “we,” “our,” or “us”) uses cookies and similar
-            technologies (“Cookies”) to operate, improve, secure, and
-            personalize the FANG platform, including our mobile applications,
-            website, writer portal, and related services (collectively, the
-            “Services”).
+            FANG (“FANG,” “we,” “our,” or “us”) uses cookies and similar tracking technologies (“Cookies”) to operate, improve, secure, and personalize the FANG platform, including our mobile applications, website, writer portal, and related services (collectively, the “Services”).
           </p>
 
           <p>
-            This Cookie Policy explains what Cookies are, how we use them, and
-            how you can manage your preferences.
-          </p>
-
-          <p>
-            FANG is operated by IFO DIGITAL MEDIA, LLC.
+            This Cookie Policy explains what Cookies are, how we use them, how third-party services interface with our platform, and how you can manage your preferences. FANG is operated by IFO DIGITAL MEDIA, LLC.
           </p>
         </div>
 
+        {/* 1 */}
         <div className="space-y-4">
           <h2 className="font-bold text-xl">1. Company Information</h2>
 
           <div className="space-y-1">
             <p>IFO DIGITAL MEDIA, LLC</p>
-            <p>1111B S Governors Ave #52111</p>
+            <p>1111B S Governors Ave STE 52111</p>
             <p>Dover, DE 19904</p>
             <p>United States</p>
 
-            <p>
-              Support: support@fangapp.io
-            </p>
-
-            <p>
-              Legal: legal@fangapp.io
-            </p>
+            <p>Support: support@fangapp.io</p>
+            <p>Legal: legal@fangapp.io</p>
           </div>
         </div>
 
+        {/* 2 */}
         <div className="space-y-4">
           <h2 className="font-bold text-xl">2. What Are Cookies?</h2>
 
           <p>
-            Cookies are small text files or similar technologies stored on your
-            device when you visit or use online services.
+            Cookies are small text files stored on your browser or device when you visit or interact with online applications. They help websites and applications recognize unique devices, preserve secure sessions, remember user choices, analyze system performance, and support content recommendation frameworks.
           </p>
 
           <div className="space-y-2">
-            <p>Cookies help websites and applications:</p>
+            <p>Similar tracking technologies utilized across our ecosystem include:</p>
 
             <ul className="list-disc pl-6 space-y-1">
-              <li>recognize devices and users;</li>
-              <li>remember preferences;</li>
-              <li>improve security;</li>
-              <li>analyze platform usage;</li>
-              <li>personalize experiences;</li>
-              <li>support advertising and recommendations.</li>
-            </ul>
-          </div>
-
-          <div className="space-y-2">
-            <p>Similar technologies may include:</p>
-
-            <ul className="list-disc pl-6 space-y-1">
-              <li>SDKs;</li>
-              <li>pixels;</li>
-              <li>local storage;</li>
-              <li>device identifiers;</li>
-              <li>analytics tools.</li>
+              <li>
+                <span className="font-semibold">Software Development Kits (SDKs):</span> Embedded mobile code blocks that track app stability and event interactions;
+              </li>
+              <li>
+                <span className="font-semibold">Pixels and Web Beacons:</span> Small graphic strings used to monitor user actions and measure marketing campaign conversions;
+              </li>
+              <li>
+                <span className="font-semibold">Local Storage:</span> Browser database storage used to cache platform preferences and session parameters.
+              </li>
             </ul>
           </div>
 
           <p>
-            For simplicity, this Policy refers to all such technologies as
-            “Cookies.”
+            For clarity across this document, all such tracking methods are collectively referred to as “Cookies.”
           </p>
         </div>
 
+        {/* 3 */}
         <div className="space-y-5">
           <h2 className="font-bold text-xl">3. Types of Cookies We Use</h2>
 
-          <p>
-            FANG may use the following categories of Cookies:
-          </p>
+          <p>FANG deploys Cookies across the following functional classifications:</p>
 
           <div className="space-y-3">
-            <h3 className="font-semibold text-lg">
-              3.1 Strictly Necessary Cookies
-            </h3>
+            <h3 className="font-semibold text-lg">3.1 Strictly Necessary Cookies</h3>
 
-            <p>
-              These Cookies are required for the Services to function properly.
-            </p>
+            <p>These Cookies are essential for our application to operate safely and correctly.</p>
 
             <div className="space-y-2">
-              <p>They may be used to:</p>
+              <p>They are utilized to:</p>
 
               <ul className="list-disc pl-6 space-y-1">
-                <li>authenticate users;</li>
-                <li>maintain login sessions;</li>
-                <li>prevent fraud and abuse;</li>
-                <li>protect platform security;</li>
-                <li>detect suspicious or automated activity;</li>
-                <li>maintain core functionality.</li>
+                <li>Authenticate user profiles and maintain active login sessions;</li>
+                <li>Keep track of virtual wallet balances and coin allocations;</li>
+                <li>Detect, investigate, and prevent automated script abuse, malicious bots, or security threats;</li>
+                <li>Ensure core platform navigation paths function properly.</li>
               </ul>
             </div>
 
             <p>
-              Without these Cookies, certain parts of the Services may not
-              operate correctly.
+              Note: Disabling necessary cookies via your browser settings will break core account actions and checkout flows.
             </p>
           </div>
 
           <div className="space-y-3">
-            <h3 className="font-semibold text-lg">
-              3.2 Functionality Cookies
-            </h3>
+            <h3 className="font-semibold text-lg">3.2 Functionality Cookies</h3>
 
-            <p>
-              These Cookies help remember user preferences and improve platform
-              usability.
-            </p>
+            <p>These Cookies preserve your custom application choices to improve usability.</p>
 
             <div className="space-y-2">
-              <p>They may be used to:</p>
+              <p>They are utilized to:</p>
 
               <ul className="list-disc pl-6 space-y-1">
-                <li>remember language preferences;</li>
-                <li>maintain reading settings;</li>
-                <li>remember display preferences;</li>
-                <li>improve navigation and user experience.</li>
+                <li>Save structural display choices (such as light or dark mode preferences);</li>
+                <li>Maintain specific reading configurations (including text sizing, font choices, and chapter page positions);</li>
+                <li>Remember preferred language settings and system location parameters.</li>
               </ul>
             </div>
           </div>
 
           <div className="space-y-3">
-            <h3 className="font-semibold text-lg">
-              3.3 Analytics Cookies
-            </h3>
+            <h3 className="font-semibold text-lg">3.3 Analytics Cookies</h3>
 
-            <p>
-              These Cookies help us understand how users interact with the
-              Services.
-            </p>
+            <p>These Cookies track how readers navigate and interact with our reading environment.</p>
 
             <div className="space-y-2">
-              <p>They may collect information about:</p>
+              <p>They gather data regarding:</p>
 
               <ul className="list-disc pl-6 space-y-1">
-                <li>pages viewed;</li>
-                <li>reading activity;</li>
-                <li>feature usage;</li>
-                <li>performance issues;</li>
-                <li>platform engagement.</li>
+                <li>Daily pages viewed, reading session durations, and genre preferences;</li>
+                <li>App features utilized and specific book engagement statistics;</li>
+                <li>System crash events, performance lag alerts, and technical loading failures.</li>
               </ul>
             </div>
 
             <p>
-              Analytics information helps FANG improve platform performance,
-              reliability, and user experience.
+              We use this anonymized data strictly to optimize platform speeds, resolve backend bugs, and improve overall content delivery algorithms.
             </p>
           </div>
 
           <div className="space-y-3">
-            <h3 className="font-semibold text-lg">
-              3.4 Advertising and Marketing Cookies
-            </h3>
+            <h3 className="font-semibold text-lg">3.4 Advertising and Marketing Cookies</h3>
 
             <div className="space-y-2">
-              <p>These Cookies may be used to:</p>
+              <p>These tracking tools evaluate promotion performance. They are utilized to:</p>
 
               <ul className="list-disc pl-6 space-y-1">
-                <li>measure advertising effectiveness;</li>
-                <li>personalize promotions;</li>
-                <li>improve marketing campaigns;</li>
-                <li>recommend stories or content;</li>
-                <li>limit repetitive advertisements.</li>
+                <li>Track how users find our website through external ad campaigns;</li>
+                <li>Recommend tailored book genres based on historical library additions;</li>
+                <li>Prevent showing identical, repetitive promotional banners to the same user profile.</li>
               </ul>
             </div>
-
-            <p>
-              Advertising partners may use Cookies or similar technologies in
-              accordance with their own privacy policies.
-            </p>
-
-            <p>
-              Where required by law, FANG will obtain consent before using
-              non-essential advertising Cookies.
-            </p>
           </div>
         </div>
 
+        {/* 4 */}
         <div className="space-y-4">
-          <h2 className="font-bold text-xl">
-            4. Third-Party Technologies
-          </h2>
+          <h2 className="font-bold text-xl">4. Third-Party Technologies</h2>
 
           <p>
-            FANG may work with third-party providers including:
+            FANG partners with secure external networks to support our platform infrastructure. These verified providers deploy tracking scripts to handle specialized operations:
           </p>
 
           <ul className="list-disc pl-6 space-y-1">
-            <li>analytics providers;</li>
-            <li>payment processors;</li>
-            <li>advertising partners;</li>
-            <li>cloud hosting providers;</li>
-            <li>social login providers.</li>
+            <li>
+              <span className="font-semibold">Payment Gateways:</span> Systems like Stripe and PayPal use security cookies to analyze device risk metrics, process secure checkout screens, and mitigate payment fraud;
+            </li>
+            <li>
+              <span className="font-semibold">Cloud Infrastructure:</span> Enterprise hosting networks use server cache cookies to balance text delivery traffic and keep loading speeds lightning-fast;
+            </li>
+            <li>
+              <span className="font-semibold">Social Identity Links:</span> Providers like Apple, Google, and Facebook deploy secure authentication cookies to connect your social login profile seamlessly.
+            </li>
           </ul>
 
           <p>
-            These providers may use Cookies or similar technologies to support
-            functionality, analytics, payments, security, and advertising.
-          </p>
-
-          <p>
-            Third-party technologies are governed by the respective third
-            parties’ policies and practices.
+            All third-party cookie activity is governed directly by the respective tracking policies of those independent providers.
           </p>
         </div>
 
+        {/* 5 */}
         <div className="space-y-4">
-          <h2 className="font-bold text-xl">5. How We Use Cookies</h2>
+          <h2 className="font-bold text-xl">5. Managing Cookie Preferences</h2>
 
-          <p>
-            FANG may use Cookies to:
-          </p>
+          <p>You have the complete right to control or restrict how Cookies are stored on your device:</p>
 
           <ul className="list-disc pl-6 space-y-1">
-            <li>keep users signed in;</li>
-            <li>secure accounts and prevent fraud;</li>
-            <li>remember user settings and preferences;</li>
-            <li>personalize recommendations;</li>
-            <li>analyze traffic and usage trends;</li>
-            <li>improve performance and reliability;</li>
-            <li>support marketing and advertising activities.</li>
-          </ul>
-        </div>
-
-        <div className="space-y-4">
-          <h2 className="font-bold text-xl">
-            6. Managing Cookie Preferences
-          </h2>
-
-          <p>
-            You may manage or disable Cookies through:
-          </p>
-
-          <ul className="list-disc pl-6 space-y-1">
-            <li>browser settings;</li>
-            <li>device settings;</li>
-            <li>operating system permissions;</li>
-            <li>in-app settings where available.</li>
+            <li>
+              <span className="font-semibold">Browser Rules:</span> You can adjust your desktop or mobile browser configurations to block all third-party tracking or alert you when a new cookie is sent;
+            </li>
+            <li>
+              <span className="font-semibold">Device Settings:</span> You can modify operating system settings on your mobile device to toggle off targeted advertising tracking or reset unique identifier keys.
+            </li>
           </ul>
 
           <p>
-            Please note that disabling certain Cookies may affect functionality
-            or reduce the quality of your experience.
-          </p>
-
-          <p>
-            Some Services may not function properly without essential Cookies.
+            Please be aware that restricting non-essential tracking will change how easily the platform remembers your custom layout settings.
           </p>
         </div>
 
+        {/* 6 */}
         <div className="space-y-4">
-          <h2 className="font-bold text-xl">7. Cookie Consent</h2>
+          <h2 className="font-bold text-xl">6. Cookie Consent Management</h2>
 
           <p>
-            Where required by applicable law, FANG will request consent before
-            using non-essential Cookies or similar tracking technologies.
-          </p>
-
-          <p>
-            Users may update Cookie preferences at any time through available
-            settings or browser controls.
+            In strict accordance with global digital privacy laws, FANG will request explicit user consent through an interface banner before initializing any non-essential analytical or marketing tracking cookies. You may access your preferences to update or withdraw consent configurations at any time.
           </p>
         </div>
 
+        {/* 7 */}
         <div className="space-y-4">
-          <h2 className="font-bold text-xl">
-            8. Changes to This Cookie Policy
-          </h2>
+          <h2 className="font-bold text-xl">7. Changes to This Cookie Policy</h2>
 
           <p>
-            FANG may update this Cookie Policy periodically.
-          </p>
-
-          <div className="space-y-2">
-            <p>If material changes are made, we may provide notice through:</p>
-
-            <ul className="list-disc pl-6 space-y-1">
-              <li>in-app notifications;</li>
-              <li>website notices;</li>
-              <li>email communications.</li>
-            </ul>
-          </div>
-
-          <p>
-            Continued use of the Services after updates become effective
-            constitutes acceptance of the revised Cookie Policy.
+            We may update this Cookie Policy periodically to match infrastructure updates or regulatory changes. If a material shift occurs, we will notify our reading community via prominent in-app notification alerts, layout dashboard banners, or direct email announcements.
           </p>
         </div>
 
+        {/* 8 */}
         <div className="space-y-4">
-          <h2 className="font-bold text-xl">9. Contact Us</h2>
+          <h2 className="font-bold text-xl">8. Contact Us</h2>
 
           <p>
-            If you have questions or concerns regarding this Cookie Policy,
-            please contact:
+            If you have any technical questions or data-compliance concerns regarding our tracking policies, please reach out to us:
           </p>
 
           <div className="space-y-1">
-            <p>FANG / IFO DIGITAL MEDIA, LLC</p>
-            <p>1111B S Governors Ave #52111</p>
+            <p>Email: legal@fangapp.io</p>
+            <p>Corporate Office: FANG / IFO DIGITAL MEDIA, LLC</p>
+            <p>1111B S Governors Ave STE 52111</p>
             <p>Dover, DE 19904</p>
             <p>United States</p>
-
-            <p>
-              Support: support@fangapp.io
-            </p>
-
-            <p>
-              Legal: legal@fangapp.io
-            </p>
           </div>
         </div>
 
-        <p className="font-semibold">
-          Powered by FANGVAULT
-        </p>
-
+        <p className="font-semibold">Powered by FANGVAULT</p>
       </div>
     </div>
   );

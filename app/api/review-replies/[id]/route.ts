@@ -1,5 +1,3 @@
-// app/api/review-replies/[id]/route.ts
-// DELETE   delete the signed-in reader's own reply to a review
 import { getCurrentUser } from "@/lib/auth/session";
 import { deleteReply } from "@/lib/userActions/review";
 import { reply } from "@/lib/auth/rules";

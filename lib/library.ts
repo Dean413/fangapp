@@ -8,6 +8,7 @@
 import "server-only";
 import { dbPool } from "@/lib/db";
 import { genreSlug, getStoryBySlug } from "@/lib/stories";
+import { canReadPaid } from "@/lib/unlock";
 
 export type LibraryTab = "reading" | "viewed" | "finished";
 export const LIBRARY_TABS: LibraryTab[] = ["reading", "viewed", "finished"];
@@ -26,6 +27,8 @@ export type LibraryBook = {
     lastChapter: number | null;    // last chapter opened
     chapterCount: number;
     finished: boolean;
+    completed: boolean;            // the writer marked the book completed (else ongoing)
+    exclusive: boolean;            // under a signed Exclusive or MAB-Exclusive contract
     href: string;                  // where tapping the book goes (the last chapter read, or chapter 1)
 };
 
@@ -38,7 +41,17 @@ const BOOK_SELECT = `
            ch.chapter_count, ch.last_number,
            p.last_chapter, p.max_chapter, p.last_read_at,
            l.added_at,
-           (l.user_id IS NOT NULL) AS saved
+           (l.user_id IS NOT NULL) AS saved,
+           ct.plan
+`;
+
+// The contract the book is under: the newest signed one (for the Exclusive ribbon)
+const SIGNED_PLAN = `
+    LEFT JOIN LATERAL (
+        SELECT k.plan_id::text AS plan FROM contracts k
+        WHERE k.story_id = s.id AND k.status = 'signed'
+        ORDER BY k.created_at DESC LIMIT 1
+    ) ct ON true
 `;
 
 const CHAPTER_NUMBERS = `
@@ -74,6 +87,8 @@ function toBook(r: any): LibraryBook {
         lastChapter,
         chapterCount: Number(r.chapter_count) || 0,
         finished,
+        completed: r.story_status === "completed",
+        exclusive: r.plan === "exclusive" || r.plan === "mab-exclusive",
         href: `/stories/${genreSlug(r.genre) || "all"}/${r.slug}/reader?chapter=${lastChapter ?? 1}`,
     };
 }
@@ -87,6 +102,7 @@ export async function listLibrary(userId: string, tab: LibraryTab): Promise<Libr
             JOIN stories s ON s.id = l.story_id
             LEFT JOIN reading_progress p ON p.user_id = l.user_id AND p.story_id = s.id
             ${CHAPTER_NUMBERS}
+            ${SIGNED_PLAN}
             WHERE l.user_id = $1 AND ${VISIBLE} AND NOT ${FINISHED}
             ORDER BY COALESCE(p.last_read_at, l.added_at) DESC
             LIMIT ${MAX_LISTED}`;
@@ -97,6 +113,7 @@ export async function listLibrary(userId: string, tab: LibraryTab): Promise<Libr
             JOIN stories s ON s.id = p.story_id
             LEFT JOIN reader_library l ON l.user_id = p.user_id AND l.story_id = s.id
             ${CHAPTER_NUMBERS}
+            ${SIGNED_PLAN}
             WHERE p.user_id = $1 AND ${VISIBLE} ${tab === "finished" ? `AND ${FINISHED}` : ""}
             ORDER BY p.last_read_at DESC
             LIMIT ${MAX_LISTED}`;
@@ -152,16 +169,17 @@ export async function removeBooks(userId: string, ids: string[], from: "library"
     return rowCount ?? 0;
 }
 
-// Records the chapter a reader opened. Only real published chapters count; locked (paid) chapters
-// update "last opened" but don't count as read for Finished.
+// Records the chapter a reader opened. Only real published chapters count; paid chapters the reader hasn't
+// unlocked update "last opened" but don't count as read for Finished.
 export async function recordProgress(userId: string, bookId: string, chapterNumber: number) {
     if (!Number.isInteger(chapterNumber) || chapterNumber < 1 || chapterNumber > 100000) return false;
     const story = await getStoryBySlug(bookId);
     if (!story) return false;
 
     const { rows } = await dbPool.query(
-        `SELECT 1 FROM (
-             SELECT COALESCE(c.chapter_number,
+        `SELECT id FROM (
+             SELECT c.id::text AS id,
+                    COALESCE(c.chapter_number,
                              ROW_NUMBER() OVER (ORDER BY COALESCE(c.published_at, c.created_at), c.created_at, c.id))::int AS n
              FROM chapters c WHERE c.story_id = $1 AND c.status = 'published'
          ) numbered WHERE n = $2 LIMIT 1`,
@@ -169,8 +187,10 @@ export async function recordProgress(userId: string, bookId: string, chapterNumb
     );
     if (!rows[0]) return false;
 
+    // A paid chapter only counts as read once this reader unlocked it (or wrote the book)
     const paywall = story.startPaywallChapter;
-    const locked = paywall != null && paywall > 0 && chapterNumber >= paywall;
+    const paid = paywall != null && paywall > 0 && chapterNumber >= paywall;
+    const locked = paid && !(await canReadPaid(userId, String(story.id), rows[0].id));
     await dbPool.query(
         `INSERT INTO reading_progress (user_id, story_id, last_chapter, max_chapter, last_read_at)
          VALUES ($1, $2, $3, $4, now())

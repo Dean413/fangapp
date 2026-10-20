@@ -12,7 +12,7 @@ const Footer = () => {
                 <div className="col-span-2 sm:col-span-3 md:col-span-1 flex flex-col items-center md:items-start text-center md:text-left">
                     <div className="text-3xl font-bold uppercase tracking-widest flex items-center gap-3">
                         <Image
-                            src="/fang_pictures/fangfooter.png"
+                            src="/fang_pictures/landinglogo.png"
                             width={220}
                             height={220}
                             alt="landing logo"
@@ -75,11 +75,11 @@ const Footer = () => {
                         Hot Genres
                     </h3>
                     <ul className="space-y-2 text-[#A3A3A3]">
-                        <li><Link href="/">Romance</Link></li>
-                        <li><Link href="/">Fantasy</Link></li>
-                        <li><Link href="/">Mafia</Link></li>
-                        <li><Link href="/">Billionaire</Link></li>
-                        <li><Link href="/">Werewolf</Link></li>
+                        <li><Link href="/stories?genre=romance">Romance</Link></li>
+                        <li><Link href="/stories?genre=fantasy">Fantasy</Link></li>
+                        <li><Link href="/stories?genre=mafia">Mafia</Link></li>
+                        <li><Link href="/stories?genre=billionaire">Billionaire</Link></li>
+                        <li><Link href="/stories?genre=werewolf">Werewolf</Link></li>
                     </ul>
                 </div>
 
@@ -105,7 +105,7 @@ const Footer = () => {
                         <li><Link href="/faq">Faq</Link></li>
                         <li><Link href="/community-guidelines">Community</Link></li>
                         <li><Link href="/cookie-policy">Cookies</Link></li>
-                        <li><Link href="/terms">Terms of Service</Link></li>
+                        <li><Link href="/terms-of-service">Terms of Service</Link></li>
                         <li><Link href="/privacy-policy">Privacy Policy</Link></li>
 
                     </ul>

@@ -1,6 +1,9 @@
-// lib/reviews.ts
+// lib/userActions/review.ts
 // Book reviews: 0.5–5 stars (half stars) and text, one per reader per book, editable.
-//  - only readers who've read at least 3 chapters (or every free chapter, if the book has fewer) can review
+//  - only readers who've reached the book's halfway chapter can review (half its published chapters, rounded up:
+//    chapter 20 of 40). Readers who reviewed before keep being able to edit.
+//  - the "Enjoying this book? Drop a review" popup: when they finish the halfway chapter and when they finish the
+//    last chapter, once each (review_prompts; see reviewPromptAt)
 //  - writers can't review their own books
 //  - "Review after the novel completion" when the reader had finished a completed book
 // Plus likes and replies on reviews. Hidden reviews and replies (by the admin) aren't shown.
@@ -8,6 +11,7 @@
 import "server-only";
 import { dbPool } from "@/lib/db";
 import { genreSlug, getStoryBySlug } from "@/lib/stories";
+import { canReadPaid } from "@/lib/unlock";
 import { checkPoster, cleanText, notifyReply, PERSON_COLUMNS, toPerson, UUID, type Person } from "@/lib/content";
 
 export const REVIEWS_PAGE_SIZE = 10;
@@ -15,7 +19,6 @@ export const REPLIES_PAGE_SIZE = 20;
 export const MIN_REVIEW_CHARS = 10;
 export const MAX_REVIEW_CHARS = 2000;
 export const MAX_REPLY_CHARS = 1000;
-const CHAPTERS_TO_REVIEW = 3;
 
 export type Review = {
     id: string;
@@ -35,8 +38,7 @@ export type Review = {
 export type Eligibility = {
     signedIn: boolean;
     canReview: boolean;
-    read: number;          // chapters read (highest free chapter opened)
-    needed: number;        // chapters needed
+    halfway: boolean;      // reached the book's halfway chapter
     ownBook: boolean;
 };
 
@@ -78,12 +80,15 @@ export function cleanRating(value: unknown): number | null {
     return n;
 }
 
-// How far the reader is in the book, and whether that's enough to review it
+// The book's halfway chapter: half its published chapters, rounded up (20 of 40, 8 of 15)
+const halfwayChapter = (lastNumber: number) => Math.max(1, Math.ceil(lastNumber / 2));
+
+// Whether the reader may review the book (reached its halfway chapter, not their own book), and whether they finished it.
+// reading_progress.max_chapter only counts chapters the reader could read (paid ones once unlocked).
 async function readingState(storyId: string, userId: string) {
     const { rows } = await dbPool.query(
         `SELECT s.user_id = $2 AS own_book,
                 lower(COALESCE(s.story_status, '')) AS status,
-                s.start_paywall_chapter,
                 COALESCE(p.max_chapter, 0) AS read,
                 ch.published, ch.last_number
          FROM stories s
@@ -101,24 +106,79 @@ async function readingState(storyId: string, userId: string) {
     const r = rows[0];
     if (!r) return null;
     const published = Number(r.published) || 0;
-    const paywall = Number(r.start_paywall_chapter) || 0;
-    const free = paywall > 0 ? Math.max(paywall - 1, 0) : published;
-    const needed = Math.max(1, Math.min(CHAPTERS_TO_REVIEW, published, free || 1));
     const read = Number(r.read) || 0;
+    const lastNumber = Number(r.last_number) || 0;
+    const halfway = lastNumber > 0 && read >= halfwayChapter(lastNumber);
     return {
         ownBook: r.own_book === true,
-        needed,
-        read: Math.min(read, needed),
-        canReview: published > 0 && read >= needed && r.own_book !== true,
+        halfway,
+        canReview: published > 0 && halfway && r.own_book !== true,
         finished: r.status === "completed" && read >= Number(r.last_number) && Number(r.last_number) > 0,
     };
 }
 
 export async function getEligibility(storyId: string, userId: string | null): Promise<Eligibility> {
-    if (!userId) return { signedIn: false, canReview: false, read: 0, needed: CHAPTERS_TO_REVIEW, ownBook: false };
+    if (!userId) return { signedIn: false, canReview: false, halfway: false, ownBook: false };
     const state = await readingState(storyId, userId);
-    if (!state) return { signedIn: true, canReview: false, read: 0, needed: CHAPTERS_TO_REVIEW, ownBook: false };
-    return { signedIn: true, canReview: state.canReview, read: state.read, needed: state.needed, ownBook: state.ownBook };
+    if (!state) return { signedIn: true, canReview: false, halfway: false, ownBook: false };
+    return { signedIn: true, canReview: state.canReview, halfway: state.halfway, ownBook: state.ownBook };
+}
+
+export type PromptResult = { ok: true; show: boolean } | { ok: false; status: number; message: string };
+
+// The reading page reports the reader finished a chapter (scrolled to its end).
+// show = open the popup now: when that chapter is the book's halfway chapter or its last chapter, once each per
+// account, only for a chapter they can read (free, unlocked or their own book), never for their own book or once
+// they've reviewed it. Each showing is claimed in the database, so it happens once (any device, any number of tabs).
+export async function reviewPromptAt(userId: string, bookId: string, chapterNumber: number): Promise<PromptResult> {
+    if (!Number.isInteger(chapterNumber) || chapterNumber < 1 || chapterNumber > 100000) {
+        return { ok: false, status: 400, message: "Invalid chapter" };
+    }
+    const story = await getStoryBySlug(bookId);
+    if (!story) return { ok: false, status: 404, message: "Book not found" };
+    const storyId = String(story.id);
+
+    const { rows: found } = await dbPool.query(
+        `WITH numbered AS (
+             SELECT c.id::text AS id,
+                    COALESCE(c.chapter_number,
+                             ROW_NUMBER() OVER (ORDER BY COALESCE(c.published_at, c.created_at), c.created_at, c.id))::int AS n
+             FROM chapters c WHERE c.story_id = $1 AND c.status = 'published'
+         )
+         SELECT (SELECT id FROM numbered WHERE n = $2 LIMIT 1) AS id,
+                (SELECT COALESCE(max(n), 0)::int FROM numbered) AS last_number`,
+        [storyId, chapterNumber]
+    );
+    const chapterId: string | null = found[0]?.id ?? null;
+    const lastNumber = Number(found[0]?.last_number) || 0;
+    if (!chapterId) return { ok: false, status: 404, message: "Chapter not found" };
+
+    // Only the halfway chapter and the last chapter (a one-chapter book: just the end)
+    const point = chapterNumber === lastNumber ? "end" : chapterNumber === halfwayChapter(lastNumber) ? "half" : null;
+    if (!point) return { ok: true, show: false };
+
+    const paywall = story.startPaywallChapter;
+    const paid = paywall != null && paywall > 0 && chapterNumber >= paywall;
+    if (paid && !(await canReadPaid(userId, storyId, chapterId))) return { ok: true, show: false };
+
+    const state = await readingState(storyId, userId);
+    if (!state || state.ownBook || !state.canReview) return { ok: true, show: false };
+    if (await getMyReview(storyId, userId)) return { ok: true, show: false };
+
+    // Claim this showing (never twice)
+    await dbPool.query(
+        `INSERT INTO review_prompts (user_id, story_id, chapter_id) VALUES ($1, $2, $3)
+         ON CONFLICT (user_id, story_id) DO NOTHING`,
+        [userId, storyId, chapterId]
+    );
+    const column = point === "half" ? "half_shown_at" : "end_shown_at";
+    const { rows: claimed } = await dbPool.query(
+        `UPDATE review_prompts SET ${column} = now()
+         WHERE user_id = $1 AND story_id = $2 AND ${column} IS NULL
+         RETURNING 1`,
+        [userId, storyId]
+    );
+    return { ok: true, show: claimed.length > 0 };
 }
 
 export async function getSummary(storyId: string): Promise<ReviewSummary> {
@@ -176,8 +236,9 @@ export async function saveReview(userId: string, bookId: string, ratingValue: un
     const state = await readingState(String(story.id), userId);
     if (!state) return { ok: false, status: 404, message: "Book not found" };
     if (state.ownBook) return { ok: false, status: 403, message: "You can't review your own book" };
-    if (!state.canReview) {
-        return { ok: false, status: 403, message: `Read at least ${state.needed} ${state.needed === 1 ? "chapter" : "chapters"} to review this book` };
+    // Readers who already reviewed (also under the old 3-chapter rule) can always edit their review
+    if (!state.canReview && !(await getMyReview(String(story.id), userId))) {
+        return { ok: false, status: 403, message: "Read at least half of a chapter to review this book" };
     }
 
     const { rows } = await dbPool.query(

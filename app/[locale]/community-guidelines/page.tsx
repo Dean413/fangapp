@@ -2,223 +2,162 @@ const CommunityGuidelines = () => {
   return (
     <div className="w-full flex justify-center py-4 md:py-10 bg-gray-50 dark:bg-dark">
       <div className="w-[90%] text-black dark:text-white space-y-8 bg-white dark:bg-dark-card p-5 md:p-8">
-        <h1 className="text-4xl text-center mb-8 font-bold">FANG Community Guidelines & Policy</h1>
+        <h1 className="text-4xl text-center mb-8 font-bold">FANG Community Guidelines &amp; Policy</h1>
 
         <div className="space-y-3">
           <p className="font-semibold">Powered by FANGVAULT</p>
 
-          <p>Effective Date: May 29, 2026</p>
+          <p>Effective Date: August 18, 2026</p>
 
           <p>
-            FANG is a storytelling platform created for readers and writers who enjoy immersive fiction, creative freedom, fantasy worlds, romance, drama, thrillers, and mature storytelling experiences.
+            FANG is a premier digital storytelling platform engineered for readers who enjoy immersive serialization and writers who cultivate highly engaged fan communities. FANG supports creative freedom across complex adult fiction tracks, including Dark Romance, Werewolf, Vampire, Mafia, Billionaire, Thrillers, and emotionally addictive narrative arcs.
           </p>
 
           <p>
-            These Community Guidelines and Content Policies explain the types of content and behavior allowed on FANG, as well as content that may be restricted or removed.
+            These Community Guidelines and Content Policies outline the exact structural boundaries governing permitted user behavior, content moderation thresholds, and media restrictions across our ecosystem. By accessing or publishing content on FANG, you explicitly agree to adhere to these guidelines alongside our core Terms of Use and Privacy Policy.
           </p>
 
           <p>
-            By using FANG, you agree to follow these guidelines alongside our Terms of Use and other platform policies.
+            The FANG platform is operated by IFO DIGITAL MEDIA, LLC, 1111B S Governors Ave STE 52111, Dover, DE 19904, United States. Support Desk: support@fangapp.io | Legal Operations: legal@fangapp.io
           </p>
         </div>
 
         {/* 1 */}
         <div className="space-y-3">
-          <h2 className="font-bold text-xl">1. Creative Freedom</h2>
-
-          <p>FANG supports a wide range of fictional storytelling genres, including:</p>
-
-          <ul className="list-disc pl-6 space-y-1">
-            <li>Dark Romance</li>
-            <li>Werewolf</li>
-            <li>Vampire</li>
-            <li>Mafia</li>
-            <li>Billionaire</li>
-            <li>Romance</li>
-            <li>Fantasy Romance</li>
-            <li>Paranormal</li>
-            <li>Reverse Harem</li>
-            <li>Urban Fantasy</li>
-            <li>Erotic Romance</li>
-            <li>Supernatural</li>
-            <li>Drama</li>
-            <li>Thriller</li>
-            <li>Paranormal</li>
-            <li>LGBTQ+</li>
-          </ul>
+          <h2 className="font-bold text-xl">1. Creative Freedom Framework</h2>
 
           <p>
-            We understand fiction may contain emotionally intense, dramatic, dark, violent, or mature themes.
-          </p>
-
-          <p>
-            Not all fictional conflict, obsession, manipulation, or violence automatically violates our policies.
-          </p>
-
-          <p>
-            However, content may still be restricted or removed if it crosses legal, safety, or platform boundaries.
+            FANG proudly champions a highly expansive catalog of fictional storytelling. We understand that high-stakes creative literature frequently incorporates emotionally intense, complex, dramatic, or dark themes. Fictional conflict, character obsession, narrative manipulation, and stylized genre violence do not automatically violate our structural boundaries. However, content will be systematically restricted, demonetized, or permanently removed if it crosses defined legal, safety, compliance, or payment gateway operational thresholds.
           </p>
         </div>
 
         {/* 2 */}
         <div className="space-y-3">
-          <h2 className="font-bold text-xl">2. Book Titles</h2>
+          <h2 className="font-bold text-xl">2. Book Titles and Metadata Standards</h2>
 
-          <p>Book titles should accurately represent the story and remain appropriate for public display.</p>
+          <p>
+            Book titles and text metadata profiles must accurately represent the creative work and remain entirely appropriate for public distribution storefronts.
+          </p>
 
-          <p>We allow:</p>
+          <p>
+            <span className="font-semibold">Permitted Metadata:</span> Seductive or dramatic titles, mature romance branding, and standard genre terminology (e.g., The Alpha’s Obsession, Claimed by the Mafia King, Bound to the Vampire Lord).
+          </p>
 
-          <ul className="list-disc pl-6 space-y-1">
-            <li>Mature romance titles</li>
-            <li>Seductive or dramatic themes</li>
-            <li>Alpha, billionaire, mafia, vampire, werewolf, or dark romance terminology</li>
-          </ul>
-
-          <p>Examples of generally acceptable titles:</p>
-
-          <ul className="list-disc pl-6 space-y-1">
-            <li>The Alpha’s Obsession</li>
-            <li>Claimed by the Mafia King</li>
-            <li>A Night With My Enemy</li>
-            <li>Bound to the Vampire Lord</li>
-          </ul>
-
-          <p>We may restrict titles that:</p>
-
-          <ul className="list-disc pl-6 space-y-1">
-            <li>contain explicit pornography terms</li>
-            <li>promote exploitation of minors</li>
-            <li>contain excessive hate speech or slurs</li>
-            <li>impersonate existing copyrighted works or brands</li>
-          </ul>
+          <p>
+            <span className="font-semibold">Prohibited Metadata:</span> Titles containing explicit pornographic phrasing, real-world slurs, hate speech, or terms directly promoting the exploitation of minors, or text deliberately designed to infringe existing copyrighted trademarks or established commercial brands.
+          </p>
         </div>
 
         {/* 3 */}
         <div className="space-y-3">
-          <h2 className="font-bold text-xl">3. Book Covers</h2>
+          <h2 className="font-bold text-xl">3. Book Cover and Media Art Regulations</h2>
 
-          <p>Book covers must remain suitable for public storefronts and app distribution platforms.</p>
+          <p>
+            Book covers and associated storefront media assets must remain strictly suitable for public display across global mobile distribution marketplaces.
+          </p>
 
-          <p>Allowed:</p>
+          <p>
+            <span className="font-semibold">Permitted Artwork:</span> Romantic embracing, stylized kissing scenes, fantasy weapons within fictional contexts, artistic blood elements within horror configurations, shirtless characters, and dark aesthetic illustrations.
+          </p>
 
-          <ul className="list-disc pl-6 space-y-1">
-            <li>Romantic imagery</li>
-            <li>Kissing or embracing</li>
-            <li>Fantasy weapons in fictional settings</li>
-            <li>Artistic blood effects in horror/fantasy contexts</li>
-            <li>Shirtless characters</li>
-            <li>Stylized dark themes</li>
-          </ul>
-
-          <p>Not Allowed:</p>
-
-          <ul className="list-disc pl-6 space-y-1">
-            <li>Explicit nudity</li>
-            <li>Visible genitals or nipples</li>
-            <li>Graphic sexual activity</li>
-            <li>Extreme gore or mutilation</li>
-            <li>Self-harm promotion</li>
-            <li>Sexualized minors</li>
-            <li>Illegal or exploitative imagery</li>
-            <li>Copyright-infringing covers</li>
-          </ul>
+          <p>
+            <span className="font-semibold">Prohibited Artwork:</span> Explicit graphic nudity, visible genitals or nipples, graphic representations of sexual acts, real-world extreme gore, or graphic self-harm depictions. Any cover utilizing copyright-infringing source graphics or unauthorized celebrity likenesses will be instantly removed.
+          </p>
         </div>
 
         {/* 4 */}
         <div className="space-y-3">
-          <h2 className="font-bold text-xl">4. Story Content</h2>
+          <h2 className="font-bold text-xl">4. Story Content Thresholds</h2>
 
-          <p>Allowed Content May Include:</p>
+          <p className="font-semibold">4.1 Permitted Fiction Formats</p>
 
           <ul className="list-disc pl-6 space-y-1">
-            <li>Mature romance</li>
-            <li>Dark romance</li>
-            <li>Violence in fictional settings</li>
-            <li>Emotional conflict</li>
-            <li>Fantasy combat</li>
-            <li>Supernatural themes</li>
-            <li>Sexual tension</li>
-            <li>Non-graphic intimate scenes</li>
-            <li>LGBTQ+ relationships</li>
-            <li>Psychological drama</li>
+            <li>Mature romance and complex character interactions;</li>
+            <li>Atmospheric dark romance, high-stakes psychological tension, and emotional drama;</li>
+            <li>Stylized fantasy combat, supernatural action sequences, and werewolf/vampire lore;</li>
+            <li>Narrative sexual tension and non-graphic intimate scenes;</li>
+            <li>Diverse LGBTQ+ relationships and comprehensive speculative fiction.</li>
           </ul>
 
-          <p>Restricted or Prohibited Content Includes:</p>
+          <p className="font-semibold">4.2 Prohibited Content Categories</p>
+
+          <p>
+            In strict alignment with global legal frameworks and our merchant processor compliance rules, FANG maintains a zero-tolerance policy toward the following text or media configurations:
+          </p>
 
           <ul className="list-disc pl-6 space-y-1">
-            <li>Sexual content involving minors</li>
-            <li>Real-world exploitation or abuse content</li>
-            <li>Graphic sexual violence presented for exploitation</li>
-            <li>Bestiality</li>
-            <li>Incest involving minors</li>
-            <li>Real-world terrorist propaganda</li>
-            <li>Instructions for serious criminal activity</li>
-            <li>Extreme gore intended purely for shock</li>
-            <li>Promotion of suicide or self-harm</li>
-            <li>Non-consensual explicit sexual exploitation</li>
-            <li>Illegal pornography</li>
+            <li>Any representation of sexual content, exploitation, or abuse involving minors;</li>
+            <li>Real-world terrorist propaganda, violent extremism, or hate group recruitment text;</li>
+            <li>Detailed instructional guides for executing serious real-world criminal acts or manufacturing illegal weapons;</li>
+            <li>Non-consensual explicit sexual exploitation, graphic sexual violence, or bestiality;</li>
+            <li>Extreme real-world gore or graphic physical mutilation presented for shock value;</li>
+            <li>The promotion, encouragement, or instructional tracking of suicide or self-harm actions.</li>
           </ul>
         </div>
 
         {/* 5 */}
         <div className="space-y-3">
-          <h2 className="font-bold text-xl">5. Plagiarism and Copyright</h2>
+          <h2 className="font-bold text-xl">5. Content Moderation &amp; Programmatic Enforcement</h2>
 
-          <p>Not Allowed:</p>
+          <p>
+            To maintain absolute platform safety, FANG utilizes a multi-layered compliance verification network.
+          </p>
 
-          <ul className="list-disc pl-6 space-y-1">
-            <li>Reposting stolen novels</li>
-            <li>Copying chapters from other platforms</li>
-            <li>Unauthorized translations</li>
-            <li>AI-generated spam or duplicate stories</li>
-            <li>Copyright-infringing covers or artwork</li>
-          </ul>
+          <p>
+            <span className="font-semibold">User Reporting:</span> Every story page across the platform features an active “Report Book” interface button, allowing readers to flag content for intellectual property theft, safety violations, or policy infractions.
+          </p>
+
+          <p>
+            <span className="font-semibold">Programmatic Controls:</span> Our backend servers actively analyze these user signals. Stories that accumulate verified reporting thresholds are programmatically isolated, hidden from public storefront navigation, and automatically demonetized pending manual human review.
+          </p>
+
+          <p>
+            <span className="font-semibold">Keyword Scanning:</span> Newly published manuscripts are automatically scanned via text-matching string filters to block known high-risk extremist phrases or malicious configurations before publication occurs.
+          </p>
         </div>
 
         {/* 6 */}
         <div className="space-y-3">
-          <h2 className="font-bold text-xl">6. AI-Generated Content</h2>
+          <h2 className="font-bold text-xl">6. Intellectual Property, Plagiarism &amp; AI Controls</h2>
 
-          <ul className="list-disc pl-6 space-y-1">
-            <li>the uploader has rights to the content</li>
-            <li>the content complies with platform policies</li>
-            <li>the content is meaningfully edited or curated</li>
-            <li>the content is not mass-generated spam</li>
-          </ul>
+          <p>
+            <span className="font-semibold">Copyright Infringement:</span> FANG strictly prohibits plagiarism, unauthorized text translations, or the reposting of stolen novels from alternative publishing networks. Systemic violations will result in permanent account deactivation and the complete forfeiture of monetization privileges.
+          </p>
+
+          <p>
+            <span className="font-semibold">Artificial Intelligence (AI) Parameters:</span> Creators may utilize generative software utilities as creative tools, provided that the uploader possesses all necessary commercial usage rights for the source materials. AI-assisted content must completely comply with our core content safety rules, must be meaningfully curated or edited, and must not consist of mass-generated automated spam text designed to manipulate platform metrics. Unedited AI spam text is programmatically excluded from platform contract rewards.
+          </p>
         </div>
 
         {/* 7 */}
         <div className="space-y-3">
-          <h2 className="font-bold text-xl">7. Reviews, Comments, and Community Conduct</h2>
+          <h2 className="font-bold text-xl">7. Reviews, Comments, and Community Interaction</h2>
 
-          <p>Not Allowed:</p>
+          <p>
+            We are committed to maintaining a supportive, professional digital arena for our writing and reading communities. We do not permit:
+          </p>
 
           <ul className="list-disc pl-6 space-y-1">
-            <li>Harassment</li>
-            <li>Hate speech</li>
-            <li>Threats</li>
-            <li>Doxxing</li>
-            <li>Spam</li>
-            <li>Fake engagement</li>
-            <li>Coordinated attacks</li>
-            <li>Review manipulation</li>
+            <li>Targeted harassment, doxxing, personal threats, or malicious bullying;</li>
+            <li>Coordinated review manipulation or fraudulent engagement tracking;</li>
+            <li>Hate speech targeting individuals based on race, religion, orientation, or protected status.</li>
           </ul>
         </div>
 
-        {/*8*/}
+        {/* 8 */}
         <div className="space-y-3">
-          <h2 className="font-bold text-xl">8. Contact Us</h2>
+          <h2 className="font-bold text-xl">8. Corporate Contact Information</h2>
+
           <p>FANG / IFO DIGITAL MEDIA, LLC</p>
-          <p>1111B S Governors Ave #52111</p>
+          <p>1111B S Governors Ave STE 52111</p>
           <p>Dover, DE 19904</p>
           <p>United States</p>
 
-          <p>Support: support@fangapp.io</p>
-          <p>Legal: legal@fangapp.io</p>
+          <p>User Support: support@fangapp.io</p>
+          <p>Legal Infrastructure: legal@fangapp.io</p>
 
           <p className="font-semibold">Powered by FANGVAULT</p>
         </div>
-
       </div>
     </div>
   );

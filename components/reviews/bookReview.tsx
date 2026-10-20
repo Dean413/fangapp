@@ -9,7 +9,6 @@ import { useAuthStore } from "@/lib/store/authStore";
 import { useAuthModals } from "@/lib/store/auth-card-store";
 import { Avatar, formatDateTime, StarRating } from "./stars";
 import { ConfirmDialog, ReportDialog, ReviewForm, sendJson, useBusy, type ReportTarget } from "./reviewsDialog";
-
 type Person = { name: string; avatar: string | null; publicId: string | null; status: string };
 
 export type Review = {
@@ -28,7 +27,7 @@ export type Review = {
 };
 
 type Reply = { id: string; content: string; createdAt: string; mine: boolean; author: Person };
-type Eligibility = { signedIn: boolean; canReview: boolean; read: number; needed: number; ownBook: boolean };
+type Eligibility = { signedIn: boolean; canReview: boolean; halfway: boolean; ownBook: boolean };
 export type ReviewSummary = { average: number | null; count: number };
 
 const MAX_REPLY = 1000;
@@ -276,6 +275,8 @@ export default function BookReviews({ bookId, onSummary }: { bookId: string; onS
     const [editing, setEditing] = useState(false);
     const [deleting, setDeleting] = useState(false);
     const [report, setReport] = useState<ReportTarget | null>(null);
+    // Passed half of a chapter of this book (remembered in this browser by the reading page)
+
     const more = useBusy();
     const requestId = useRef(0);
 
@@ -387,18 +388,6 @@ export default function BookReviews({ bookId, onSummary }: { bookId: string; onS
                         </>
                     ) : eligibility?.ownBook ? (
                         <p className="text-sm text-gray-500 dark:text-neutral-400">You can&apos;t review your own book.</p>
-                    ) : eligibility ? (
-                        <div>
-                            <p className="text-sm text-gray-600 dark:text-neutral-400">
-                                Read at least {eligibility.needed} {eligibility.needed === 1 ? "chapter" : "chapters"} to review this book.
-                            </p>
-                            <div className="mt-2 flex items-center gap-3">
-                                <div className="h-1.5 w-40 rounded-full bg-gray-200 dark:bg-dark-raised overflow-hidden">
-                                    <div className="h-full bg-red-600" style={{ width: `${Math.min(100, (eligibility.read / eligibility.needed) * 100)}%` }} />
-                                </div>
-                                <span className="text-xs text-gray-500 dark:text-neutral-400">{eligibility.read}/{eligibility.needed} read</span>
-                            </div>
-                        </div>
                     ) : null}
                 </div>
             )}

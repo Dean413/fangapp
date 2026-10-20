@@ -1,4 +1,5 @@
 import { getChapter, getStoryBySlug } from "@/lib/stories";
+import { getCurrentUser } from "@/lib/auth/session";
 import { NextResponse } from "next/server";
 
 export async function GET(
@@ -26,7 +27,9 @@ export async function GET(
             );
         }
 
-        const chapter = await getChapter(story, chapterNum);
+        // The signed-in reader: chapters they unlocked (or wrote) come back in full
+        const user = await getCurrentUser();
+        const chapter = await getChapter(story, chapterNum, user?.id ?? null);
 
         if (!chapter) {
             return NextResponse.json(
@@ -35,7 +38,10 @@ export async function GET(
             );
         }
 
-        return NextResponse.json({ story, chapter }, { status: 200 });
+        return NextResponse.json(
+            { story, chapter },
+            { status: 200, headers: { "Cache-Control": "no-store" } }
+        );
     } catch (error) {
         console.error(error);
 

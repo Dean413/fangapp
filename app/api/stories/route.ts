@@ -3,12 +3,14 @@ import { createStory, listStories, StorySort } from "@/lib/stories";
 import { verifyAuth } from "@/lib/rbac";
 import { NextResponse } from "next/server";
 
-// GET /api/stories?genre=<slug>&status=ongoing|completed&short=true&sort=new|views|likes|recommended&exclude=<slug>&limit=<n>
+// GET /api/stories?genre=<slug>&status=ongoing|completed&short=true&sort=new|views|likes|recommended&exclude=<slug>
+//                 &language=<e.g. English>&limit=<n>
 export async function GET(req: Request) {
     try {
         const { searchParams } = new URL(req.url);
         const status = searchParams.get("status");
         const sort = searchParams.get("sort");
+        const language = (searchParams.get("language") ?? "").trim().slice(0, 40) || null;
 
         const stories = await listStories({
             genre: searchParams.get("genre"),
@@ -18,6 +20,7 @@ export async function GET(req: Request) {
                 ? (sort as StorySort)
                 : "new",
             exclude: searchParams.get("exclude"),
+            language,
             limit: Number(searchParams.get("limit")) || undefined,
         });
 

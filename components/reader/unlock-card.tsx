@@ -1,41 +1,54 @@
 "use client";
 
+import Link from "next/link";
 import { FaCheck } from "react-icons/fa6";
-import { Button } from "../Button";
 
-interface Props {
+export interface UnlockCardProps {
+    price: number;                    // coins for this chapter (from its length)
+    signedIn: boolean;
+    wallet: { coins: number; bonusCoins: number } | null;
     unlocking: boolean;
     onUnlock: () => void;
+    onSignIn: () => void;
+    autoUnlock: boolean;              // "Auto-Unlock Next Chapter" for this book
+    autoBusy: boolean;
+    onToggleAuto: () => void;
+    dark?: boolean;                   // the reader's Dark / Black theme: the card goes dark too
 }
 
-export default function UnlockCard({ unlocking, onUnlock }: Props) {
+const WALLET_PATH = "/profile/wallet";
 
-    const DAILY_LIMIT = 20;
-    const dailyAdsUsed = DAILY_LIMIT
-    const ADS_REQUIRED = 2;
+export default function UnlockCard({ price, signedIn, wallet, unlocking, onUnlock, onSignIn, autoUnlock, autoBusy, onToggleAuto, dark }: UnlockCardProps) {
+    const coins = wallet?.coins ?? 0;
+    const bonus = wallet?.bonusCoins ?? 0;
+    const balance = coins + bonus;
+    const short = Math.max(price - balance, 0);
+    const enough = signedIn && short === 0;
 
+    // Ads (2 ads unlock one chapter): set up later
+    // const DAILY_LIMIT = 20;
+    // const ADS_REQUIRED = 2;
+
+    const buttonClass =
+        "w-full rounded-full py-3 font-semibold text-white bg-linear-to-r from-[#8B0000] to-[#D90404] hover:opacity-90 transition disabled:opacity-60";
 
     return (
-        <div className="max-w-md mx-auto mt-10">
-            {/* Watch ads badge */}
+        <div className={`max-w-md mx-auto mt-10 ${dark ? "dark" : ""}`}>
+            {/* Watch ads badge (ads come later)
             <div className="flex justify-end mb-3 pr-1">
                 <div className="flex items-center gap-2 rounded-full border border-red-300 dark:border-red-500/40 bg-white dark:bg-dark-card px-4 py-2 shadow-sm">
                     <span className="rounded-md bg-linear-to-b from-red-500 to-red-700 px-1.5 py-0.5 text-[10px] font-bold text-white">
                         AD
                     </span>
-                    {/* <span className="text-sm font-medium text-gray-800 dark:text-neutral-100">
-                        Watch 2 ads to unlock ({adsWatched}/{totalAds})
-                    </span> */}
-
                     <span className="text-sm font-medium text-gray-800 dark:text-neutral-100">
                         Watch 2 ads to unlock: ({dailyAdsUsed}/{DAILY_LIMIT})
-                        {/* Chapter: ({adsWatchedForChapter}/{ADS_REQUIRED}) */}
                     </span>
                 </div>
             </div>
+            */}
 
             {/* Main card */}
-            <div className="relative bg-white dark:bg-dark-card w-[90%] mx-auto rounded-3xl border-t-4 border-red-800 overflow-hidden">
+            <div className="relative bg-white dark:bg-dark-card w-[90%] mx-auto rounded-3xl border-t-4 border-red-800 overflow-hidden shadow-sm">
                 <div className="p-8 text-center">
                     {/* Lock icon */}
                     <div className="flex justify-center mb-3">
@@ -52,60 +65,60 @@ export default function UnlockCard({ unlocking, onUnlock }: Props) {
                     </div>
 
                     {/* Amount */}
-                    <div className="text-3xl font-extrabold text-gray-900 dark:text-white"> 20</div>
-                    <p className="mt-1 mb-4 text-sm text-gray-500 dark:text-neutral-400">Coins or Bonus</p>
+                    <div className="text-3xl font-extrabold text-gray-900 dark:text-white">{price}</div>
+                    <p className="mt-1 mb-6 text-sm text-gray-500 dark:text-neutral-400">Coins or Bonus</p>
 
-                    {/* {reachedLimit ? (
-                        <div className="mt-6">
-                            <p className="text-red-500 font-semibold">
-                                Daily limit reached.
+                    {/* Unlock / sign in / top up */}
+                    {!signedIn ? (
+                        <button type="button" onClick={onSignIn} className={buttonClass}>
+                            Sign in to unlock
+                        </button>
+                    ) : enough ? (
+                        <button type="button" onClick={onUnlock} disabled={unlocking} className={buttonClass}>
+                            {unlocking ? "Unlocking..." : "Unlock"}
+                        </button>
+                    ) : (
+                        <>
+                            <Link href={WALLET_PATH} className={`${buttonClass} block`}>
+                                Top Up
+                            </Link>
+                            <p className="mt-2 text-xs text-red-600 dark:text-red-400">
+                                You need {short} more {short === 1 ? "coin" : "coins"} to unlock this chapter.
                             </p>
-                            <p className="text-gray-500 dark:text-neutral-400 text-sm mt-2">
-                                Come back tomorrow.
-                            </p>
-                        </div>
-                    ) : ( */}
-                    <>
-                        {/* Unlock button */}
-                        {/* <Button
-                                onClick={onUnlock}
-                                disabled={unlocking}
-                                label={unlocking ? "Watching Ad..." : "Unlock"}
-                            /> */}
+                        </>
+                    )}
 
-                        <Button
-                            onClick={onUnlock}
-                            disabled={unlocking}
-                            label="Watch Ad (0/2)"
-                        />
+                    {/* Ads unlock (later)
+                    <Button onClick={onWatchAd} disabled={unlocking} label="Watch Ad (0/2)" />
+                    */}
 
-
-
-                        {/* Balance */}
+                    {/* Balance */}
+                    {signedIn && (
                         <div className="mt-4 text-sm text-gray-600 dark:text-neutral-300">
                             Balance:{" "}
-                            <span className="font-semibold text-gray-900 dark:text-white">0 Coins</span>{" "}
-                            <span className="font-semibold text-gray-900 dark:text-white">15 Bonus</span>
+                            <span className="font-semibold text-gray-900 dark:text-white">{coins.toLocaleString()} Coins</span>
+                            <span className="ml-4 font-semibold text-gray-900 dark:text-white">{bonus.toLocaleString()} Bonus</span>
                         </div>
+                    )}
 
-                        {/* Auto-unlock divider */}
+                    {/* Auto-unlock */}
+                    {signedIn && (
                         <div className="mt-6 flex items-center justify-center">
-
-                            <div className="mx-3 flex items-center gap-2 whitespace-nowrap">
-                                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-red-600">
-                                    <FaCheck color="white" />
+                            <button type="button" onClick={onToggleAuto} disabled={autoBusy} aria-pressed={autoUnlock}
+                                className="flex items-center gap-2 whitespace-nowrap disabled:opacity-60">
+                                <span className={`flex h-5 w-5 items-center justify-center rounded-full border-2 transition
+                                    ${autoUnlock ? "bg-red-600 border-red-600" : "border-gray-300 dark:border-neutral-600"}`}>
+                                    {autoUnlock && <FaCheck color="white" size={10} />}
                                 </span>
-                                <span className="text-sm font-medium text-blue-500">
+                                <span className="text-sm font-medium text-gray-800 dark:text-neutral-200">
                                     Auto-Unlock Next Chapter
                                 </span>
-                            </div>
-
+                            </button>
                         </div>
-                    </>
-                    {/* )} */}
-
+                    )}
                 </div>
             </div>
         </div>
     );
 }
+

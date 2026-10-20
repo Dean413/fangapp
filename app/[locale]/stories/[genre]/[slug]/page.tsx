@@ -1,5 +1,7 @@
 "use client";
-import { fetchStories } from "@/lib/fetch-stories";
+import { useLocale } from "next-intl";
+import { fetchYouMayLike } from "@/lib/fetchYouMayLike";
+import { languageForLocale } from "@/lib/language";
 import Footer from "@/components/footer";
 import { BookGrid, SectionHeader } from "@/hooks/bookData";
 import { ChapterListSkeleton, TextSkeleton } from "@/components/skeleton";
@@ -96,6 +98,8 @@ export default function Page() {
     const safeGenre = Array.isArray(genre) ? genre[0] : genre;
     const [books, setBooks] = useState<any[]>([]);
     const [showAll, setShowAll] = useState(false);
+    // The language the reader picked on the site: You May Like only shows books in it
+    const language = languageForLocale(useLocale());
 
     // Library: saved or not (re-draws when the saved list changes), and the chapter to continue from
     const signedIn = useAuthStore((s) => Boolean(s.user));
@@ -111,8 +115,18 @@ export default function Page() {
     // The book's current link, once it's loaded (the URL may be an old one)
     const bookPath = book ? `/stories/${book.genreSlug}/${book.slug}` : `/stories/${safeGenre}/${safeSlug}`;
     const firstChapter = chapters[0]?.chapter_number ?? 1;
-    // Opened this book before: "Continue Reading" goes back to the last chapter
-    const startChapter = lastChapter ?? firstChapter;
+    // The book's last published chapter, and whether the reader has reached it
+    const finalChapter = chapters.length ? Math.max(...chapters.map((c) => Number(c.chapter_number) || 0)) : null;
+    const reachedEnd = lastChapter !== null && finalChapter !== null && lastChapter >= finalChapter;
+    const completed = (book?.status ?? "").toLowerCase() === "completed";
+    // Completed and finished: "Read Again" from chapter 1. Ongoing and on the latest chapter: "Up to date".
+    // Otherwise "Continue Reading" goes back to the last chapter opened.
+    const startChapter = reachedEnd && completed ? firstChapter : lastChapter ?? firstChapter;
+    const readLabel = !lastChapter
+        ? "Read Now"
+        : reachedEnd
+            ? completed ? "Read Again" : `Up to date (Ch. ${lastChapter})`
+            : `Continue Reading (Ch. ${lastChapter})`;
     const chapterCount = book?.chapter ?? (Number(book?.chapters) || chapters.length);
 
     // Genre first, then the tags (no repeats)
@@ -122,21 +136,17 @@ export default function Page() {
 
     const paragraphs = (book?.summary ?? "").split(/\n+/).map((p) => p.trim()).filter(Boolean);
 
+    // You May Like: the same writer's other books first, then the same genre, in the reader's language
     useEffect(() => {
-        const getBooks = async () => {
-            setBooksLoading(true);
-            try {
-                const data = await fetchStories({ genre: String(safeGenre), exclude: String(safeSlug), sort: "views", limit: 14 });
-                setBooks(data);
-            } catch (error) {
-                console.log(error);
-            } finally {
-                setBooksLoading(false);
-            }
-        };
-
-        if (safeGenre && safeSlug) getBooks();
-    }, [safeGenre, safeSlug]);
+        if (!safeSlug) return;
+        let cancelled = false;
+        setBooksLoading(true);
+        fetchYouMayLike(String(safeSlug), language)
+            .then((data) => { if (!cancelled) setBooks(data); })
+            .catch((error) => console.log(error))
+            .finally(() => { if (!cancelled) setBooksLoading(false); });
+        return () => { cancelled = true; };
+    }, [safeSlug, language]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -272,7 +282,7 @@ export default function Page() {
                                     <Link
                                         href={`${bookPath}/reader?chapter=${startChapter}`}
                                         className="rounded-md bg-red-600 px-6 md:px-7 py-2 text-[11px] md:text-xs font-semibold text-white hover:bg-red-700">
-                                        {lastChapter ? `Continue Reading (Ch. ${lastChapter})` : "Read Now"}
+                                        {readLabel}
                                     </Link>
                                     <button
                                         type="button"

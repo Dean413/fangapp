@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { useAuthStore } from "@/lib/store/authStore";
+import { toast } from "react-toastify";
 
 const BEAT_EVERY = 30 * 1000;      // a "still reading" signal every 30 seconds
 const IDLE_AFTER = 2 * 60 * 1000;  // no scroll / touch / key for 2 minutes: not reading
@@ -26,7 +27,16 @@ export function useRewardTimers(isActive?: boolean) {
         const beat = () => {
             if (document.visibilityState !== "visible") return;
             if (Date.now() - lastInput.current > IDLE_AFTER) return;
-            fetch("/api/rewards/reading/heartbeat", { method: "POST", credentials: "include", keepalive: true }).catch(() => { });
+            fetch("/api/rewards/reading/heartbeat", { method: "POST", credentials: "include", keepalive: true })
+                .then((res) => (res.ok ? res.json() : null))
+                .then((body) => {
+                    // 30 minutes reached: the gem was added; show it in the wallet straight away
+                    if (!body?.gem || !body.wallet) return;
+                    const user = useAuthStore.getState().user;
+                    if (user) useAuthStore.getState().setUser({ ...user, wallet: body.wallet });
+                    toast.success(`+${body.gem} gem for 30 minutes of reading`);
+                })
+                .catch(() => { });
         };
 
         // Coming back to the tab starts a new reading stretch

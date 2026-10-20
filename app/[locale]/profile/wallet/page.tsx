@@ -42,18 +42,28 @@ export default function WalletPage() {
 
                 {active !== "vip" && (
                     <div className="bg-linear-to-r space-y-4 from-black to-gray-900 dark:bg-none dark:bg-dark-card dark:border dark:border-dark-border text-white rounded-2xl p-6 md:flex items-center justify-between">
-                        <div className="fle items-center gap-4">
-                            <p className="text-xl text-gray-300 dark:text-neutral-400">TOTAL BALANCE</p>
+                        <div className="space-y-2">
+                            <p className="text-sm md:text-base tracking-[0.2em] text-gray-300 dark:text-neutral-400">TOTAL BALANCE</p>
 
-                            <h2 className="text-4xl font-bold flex items-center gap-2">
+                            <h2 className="text-4xl md:text-5xl font-bold flex items-center gap-3">
                                 <Image
                                     src="/fang_pictures/balance.png"
-                                    width={30}
-                                    height={30}
+                                    width={44}
+                                    height={44}
                                     alt="coin balance"
                                 />
                                 {totalBalance.toLocaleString()}
                             </h2>
+
+                            {/* Bought coins, bonus coins and gems on their own */}
+                            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm md:text-base text-gray-300 dark:text-neutral-400">
+                                <span>Coins: {(wallet?.coins ?? 0).toLocaleString()}</span>
+                                <span>Bonus: {(wallet?.bonusCoins ?? 0).toLocaleString()}</span>
+                                <span className="flex items-center gap-2">
+                                    <Image src="/fang_pictures/gift-icons/ruby.png" width={22} height={22} alt="gems" />
+                                    <span className="text-white">{(wallet?.gems ?? 0).toLocaleString()}</span>
+                                </span>
+                            </div>
                         </div>
                         <div className="">
                             <div className="flex gap-3">

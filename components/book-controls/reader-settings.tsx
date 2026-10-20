@@ -1,11 +1,11 @@
-import { BookmarkPlus, BookmarkCheck, LucideMessageSquareText } from "lucide-react";
+import { BookmarkPlus, BookmarkCheck, Flag, LucideMessageSquareText } from "lucide-react";
 import { FaGift } from "react-icons/fa";
 import { FaListUl, FaShareNodes } from "react-icons/fa6";
 import { FiSettings } from "react-icons/fi";
 import { useLibraryStore } from "@/lib/store/library-store";
 
 // bookId = the book's slug (the reader page passes it)
-const ReadingSettings = ({ onOpenSettings, onOpenToc, onClickShare, onOpenGift, onOpenReplies, bookId, id, title, image, }: any) => {
+const ReadingSettings = ({ onOpenSettings, onOpenToc, onClickShare, onOpenGift, onOpenReplies, onOpenReport, bookId, id, title, image, }: any) => {
     const bookKey: string = String(bookId ?? id ?? "");
     const toggleBook = useLibraryStore((state) => state.toggleBook);
     // Re-draws when the saved list changes, so the icon updates straight away
@@ -52,6 +52,11 @@ const ReadingSettings = ({ onOpenSettings, onOpenToc, onClickShare, onOpenGift, 
                     ) : (
                         <BookmarkPlus size={20} className="text-black dark:text-white" />
                     )}
+                </button>
+
+                {/* Report Book */}
+                <button type="button" onClick={onOpenReport} aria-label="Report book">
+                    <Flag size={20} className="text-black dark:text-white" />
                 </button>
             </div>
         </div>

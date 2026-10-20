@@ -127,3 +127,43 @@ export async function claimReadingReward(userId: string, minutes: number): Promi
     if (result === "OK") return { ok: true, coins: milestone.coins, status };
     return { ok: false, code: result, status };
 }
+
+
+// Reading Task: 1 gem for 30 minutes of reading, given automatically, once per 24-hour reading period.
+// Gems never expire.
+export const READING_GEM = { minutes: 30, gems: 1 };
+
+// Gives the reading gem if the server's own count has reached 30 minutes in the current period.
+// Returns true only on the call that actually gave it (never twice, however many signals arrive at once).
+export async function grantReadingGem(userId: string): Promise<boolean> {
+    return withTransaction(async (client) => {
+        const { rows } = await client.query(
+            `SELECT date_trunc('milliseconds', period_start) AS period_key, seconds FROM reading_time
+             WHERE user_id = $1 AND period_start > now() - interval '24 hours'
+             FOR UPDATE`,
+            [userId]
+        );
+        const t = rows[0];
+        if (!t || Number(t.seconds) < READING_GEM.minutes * 60) return false;
+
+        const { rows: claim } = await client.query(
+            `INSERT INTO reading_gem_claims (user_id, period_start, gems) VALUES ($1, $2, $3)
+             ON CONFLICT DO NOTHING RETURNING user_id`,
+            [userId, t.period_key, READING_GEM.gems]
+        );
+        if (!claim[0]) return false;
+
+        const { rows: lot } = await client.query(
+            `INSERT INTO wallet_lots (user_id, currency, kind, amount, remaining, source, expires_at)
+             VALUES ($1, 'gem', 'earned', $2, $2, 'reading_gem', NULL)
+             RETURNING id`,
+            [userId, READING_GEM.gems]
+        );
+        await client.query(
+            `INSERT INTO wallet_ledger (user_id, lot_id, currency, kind, delta, reason, ref_type, ref_id)
+             VALUES ($1, $2, 'gem', 'earned', $3, 'reading_gem', 'reading_minutes', $4)`,
+            [userId, lot[0].id, READING_GEM.gems, String(READING_GEM.minutes)]
+        );
+        return true;
+    });
+}

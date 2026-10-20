@@ -1,7 +1,8 @@
 // app/components/home/bookBits.tsx
 // Small pieces shared by the Home rows: section header, genre/tag pills, corner ribbons, counts, book links.
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Star } from "lucide-react";
+import Imprint from "@/components/imprint";
 import type { HomeBook } from "@/lib/home";
 
 // 24900 -> "24.9K", 1200000 -> "1.2M"
@@ -80,7 +81,18 @@ export function CoverRibbons({ book }: { book: HomeBook }) {
     ));
 }
 
-export function Cover({ book, className }: { book: HomeBook; className: string }) {
+// Average review rating, e.g. "★ 4.5" (nothing when the book has no reviews yet)
+export function Rating({ book, className = "" }: { book: HomeBook; className?: string }) {
+    if (book.rating == null) return null;
+    return (
+        <span className={`inline-flex items-center gap-0.5 ${className}`}>
+            <Star size={11} className="fill-current" /> {book.rating.toFixed(1)}
+        </span>
+    );
+}
+
+// The cover with its ribbons (top left) and the imprint logo (top right)
+export function Cover({ book, className, imprint = "md" }: { book: HomeBook; className: string; imprint?: "sm" | "md" | "lg" }) {
     return (
         <div className={`relative overflow-hidden rounded-md bg-gray-200 shadow-sm dark:bg-dark-raised dark:shadow-none ${className}`}>
             {book.image && (
@@ -88,6 +100,7 @@ export function Cover({ book, className }: { book: HomeBook; className: string }
                 <img src={book.image} alt={book.title} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
             )}
             <CoverRibbons book={book} />
+            <Imprint size={imprint} />
         </div>
     );
 }
