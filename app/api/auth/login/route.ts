@@ -22,14 +22,14 @@ import { normalizeEmail, readJson, reply } from "@/lib/auth/rules";
 let dummyHash: Promise<string> | null = null;
 const getDummyHash = () => (dummyHash ??= hashPassword(crypto.randomBytes(16).toString("base64url")));
 
-const WRONG = "Invalid email or password";
+const WRONG = "wrongLogin";
 
 export async function POST(request: NextRequest) {
     const body = await readJson(request);
     const email = normalizeEmail(body?.email);
     const password = body?.password;
 
-    if (!email || typeof password !== "string" || !password) return reply(400, "Email and password are required");
+    if (!email || typeof password !== "string" || !password) return reply(400, "emailPasswordRequired");
     if (email.length > 320 || password.length > 1024) return reply(401, WRONG);
 
     try {
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
         // Right password: forget the wrong tries
         await clearLoginTries(email);
 
-        if (!canUseReaderApp(user.role)) return reply(403, "This account can't be used to sign in here.", { code: "NOT_ALLOWED" });
+        if (!canUseReaderApp(user.role)) return reply(403, "cantSignInHere", { code: "NOT_ALLOWED" });
         if (isClosedAccount(user.account_status)) return reply(403, CLOSED_MESSAGE, { code: "ACCOUNT_CLOSED" });
 
         // Right password but the email was never confirmed: send a code and let the app show the code step
@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
             } catch (emailError) {
                 console.error("Verification code email error:", emailError);
             }
-            return reply(403, "Please confirm your email. We've sent you a code.", { code: "EMAIL_NOT_VERIFIED", email: user.email });
+            return reply(403, "confirmEmail", { code: "EMAIL_NOT_VERIFIED", email: user.email });
         }
 
         // Two-factor: email a sign-in code; the login starts once the code is entered
@@ -77,15 +77,15 @@ export async function POST(request: NextRequest) {
             } catch (emailError) {
                 console.error("Sign-in code email error:", emailError);
             }
-            return reply(403, "Enter the code we sent to your email.", { code: "TWO_FACTOR_REQUIRED", email: user.email });
+            return reply(403, "enterEmailCode", { code: "TWO_FACTOR_REQUIRED", email: user.email });
         }
 
         await startSession({ id: user.id, email: user.email, role: user.role });
         await prepareReader(user.id);
 
-        return reply(200, "Signed in successfully", { user: { id: user.id, email: user.email } });
+        return reply(200, "signedIn", { user: { id: user.id, email: user.email } });
     } catch (error) {
         console.error("Login error:", error);
-        return reply(500, "Something went wrong. Please try again.");
+        return reply(500, "somethingWrongRetry");
     }
 }

@@ -1,14 +1,17 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "@/lib/store/toastStore";
 import { useAuthStore } from "@/lib/store/authStore";
 import CommentCard, { type Comment } from "./comment-card";
 import CommentInput from "./comment-input";
 import { ConfirmDialog, ReportDialog, type ReportTarget } from "@/components/reviews/reviewsDialog";
+import { useTranslations } from "next-intl";
 
 export default function CommentSection({ chapterId }: { chapterId: string }) {
     const userId = useAuthStore((s) => s.user?.id ?? null);
+    const t = useTranslations("Comments");
+    const c = useTranslations("Common");
     const [comments, setComments] = useState<Comment[]>([]);
     const [total, setTotal] = useState(0);
     const [hasMore, setHasMore] = useState(false);
@@ -51,11 +54,11 @@ export default function CommentSection({ chapterId }: { chapterId: string }) {
         try {
             const res = await fetch(`/api/comments?chapter=${encodeURIComponent(chapterId)}&before=${last}`, { credentials: "include", cache: "no-store" });
             const data = await res.json().catch(() => ({}));
-            if (!res.ok) return void toast.error(data.message || "Couldn't load more comments");
+            if (!res.ok) return void toast.error(data.message || t("couldntLoadMore"));
             setComments((prev) => [...prev, ...(data.comments ?? []).filter((c: Comment) => !prev.some((p) => p.id === c.id))]);
             setHasMore(Boolean(data.hasMore));
         } catch {
-            toast.error("Unable to reach the server. Please try again.");
+            toast.error(c("networkError"));
         } finally {
             moreBusy.current = false;
             setLoadingMore(false);
@@ -85,7 +88,7 @@ export default function CommentSection({ chapterId }: { chapterId: string }) {
         <div className="w-80 md:w-105 fixed right-5 md:right-15 top-1/2 -translate-y-1/2 bg-white dark:bg-dark-card rounded-xl shadow-xl p-4 z-50">
             <div className="py-4 border-b border-gray-300 dark:border-neutral-700">
                 <h3 className="font-semibold text-black dark:text-white text-lg">
-                    Comments ({total})
+                    {t("heading", { count: total })}
                 </h3>
             </div>
 
@@ -112,11 +115,11 @@ export default function CommentSection({ chapterId }: { chapterId: string }) {
                     </div>
                 ) : failed ? (
                     <div className="py-6 text-center">
-                        <p className="text-sm text-gray-500 dark:text-neutral-400 mb-3">Couldn&apos;t load the comments.</p>
-                        <button type="button" onClick={load} className="border border-red-500 text-red-500 px-4 py-1.5 rounded-full text-sm">Try again</button>
+                        <p className="text-sm text-gray-500 dark:text-neutral-400 mb-3">{t("loadFailed")}</p>
+                        <button type="button" onClick={load} className="border border-red-500 text-red-500 px-4 py-1.5 rounded-full text-sm">{c("retry")}</button>
                     </div>
                 ) : comments.length === 0 ? (
-                    <p className="py-6 text-center text-sm text-gray-500 dark:text-neutral-400">No comments yet. Be the first to comment.</p>
+                    <p className="py-6 text-center text-sm text-gray-500 dark:text-neutral-400">{t("empty")}</p>
                 ) : (
                     <>
                         {comments.map((c) => (
@@ -132,26 +135,26 @@ export default function CommentSection({ chapterId }: { chapterId: string }) {
                                 )}
                             </div>
                         ))}
-                        {loadingMore && <p className="py-3 text-center text-xs text-gray-400">Loading...</p>}
+                        {loadingMore && <p className="py-3 text-center text-xs text-gray-400">{c("loading")}</p>}
                     </>
                 )}
             </div>
 
             <ReportDialog target={report} onClose={() => setReport(null)} />
-            <ConfirmDialog open={Boolean(deleting)} onClose={() => setDeleting(null)} title="Delete comment"
-                text="This comment and its replies will be removed for everyone."
+            <ConfirmDialog open={Boolean(deleting)} onClose={() => setDeleting(null)} title={t("deleteTitle")}
+                text={t("deleteText")}
                 onConfirm={async () => {
                     if (!deleting) return true;
                     const res = await fetch(`/api/comments/${deleting.id}`, { method: "DELETE", credentials: "include" });
                     const data = await res.json().catch(() => ({}));
-                    if (!res.ok) { toast.error(data.message || "Couldn't delete your comment"); return false; }
+                    if (!res.ok) { toast.error(data.message || t("couldntDelete")); return false; }
                     const removed = deleting;
                     const top = comments.find((t) => t.id === removed.id);
                     setTotal((n) => Math.max(0, n - 1 - (top?.replies?.length ?? 0)));
                     setComments((prev) => prev
                         .filter((t) => t.id !== removed.id)
                         .map((t) => ({ ...t, replies: t.replies?.filter((r) => r.id !== removed.id) })));
-                    toast.success("Comment deleted");
+                    toast.success(t("deleted"));
                     return true;
                 }} />
         </div>

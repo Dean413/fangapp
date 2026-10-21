@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { CoverPlaceholder } from "@/components/skeleton";
+import { useTranslations } from "next-intl";
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
 
@@ -40,9 +41,12 @@ function CoverImage({ src, alt, sizes }: { src?: string; alt: string; sizes: str
 const RIBBON_OFFSETS = [2.9, 4.7]; // distance of each band from the corner, in em
 
 function CornerRibbons({ label, status }: { label?: string; status?: string }) {
+    const t = useTranslations("Books");
     const ribbons = [
         label ? { text: label, color: "bg-red-700" } : null,
-        status ? { text: status, color: status === "COMPLETED" ? "bg-green-800" : "bg-red-800" } : null,
+        String(status ?? "").toUpperCase() === "COMPLETED"
+            ? { text: t("completed"), color: "bg-green-800" }
+            : { text: t("ongoing"), color: "bg-purple-600" },
     ].filter(Boolean) as { text: string; color: string }[];
 
     if (ribbons.length === 0) return null;
@@ -107,6 +111,7 @@ export const BookCard = (props: cardProps) => {
 
 export const Trending = (trending: cardProps) => {
     const { image, title, tags, author, rank, views, summary } = trending;
+    const t = useTranslations("Books");
     return (
         <div className="flex gap-3 justify-between sm:gap-4 bg-white dark:bg-dark-card p-3 sm:p-4 rounded-2xl shadow-md">
             <h1 className={`text-2xl sm:text-3xl ${rank === "02" ? "text-red-500" : "text-gray-400 dark:text-neutral-500"} font-bold flex items-center shrink-0`}>
@@ -133,7 +138,7 @@ export const Trending = (trending: cardProps) => {
             <div className="flex items-center shrink-0">
                 <div className="flex flex-col  justify-end">
                     <p className="text-black dark:text-white font-bold">{views}</p>
-                    <p className="text-gray-300 dark:text-neutral-500 text-xs">READS</p>
+                    <p className="text-gray-300 dark:text-neutral-500 text-xs uppercase">{t("reads")}</p>
                 </div>
 
             </div>

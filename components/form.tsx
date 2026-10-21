@@ -2,6 +2,7 @@ import Image from "next/image"
 import { FaFacebookF } from "react-icons/fa"
 import Input from "./input";
 import PasswordInput from "./passwordInput";
+import { useTranslations } from "next-intl";
 
 type Form = {
     strength?: {
@@ -30,6 +31,7 @@ const startSocialSignIn = (provider: "google" | "facebook") => {
 };
 
 const ReusableInput = ({ fullName, placeholder, label, showStrengthBar, email, showNameField, passWord, setEmail, setPassword, setShowPassword, showPassword, setFullName, strength }: Form) => {
+    const t = useTranslations("Auth");
     return (
         <div className="mx-auto ">
             {/* <div className="flex dark:text-white gap-4">
@@ -67,8 +69,8 @@ const ReusableInput = ({ fullName, placeholder, label, showStrengthBar, email, s
 
             {/* FORM */}
             <div className="space-y-4">
-                {showNameField && (<Input value={fullName || ""} onChange={(value) => setFullName?.(value)} label="Full Name" />)}
-                <Input label="Email" value={email || ""} onChange={setEmail} />
+                {showNameField && (<Input value={fullName || ""} onChange={(value) => setFullName?.(value)} label={t("fullName")} placeholder={t("fullNamePlaceholder")} />)}
+                <Input label={t("email")} placeholder={t("emailPlaceholder")} value={email || ""} onChange={setEmail} />
                 <PasswordInput
                     showStrengthBar={showStrengthBar}
                     value={passWord}

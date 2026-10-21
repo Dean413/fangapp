@@ -4,6 +4,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import "server-only";
 import { dbPool } from "@/lib/db";
+import { type Msg } from "@/lib/i18n";
 
 export const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 export const STORY_TENANT = process.env.STORY_TENANT || null;
@@ -30,7 +31,7 @@ export function cleanText(value: unknown, max: number): string {
     return value.replace(/\r\n?/g, "\n").replace(/\n{4,}/g, "\n\n\n").trim().slice(0, max);
 }
 
-export type PostCheck = { ok: true; name: string; avatar: string | null } | { ok: false; message: string };
+export type PostCheck = { ok: true; name: string; avatar: string | null } | { ok: false; message: Msg };
 
 // Signed-in readers whose account is active may post. Also at most 5 posts a minute and 200 a day
 // (reviews, replies and comments together), so nobody can flood a book.
@@ -53,10 +54,10 @@ export async function checkPoster(userId: string): Promise<PostCheck> {
         [userId]
     );
     const r = rows[0];
-    if (!r) return { ok: false, message: "Please sign in first" };
-    if (r.status !== "active") return { ok: false, message: "Your account can't post right now. Contact support@fangwriters.com." };
-    if (r.last_minute >= 5) return { ok: false, message: "You're posting too fast. Please wait a minute." };
-    if (r.last_day >= 200) return { ok: false, message: "You've reached today's limit. Please try again tomorrow." };
+    if (!r) return { ok: false, message: "signInFirst" };
+    if (r.status !== "active") return { ok: false, message: "cantPost" };
+    if (r.last_minute >= 5) return { ok: false, message: "postingTooFast" };
+    if (r.last_day >= 200) return { ok: false, message: "dailyPostLimit" };
     return { ok: true, name: r.name, avatar: r.avatar_url ?? null };
 }
 

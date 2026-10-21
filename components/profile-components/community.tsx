@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Heart, MessageCircle, Share2, Image, Gift, BarChart2, FileText, Video, MoreHorizontal, Globe, Flame } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 const trendingTopics = [
     { tag: "#BookTok", posts: "24.5k posts" },
@@ -11,10 +12,10 @@ const trendingTopics = [
 ];
 
 const popularMembers = [
-    { name: "Aria Knight", followers: "24,300 followers", initials: "AK", color: "bg-rose-400" },
-    { name: "Marcus Vale", followers: "16,900 followers", initials: "MV", color: "bg-violet-400" },
-    { name: "Sasha Lin", followers: "13,200 followers", initials: "SL", color: "bg-sky-400" },
-    { name: "Theo Brand", followers: "9,800 followers", initials: "TB", color: "bg-amber-400" },
+    { name: "Aria Knight", followers: 24300, initials: "AK", color: "bg-rose-400" },
+    { name: "Marcus Vale", followers: 16900, initials: "MV", color: "bg-violet-400" },
+    { name: "Sasha Lin", followers: 13200, initials: "SL", color: "bg-sky-400" },
+    { name: "Theo Brand", followers: 9800, initials: "TB", color: "bg-amber-400" },
 ];
 
 const onlineColors = [
@@ -24,6 +25,7 @@ const onlineColors = [
 ];
 
 export default function CommunityComponent() {
+    const t = useTranslations("Community");
     const [liked, setLiked] = useState(false);
     const [likeCount, setLikeCount] = useState(1284);
 
@@ -44,7 +46,7 @@ export default function CommunityComponent() {
                     <div className="bg-white dark:bg-dark-card rounded-xl shadow-sm border border-gray-200 dark:border-dark-border p-4">
                         <div className="flex items-center gap-3 mb-3">
                             <input type="text" className="flex-1 bg-gray-100 dark:bg-dark-raised rounded-full px-4 py-2 text-sm text-gray-600 dark:text-neutral-300 placeholder-gray-400 dark:placeholder-neutral-500 outline-none focus:ring-2 focus:ring-rose-300"
-                                placeholder="What's on your mind, Faith?"
+                                placeholder={t("placeholder", { name: "Faith" })}
                             />
                         </div>
                         <div className="md:flex space-y-2 items-center justify-between pt-2 border-t border-gray-100 dark:border-dark-border">
@@ -62,7 +64,7 @@ export default function CommunityComponent() {
                                 ))}
                             </div>
                             <button className="bg-red-700 hover:bg-red-600 text-white text-sm font-semibold px-5 py-1.5 rounded-full transition-colors">
-                                Create Post
+                                {t("createPost")}
                             </button>
                         </div>
                     </div>
@@ -75,10 +77,10 @@ export default function CommunityComponent() {
                                 <div>
                                     <p className="font-semibold text-gray-900 dark:text-white text-sm">Fangverse</p>
                                     <div className="flex items-center gap-1 text-xs text-gray-400 dark:text-neutral-500">
-                                        <span>2 hours ago</span>
+                                        <span>{t("hoursAgo", { count: 2 })}</span>
                                         <span>·</span>
                                         <Globe className="w-3 h-3" />
-                                        <span>Public</span>
+                                        <span>{t("public")}</span>
                                     </div>
                                 </div>
                             </div>
@@ -140,8 +142,8 @@ export default function CommunityComponent() {
                                 <span>{likeCount.toLocaleString()} Likes</span>
                             </div>
                             <div className="flex gap-3">
-                                <span>312 Comments</span>
-                                <span>84 Shares</span>
+                                <span>{t("comments", { count: 312 })}</span>
+                                <span>{t("shares", { count: 84 })}</span>
                             </div>
                         </div>
 
@@ -170,10 +172,10 @@ export default function CommunityComponent() {
                                 <div>
                                     <p className="font-semibold text-gray-900 dark:text-white text-sm">Luna West</p>
                                     <div className="flex items-center gap-1 text-xs text-gray-400 dark:text-neutral-500">
-                                        <span>2 hours ago</span>
+                                        <span>{t("hoursAgo", { count: 2 })}</span>
                                         <span>·</span>
                                         <Globe className="w-3 h-3" />
-                                        <span>Public</span>
+                                        <span>{t("public")}</span>
                                     </div>
                                 </div>
                             </div>
@@ -235,8 +237,8 @@ export default function CommunityComponent() {
                                 <span>{likeCount.toLocaleString()} Likes</span>
                             </div>
                             <div className="flex gap-3">
-                                <span>315 Comments</span>
-                                <span>34 Shares</span>
+                                <span>{t("comments", { count: 315 })}</span>
+                                <span>{t("shares", { count: 34 })}</span>
                             </div>
                         </div>
 
@@ -266,7 +268,7 @@ export default function CommunityComponent() {
                     {/* Trending */}
                     <div className="bg-white dark:bg-dark-card rounded-xl shadow-sm border border-gray-200 dark:border-dark-border p-4">
                         <div className="flex items-center gap-2 mb-4">
-                            <h2 className="font-bold text-gray-900 dark:text-white text-sm">Trending Topics</h2>
+                            <h2 className="font-bold text-gray-900 dark:text-white text-sm">{t("trending")}</h2>
                             <Flame className="w-4 h-4 text-rose-500" />
                         </div>
                         <ul className="flex flex-col gap-3">
@@ -281,7 +283,7 @@ export default function CommunityComponent() {
 
                     {/* Popular Members */}
                     <div className="bg-white dark:bg-dark-card rounded-xl shadow-sm border border-gray-200 dark:border-dark-border p-4">
-                        <h2 className="font-bold text-gray-900 dark:text-white text-sm mb-4">Popular Members</h2>
+                        <h2 className="font-bold text-gray-900 dark:text-white text-sm mb-4">{t("popularMembers")}</h2>
                         <ul className="flex flex-col gap-4">
                             {popularMembers.map((member) => (
                                 <li key={member.name} className="flex items-center justify-between">
@@ -291,11 +293,11 @@ export default function CommunityComponent() {
                                         </div>
                                         <div>
                                             <p className="text-sm font-medium text-gray-800 dark:text-neutral-100 leading-tight">{member.name}</p>
-                                            <p className="text-xs text-gray-400 dark:text-neutral-500">{member.followers}</p>
+                                            <p className="text-xs text-gray-400 dark:text-neutral-500">{t("followers", { count: member.followers })}</p>
                                         </div>
                                     </div>
                                     <button className="text-xs border border-rose-400 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 px-3 py-1 rounded-lg font-semibold transition-colors">
-                                        Follow
+                                        {t("follow")}
                                     </button>
                                 </li>
                             ))}
@@ -305,7 +307,7 @@ export default function CommunityComponent() {
                     {/* Online Now */}
                     <div className="bg-white dark:bg-dark-card rounded-xl shadow-sm border border-gray-200 dark:border-dark-border p-4">
                         <div className="flex items-center gap-2 mb-3">
-                            <h2 className="font-bold text-gray-900 dark:text-white text-sm">Online Now</h2>
+                            <h2 className="font-bold text-gray-900 dark:text-white text-sm">{t("onlineNow")}</h2>
                             <span className="w-2 h-2 bg-green-400 rounded-full" />
                         </div>
                         <div className="flex flex-wrap gap-1.5">

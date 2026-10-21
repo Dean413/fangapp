@@ -2,8 +2,9 @@
 import { useCallback, useState } from "react";
 import Cropper from "react-easy-crop";
 import { Button } from "./Button";
-import { toast } from "react-toastify";
+import { toast } from "@/lib/store/toastStore";
 import { FiCamera } from "react-icons/fi";
+import { useTranslations } from "next-intl";
 
 type imagePickerProps = {
     name?: string;
@@ -15,6 +16,7 @@ type imagePickerProps = {
 }
 
 export function ProfileImagePicker({ name, image, pictureHeader, uploadIcon, isProfilePage, setImage, }: imagePickerProps) {
+    const t = useTranslations("Photo");
     const [preview, setPreview] = useState<string | null>(null);
     const [openPreview, setOpenPreview] = useState(false);
     const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -68,7 +70,7 @@ export function ProfileImagePicker({ name, image, pictureHeader, uploadIcon, isP
         );
         setImage(cropped);
         setOpenPreview(false);
-        toast.success("Photo ready")
+        toast.success(t("photoReady"))
     };
 
     return (
@@ -85,7 +87,7 @@ export function ProfileImagePicker({ name, image, pictureHeader, uploadIcon, isP
                                 {image ? (
                                     <img
                                         src={image}
-                                        alt="Profile"
+                                        alt={t("profile")}
                                         className="w-full h-full object-cover"
                                     />
                                 ) : (
@@ -136,7 +138,7 @@ export function ProfileImagePicker({ name, image, pictureHeader, uploadIcon, isP
                 <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
                     <div className="bg-white dark:bg-dark-card rounded-3xl p-6 w-full max-w-md shadow-2xl animate-in fade-in zoom-in duration-300">
                         <h2 className="text-2xl font-bold text-center mb-5">
-                            Preview Image
+                            {t("previewImage")}
                         </h2>
                         <div className="relative w-full h-80 bg-black rounded-3xl overflow-hidden">
                             <Cropper
@@ -166,11 +168,11 @@ export function ProfileImagePicker({ name, image, pictureHeader, uploadIcon, isP
 
                         <div className="flex justify-end gap-4 mt-6">
                             <button onClick={() => setOpenPreview(false)} className="px-5 py-3 rounded-2xl border  border-gray-200 dark:border-dark-border font-medium">
-                                Cancel
+                                {t("cancel")}
                             </button>
 
                             <button onClick={saveImage} className="px-5 py-3 rounded-2xl bg-linear-to-r from-[#8B0000] to-[#D90404] hover:bg-red-600 text-white font-medium">
-                                Confirm Image
+                                {t("confirmImage")}
                             </button>
                         </div>
                     </div>

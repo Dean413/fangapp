@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { toast } from "react-toastify";
 import Footer from "@/components/footer";
 import ReadingSettings from "@/components/book-controls/reader-settings";
 import SettingsSheets from "@/components/book-controls/settings";
@@ -19,10 +18,11 @@ import ReviewPrompt from "@/components/reviews/reviewPrompt";
 import { ChapterSkeleton, ReaderSkeleton } from "@/components/skeleton";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useAuthModals } from "@/lib/store/auth-card-store";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { fetchYouMayLike } from "@/lib/fetchYouMayLike";
 import { languageForLocale } from "@/lib/language";
 import { BookGrid, SectionHeader } from "@/hooks/bookData";
+import { toast } from "@/lib/store/toastStore";
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
 // The reader's own display choices (theme, font, size), kept in this browser
@@ -97,6 +97,8 @@ function Cover({ src }: { src?: string | null }) {
 
 export default function ReaderPage() {
     const params = useParams();
+    const t = useTranslations("Reader");
+    const c = useTranslations("Common");
     const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug;
     const genre = Array.isArray(params.genre) ? params.genre[0] : params.genre;
     const searchParams = useSearchParams();
@@ -262,7 +264,11 @@ export default function ReaderPage() {
             if (body.wallet && user) useAuthStore.getState().setUser({ ...user, wallet: body.wallet });
             if (!res.ok) {
                 if (res.status === 401) openSignIn();
-                else if (!auto || res.status !== 402) toast.error(body.message || "Couldn't unlock this chapter");
+                else if (res.status === 409 && body.firstLocked) {
+                    toast(body.message);
+                    router.replace(`?chapter=${body.firstLocked}`);
+                }
+                else if (!auto || res.status !== 402) toast.error(body.message || t("couldntUnlock"));
                 return;
             }
             if (body.chapter) {
@@ -271,9 +277,9 @@ export default function ReaderPage() {
                     ? list.map((c: any) => (c.chapter_number === number ? { ...c, isLocked: false } : c))
                     : list);
             }
-            if (body.charged > 0) toast.success(body.message || "Chapter unlocked");
+            if (body.charged > 0) toast.success(body.message || t("unlocked"));
         } catch {
-            toast.error("Unable to reach the server. Please try again.");
+            toast.error(c("networkError"));
         } finally {
             unlockBusy.current = false;
             setUnlocking(false);
@@ -298,11 +304,11 @@ export default function ReaderPage() {
             const body = await res.json().catch(() => ({}));
             if (!res.ok) {
                 setData((d: any) => (d?.chapter ? { ...d, chapter: { ...d.chapter, autoUnlock: !enabled } } : d));
-                toast.error(body.message || "Couldn't change auto-unlock");
+                toast.error(body.message || t("couldntChangeAuto"));
             }
         } catch {
             setData((d: any) => (d?.chapter ? { ...d, chapter: { ...d.chapter, autoUnlock: !enabled } } : d));
-            toast.error("Unable to reach the server. Please try again.");
+            toast.error(c("networkError"));
         } finally {
             setAutoBusy(false);
         }
@@ -312,7 +318,7 @@ export default function ReaderPage() {
     const lockedChapter = !loading && data?.chapter?.isLocked ? data.chapter : null;
     const balance = (wallet?.coins ?? 0) + (wallet?.bonusCoins ?? 0);
     useEffect(() => {
-        if (!lockedChapter || !lockedChapter.autoUnlock || !signedIn) return;
+        if (!lockedChapter || !lockedChapter.autoUnlock || !signedIn || lockedChapter.firstLocked) return;
         if (autoTried.current === String(lockedChapter.id)) return;
         if (balance < Number(lockedChapter.price || 0)) return;
         autoTried.current = String(lockedChapter.id);
@@ -349,7 +355,7 @@ export default function ReaderPage() {
     }
 
     if (!data) {
-        return <div className="p-10 min-h-screen text-gray-700 dark:text-neutral-300 dark:bg-dark">No data found</div>;
+        return <div className="p-10 min-h-screen text-gray-700 dark:text-neutral-300 dark:bg-dark">{t("noData")}</div>;
     }
 
     // Previous / next by the book's real chapter numbers (they can have gaps)
@@ -375,8 +381,8 @@ export default function ReaderPage() {
 
             if (navigator.share) {
                 await navigator.share({
-                    title: story?.title || "Story",
-                    text: `Check out this story: ${story?.title}`,
+                    title: story?.title || t("story"),
+                    text: t("shareText", { title: story?.title ?? "" }),
                     url: cleanUrl,
                 });
             } else {
@@ -393,15 +399,15 @@ export default function ReaderPage() {
         <>
             <div className="min-h-screen flex flex-col items-center transition-all duration-300 dark:bg-dark">
                 {/* BREADCRUMB: Home / Genre / Book / Chapter */}
-                <nav aria-label="Breadcrumb" className="w-full md:w-[90%] mx-auto px-4 md:px-2 pt-6 md:pt-8 text-sm md:text-base">
+                <nav aria-label={t("breadcrumb")} className="w-full md:w-[90%] mx-auto px-4 md:px-2 pt-6 md:pt-8 text-sm md:text-base">
                     <ol className="flex items-center gap-2 md:gap-3 min-w-0 text-gray-500 dark:text-neutral-400">
                         <li className="shrink-0">
-                            <Link href="/" className="hover:text-gray-900 dark:hover:text-white transition">Home</Link>
+                            <Link href="/" className="hover:text-gray-900 dark:hover:text-white transition">{t("home")}</Link>
                         </li>
                         <li aria-hidden="true" className="shrink-0">/</li>
                         <li className="shrink-0 max-w-[25%] truncate">
                             <Link href={`/stories/${data?.story?.genreSlug || genre}`} className="hover:text-gray-900 dark:hover:text-white transition">
-                                {data?.story?.genre || "Stories"}
+                                {data?.story?.genre || t("stories")}
                             </Link>
                         </li>
                         <li aria-hidden="true" className="shrink-0">/</li>
@@ -412,7 +418,7 @@ export default function ReaderPage() {
                         </li>
                         <li aria-hidden="true" className="shrink-0">/</li>
                         <li aria-current="page" className="min-w-0 truncate font-semibold text-gray-900 dark:text-white">
-                            Chapter {data?.chapter?.chapter_number ?? chapterNumber}
+                            {t("chapterN", { chapter: data?.chapter?.chapter_number ?? chapterNumber })}
                             {data?.chapter?.title?.trim() ? `: ${data.chapter.title.trim()}` : ""}
                         </li>
                     </ol>
@@ -440,7 +446,9 @@ export default function ReaderPage() {
                             {data?.story?.title}
                         </h1>
 
-                        <p className={`${theme.muted} text-sm`}>AUTHOR: {data?.story?.author}</p>
+                        {data?.story?.author && (
+                            <p className={`${theme.muted} text-sm`}>{t("author", { author: data.story.author })}</p>
+                        )}
                     </div>
 
                     {/* LINE BREAK */}
@@ -479,6 +487,7 @@ export default function ReaderPage() {
                                 <ChapterContent
                                     content={data.chapter.content}
                                     locked={data.chapter.isLocked}
+
                                     unlock={{
                                         price: Number(data.chapter.price) || 0,
                                         signedIn,
@@ -490,6 +499,8 @@ export default function ReaderPage() {
                                         autoBusy,
                                         onToggleAuto: toggleAuto,
                                         dark: popupsDark,
+                                        firstLocked: data.chapter.firstLocked ?? null,
+                                        onGoToFirst: () => data.chapter.firstLocked && router.replace(`?chapter=${data.chapter.firstLocked}`),
                                     }}
                                 />
                             </div>
@@ -499,7 +510,7 @@ export default function ReaderPage() {
                     {/* NAVIGATION */}
                     <div className={`flex justify-between mt-10 border-t ${theme.line} pt-6`}>
                         {prevChapter !== null ? (
-                            <Button disabled={loading} onClick={() => router.replace(`?chapter=${prevChapter}`)} label="Previous" className="w-full md:w-90 rounded-lg md:rounded-full px-2 md:px-0" />
+                            <Button disabled={loading} onClick={() => router.replace(`?chapter=${prevChapter}`)} label={t("previous")} className="w-full md:w-90 rounded-lg md:rounded-full px-2 md:px-0" />
                         ) : (
                             <div />
                         )}
@@ -508,14 +519,14 @@ export default function ReaderPage() {
                             className="w-full md:w-90 rounded-lg md:rounded-full px-4 md:px-0"
                             disabled={loading || data.chapter.isLocked || nextChapter === null}
                             onClick={() => nextChapter !== null && router.replace(`?chapter=${nextChapter}`)}
-                            label={data.chapter.isLocked ? "Unlock Chapter First 🔒" : "Next"}
+                            label={data.chapter.isLocked ? t("unlockFirst") : t("next")}
                         />
                     </div>
                 </div>
 
                 {/* YOU MAY LIKE (site theme, not the reading theme) */}
                 <section className="w-full md:w-[90%] mx-auto px-4 md:px-2 pb-10 md:pb-14 text-gray-800 dark:text-neutral-200">
-                    <SectionHeader title="You May Like" href={`/stories/${likeGenre}`} />
+                    <SectionHeader title={t("youMayLike")} href={`/stories/${likeGenre}`} />
                     <BookGrid data={books} loading={booksLoading} />
                 </section>
             </div>
@@ -575,7 +586,7 @@ export default function ReaderPage() {
 
             {linkCopied && (
                 <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-lg bg-gray-900 dark:bg-dark-raised dark:border dark:border-neutral-700 px-4 py-2 text-sm text-white shadow-lg">
-                    Link copied
+                    {t("linkCopied")}
                 </div>
             )}
 

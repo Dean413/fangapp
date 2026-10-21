@@ -6,11 +6,12 @@ import { dbPool } from "@/lib/db";
 import { checkCode, createResetSession, RESET_SESSION_COOKIE_PATH, RESET_SESSION_MINUTES } from "@/lib/auth/emailCode";
 import { isClosedAccount } from "@/lib/auth/loginLimit";
 import { normalizeEmail, readJson, reply } from "@/lib/auth/rules";
+import { translateMsg } from "@/lib/i18n";
 
 const MESSAGES = {
-    wrong: { status: 400, message: "Oh no! The code you entered is incorrect" },
-    expired: { status: 400, message: "This code has expired. Send a new one." },
-    too_many: { status: 429, message: "Too many wrong tries. Send a new code." },
+    wrong: { status: 400, message: "codeIncorrect" },
+    expired: { status: 400, message: "codeExpired" },
+    too_many: { status: 429, message: "tooManyTries" },
 } as const;
 
 export async function POST(request: NextRequest) {
@@ -28,7 +29,7 @@ export async function POST(request: NextRequest) {
         if (result !== "ok") return reply(MESSAGES[result].status, MESSAGES[result].message);
 
         const token = await createResetSession(user.id);
-        const response = NextResponse.json({ message: "Code confirmed" });
+        const response = NextResponse.json({ message: await translateMsg("codeConfirmed") });
         response.cookies.set("reset_session", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
@@ -39,6 +40,6 @@ export async function POST(request: NextRequest) {
         return response;
     } catch (error) {
         console.error("Verify reset code error:", error);
-        return reply(500, "Something went wrong. Please try again.");
+        return reply(500, "somethingWrongRetry");
     }
 }

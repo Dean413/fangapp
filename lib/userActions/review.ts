@@ -13,6 +13,7 @@ import { dbPool } from "@/lib/db";
 import { genreSlug, getStoryBySlug } from "@/lib/stories";
 import { canReadPaid } from "@/lib/unlock";
 import { checkPoster, cleanText, notifyReply, PERSON_COLUMNS, toPerson, UUID, type Person } from "@/lib/content";
+import { msg, type Msg } from "@/lib/i18n";
 
 export const REVIEWS_PAGE_SIZE = 10;
 export const REPLIES_PAGE_SIZE = 20;
@@ -124,7 +125,7 @@ export async function getEligibility(storyId: string, userId: string | null): Pr
     return { signedIn: true, canReview: state.canReview, halfway: state.halfway, ownBook: state.ownBook };
 }
 
-export type PromptResult = { ok: true; show: boolean } | { ok: false; status: number; message: string };
+export type PromptResult = { ok: true; show: boolean } | { ok: false; status: number; message: Msg };
 
 // The reading page reports the reader finished a chapter (scrolled to its end).
 // show = open the popup now: when that chapter is the book's halfway chapter or its last chapter, once each per
@@ -132,10 +133,10 @@ export type PromptResult = { ok: true; show: boolean } | { ok: false; status: nu
 // they've reviewed it. Each showing is claimed in the database, so it happens once (any device, any number of tabs).
 export async function reviewPromptAt(userId: string, bookId: string, chapterNumber: number): Promise<PromptResult> {
     if (!Number.isInteger(chapterNumber) || chapterNumber < 1 || chapterNumber > 100000) {
-        return { ok: false, status: 400, message: "Invalid chapter" };
+        return { ok: false, status: 400, message: "invalidChapter" };
     }
     const story = await getStoryBySlug(bookId);
-    if (!story) return { ok: false, status: 404, message: "Book not found" };
+    if (!story) return { ok: false, status: 404, message: "bookNotFound" };
     const storyId = String(story.id);
 
     const { rows: found } = await dbPool.query(
@@ -151,7 +152,7 @@ export async function reviewPromptAt(userId: string, bookId: string, chapterNumb
     );
     const chapterId: string | null = found[0]?.id ?? null;
     const lastNumber = Number(found[0]?.last_number) || 0;
-    if (!chapterId) return { ok: false, status: 404, message: "Chapter not found" };
+    if (!chapterId) return { ok: false, status: 404, message: "chapterNotFound" };
 
     // Only the halfway chapter and the last chapter (a one-chapter book: just the end)
     const point = chapterNumber === lastNumber ? "end" : chapterNumber === halfwayChapter(lastNumber) ? "half" : null;
@@ -217,28 +218,28 @@ export async function getMyReview(storyId: string, userId: string): Promise<Revi
     return rows[0] ? toReview(rows[0], userId) : null;
 }
 
-export type SaveResult = { ok: true; review: Review; created: boolean } | { ok: false; status: number; message: string };
+export type SaveResult = { ok: true; review: Review; created: boolean } | { ok: false; status: number; message: Msg };
 
 // Writes or updates the reader's review of a book
 export async function saveReview(userId: string, bookId: string, ratingValue: unknown, contentValue: unknown): Promise<SaveResult> {
     const rating = cleanRating(ratingValue);
-    if (rating === null) return { ok: false, status: 400, message: "Please choose a rating" };
+    if (rating === null) return { ok: false, status: 400, message: "chooseRating" };
     const content = cleanText(contentValue, MAX_REVIEW_CHARS + 1);
-    if (content.length < MIN_REVIEW_CHARS) return { ok: false, status: 400, message: `Please write at least ${MIN_REVIEW_CHARS} characters` };
-    if (content.length > MAX_REVIEW_CHARS) return { ok: false, status: 400, message: `Reviews can be at most ${MAX_REVIEW_CHARS} characters` };
+    if (content.length < MIN_REVIEW_CHARS) return { ok: false, status: 400, message: msg("reviewMin", { min: MIN_REVIEW_CHARS }) };
+    if (content.length > MAX_REVIEW_CHARS) return { ok: false, status: 400, message: msg("reviewMax", { max: MAX_REVIEW_CHARS }) };
 
     const story = await getStoryBySlug(bookId);
-    if (!story) return { ok: false, status: 404, message: "Book not found" };
+    if (!story) return { ok: false, status: 404, message: "bookNotFound" };
 
     const poster = await checkPoster(userId);
     if (!poster.ok) return { ok: false, status: 429, message: poster.message };
 
     const state = await readingState(String(story.id), userId);
-    if (!state) return { ok: false, status: 404, message: "Book not found" };
-    if (state.ownBook) return { ok: false, status: 403, message: "You can't review your own book" };
+    if (!state) return { ok: false, status: 404, message: "bookNotFound" };
+    if (state.ownBook) return { ok: false, status: 403, message: "cantReviewOwnBook" };
     // Readers who already reviewed (also under the old 3-chapter rule) can always edit their review
     if (!state.canReview && !(await getMyReview(String(story.id), userId))) {
-        return { ok: false, status: 403, message: "Read at least half of a chapter to review this book" };
+        return { ok: false, status: 403, message: "readBeforeReview" };
     }
 
     const { rows } = await dbPool.query(
@@ -252,7 +253,7 @@ export async function saveReview(userId: string, bookId: string, ratingValue: un
         [story.id, userId, rating, content, state.finished]
     );
     const review = await getMyReview(String(story.id), userId);
-    if (!review) return { ok: false, status: 500, message: "Couldn't save your review" };
+    if (!review) return { ok: false, status: 500, message: "couldntSaveReviewShort" };
     return { ok: true, review, created: rows[0]?.created === true };
 }
 
@@ -262,13 +263,13 @@ export async function deleteReview(userId: string, reviewId: string) {
     return (rowCount ?? 0) > 0;
 }
 
-export type LikeResult = { ok: true; liked: boolean; likes: number } | { ok: false; status: number; message: string };
+export type LikeResult = { ok: true; liked: boolean; likes: number } | { ok: false; status: number; message: Msg };
 
 export async function setReviewLike(userId: string, reviewId: string, like: boolean): Promise<LikeResult> {
-    if (!UUID.test(reviewId)) return { ok: false, status: 404, message: "Review not found" };
+    if (!UUID.test(reviewId)) return { ok: false, status: 404, message: "reviewNotFound" };
     const { rows } = await dbPool.query(`SELECT user_id FROM book_reviews WHERE id = $1 AND NOT hidden`, [reviewId]);
-    if (!rows[0]) return { ok: false, status: 404, message: "Review not found" };
-    if (rows[0].user_id === userId) return { ok: false, status: 400, message: "You can't like your own review" };
+    if (!rows[0]) return { ok: false, status: 404, message: "reviewNotFound" };
+    if (rows[0].user_id === userId) return { ok: false, status: 400, message: "cantLikeOwnReview" };
     if (like) {
         await dbPool.query(`INSERT INTO review_likes (review_id, user_id) VALUES ($1, $2) ON CONFLICT DO NOTHING`, [reviewId, userId]);
     } else {
@@ -313,13 +314,13 @@ export async function listReplies(reviewId: string, viewerId: string | null, aft
     };
 }
 
-export type ReplyResult = { ok: true; reply: ReviewReply } | { ok: false; status: number; message: string };
+export type ReplyResult = { ok: true; reply: ReviewReply } | { ok: false; status: number; message: Msg };
 
 export async function addReply(userId: string, reviewId: string, contentValue: unknown): Promise<ReplyResult> {
-    if (!UUID.test(reviewId)) return { ok: false, status: 404, message: "Review not found" };
+    if (!UUID.test(reviewId)) return { ok: false, status: 404, message: "reviewNotFound" };
     const content = cleanText(contentValue, MAX_REPLY_CHARS + 1);
-    if (!content) return { ok: false, status: 400, message: "Please write a reply" };
-    if (content.length > MAX_REPLY_CHARS) return { ok: false, status: 400, message: `Replies can be at most ${MAX_REPLY_CHARS} characters` };
+    if (!content) return { ok: false, status: 400, message: "writeReply" };
+    if (content.length > MAX_REPLY_CHARS) return { ok: false, status: 400, message: msg("replyMax", { max: MAX_REPLY_CHARS }) };
 
     const poster = await checkPoster(userId);
     if (!poster.ok) return { ok: false, status: 429, message: poster.message };
@@ -330,7 +331,7 @@ export async function addReply(userId: string, reviewId: string, contentValue: u
          WHERE b.id = $1 AND NOT b.hidden AND s.is_deleted = false`,
         [reviewId]
     );
-    if (!target[0]) return { ok: false, status: 404, message: "Review not found" };
+    if (!target[0]) return { ok: false, status: 404, message: "reviewNotFound" };
 
     const { rows } = await dbPool.query(
         `INSERT INTO review_replies (review_id, user_id, content) VALUES ($1, $2, $3) RETURNING id, created_at`,

@@ -12,44 +12,45 @@ import { withTransaction } from "@/lib/auth/transaction";
 import { BIO_MAX, MAX_GENRES, USERNAME_RULE, getReaderProfile } from "@/lib/readerProfile";
 import { cleanName, newPublicId } from "@/lib/auth/account";
 import { readJson, reply } from "@/lib/auth/rules";
+import { msg } from "@/lib/i18n";
 
 export async function POST(request: NextRequest) {
     const user = await getCurrentUser();
-    if (!user) return reply(401, "Please sign in first");
+    if (!user) return reply(401, "signInFirst");
 
     const body = await readJson(request);
-    if (!body) return reply(400, "Invalid request");
+    if (!body) return reply(400, "invalidRequest");
 
     // Check everything before saving anything
     let fullName: string | undefined;
     if (body.fullName !== undefined) {
         fullName = cleanName(body.fullName);
-        if (fullName.length < 2) return reply(400, "Please enter your full name", { field: "fullName" });
+        if (fullName.length < 2) return reply(400, "enterFullName", { field: "fullName" });
     }
 
     let username: string | undefined;
     if (body.username !== undefined) {
         if (typeof body.username !== "string" || !USERNAME_RULE.test(body.username.trim())) {
-            return reply(400, "Username must be 3–20 letters, numbers or _ (no spaces)", { field: "username" });
+            return reply(400, "usernameRule", { field: "username" });
         }
         username = body.username.trim();
     }
 
     let bio: string | null | undefined;
     if (body.bio !== undefined) {
-        if (typeof body.bio !== "string") return reply(400, "Invalid About you", { field: "bio" });
+        if (typeof body.bio !== "string") return reply(400, "invalidBio", { field: "bio" });
         const text = body.bio.replace(/\r\n/g, "\n").trim();
-        if (text.length > BIO_MAX) return reply(400, `About you can be at most ${BIO_MAX} characters`, { field: "bio" });
+        if (text.length > BIO_MAX) return reply(400, msg("bioMax", { max: BIO_MAX }), { field: "bio" });
         bio = text || null;
     }
 
     let genreIds: string[] | undefined;
     if (body.genreIds !== undefined) {
         if (!Array.isArray(body.genreIds) || body.genreIds.some((g) => typeof g !== "string" && typeof g !== "number")) {
-            return reply(400, "Invalid genres", { field: "genres" });
+            return reply(400, "invalidGenres", { field: "genres" });
         }
         genreIds = [...new Set(body.genreIds.map((g) => String(g)))];
-        if (genreIds.length > MAX_GENRES) return reply(400, `Choose up to ${MAX_GENRES} genres`, { field: "genres" });
+        if (genreIds.length > MAX_GENRES) return reply(400, msg("chooseUpToGenres", { max: MAX_GENRES }), { field: "genres" });
     }
 
     try {
@@ -102,16 +103,16 @@ export async function POST(request: NextRequest) {
             return "OK" as const;
         });
 
-        if (result === "USERNAME_TAKEN") return reply(409, "That username is taken. Try another one.", { field: "username" });
-        if (result === "BAD_GENRES") return reply(400, "One of those genres isn't available", { field: "genres" });
+        if (result === "USERNAME_TAKEN") return reply(409, "usernameTaken", { field: "username" });
+        if (result === "BAD_GENRES") return reply(400, "genreUnavailable", { field: "genres" });
 
-        return reply(200, "Profile saved", { profile: await getReaderProfile(user.id) });
+        return reply(200, "profileSaved", { profile: await getReaderProfile(user.id) });
     } catch (error) {
         // Two readers taking the same username at the same moment: the database lets only one through
         if (error instanceof Error && "code" in error && (error as { code?: string }).code === "23505") {
-            return reply(409, "That username is taken. Try another one.", { field: "username" });
+            return reply(409, "usernameTaken", { field: "username" });
         }
         console.error("Profile save error:", error);
-        return reply(500, "Couldn't save your profile. Please try again.");
+        return reply(500, "couldntSaveProfile");
     }
 }

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Star } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 const SIZES = { sm: "w-4 h-4", md: "w-5 h-5", lg: "w-8 h-8" } as const;
 
@@ -34,6 +35,7 @@ export function StarRating({ rating, size = "md" }: { rating: number; size?: key
 export function StarPicker({ value, onChange, disabled }: { value: number; onChange: (v: number) => void; disabled?: boolean }) {
     const [hover, setHover] = useState<number | null>(null);
     const shown = hover ?? value;
+    const t = useTranslations("Reviews");
     return (
         <div className="flex items-center gap-3">
             <div className="flex gap-1" onMouseLeave={() => setHover(null)}>
@@ -66,7 +68,7 @@ export function StarPicker({ value, onChange, disabled }: { value: number; onCha
                 })}
             </div>
             <span className="text-sm font-semibold text-gray-700 dark:text-neutral-200 min-w-10">
-                {shown > 0 ? `${shown}/5` : "Tap to rate"}
+                {shown > 0 ? `${shown}/5` : t("tapToRate")}
             </span>
         </div>
     );

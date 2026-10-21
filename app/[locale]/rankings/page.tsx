@@ -4,7 +4,7 @@ import Link from "next/link";
 import Footer from "@/components/footer";
 import { Bone } from "@/components/skeleton";
 import { ListFilter } from "lucide-react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useSearchParams } from "next/navigation";
 import { FaBookmark, FaRegBookmark, FaRegEye } from "react-icons/fa";
 import { useLibraryStore } from "@/lib/store/library-store";
@@ -18,21 +18,22 @@ type NovelType = "long" | "short";
 type RankingList = { id: string; name: string };
 type RankType = { id: string; name: string; lists: RankingList[] };
 
+// Each option's label is its message under Rankings
 const PERIODS: { value: Period; label: string }[] = [
-    { value: "daily", label: "Daily" },
-    { value: "weekly", label: "Weekly" },
-    { value: "monthly", label: "Monthly" },
-    { value: "all_round", label: "All Round" },
+    { value: "daily", label: "daily" },
+    { value: "weekly", label: "weekly" },
+    { value: "monthly", label: "monthly" },
+    { value: "all_round", label: "allRound" },
 ];
 
 const AUDIENCES: { value: Audience; label: string }[] = [
-    { value: "male", label: "Male" },
-    { value: "female", label: "Female" },
+    { value: "male", label: "male" },
+    { value: "female", label: "female" },
 ];
 
 const NOVEL_TYPES: { value: NovelType; label: string }[] = [
-    { value: "long", label: "Long Novel" },
-    { value: "short", label: "Shorties" },
+    { value: "long", label: "longNovel" },
+    { value: "short", label: "shorties" },
 ];
 
 const DEFAULT_PERIOD: Period = "daily";
@@ -100,6 +101,7 @@ function LibraryButton({ book }: { book: any }) {
     const toggleBook = useLibraryStore((s) => s.toggleBook);
     const saved = useLibraryStore((s) => s.saved.some((b) => b.id === book.slug || b.storyId === String(book.id)));
     const [busy, setBusy] = useState(false);
+    const t = useTranslations("Rankings");
 
     const toggle = async () => {
         if (busy) return;
@@ -116,7 +118,7 @@ function LibraryButton({ book }: { book: any }) {
             type="button"
             onClick={toggle}
             disabled={busy}
-            aria-label={saved ? "Remove from library" : "Add to library"}
+            aria-label={saved ? t("removeFromLibrary") : t("addToLibrary")}
             aria-pressed={saved}
             className={`p-1 disabled:opacity-50 ${saved ? "text-red-600" : "text-gray-400 dark:text-neutral-500 hover:text-gray-700 dark:hover:text-neutral-200"}`}>
             {saved ? <FaBookmark className="text-sm" /> : <FaRegBookmark className="text-sm" />}
@@ -125,12 +127,13 @@ function LibraryButton({ book }: { book: any }) {
 }
 
 function Actions({ book, className = "" }: { book: any; className?: string }) {
+    const t = useTranslations("Rankings");
     return (
         <div className={`flex shrink-0 items-center gap-2 ${className}`}>
             <Link
                 href={readPath(book)}
                 className="rounded-full bg-red-600 px-3 md:px-4 py-1.5 text-[10px] md:text-xs font-semibold text-white hover:bg-red-700">
-                Read Now
+                {t("readNow")}
             </Link>
             <LibraryButton book={book} />
         </div>
@@ -143,6 +146,7 @@ const FADE_CSS = "@keyframes fangRankFade { from { opacity: 0; transform: transl
 // The big card under the top 4
 function FeaturedCard({ book }: { book: any }) {
     const genreLine = [book.genre, secondTag(book)].filter(Boolean).join(" · ");
+    const t = useTranslations("Rankings");
 
     return (
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4 rounded-lg border border-gray-200 dark:border-dark-border bg-white dark:bg-dark-card p-4 md:p-5">
@@ -154,7 +158,7 @@ function FeaturedCard({ book }: { book: any }) {
                     {book.title}
                 </Link>
                 <p className="mt-1 text-xs md:text-sm text-gray-500 dark:text-neutral-400">
-                    by {book.author} · {book.chapter} {book.chapter === 1 ? "chapter" : "chapters"}
+                    {t("byLine", { author: book.author, count: book.chapter })}
                 </p>
                 <div className="mt-2 flex items-center gap-3 text-[11px] md:text-xs text-gray-500 dark:text-neutral-400">
                     <Views views={book.views} />
@@ -172,6 +176,7 @@ function FeaturedCard({ book }: { book: any }) {
 // One row of the full rankings. The text never runs taller than the cover:
 // the text column fills the cover's height and the blurb is cut to fit.
 function RankRow({ book, rank }: { book: any; rank: number }) {
+    const t = useTranslations("Rankings");
     return (
         <div className="flex items-start gap-3 md:gap-4 rounded-xl border border-gray-200 dark:border-dark-border bg-white dark:bg-dark-card p-3 md:p-4">
             <span className="w-7 md:w-10 shrink-0 text-center text-2xl md:text-4xl font-black italic text-gray-200 dark:text-neutral-800">
@@ -190,7 +195,7 @@ function RankRow({ book, rank }: { book: any; rank: number }) {
                         {book.title}
                     </Link>
                     <p className="truncate text-[10px] md:text-[11px] text-gray-500 dark:text-neutral-400">
-                        by {book.author} · {book.chapter} {book.chapter === 1 ? "chapter" : "chapters"}
+                        {t("byLine", { author: book.author, count: book.chapter })}
                     </p>
                     <div className="mt-1 flex items-center gap-3 text-[10px] text-gray-500 dark:text-neutral-400">
                         <Views views={book.views} />
@@ -219,6 +224,7 @@ function RadioGroup<T extends string>({ title, options, value, onChange, require
     onChange: (value: T | null) => void;
     required?: boolean;
 }) {
+    const t = useTranslations("Rankings");
     return (
         <div role="radiogroup" aria-label={title} className="py-3 first:pt-0 last:pb-0">
             <p className="mb-1 text-sm font-medium text-gray-500 dark:text-neutral-400">{title}</p>
@@ -237,7 +243,7 @@ function RadioGroup<T extends string>({ title, options, value, onChange, require
                                 ? "border-[6px] border-black dark:border-white"
                                 : "border-2 border-gray-800 dark:border-neutral-500"}`}
                         />
-                        <span className="text-[15px] font-medium text-gray-500 dark:text-neutral-300">{o.label}</span>
+                        <span className="text-[15px] font-medium text-gray-500 dark:text-neutral-300">{t(o.label)}</span>
                     </button>
                 );
             })}
@@ -284,6 +290,7 @@ const Message = ({ children }: { children: React.ReactNode }) => (
 
 const RankingsPage = () => {
     const locale = useLocale();
+    const t = useTranslations("Rankings");
     const searchParams = useSearchParams();
 
     // Filters live in the link: ?period=weekly&audience=male&type=short
@@ -405,7 +412,6 @@ const RankingsPage = () => {
     const featured = top[featuredIndex] ?? top[0];
     const rest = books.slice(4);
     const loading = typesLoading || booksLoading;
-    const periodLabel = PERIODS.find((p) => p.value === period)?.label.toLowerCase();
 
     return (
         <>
@@ -433,7 +439,7 @@ const RankingsPage = () => {
                         <div className="relative mb-2 ml-3 shrink-0">
                             <button
                                 type="button"
-                                aria-label="Filters"
+                                aria-label={t("filters")}
                                 aria-expanded={filtersOpen}
                                 onClick={() => setFiltersOpen((o) => !o)}
                                 className={`relative rounded border p-1.5 ${filtersOpen || hasFilters
@@ -445,20 +451,20 @@ const RankingsPage = () => {
 
                             {filtersOpen && (
                                 <>
-                                    <button type="button" aria-label="Close filters" className="fixed inset-0 z-10 cursor-default" onClick={() => setFiltersOpen(false)} />
+                                    <button type="button" aria-label={t("closeFilters")} className="fixed inset-0 z-10 cursor-default" onClick={() => setFiltersOpen(false)} />
                                     <div className="absolute right-0 top-full z-20 mt-2 w-72 md:w-80 rounded-xl border border-gray-200 dark:border-dark-border bg-white dark:bg-dark-card p-5 shadow-xl">
                                         <div className="mb-3 flex items-baseline justify-between">
-                                            <h3 className="font-serif text-2xl md:text-3xl font-bold text-black dark:text-white">Filters</h3>
+                                            <h3 className="font-serif text-2xl md:text-3xl font-bold text-black dark:text-white">{t("filters")}</h3>
                                             {hasFilters && (
                                                 <button type="button" onClick={clearFilters} className="text-xs font-medium text-red-600 hover:underline">
-                                                    Clear
+                                                    {t("clear")}
                                                 </button>
                                             )}
                                         </div>
                                         <div className="divide-y divide-gray-100 dark:divide-dark-border">
-                                            <RadioGroup title="Filter by Time" options={PERIODS} value={period} required onChange={(v) => setFilter("period", v)} />
-                                            <RadioGroup title="Filter by Reading Preference" options={AUDIENCES} value={audience} onChange={(v) => setFilter("audience", v)} />
-                                            <RadioGroup title="Filter by Novel Type" options={NOVEL_TYPES} value={novelType} onChange={(v) => setFilter("type", v)} />
+                                            <RadioGroup title={t("filterTime")} options={PERIODS} value={period} required onChange={(v) => setFilter("period", v)} />
+                                            <RadioGroup title={t("filterPreference")} options={AUDIENCES} value={audience} onChange={(v) => setFilter("audience", v)} />
+                                            <RadioGroup title={t("filterType")} options={NOVEL_TYPES} value={novelType} onChange={(v) => setFilter("type", v)} />
                                         </div>
                                     </div>
                                 </>
@@ -487,13 +493,13 @@ const RankingsPage = () => {
                         {loading ? (
                             <BooksSkeleton />
                         ) : typesFailed || booksFailed ? (
-                            <Message>Couldn&apos;t load the rankings. Please try again.</Message>
+                            <Message>{t("loadFailed")}</Message>
                         ) : rankTypes.length === 0 ? (
-                            <Message>Rankings are coming soon.</Message>
+                            <Message>{t("comingSoon")}</Message>
                         ) : !listId ? (
-                            <Message>No {periodLabel} rankings here yet.</Message>
+                            <Message>{t(`empty_${period}`)}</Message>
                         ) : books.length === 0 ? (
-                            <Message>No books match these filters yet.</Message>
+                            <Message>{t("noMatch")}</Message>
                         ) : (
                             <>
                                 {/* Top 4: the picked one pops forward, the others step back and fade */}
@@ -506,7 +512,7 @@ const RankingsPage = () => {
                                                 type="button"
                                                 onClick={() => setFeaturedIndex(i)}
                                                 aria-pressed={picked}
-                                                aria-label={`Rank ${i + 1}: ${book.title}`}
+                                                aria-label={t("rankLabel", { rank: i + 1, title: book.title })}
                                                 className={`relative aspect-3/4 overflow-hidden rounded-md transition-all duration-300 ease-out ${picked
                                                     ? "z-10 scale-105 md:scale-110 opacity-100 shadow-2xl ring-2 ring-red-600"
                                                     : "scale-95 opacity-50 brightness-75 hover:opacity-80 hover:brightness-90"}`}>
@@ -531,7 +537,7 @@ const RankingsPage = () => {
                                 {rest.length > 0 && (
                                     <>
                                         <h2 className="mt-10 md:mt-14 border-b border-gray-200 dark:border-dark-border pb-2 font-serif text-sm md:text-base font-bold text-black dark:text-white">
-                                            Full Rankings
+                                            {t("fullRankings")}
                                         </h2>
                                         <div className="mt-4 space-y-3">
                                             {rest.map((book, i) => (

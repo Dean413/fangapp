@@ -9,6 +9,7 @@ import TrendingSection from "./trendingSection";
 import ContinueReading from "../reader/continue-reading";
 import { SectionHeader } from "./bookBits";
 import RecommendedShelf from "./recommendedShelf";
+import YouMayLikeSection from "./youMayLike";
 
 type Props = {
     tenant: string;
@@ -27,8 +28,9 @@ export default async function HomeCollections({ tenant, language, platform }: Pr
             {collections.map((c, i) => [
                 i === continueAt ? continueCard : null,
                 /trending/i.test(c.name) ? <TrendingSection key={c.id} collection={c} />
-                    : /original/i.test(c.name) ? <FeaturedSection key={c.id} collection={c} />
-                        : <BookShelf key={c.id} collection={c} />
+                    : /you may like/i.test(c.name) ? <YouMayLikeSection key={c.id} collection={c} />
+                        : /original/i.test(c.name) ? <FeaturedSection key={c.id} collection={c} />
+                            : <BookShelf key={c.id} collection={c} />,
             ])}
 
             <RecommendedShelf key="recommended" tenant={tenant} language={language} />,

@@ -1,13 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "@/lib/store/toastStore";
+import { useTranslations } from "next-intl";
 
 // The OTP box shows this message in green; any other message in red
 const CODE_SENT = "New code sent";
 
 // Step 1: email → step 2: code → step 3: new password → step 4: done
 export const useForgotPassWordAuth = (open: boolean) => {
+    const t = useTranslations("Auth");
+    const c = useTranslations("Common");
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("")
     const [passWord, setPassWord] = useState("")
@@ -60,7 +63,7 @@ export const useForgotPassWordAuth = (open: boolean) => {
     const generateCode = async () => {
         if (busy.current) return;
         if (!email.trim()) {
-            toast.error("Please enter your email");
+            toast.error(t("enterEmail"));
             return;
         }
         busy.current = true;
@@ -68,15 +71,15 @@ export const useForgotPassWordAuth = (open: boolean) => {
         try {
             const result = await sendCode();
             if (!result.ok) {
-                toast.error(result.message || "Couldn't send the code");
+                toast.error(result.message || t("couldntSendCode"));
                 return;
             }
             setOtp("");
             setOtpMessage("");
-            toast.success("We've sent a code to your email");
+            toast.success(t("codeSent"));
             setCurrentStep(2);
         } catch {
-            toast.error("Unable to reach the server. Please try again.");
+            toast.error(c("networkError"));
         } finally {
             busy.current = false;
             setLoading(false);
@@ -92,9 +95,9 @@ export const useForgotPassWordAuth = (open: boolean) => {
         setOtpMessage("");
         try {
             const result = await sendCode();
-            setOtpMessage(result.ok ? CODE_SENT : result.message || "Couldn't send the code");
+            setOtpMessage(result.ok ? CODE_SENT : result.message || t("couldntSendCode"));
         } catch {
-            setOtpMessage("Couldn't send the code");
+            setOtpMessage(t("couldntSendCode"));
         } finally {
             busy.current = false;
             setResending(false);
@@ -117,15 +120,15 @@ export const useForgotPassWordAuth = (open: boolean) => {
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                setOtpMessage(data.message || "Oh no! The code you entered is incorrect");
+                setOtpMessage(data.message || t("codeIncorrect"));
                 return;
             }
 
-            toast.success("Verified Successfully");
+            toast.success(t("verified"));
             setOtpMessage("");
             setCurrentStep(3);
         } catch {
-            setOtpMessage("Could not verify the code. Please try again.");
+            setOtpMessage(t("couldntVerify"));
         } finally {
             verifyBusy.current = false;
             setVerifying(false);
@@ -150,11 +153,11 @@ export const useForgotPassWordAuth = (open: boolean) => {
     const changePassWord = async () => {
         if (busy.current) return;
         if (passWord !== confirmPassWord) {
-            toast.error("Passwords don't match");
+            toast.error(t("passwordsDontMatch"));
             return;
         }
         if (passWord.length < 10 || !/[a-zA-Z]/.test(passWord) || !/[0-9]/.test(passWord)) {
-            toast.error("Password must be at least 10 characters with letters and numbers");
+            toast.error(t("passwordRule"));
             return;
         }
 
@@ -170,7 +173,7 @@ export const useForgotPassWordAuth = (open: boolean) => {
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                toast.error(data.message || "Failed to update password");
+                toast.error(data.message || t("failedUpdatePassword"));
                 // The one-time reset pass ran out or was used: start over
                 if (data.code === "RESET_EXPIRED") {
                     setOtp("");
@@ -183,7 +186,7 @@ export const useForgotPassWordAuth = (open: boolean) => {
             setConfirmPassword("");
             setCurrentStep(4);
         } catch {
-            toast.error("Unable to reach the server. Please try again.");
+            toast.error(c("networkError"));
         } finally {
             busy.current = false;
             setLoading(false);

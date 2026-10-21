@@ -3,19 +3,21 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FiUser, FiCreditCard, FiUsers, FiBell, FiStar, FiSettings, } from "react-icons/fi";
+import { useTranslations } from "next-intl";
 
 const links = [
-    { name: "Profile", href: "/profile", icon: FiUser },
-    { name: "Wallet", href: "/profile/wallet", icon: FiCreditCard },
-    { name: "Community", href: "/profile/community", icon: FiUsers },
+    { name: "Profile" as const, href: "/profile", icon: FiUser },
+    { name: "Wallet" as const, href: "/profile/wallet", icon: FiCreditCard },
+    { name: "Community" as const, href: "/profile/community", icon: FiUsers },
     // { name: "Transaction History", href: "/profile/transaction-history", icon: FiUsers },
-    { name: "Notifications", href: "/profile/notifications", icon: FiBell },
-    { name: "Reviews", href: "/profile/reviews", icon: FiStar },
+    { name: "Notifications" as const, href: "/profile/notifications", icon: FiBell },
+    { name: "Reviews" as const, href: "/profile/reviews", icon: FiStar },
 
 ];
 
 export default function MobileProfileNav() {
     const pathname = usePathname();
+    const t = useTranslations("ProfileNav");
 
     return (
         <nav className="bg-white dark:bg-dark-card border-t shadow-lg flex justify-between px-4 py-2">
@@ -35,7 +37,7 @@ export default function MobileProfileNav() {
                             className={active ? "text-red-600" : "text-gray-500 dark:text-neutral-400"}
                         />
                         <span className={active ? "text-red-600" : "text-gray-500 dark:text-neutral-400"}>
-                            {link.name}
+                            {t(link.name)}
                         </span>
                     </Link>
                 );

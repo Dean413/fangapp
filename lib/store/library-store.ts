@@ -1,7 +1,8 @@
 import { create } from "zustand";
-import { toast } from "react-toastify";
 import { useAuthStore } from "./authStore";
 import { useAuthModals } from "./auth-card-store";
+import { toast } from "./toastStore";
+import { tc } from "@/lib/i18n-client";
 
 // The library is saved on the account (see /api/library), not in this browser.
 // Books are named by their link id (the story slug), like the rest of the app.
@@ -131,7 +132,7 @@ export const useLibraryStore = create<LibraryStore>()((set, get) => ({
     // 📚 ADD / REMOVE BOOK
     toggleBook: async (book) => {
         if (!useAuthStore.getState().user) {
-            toast.info("Sign in to save books to your library");
+            toast.info(tc("Library.signInToSave"));
             useAuthModals.getState().openSignIn();
             return;
         }
@@ -157,15 +158,15 @@ export const useLibraryStore = create<LibraryStore>()((set, get) => ({
             const data = await res.json().catch(() => ({}));
             if (!res.ok) {
                 set({ saved: before });
-                toast.error(data.message || "Couldn't update your library");
+                toast.error(data.message || tc("Library.couldntUpdate"));
                 return;
             }
             if (Array.isArray(data.saved)) set({ saved: data.saved });
-            toast.success(wasSaved ? "Removed from your library" : "Added to your library");
+            toast.success(wasSaved ? tc("Library.removedFromLibrary") : tc("Library.addedToLibrary"));
             if (get().loaded && get().tab === "reading") get().fetchLibrary("reading");
         } catch {
             set({ saved: before });
-            toast.error("Unable to reach the server. Please try again.");
+            toast.error(tc("Common.networkError"));
         } finally {
             pending.delete(book.id);
         }
@@ -211,14 +212,14 @@ export const useLibraryStore = create<LibraryStore>()((set, get) => ({
             const data = await res.json().catch(() => ({}));
             if (!res.ok) {
                 set({ library: before });
-                toast.error(data.message || "Couldn't remove those books");
+                toast.error(data.message || tc("Library.couldntRemove"));
                 return;
             }
             if (Array.isArray(data.saved)) set({ saved: data.saved });
-            toast.success(data.message || "Removed");
+            toast.success(data.message || tc("Library.removed"));
         } catch {
             set({ library: before });
-            toast.error("Unable to reach the server. Please try again.");
+            toast.error(tc("Common.networkError"));
         } finally {
             removing = false;
         }

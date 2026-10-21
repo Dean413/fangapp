@@ -30,55 +30,33 @@ const socialLinks = [
 // The social icons already live on the FangWriters site
 const ICONS_URL = "https://fangwriters.com/pictures/social";
 
-const COPY: Record<CodeEmailKind, { heading: string; line: (app: string) => string; ignore: (app: string) => string }> = {
-    verify_email: {
-        heading: "Confirm your email",
-        line: (app) => `Enter this code to finish setting up your ${app} account:`,
-        ignore: (app) => `If you didn’t try to create a ${app} account, you can ignore this email.`,
-    },
-    reset_password: {
-        heading: "Reset your password",
-        line: (app) => `Enter this code to choose a new password for your ${app} account:`,
-        ignore: () => "If you didn’t ask to reset your password, you can ignore this email.",
-    },
-    login_2fa: {
-        heading: "Your sign-in code",
-        line: (app) => `Enter this code to finish signing in to your ${app} account:`,
-        ignore: () => "If you didn’t try to sign in, someone may know your password. Change it in Settings right away.",
-    },
-    change_email: {
-        heading: "Confirm your new email",
-        line: (app) => `Enter this code to use this email address for your ${app} account:`,
-        ignore: () => "If you didn’t ask to change your email, you can ignore this email.",
-    },
-    delete_account: {
-        heading: "Confirm deleting your account",
-        line: (app) => `Enter this code to delete your ${app} account. This can’t be undone:`,
-        ignore: () => "If you didn’t ask to delete your account, ignore this email and change your password.",
-    },
-    email_changed: {
-        heading: "Your email was changed",
-        line: (app) => `The email address associated with your ${app} account was just changed.`,
-        ignore: (app) => `If you didn’t do this, please contact support.`,
-    },
+// The texts, already in the reader's language (see lib/auth/email.tsx)
+export type CodeEmailText = {
+    preview: string;
+    heading: string;
+    line: string;
+    ignore: string; // with "The code works for N minutes." in front when there's a code
+    neverShare: string;
+    warmly: string;
+    team: string;
+    rights: string;
+    needHelp: string;
 };
 
 interface CodeEmailProps {
-    kind: CodeEmailKind;
+    lang: string;
     code: string;
-    minutes: number;
     appName: string;
     logoUrl?: string;
     supportEmail: string;
+    text: CodeEmailText;
 }
 
-export default function CodeEmail({ kind, code, minutes, appName, logoUrl, supportEmail }: CodeEmailProps) {
-    const copy = COPY[kind];
-
+export default function CodeEmail({ lang, code, appName, logoUrl, supportEmail, text }: CodeEmailProps) {
     return (
-        <Html>
+        <Html lang={lang}>
             <Head />
-            <Preview>{code ? `Your ${appName} code is ${code}` : copy.heading}</Preview>
+            <Preview>{text.preview}</Preview>
 
             <Body
                 style={{
@@ -114,12 +92,12 @@ export default function CodeEmail({ kind, code, minutes, appName, logoUrl, suppo
                             color: "#111111",
                         }}
                     >
-                        {copy.heading}
+                        {text.heading}
                     </Heading>
 
                     {/* Content */}
                     <Section style={{ padding: "0 42px 25px" }}>
-                        <Text style={textStyle}>{copy.line(appName)}</Text>
+                        <Text style={textStyle}>{text.line}</Text>
 
                         {code && (
                             <Section style={{ textAlign: "center", margin: "6px 0 20px" }}>
@@ -143,26 +121,26 @@ export default function CodeEmail({ kind, code, minutes, appName, logoUrl, suppo
                         )}
 
                         <Text style={textStyle}>
-                            {code ? `The code works for ${minutes} minutes. ` : ""}{copy.ignore(appName)}
+                            {text.ignore}
                         </Text>
 
                         {code && (
                             <Text style={textStyle}>
-                                Never share this code with anyone. {appName} will never ask you for it.
+                                {text.neverShare}
                             </Text>
                         )}
 
                         <Text style={textStyle}>
-                            Warmly,
+                            {text.warmly}
                             <br />
-                            The {appName} Team
+                            {text.team}
                         </Text>
                     </Section>
 
                     {/* Footer */}
                     <Section style={{ backgroundColor: "#dfe3eb", textAlign: "center", padding: "16px 20px 18px" }}>
                         <Text style={{ fontSize: "9px", color: "#6b7280", margin: "0 0 6px" }}>
-                            © {new Date().getFullYear()} FANGWRITERS. All rights reserved.
+                            {text.rights}
                         </Text>
 
                         {/* Social links: a centered table row, since email clients ignore flex/gap and strip SVG */}
@@ -187,7 +165,7 @@ export default function CodeEmail({ kind, code, minutes, appName, logoUrl, suppo
                         </table>
 
                         <Text style={{ fontSize: "8px", lineHeight: "14px", color: "#6b7280", margin: 0 }}>
-                            Need help? Contact us at{" "}
+                            {text.needHelp}{" "}
                             <Link href={`mailto:${supportEmail}`} style={{ color: "#6b7280" }}>
                                 {supportEmail}
                             </Link>

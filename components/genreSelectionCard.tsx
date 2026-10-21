@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import BioField from "./text-area";
+import { useTranslations } from "next-intl";
 
 type Genre = { id: string; name: string };
 
@@ -18,6 +19,7 @@ const MAX_GENRES = 10;
 // The genre list comes from the admin's Primary Genre list (/api/genres), so it's always the same as the books' genres
 export default function GenrePicker({ selected, onChange, bio, setBio }: GenrePickerProps) {
     const [genres, setGenres] = useState<Genre[] | null>(null);
+    const t = useTranslations("Auth");
 
     useEffect(() => {
         let cancelled = false;
@@ -59,7 +61,7 @@ export default function GenrePicker({ selected, onChange, bio, setBio }: GenrePi
                     );
                 })}
 
-            <BioField label="About you" value={bio} onChange={setBio} />
+            <BioField label={t("aboutYou")} value={bio} onChange={setBio} />
         </div>
     );
 }

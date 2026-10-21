@@ -3,11 +3,13 @@ import { FaGift } from "react-icons/fa";
 import { FaListUl, FaShareNodes } from "react-icons/fa6";
 import { FiSettings } from "react-icons/fi";
 import { useLibraryStore } from "@/lib/store/library-store";
+import { useTranslations } from "next-intl";
 
 // bookId = the book's slug (the reader page passes it)
 const ReadingSettings = ({ onOpenSettings, onOpenToc, onClickShare, onOpenGift, onOpenReplies, onOpenReport, bookId, id, title, image, }: any) => {
     const bookKey: string = String(bookId ?? id ?? "");
     const toggleBook = useLibraryStore((state) => state.toggleBook);
+    const t = useTranslations("Reader");
     // Re-draws when the saved list changes, so the icon updates straight away
     const saved = useLibraryStore((state) => state.saved.some((b) => b.id === bookKey || b.storyId === bookKey));
 
@@ -55,7 +57,7 @@ const ReadingSettings = ({ onOpenSettings, onOpenToc, onClickShare, onOpenGift, 
                 </button>
 
                 {/* Report Book */}
-                <button type="button" onClick={onOpenReport} aria-label="Report book">
+                <button type="button" onClick={onOpenReport} aria-label={t("reportBook")}>
                     <Flag size={20} className="text-black dark:text-white" />
                 </button>
             </div>

@@ -10,7 +10,7 @@ import { newPasswordProblem, readJson, reply } from "@/lib/auth/rules";
 
 export async function POST(request: NextRequest) {
     const user = await getCurrentUser();
-    if (!user) return reply(401, "Please sign in first");
+    if (!user) return reply(401, "signInFirst");
 
     const body = await readJson(request);
     const problem = newPasswordProblem(body?.password);
@@ -19,14 +19,14 @@ export async function POST(request: NextRequest) {
     try {
         const check = await checkCurrentPassword(user.id, body?.current);
         if (typeof check === "object") return reply(429, lockedMessage(check.waitSeconds), { code: "TOO_MANY_ATTEMPTS" });
-        if (check === "wrong") return reply(400, "Your current password is wrong", { field: "current" });
+        if (check === "wrong") return reply(400, "currentPasswordWrong", { field: "current" });
         // "none" = no password yet (Google / Facebook account): setting a first one is allowed
 
         await setPassword(user.id, await hashPassword(body!.password as string));
         await startSession(user);
-        return reply(200, check === "none" ? "Password set" : "Password changed. Other devices have been signed out.");
+        return reply(200, check === "none" ? "passwordSet" : "passwordChanged");
     } catch (error) {
         console.error("Password change error:", error);
-        return reply(500, "Couldn't change your password. Please try again.");
+        return reply(500, "couldntChangePassword");
     }
 }

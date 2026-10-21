@@ -2,12 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "@/lib/store/toastStore";
 import { Button } from "./Button";
 import Input from "./input";
 import { ProfileImagePicker } from "./imagePicker";
 import GenrePicker from "./genreSelectionCard";
 import { useAuthStore } from "@/lib/store/authStore";
+import { useTranslations } from "next-intl";
 
 type EditProfileCardProps = {
     open: boolean;
@@ -19,6 +20,9 @@ type EditProfileCardProps = {
 const EditProfileCard = ({ open, onClose }: EditProfileCardProps) => {
     const user = useAuthStore((s) => s.user);
     const fetchUser = useAuthStore((s) => s.fetchUser);
+    const t = useTranslations("Auth");
+    const p = useTranslations("Profile");
+    const c = useTranslations("Common");
 
     const [image, setImage] = useState<string | null>(null);
     const [fullName, setFullName] = useState("");
@@ -54,15 +58,15 @@ const EditProfileCard = ({ open, onClose }: EditProfileCardProps) => {
         const name = fullName.replace(/\s+/g, " ").trim();
         const handle = userName.trim();
         if (name.length < 2) {
-            toast.error("Please enter your full name");
+            toast.error(p("enterFullName"));
             return;
         }
         if (!/^[A-Za-z0-9_]{3,20}$/.test(handle)) {
-            toast.error("Username must be 3–20 letters, numbers or _ (no spaces)");
+            toast.error(t("usernameRule"));
             return;
         }
         if (bio.trim().length > 300) {
-            toast.error("About you can be at most 300 characters");
+            toast.error(t("bioMax", { max: 300 }));
             return;
         }
 
@@ -79,7 +83,7 @@ const EditProfileCard = ({ open, onClose }: EditProfileCardProps) => {
                 });
                 const photoData = await photo.json().catch(() => ({}));
                 if (!photo.ok) {
-                    toast.error(photoData.message || "Couldn't save your photo");
+                    toast.error(photoData.message || t("couldntSavePhoto"));
                     return;
                 }
                 setImage(photoData.avatar_url ?? null);
@@ -93,15 +97,15 @@ const EditProfileCard = ({ open, onClose }: EditProfileCardProps) => {
             });
             const data = await res.json().catch(() => ({}));
             if (!res.ok) {
-                toast.error(data.message || "Couldn't save your profile");
+                toast.error(data.message || t("couldntSaveProfile"));
                 return;
             }
 
             await fetchUser();
-            toast.success("Profile updated");
+            toast.success(p("updated"));
             onClose();
         } catch {
-            toast.error("Unable to reach the server. Please try again.");
+            toast.error(c("networkError"));
         } finally {
             busy.current = false;
             setSaving(false);
@@ -123,17 +127,17 @@ const EditProfileCard = ({ open, onClose }: EditProfileCardProps) => {
                 <div className="w-full px-6 md:px-16 sm:px-6 py-5 sm:py-6">
                     {/* HEADER */}
                     <div className="mb-4 sm:mb-6">
-                        <h2 className="text-2xl font-bold mb-1 text-gray-900 dark:text-white">Edit Profile</h2>
-                        <p className="text-xs sm:text-sm text-gray-500 dark:text-neutral-400">Update how other readers see you</p>
+                        <h2 className="text-2xl font-bold mb-1 text-gray-900 dark:text-white">{p("editProfile")}</h2>
+                        <p className="text-xs sm:text-sm text-gray-500 dark:text-neutral-400">{p("editProfileText")}</p>
                     </div>
 
                     <div className="space-y-4 sm:space-y-5">
-                        <ProfileImagePicker image={image} setImage={setImage} name={fullName || userName} uploadIcon="Change Photo" pictureHeader="Profile Photo" />
-                        <Input label="Full Name" value={fullName} onChange={setFullName} />
-                        <Input label="Username" value={userName} onChange={setUserName} />
-                        <h1 className="text-sm sm:text-base font-semibold text-gray-700 dark:text-neutral-300">Favourite Genres</h1>
+                        <ProfileImagePicker image={image} setImage={setImage} name={fullName || userName} uploadIcon={p("changePhoto")} pictureHeader={t("profilePhoto")} />
+                        <Input label={t("fullName")} placeholder={t("fullNamePlaceholder")} value={fullName} onChange={setFullName} />
+                        <Input label={t("username")} placeholder={t("usernamePlaceholder")} value={userName} onChange={setUserName} />
+                        <h1 className="text-sm sm:text-base font-semibold text-gray-700 dark:text-neutral-300">{t("favouriteGenres")}</h1>
                         <GenrePicker selected={selectedGenres} onChange={setSelectedGenres} bio={bio} setBio={setBio} />
-                        <Button onClick={save} disabled={saving} loading={saving} loadingText="Saving..." label="Save Changes" />
+                        <Button onClick={save} disabled={saving} loading={saving} loadingText={c("saving")} label={p("saveChanges")} />
                     </div>
                 </div>
             </div>

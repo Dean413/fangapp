@@ -1,12 +1,13 @@
 import "server-only";
 import { dbPool as db } from "@/lib/db";
+import { msg } from "@/lib/i18n";
 const WINDOW_MINUTES = 15;
 const MAX_IN_WINDOW = 10;
 const MAX_PER_DAY = 30;
 // Banned and deleted accounts can't sign in. Suspended accounts can, so they can see why.
 export const CLOSED_STATUSES = ["banned", "deleted"];
 export const isClosedAccount = (status: unknown) => typeof status === "string" && CLOSED_STATUSES.includes(status);
-export const CLOSED_MESSAGE = "This account has been closed. If you think this is a mistake, contact support@fangwriters.com.";
+export const CLOSED_MESSAGE = "accountClosed";
 
 // Tries in the last 24 hours / in the last 15 minutes
 const DAY = `ARRAY(SELECT t FROM unnest(login_attempts.tries) AS t WHERE t > now() - interval '1 day')`;
@@ -59,6 +60,5 @@ export async function clearLoginTries(email: string) {
 // Message for a locked email
 export function lockedMessage(seconds: number) {
     const minutes = Math.ceil(seconds / 60);
-    const when = minutes >= 120 ? `in ${Math.ceil(minutes / 60)} hours` : `in ${minutes} minute${minutes === 1 ? "" : "s"}`;
-    return `Too many wrong passwords. Try again ${when}, or use Forgot Password.`;
+    return minutes >= 120 ? msg("lockedHours", { hours: Math.ceil(minutes / 60) }) : msg("lockedMinutes", { minutes });
 }

@@ -4,9 +4,11 @@ import { fetchStories } from "@/lib/fetch-stories";
 import { GenreCard } from "@/components/cards/two-column-cards/genre-card";
 import { FaLock } from "react-icons/fa";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 const Shorties = () => {
     const [books, setBooks] = useState<any[]>([]);
+    const t = useTranslations("Shorties");
 
 
     useEffect(() => {
@@ -43,7 +45,7 @@ const Shorties = () => {
     return (
         <div className="bg-gray-50 dark:bg-dark">
             <div className="relative w-[90%] mx-auto ">
-                <h1 className="text-3xl font-bold mt-8">Shorties</h1>
+                <h1 className="text-3xl font-bold mt-8">{t("title")}</h1>
                 <div className="flex gap-8 my-6 w-8/8 flex-wrap">
                     {genres.map((genre, index) => (
                         <p className="text-gray-400 dark:text-neutral-500" key={index}>{genre}</p>

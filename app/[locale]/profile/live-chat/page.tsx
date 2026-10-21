@@ -1,17 +1,20 @@
 // app/page.js (or pages/index.js)
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
+// Labels: LiveChat.topic_<key>
 const topics = [
-    { icon: "👤", label: "Account & Login Issues" },
-    { icon: "💳", label: "Top Up & Payment" },
-    { icon: "💰", label: "Coins & Rewards" },
-    { icon: "📖", label: "Stories & Reading" },
-    { icon: "❌", label: "Technical Problems" },
-    { icon: "❓", label: "Other Questions" },
+    { icon: "👤", key: "account" },
+    { icon: "💳", key: "payment" },
+    { icon: "💰", key: "coins" },
+    { icon: "📖", key: "reading" },
+    { icon: "❌", key: "technical" },
+    { icon: "❓", key: "other" },
 ];
 
 export default function FangBot() {
+    const t = useTranslations("LiveChat");
     return (
         <div className="flex flex-col bg-white dark:bg-dark-card border rounded-lg border-gray-300 dark:border-neutral-700 mx-3 md:mx-auto md:max-w-[75%] my-6">
             {/* Main Chat Area */}
@@ -23,20 +26,19 @@ export default function FangBot() {
 
                 {/* Greeting */}
                 <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-neutral-100 mb-2">
-                    Hi there! 👋
+                    {t("greeting")}
                 </h1>
                 <p className="text-gray-500 dark:text-neutral-400 text-sm sm:text-base text-center mb-8">
-                    I'm FANG Bot. Ask me anything or <br className="hidden sm:block" />
-                    choose a topic on the left to get started.
+                    {t.rich("intro", { br: () => <br className="hidden sm:block" /> })}
                 </p>
 
                 {/* Topic Buttons */}
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3 w-full sm:w-[80%]">
                     {topics.map((topic) => (
-                        <button key={topic.label}
+                        <button key={topic.key}
                             className="flex items-center gap-2 px-3 py-2 border border-gray-200 dark:border-dark-border rounded-lg text-sm text-gray-700 dark:text-neutral-200 hover:bg-pink-50 dark:hover:bg-pink-500/10 hover:border-pink-300 dark:hover:border-pink-500/40 transition-colors">
                             <span>{topic.icon}</span>
-                            <span className="text-left leading-tight">{topic.label}</span>
+                            <span className="text-left leading-tight">{t(`topic_${topic.key}`)}</span>
                         </button>
                     ))}
                 </div>
@@ -46,7 +48,7 @@ export default function FangBot() {
             <div className="border-t border-gray-300 dark:border-neutral-700 px-4 py-3 flex items-center gap-3">
                 <input
                     type="text"
-                    placeholder="Type your message..."
+                    placeholder={t("placeholder")}
                     className="flex-1 bg-gray-100 dark:bg-dark-raised rounded-full px-4 py-2 text-sm text-gray-700 dark:text-neutral-200 outline-none focus:ring-2 focus:ring-red-300"
                 />
                 <button className="w-10 h-10 bg-red-500 hover:bg-red-600 rounded-full flex items-center justify-center transition-colors">

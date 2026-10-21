@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Check, ChevronDown } from "lucide-react";
 import { READER_FONTS } from "./reader-fonts";
+import { useTranslations } from "next-intl";
 
 const THEME_OPTIONS = [
     { id: "light", bg: "bg-white text-black border border-gray-200" },
@@ -16,6 +17,7 @@ const box = "rounded-xl border border-gray-200 dark:border-dark-border bg-white 
 
 export default function SettingsSheet({ settings, setSettings, onClose }: any) {
     const [fontsOpen, setFontsOpen] = useState(false);
+    const t = useTranslations("Reader");
     const current = READER_FONTS.find((f) => f.id === (settings.fontFamily ?? "default")) ?? READER_FONTS[0];
 
     return (
@@ -30,7 +32,7 @@ export default function SettingsSheet({ settings, setSettings, onClose }: any) {
 
                 {/* THEME */}
                 <div className="mb-6">
-                    <p className={label}>Theme</p>
+                    <p className={label}>{t("theme")}</p>
                     <div className="grid grid-cols-4 gap-3">
                         {THEME_OPTIONS.map((theme) => {
                             const on = settings.theme === theme.id;
@@ -51,11 +53,11 @@ export default function SettingsSheet({ settings, setSettings, onClose }: any) {
 
                 {/* FONTS (dropdown) */}
                 <div className="mb-6">
-                    <p className={label}>Fonts</p>
+                    <p className={label}>{t("fonts")}</p>
                     <div className={`${box} overflow-hidden`}>
                         <button type="button" onClick={() => setFontsOpen((o) => !o)} aria-expanded={fontsOpen}
                             className="w-full h-16 px-4 flex items-center justify-between">
-                            <span className={`${current.className} text-xl font-semibold text-gray-600 dark:text-neutral-200`}>{current.label}</span>
+                            <span className={`${current.className} text-xl font-semibold text-gray-600 dark:text-neutral-200`}>{current.id === "default" ? t("defaultFont") : current.label}</span>
                             <ChevronDown size={26} className={`text-gray-500 dark:text-neutral-400 transition-transform ${fontsOpen ? "rotate-180" : ""}`} />
                         </button>
 
@@ -67,7 +69,7 @@ export default function SettingsSheet({ settings, setSettings, onClose }: any) {
                                         <button key={f.id} type="button"
                                             onClick={() => { setSettings({ ...settings, fontFamily: f.id }); setFontsOpen(false); }}
                                             className={`w-full px-4 py-3 flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-dark-raised ${on ? "text-red-600" : "text-gray-800 dark:text-neutral-200"}`}>
-                                            <span className={`${f.className} text-base`}>{f.label}</span>
+                                            <span className={`${f.className} text-base`}>{f.id === "default" ? t("defaultFont") : f.label}</span>
                                             {on && <Check size={18} />}
                                         </button>
                                     );
@@ -79,7 +81,7 @@ export default function SettingsSheet({ settings, setSettings, onClose }: any) {
 
                 {/* TEXT SIZE */}
                 <div>
-                    <p className={label}>Text Size</p>
+                    <p className={label}>{t("textSize")}</p>
 
                     <div className="grid grid-cols-3 gap-3">
                         <button type="button"
@@ -94,7 +96,7 @@ export default function SettingsSheet({ settings, setSettings, onClose }: any) {
                                 {settings.fontSize}
                             </p>
                             <p className="mt-1 text-[10px] text-gray-400 dark:text-neutral-500">
-                                Current Size
+                                {t("currentSize")}
                             </p>
                         </div>
 

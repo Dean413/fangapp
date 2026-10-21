@@ -22,7 +22,7 @@ export default function BookShelf({ collection }: { collection: HomeCollection }
                             <Imprint />
                         </div>
                         <h3 className="mt-2 line-clamp-1 text-sm font-semibold text-gray-900 dark:text-white">{book.title}</h3>
-                        <p className="mt-0.5 line-clamp-1 text-xs text-gray-500 dark:text-neutral-400">{book.author}</p>
+                        {book.author && (<p className="mt-0.5 line-clamp-1 text-xs text-gray-500 dark:text-neutral-400">{book.author}</p>)}
                         <div className="mt-1.5">
                             <BookPills book={book} />
                         </div>

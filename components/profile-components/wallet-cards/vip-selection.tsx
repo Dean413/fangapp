@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 interface SelectionCardProps {
     plan: "weekly" | "monthly";
@@ -10,6 +11,8 @@ interface SelectionCardProps {
 
 
 export default function SelectionCard({ plan, isVip }: SelectionCardProps) {
+    const t = useTranslations("Vip");
+    const w = useTranslations("Wallet");
 
     const coinPackages = [
         {
@@ -61,26 +64,26 @@ export default function SelectionCard({ plan, isVip }: SelectionCardProps) {
                                 src="/fang_pictures/vip.png"
                                 width={120}
                                 height={120}
-                                alt="coin balance"
+                                alt={w("coinBalance")}
                             />
                         </h2>
 
                         <div>
-                            <p className="text-xl">Current Plan</p>
+                            <p className="text-xl">{t("currentPlan")}</p>
                             <div className="md:flex items-center gap-8">
-                                <p className="text-xl md:text-3xl font-bold text-yellow-400">{plan === "weekly" ? "Weekly VIP" : "Monthly VIP"}</p>
+                                <p className="text-xl md:text-3xl font-bold text-yellow-400">{plan === "weekly" ? t("weekly") : t("monthly")}</p>
                                 <div className="inline-flex items-center justify-center rounded-full px-4 py-1
                                         bg-linear-to-b from-yellow-200 via-yellow-300 to-yellow-400
                                         border border-yellow-500
                                         shadow-[0_6px_16px_rgba(0,0,0,0.15)]
                                         ring-2 ring-yellow-200/50">
-                                    <span className="font-bold text-yellow-950 dark:text-yellow-300 text-xs md:text-xl">Best Value</span>
+                                    <span className="font-bold text-yellow-950 dark:text-yellow-300 text-xs md:text-xl">{t("bestValue")}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="">
-                        <p className="text-xs">Renews on</p>
+                        <p className="text-xs">{t("renewsOn")}</p>
                         <p className="text-xl">June 2025</p>
                     </div>
 
@@ -91,17 +94,17 @@ export default function SelectionCard({ plan, isVip }: SelectionCardProps) {
                     <div className="lg:col-span-3">
                         {/* Desktop Heading */}
                         <div className="hidden md:grid grid-cols-6 gap-4 px-5 mb-3 text-xs uppercase text-gray-400 dark:text-neutral-500 font-semibold">
-                            <p>Base Coins</p>
-                            <p>Base Bonus</p>
+                            <p>{w("baseCoins")}</p>
+                            <p>{w("baseBonus")}</p>
 
                             {isVip && (
                                 <p className="text-red-500">
-                                    {plan === "weekly" ? "VIP Bonus (+10%)" : "VIP Bonus (+15%)"}
+                                    {w("vipBonusPercent", { percent: plan === "weekly" ? 10 : 15 })}
                                 </p>
                             )}
 
-                            <p>Total Coins</p>
-                            <p>Price</p>
+                            <p>{w("totalCoins")}</p>
+                            <p>{w("price")}</p>
                             <p></p>
                         </div>
 
@@ -121,13 +124,13 @@ export default function SelectionCard({ plan, isVip }: SelectionCardProps) {
 
                                                 {item.badge && (
                                                     <span className="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-red-500 text-white text-[10px] px-2 py-1 rounded-full whitespace-nowrap">
-                                                        {item.badge}
+                                                        {w(item.badge === "BEST VALUE" ? "bestValue" : "popular")}
                                                     </span>
                                                 )}
                                             </div>
 
                                             <span className="font-semibold">
-                                                {item.coins} Coins
+                                                {w("coinsCount", { count: item.coins })}
                                             </span>
                                         </div>
 
@@ -139,14 +142,14 @@ export default function SelectionCard({ plan, isVip }: SelectionCardProps) {
                                             </p>
                                         )}
 
-                                        <p>{item.total} coins</p>
+                                        <p>{w("coinsLower", { count: item.coins + item.bonus + (isVip ? item.vipBonus : 0) })}</p>
 
                                         <p className="font-bold">
                                             ${item.price}
                                         </p>
 
                                         <button className="bg-red-500 hover:bg-red-600 text-white rounded-xl py-2 px-5">
-                                            Top Up
+                                            {w("tabTopUp")}
                                         </button>
                                     </div>
 
@@ -163,27 +166,27 @@ export default function SelectionCard({ plan, isVip }: SelectionCardProps) {
 
                                                 {item.badge && (
                                                     <span className="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-red-500 text-white text-[10px] px-2 py-1 rounded-full whitespace-nowrap">
-                                                        {item.badge}
+                                                        {w(item.badge === "BEST VALUE" ? "bestValue" : "popular")}
                                                     </span>
                                                 )}
 
                                             </div>
 
                                             <h3 className="font-bold text-lg">
-                                                {item.coins} Coins
+                                                {w("coinsCount", { count: item.coins })}
                                             </h3>
 
                                         </div>
 
                                         <div className="space-y-2 text-sm">
                                             <div className="flex justify-between">
-                                                <span>Base Bonus</span>
+                                                <span>{w("baseBonus")}</span>
                                                 <span className={`${item.bonus === 50 ? "text-gray-500 dark:text-neutral-400" : ""}`}>+{item.bonus}</span>
                                             </div>
 
                                             {isVip && (
                                                 <div className="flex justify-between">
-                                                    <span>VIP Bonus</span>
+                                                    <span>{w("vipBonus")}</span>
                                                     <span className="text-red-500 font-semibold">
                                                         +{item.vipBonus}
                                                     </span>
@@ -191,19 +194,19 @@ export default function SelectionCard({ plan, isVip }: SelectionCardProps) {
                                             )}
 
                                             <div className="flex justify-between">
-                                                <span>Total Coins</span>
-                                                <span className="text-gray-500 dark:text-neutral-400">{item.total} coins</span>
+                                                <span>{w("totalCoins")}</span>
+                                                <span className="text-gray-500 dark:text-neutral-400">{w("coinsLower", { count: item.coins + item.bonus + (isVip ? item.vipBonus : 0) })}</span>
                                             </div>
 
                                             <div className="flex justify-between font-bold text-lg mt-3">
-                                                <span>Price</span>
+                                                <span>{w("price")}</span>
                                                 <span>${item.price}</span>
                                             </div>
 
                                         </div>
 
                                         <button className="w-full mt-5 bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl">
-                                            Top Up
+                                            {w("tabTopUp")}
                                         </button>
 
                                     </div>
@@ -230,8 +233,8 @@ export default function SelectionCard({ plan, isVip }: SelectionCardProps) {
                                         />
                                         <div className="text-center">
                                             <p className="text-3xl font-bold text-red-400">2.1x</p>
-                                            <p className="text-xs text-gray-500 dark:text-neutral-400">more value on</p>
-                                            <p className="text-xs text-gray-500 dark:text-neutral-400">Top Up</p>
+                                            <p className="text-xs text-gray-500 dark:text-neutral-400">{t("moreValueOn")}</p>
+                                            <p className="text-xs text-gray-500 dark:text-neutral-400">{w("tabTopUp")}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -256,29 +259,29 @@ export default function SelectionCard({ plan, isVip }: SelectionCardProps) {
                                         )}
 
                                         <h3 className="font-semibold text-xl">
-                                            {plan === "weekly" ? "Weekly Vip Benefits" : "Monthly Vip Benefits"}
+                                            {plan === "weekly" ? t("weeklyBenefits") : t("monthlyBenefits")}
                                         </h3>
                                     </div>
 
                                     <ul className="space-y-4 text-sm text-gray-600 dark:text-neutral-300">
                                         <li className="flex items-center gap-2">
-                                            <span className="text-green-500">✓</span> {plan === "weekly" ? "Daily bonus coin" : "Larger daily coins"}
+                                            <span className="text-green-500">✓</span> {plan === "weekly" ? t("weekly1") : t("monthly1")}
                                         </li>
 
                                         <li className="flex items-center gap-2">
-                                            <span className="text-green-500">✓</span>{plan === "weekly" ? "Reduced ads" : "Bigger top up bonus"}
+                                            <span className="text-green-500">✓</span>{plan === "weekly" ? t("weekly2") : t("monthly2")}
                                         </li>
 
                                         <li className="flex items-center gap-2">
-                                            <span className="text-green-500">✓</span>{plan === "weekly" ? "Early chapter access" : "Better chapter discounts"}
+                                            <span className="text-green-500">✓</span>{plan === "weekly" ? t("weekly3") : t("monthly3")}
                                         </li>
 
                                         <li className="flex items-center gap-2">
-                                            <span className="text-green-500">✓</span>{plan === "weekly" ? "Small top up bonus" : "Exclusive contents"}
+                                            <span className="text-green-500">✓</span>{plan === "weekly" ? t("weekly4") : t("monthly4")}
                                         </li>
 
                                         <li className="flex items-center gap-2">
-                                            <span className="text-green-500">✓</span>{plan === "weekly" ? "Vip badge" : "Higher monthly value"}
+                                            <span className="text-green-500">✓</span>{plan === "weekly" ? t("weekly5") : t("monthly6")}
                                         </li>
 
                                         <li className="flex items-center gap-2">
@@ -286,7 +289,7 @@ export default function SelectionCard({ plan, isVip }: SelectionCardProps) {
                                                 {plan === "monthly" && (
                                                     "✓"
                                                 )}
-                                            </span>{plan === "weekly" ? "" : "Priority access to premium stories"}
+                                            </span>{plan === "weekly" ? "" : t("monthly5")}
                                         </li>
                                     </ul>
                                 </div>

@@ -41,8 +41,9 @@ function Avatar({ src, name }: { src?: string | null; name?: string | null }) {
 
 // Bell with the unread counter, opens the notifications page
 function NotificationBell() {
+    const t = useTranslations("NavBar");
     return (
-        <Link href={NOTIFICATIONS_PATH} aria-label="Notifications"
+        <Link href={NOTIFICATIONS_PATH} aria-label={t("Notifications")}
             className="relative flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 dark:border-dark-border text-gray-700 dark:text-neutral-200 hover:bg-gray-100 dark:hover:bg-dark-raised transition">
             <Bell size={17} />
             <UnreadBadge className="absolute -top-1.5 -right-1.5" />
@@ -99,13 +100,14 @@ const NavBar = () => {
 
     const logOut = async () => {
         const result = await Swal.fire({
-            title: "Are you sure?",
-            text: "You will be logged out of your account",
+            title: t("logoutConfirmTitle"),
+            text: t("logoutConfirmText"),
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#ef4444",
             cancelButtonColor: "#6b7280",
-            confirmButtonText: "Yes, logout",
+            confirmButtonText: t("logoutConfirmButton"),
+            cancelButtonText: t("cancel"),
         });
 
         if (!result.isConfirmed) return;
@@ -114,8 +116,8 @@ const NavBar = () => {
             setLogOutLoading(true);
             await logout();
             await Swal.fire({
-                title: "Logged out",
-                text: "You have been successfully logged out",
+                title: t("loggedOutTitle"),
+                text: t("loggedOutText"),
                 icon: "success",
                 timer: 1500,
                 showConfirmButton: false,
@@ -147,7 +149,7 @@ const NavBar = () => {
                             </Link>
 
                             <Link href={GENRES_PATH} className={` transition ${isActive(GENRES_PATH) ? "text-red-600" : "border-transparent"}`}>
-                                Genres
+                                {t("Genres")}
                             </Link>
                             {/* <div className="relative group">
                                 <button onMouseEnter={openDropDown} className="flex items-center gap-1">
@@ -185,13 +187,13 @@ const NavBar = () => {
                                 {user ? (
                                     <>
                                         {/* Coins (bought + bonus), opens the wallet */}
-                                        <Link href={WALLET_PATH} aria-label="Wallet"
+                                        <Link href={WALLET_PATH} aria-label={t("Wallet")}
                                             className="flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-sm font-semibold text-amber-700 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-300">
                                             <Image src="/fang_pictures/balance.png" alt="" width={18} height={18} />
                                             {((user.wallet?.coins ?? 0) + (user.wallet?.bonusCoins ?? 0)).toLocaleString()}
                                         </Link>
                                         <NotificationBell />
-                                        <Link href="/profile" aria-label="Profile" className="rounded-full">
+                                        <Link href="/profile" aria-label={t("Profile")} className="rounded-full">
                                             <Avatar src={user.avatar_url} name={user.username || user.full_name} />
                                         </Link>
                                     </>
@@ -209,7 +211,7 @@ const NavBar = () => {
                                 {isDark ? <Sun size={20} /> : <MoonStarIcon size={20} />}
                             </button>
 
-                            <button onClick={() => setOpen(!open)} aria-label="Toggle menu" className="lg:hidden p-1">
+                            <button onClick={() => setOpen(!open)} aria-label={t("toggleMenu")} className="lg:hidden p-1">
                                 {open ? <X size={26} /> : <Menu size={26} />}
                             </button>
 
@@ -221,7 +223,7 @@ const NavBar = () => {
                             <LanguageChange />
                             <button
                                 onClick={() => setOpen(!open)}
-                                aria-label="Toggle menu"
+                                aria-label={t("toggleMenu")}
                                 className="p-1"
                             >
                                 {open ? <X size={26} className="dark:text-white text-black" /> : <Menu size={26} className="dark:text-white text-black" />}
@@ -250,7 +252,7 @@ const NavBar = () => {
                         </Link>
 
                         <Link href={GENRES_PATH} onClick={() => setOpen(false)} className={`px-6 py-4 hover:text-red-500 ${isActive(GENRES_PATH) ? "text-red-600" : ""}`}>
-                            Genres
+                            {t("Genres")}
                         </Link>
 
                         {/* Genre accordion */}
@@ -273,15 +275,15 @@ const NavBar = () => {
                         {user && (
                             <>
                                 <Link href="/profile/transaction-history" onClick={() => setOpen(false)} className="px-6 py-4 hover:text-red-500">
-                                    Transaction History
+                                    {t("TransactionHistory")}
                                 </Link>
 
                                 <Link href="/profile/live-chat" onClick={() => setOpen(false)} className="px-6 py-4 hover:text-red-500">
-                                    Live Chat
+                                    {t("LiveChat")}
                                 </Link>
 
                                 <Link href="/profile/settings" onClick={() => setOpen(false)} className="px-6 py-4 border-b hover:text-red-500 border-gray-100 dark:border-dark-border">
-                                    Settings
+                                    {t("Settings")}
                                 </Link>
                             </>
                         )}
@@ -301,9 +303,9 @@ const NavBar = () => {
                             {user ? (
                                 <>
                                     <div className="flex items-center justify-between px-6 py-6 mt-1">
-                                        <Link href="/profile" className="bg-linear-to-r from-[#8B0000] to-[#D90404] py-2 px-4 text-white font-bold rounded-xl">Profile</Link>
+                                        <Link href="/profile" className="bg-linear-to-r from-[#8B0000] to-[#D90404] py-2 px-4 text-white font-bold rounded-xl">{t("Profile")}</Link>
                                         <button onClick={logOut} disabled={loading} className="text-center text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 mt-4 rounded-md px-4 py-3">
-                                            Log out
+                                            {t("LogOut")}
                                         </button>
                                     </div>
 

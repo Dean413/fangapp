@@ -4,8 +4,9 @@
 // When the reader finishes a chapter (scrolls to its end), the page tells the server, which opens the popup
 // only for the book's halfway chapter (chapter 20 of 40) and its last chapter, once each per account.
 import { useEffect, useRef, useState, type RefObject } from "react";
-import { toast } from "react-toastify";
+import { toast } from "@/lib/store/toastStore";
 import { Modal, ReviewForm, sendJson } from "./reviewsDialog";
+import { useTranslations } from "next-intl";
 
 type Props = {
     book: string;                              // the book's slug
@@ -16,6 +17,7 @@ type Props = {
 
 export default function ReviewPrompt({ book, chapter, enabled, contentRef }: Props) {
     const [open, setOpen] = useState(false);
+    const t = useTranslations("Reviews");
     // Per chapter: "finished" is sent once (sending = waiting for the answer)
     const sent = useRef<"no" | "sending" | "done">("no");
 
@@ -70,17 +72,17 @@ export default function ReviewPrompt({ book, chapter, enabled, contentRef }: Pro
     const submit = async (rating: number, content: string) => {
         const { ok, data } = await sendJson("/api/reviews", "POST", { book, rating, content });
         if (!ok) {
-            toast.error(data.message || "Couldn't save your review");
+            toast.error(data.message || t("couldntSave"));
             return false;
         }
-        toast.success(data.message || "Review posted");
+        toast.success(data.message || t("posted"));
         setOpen(false);
         return true;
     };
 
     return (
-        <Modal open={open} onClose={() => setOpen(false)} title="Enjoying this book? Drop a review">
-            <ReviewForm submitLabel="Post Review" onSubmit={submit} onCancel={() => setOpen(false)} />
+        <Modal open={open} onClose={() => setOpen(false)} title={t("promptTitle")}>
+            <ReviewForm submitLabel={t("post")} onSubmit={submit} onCancel={() => setOpen(false)} />
         </Modal>
     );
 }

@@ -6,14 +6,14 @@ import { reply } from "@/lib/auth/rules";
 
 export async function GET() {
     const user = await getCurrentUser();
-    if (!user) return reply(401, "Please sign in first");
+    if (!user) return reply(401, "signInFirst");
     try {
         await syncNotifications(user.id);
-        const response = reply(200, "OK", { count: await unreadCount(user.id) });
+        const response = await reply(200, "OK", { count: await unreadCount(user.id) });
         response.headers.set("Cache-Control", "no-store");
         return response;
     } catch (error) {
         console.error("Unread count error:", error);
-        return reply(500, "Couldn't load your notifications.");
+        return reply(500, "couldntLoadNotifications");
     }
 }

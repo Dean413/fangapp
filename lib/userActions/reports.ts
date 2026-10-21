@@ -4,6 +4,7 @@
 import "server-only";
 import { dbPool } from "@/lib/db";
 import { cleanText, UUID } from "@/lib/content";
+import { type Msg } from "@/lib/i18n";
 
 export const REPORT_REASONS = [
     { code: "inappropriate", label: "Inappropriate Content" },
@@ -26,25 +27,25 @@ const OWNER_SQL: Record<ReportType, string> = {
     comment: `SELECT user_id FROM comments WHERE id = $1`,
 };
 
-export type ReportResult = { ok: true } | { ok: false; status: number; message: string };
+export type ReportResult = { ok: true } | { ok: false; status: number; message: Msg };
 
 export async function createReport(userId: string, type: unknown, targetId: unknown, reason: unknown, detailsValue: unknown): Promise<ReportResult> {
-    if (typeof type !== "string" || !(type in OWNER_SQL)) return { ok: false, status: 400, message: "Invalid report" };
-    if (typeof targetId !== "string" || !UUID.test(targetId)) return { ok: false, status: 404, message: "Not found" };
+    if (typeof type !== "string" || !(type in OWNER_SQL)) return { ok: false, status: 400, message: "invalidReport" };
+    if (typeof targetId !== "string" || !UUID.test(targetId)) return { ok: false, status: 404, message: "notFound" };
     if (typeof reason !== "string" || !REPORT_REASONS.some((r) => r.code === reason)) {
-        return { ok: false, status: 400, message: "Please select a violation reason" };
+        return { ok: false, status: 400, message: "selectViolation" };
     }
     const details = cleanText(detailsValue, 2000);
 
     const { rows } = await dbPool.query(OWNER_SQL[type as ReportType], [targetId]);
-    if (!rows[0]) return { ok: false, status: 404, message: "Not found" };
-    if (rows[0].user_id === userId) return { ok: false, status: 400, message: "You can't report your own post" };
+    if (!rows[0]) return { ok: false, status: 404, message: "notFound" };
+    if (rows[0].user_id === userId) return { ok: false, status: 400, message: "cantReportOwnPost" };
 
     const { rows: today } = await dbPool.query(
         `SELECT count(*)::int AS n FROM content_reports WHERE reporter_id = $1 AND created_at > now() - interval '1 day'`,
         [userId]
     );
-    if (Number(today[0]?.n ?? 0) >= 20) return { ok: false, status: 429, message: "You've sent a lot of reports today. Please try again tomorrow." };
+    if (Number(today[0]?.n ?? 0) >= 20) return { ok: false, status: 429, message: "tooManyReports" };
 
     const { rows: saved } = await dbPool.query(
         `INSERT INTO content_reports (reporter_id, target_type, target_id, reason, details)
@@ -53,6 +54,6 @@ export async function createReport(userId: string, type: unknown, targetId: unkn
          RETURNING id`,
         [userId, type, targetId, reason, details]
     );
-    if (!saved[0]) return { ok: false, status: 409, message: "You've already reported this" };
+    if (!saved[0]) return { ok: false, status: 409, message: "alreadyReported" };
     return { ok: true };
 }

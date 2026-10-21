@@ -2,7 +2,8 @@
 
 import { useEffect, useRef } from "react";
 import { useAuthStore } from "@/lib/store/authStore";
-import { toast } from "react-toastify";
+import { toast } from "@/lib/store/toastStore";
+import { useTranslations } from "next-intl";
 
 const BEAT_EVERY = 30 * 1000;      // a "still reading" signal every 30 seconds
 const IDLE_AFTER = 2 * 60 * 1000;  // no scroll / touch / key for 2 minutes: not reading
@@ -12,6 +13,7 @@ const IDLE_AFTER = 2 * 60 * 1000;  // no scroll / touch / key for 2 minutes: not
 export function useRewardTimers(isActive?: boolean) {
     const lastInput = useRef(Date.now());
     const signedIn = useAuthStore((s) => Boolean(s.user));
+    const t = useTranslations("Wallet");
 
     // Any scroll, touch, click or key counts as reading activity
     useEffect(() => {
@@ -34,7 +36,7 @@ export function useRewardTimers(isActive?: boolean) {
                     if (!body?.gem || !body.wallet) return;
                     const user = useAuthStore.getState().user;
                     if (user) useAuthStore.getState().setUser({ ...user, wallet: body.wallet });
-                    toast.success(`+${body.gem} gem for 30 minutes of reading`);
+                    toast.success(t("gemEarned", { count: body.gem }));
                 })
                 .catch(() => { });
         };

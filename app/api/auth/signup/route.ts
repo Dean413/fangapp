@@ -12,14 +12,14 @@ import { isEmail, newPasswordProblem, normalizeEmail, readJson, reply } from "@/
 
 export async function POST(request: NextRequest) {
     const body = await readJson(request);
-    if (!body) return reply(400, "Invalid request");
+    if (!body) return reply(400, "invalidRequest");
 
     const fullName = cleanName(body.fullName);
     const email = normalizeEmail(body.email);
     const password = body.password;
 
-    if (fullName.length < 2) return reply(400, "Please enter your full name");
-    if (!isEmail(email)) return reply(400, "Please enter a valid email address");
+    if (fullName.length < 2) return reply(400, "enterFullName");
+    if (!isEmail(email)) return reply(400, "invalidEmail");
     const passwordProblem = newPasswordProblem(password);
     if (passwordProblem) return reply(400, passwordProblem);
 
@@ -63,12 +63,12 @@ export async function POST(request: NextRequest) {
             }
         }
 
-        return reply(201, "We've sent a code to your email", { verify: true, email });
+        return reply(201, "codeSent", { verify: true, email });
     } catch (error) {
         if (error instanceof Error && error.message === "EMAIL_ALREADY_EXISTS") {
-            return reply(409, "An account with this email already exists. Sign in, or use Forgot Password.", { code: "EMAIL_EXISTS" });
+            return reply(409, "emailExists", { code: "EMAIL_EXISTS" });
         }
         console.error("Signup error:", error);
-        return reply(500, "Unable to create account. Please try again.");
+        return reply(500, "cantCreateAccount");
     }
 }

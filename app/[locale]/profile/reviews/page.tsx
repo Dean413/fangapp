@@ -2,9 +2,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Heart, MessageCircle, MoreVertical, Pencil } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "@/lib/store/toastStore";
 import { formatDate, StarRating } from "@/components/reviews/stars";
 import { ConfirmDialog, EditReviewDialog, sendJson } from "@/components/reviews/reviewsDialog";
+import { useTranslations } from "next-intl";
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
 
@@ -44,9 +45,10 @@ function Cover({ src, alt }: { src: string | null; alt: string }) {
 
 function Menu({ items }: { items: { label: string; onClick?: () => void; href?: string; danger?: boolean }[] }) {
     const [open, setOpen] = useState(false);
+    const t = useTranslations("MyReviews");
     return (
         <div className="relative shrink-0">
-            <button type="button" onClick={() => setOpen((o) => !o)} aria-label="Options"
+            <button type="button" onClick={() => setOpen((o) => !o)} aria-label={t("options")}
                 className="text-gray-400 dark:text-neutral-500 hover:text-gray-600 dark:hover:text-neutral-300">
                 <MoreVertical className="w-5 h-5" />
             </button>
@@ -85,6 +87,10 @@ function CardSkeleton() {
 }
 
 export default function MyReviews() {
+    const t = useTranslations("MyReviews");
+    const c = useTranslations("Common");
+    const tr = useTranslations("Reviews");
+    const tm = useTranslations("Comments");
     const [tab, setTab] = useState<Tab>("reviews");
     const [reviews, setReviews] = useState<MyReview[]>([]);
     const [comments, setComments] = useState<MyComment[]>([]);
@@ -134,12 +140,12 @@ export default function MyReviews() {
             const res = await fetch(url(tab, last), { credentials: "include", cache: "no-store" });
             const data = await res.json().catch(() => ({}));
             if (id !== requestId.current) return;
-            if (!res.ok) return void toast.error(data.message || "Couldn't load more");
+            if (!res.ok) return void toast.error(data.message || t("couldntLoadMore"));
             if (tab === "reviews") setReviews((prev) => [...prev, ...(data.reviews ?? []).filter((r: MyReview) => !prev.some((p) => p.id === r.id))]);
             else setComments((prev) => [...prev, ...(data.comments ?? []).filter((c: MyComment) => !prev.some((p) => p.id === c.id))]);
             setHasMore(Boolean(data.hasMore));
         } catch {
-            toast.error("Unable to reach the server. Please try again.");
+            toast.error(c("networkError"));
         } finally {
             moreBusy.current = false;
             setLoadingMore(false);
@@ -159,16 +165,16 @@ export default function MyReviews() {
                 {/* Header */}
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between mb-6">
                     <h1 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
-                        My Reviews
+                        {t("title")}
                     </h1>
 
                     <div className="flex gap-2">
                         <button type="button" onClick={() => setTab("reviews")} className={tabClass(tab === "reviews")}>
-                            Reviews
+                            {t("reviews")}
                         </button>
 
                         <button type="button" onClick={() => setTab("comments")} className={tabClass(tab === "comments")}>
-                            Comments
+                            {t("comments")}
                         </button>
                     </div>
                 </div>
@@ -177,15 +183,15 @@ export default function MyReviews() {
                     <div className="space-y-4">{[0, 1, 2].map((i) => <CardSkeleton key={i} />)}</div>
                 ) : failed ? (
                     <div className="text-center py-16">
-                        <p className="text-gray-500 dark:text-neutral-400 mb-4">Couldn&apos;t load your {tab}.</p>
-                        <button type="button" onClick={() => load(tab)} className="border border-red-500 text-red-500 px-4 py-2 rounded-full">Try again</button>
+                        <p className="text-gray-500 dark:text-neutral-400 mb-4">{t(tab === "reviews" ? "loadReviewsFailed" : "loadCommentsFailed")}</p>
+                        <button type="button" onClick={() => load(tab)} className="border border-red-500 text-red-500 px-4 py-2 rounded-full">{c("retry")}</button>
                     </div>
                 ) : empty ? (
                     <div className="text-center py-16">
                         <p className="text-gray-500 dark:text-neutral-400 mb-4">
-                            {tab === "reviews" ? "You haven't reviewed any books yet." : "You haven't commented on any chapters yet."}
+                            {tab === "reviews" ? t("noReviews") : t("noComments")}
                         </p>
-                        <Link href="/stories" className="inline-block bg-red-500 text-white px-5 py-2 rounded-full text-sm font-medium">Find a book</Link>
+                        <Link href="/stories" className="inline-block bg-red-500 text-white px-5 py-2 rounded-full text-sm font-medium">{t("findBook")}</Link>
                     </div>
                 ) : (
                     <div className="space-y-4">
@@ -212,9 +218,9 @@ export default function MyReviews() {
                                             </div>
 
                                             <Menu items={[
-                                                { label: "Edit", onClick: () => setEditing(r) },
-                                                { label: "View book", href: `${r.book.href}#reviews` },
-                                                { label: "Delete", onClick: () => setDeletingReview(r), danger: true },
+                                                { label: t("edit"), onClick: () => setEditing(r) },
+                                                { label: t("viewBook"), href: `${r.book.href}#reviews` },
+                                                { label: c("delete"), onClick: () => setDeletingReview(r), danger: true },
                                             ]} />
                                         </div>
 
@@ -225,7 +231,7 @@ export default function MyReviews() {
                                             <span className="text-sm font-semibold text-gray-700 dark:text-neutral-200">
                                                 {r.rating}/5
                                             </span>
-                                            {r.hidden && <span className="text-xs text-red-500">Hidden by moderators</span>}
+                                            {r.hidden && <span className="text-xs text-red-500">{t("hiddenByModerators")}</span>}
                                         </div>
 
                                         {/* Review */}
@@ -254,7 +260,7 @@ export default function MyReviews() {
 
                                                 <button type="button" onClick={() => setEditing(r)} className="flex items-center gap-1 text-red-500 font-medium hover:text-red-600">
                                                     <Pencil className="w-4 h-4" />
-                                                    Edit
+                                                    {t("edit")}
                                                 </button>
 
                                             </div>
@@ -277,17 +283,17 @@ export default function MyReviews() {
                                                     {c.book.title}
                                                 </Link>
                                                 <p className="text-sm text-gray-500 dark:text-neutral-400">
-                                                    Chapter {c.book.chapter}{c.isReply && " · Reply"}
+                                                    {c.isReply ? t("chapterReply", { chapter: c.book.chapter }) : t("chapterN", { chapter: c.book.chapter })}
                                                 </p>
                                             </div>
 
                                             <Menu items={[
-                                                { label: "View chapter", href: c.book.href },
-                                                { label: "Delete", onClick: () => setDeletingComment(c), danger: true },
+                                                { label: t("viewChapter"), href: c.book.href },
+                                                { label: t("delete"), onClick: () => setDeletingComment(c), danger: true },
                                             ]} />
                                         </div>
 
-                                        {c.blocked && <p className="mt-2 text-xs text-red-500">Hidden by the writer</p>}
+                                        {c.blocked && <p className="mt-2 text-xs text-red-500">{t("hiddenByWriter")}</p>}
 
                                         <p className="text-sm text-gray-600 dark:text-neutral-300 mt-2 leading-relaxed whitespace-pre-line wrap-break-word">
                                             &quot;{c.content}&quot;
@@ -308,7 +314,7 @@ export default function MyReviews() {
                                                     {c.replies}
                                                 </span>
                                                 <Link href={c.book.href} className="text-red-500 font-medium hover:text-red-600">
-                                                    View
+                                                    {t("view")}
                                                 </Link>
                                             </div>
                                         </div>
@@ -321,7 +327,7 @@ export default function MyReviews() {
                             <div className="flex justify-center pt-2">
                                 <button type="button" onClick={loadMore} disabled={loadingMore}
                                     className="rounded-full border border-gray-200 dark:border-dark-border px-5 py-2 text-sm hover:bg-gray-100 dark:hover:bg-dark-card disabled:opacity-60">
-                                    {loadingMore ? "Loading..." : "Show more"}
+                                    {loadingMore ? c("loading") : t("showMore")}
                                 </button>
                             </div>
                         )}
@@ -336,25 +342,25 @@ export default function MyReviews() {
                     onSaved={(saved) => setReviews((prev) => prev.map((r) => (r.id === editing.id ? { ...r, rating: saved.rating, content: saved.content } : r)))} />
             )}
 
-            <ConfirmDialog open={Boolean(deletingReview)} onClose={() => setDeletingReview(null)} title="Delete review"
-                text="Your rating and review of this book will be removed."
+            <ConfirmDialog open={Boolean(deletingReview)} onClose={() => setDeletingReview(null)} title={tr("deleteReviewTitle")}
+                text={tr("deleteReviewText")}
                 onConfirm={async () => {
                     if (!deletingReview) return true;
                     const { ok, data } = await sendJson(`/api/reviews/${deletingReview.id}`, "DELETE");
-                    if (!ok) { toast.error(data.message || "Couldn't delete your review"); return false; }
+                    if (!ok) { toast.error(data.message || tr("couldntDelete")); return false; }
                     setReviews((prev) => prev.filter((r) => r.id !== deletingReview.id));
-                    toast.success("Review deleted");
+                    toast.success(tr("deleted"));
                     return true;
                 }} />
 
-            <ConfirmDialog open={Boolean(deletingComment)} onClose={() => setDeletingComment(null)} title="Delete comment"
-                text="This comment and its replies will be removed for everyone."
+            <ConfirmDialog open={Boolean(deletingComment)} onClose={() => setDeletingComment(null)} title={tm("deleteTitle")}
+                text={tm("deleteText")}
                 onConfirm={async () => {
                     if (!deletingComment) return true;
                     const { ok, data } = await sendJson(`/api/comments/${deletingComment.id}`, "DELETE");
-                    if (!ok) { toast.error(data.message || "Couldn't delete your comment"); return false; }
+                    if (!ok) { toast.error(data.message || tm("couldntDelete")); return false; }
                     setComments((prev) => prev.filter((c) => c.id !== deletingComment.id));
-                    toast.success("Comment deleted");
+                    toast.success(tm("deleted"));
                     return true;
                 }} />
         </div>

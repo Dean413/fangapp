@@ -1,6 +1,7 @@
 import { getChapter, getStoryBySlug } from "@/lib/stories";
 import { getCurrentUser } from "@/lib/auth/session";
 import { NextResponse } from "next/server";
+import { translateMsg } from "@/lib/i18n";
 
 export async function GET(
     _: Request,
@@ -13,7 +14,7 @@ export async function GET(
 
         if (!Number.isInteger(chapterNum) || chapterNum < 1) {
             return NextResponse.json(
-                { message: "Invalid chapter number." },
+                { message: await translateMsg("invalidChapterNumber") },
                 { status: 400 }
             );
         }
@@ -22,7 +23,7 @@ export async function GET(
 
         if (!story) {
             return NextResponse.json(
-                { message: "Story not found" },
+                { message: await translateMsg("storyNotFound") },
                 { status: 404 }
             );
         }
@@ -33,7 +34,7 @@ export async function GET(
 
         if (!chapter) {
             return NextResponse.json(
-                { message: "Chapter not found." },
+                { message: await translateMsg("chapterNotFoundDot") },
                 { status: 404 }
             );
         }
@@ -46,7 +47,7 @@ export async function GET(
         console.error(error);
 
         return NextResponse.json(
-            { message: "Failed to fetch chapter." },
+            { message: await translateMsg("failedFetchChapter") },
             { status: 500 }
         );
     }

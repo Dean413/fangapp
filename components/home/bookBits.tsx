@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ChevronRight, Star } from "lucide-react";
 import Imprint from "@/components/imprint";
 import type { HomeBook } from "@/lib/home";
+import { useTranslations } from "next-intl";
 
 // 24900 -> "24.9K", 1200000 -> "1.2M"
 export function formatCount(n: number) {
@@ -29,6 +30,7 @@ export const bookHref = (book: Pick<HomeBook, "kind" | "genre" | "slug">) =>
     `/${book.kind === "comic" ? "comics" : "stories"}/${slugify(book.genre) || "all"}/${book.slug}`;
 
 export function SectionHeader({ title, href }: { title: string; href?: string }) {
+    const t = useTranslations("Books");
     return (
         <div className="mb-5 flex items-start justify-between">
             <div>
@@ -37,7 +39,7 @@ export function SectionHeader({ title, href }: { title: string; href?: string })
             </div>
             {href && (
                 <Link href={href} className="flex items-center gap-0.5 text-xs font-medium text-red-600 hover:underline dark:text-red-400">
-                    View All <ChevronRight size={14} />
+                    {t("viewAll")} <ChevronRight size={14} />
                 </Link>
             )}
         </div>
@@ -65,17 +67,16 @@ export function BookPills({ book, max = 2 }: { book: HomeBook; max?: number }) {
 
 // Diagonal ribbons in the cover's top-left corner: red "Exclusive", green "Completed" (sit on the cover image, so same in both themes)
 export function CoverRibbons({ book }: { book: HomeBook }) {
+    const t = useTranslations("Books");
     const ribbons = [
-        book.exclusive && { label: "Exclusive", color: "bg-red-600" },
-        book.completed && { label: "Completed", color: "bg-green-600" },
+        book.exclusive && { label: t("exclusive"), color: "bg-red-600" },
+        book.completed ? { label: t("completed"), color: "bg-green-600" } : { label: t("ongoing"), color: "bg-purple-600" },
     ].filter(Boolean) as { label: string; color: string }[];
-
     return ribbons.map((r, i) => (
         <span
             key={r.label}
-            className={`absolute -left-7 w-24 -rotate-45 py-0.5 text-center text-[7px] font-bold uppercase tracking-wide text-white shadow ${r.color}`}
-            style={{ top: 10 + i * 13 }}
-        >
+            className={`absolute -left-8 w-28 -rotate-45 py-0.5 text-center text-[7px] font-bold uppercase tracking-wide text-white shadow ${r.color}`}
+            style={{ top: 10 + i * 19 }}>
             {r.label}
         </span>
     ));

@@ -9,6 +9,7 @@ import "server-only";
 import { dbPool } from "@/lib/db";
 import { genreSlug } from "@/lib/stories";
 import { CHAPTER_NUMBER_SQL, checkPoster, cleanText, notifyReply, STORY_TENANT, UUID } from "@/lib/content";
+import { msg, type Msg } from "@/lib/i18n";
 
 export const COMMENTS_PAGE_SIZE = 20;
 export const MAX_COMMENT_CHARS = 1000;
@@ -109,25 +110,25 @@ export async function listChapterComments(chapterId: string, viewerId: string | 
     return { comments: top, hasMore: rows.length > COMMENTS_PAGE_SIZE, total: Number(total[0]?.n ?? 0) };
 }
 
-export type AddResult = { ok: true; comment: ChapterComment; parentId: string | null } | { ok: false; status: number; message: string };
+export type AddResult = { ok: true; comment: ChapterComment; parentId: string | null } | { ok: false; status: number; message: Msg };
 
 export async function addComment(userId: string, chapterId: unknown, contentValue: unknown, parentValue: unknown): Promise<AddResult> {
     const chapter = typeof chapterId === "string" ? await findChapter(chapterId) : null;
-    if (!chapter) return { ok: false, status: 404, message: "Chapter not found" };
+    if (!chapter) return { ok: false, status: 404, message: "chapterNotFound" };
     const content = cleanText(contentValue, MAX_COMMENT_CHARS + 1);
-    if (!content) return { ok: false, status: 400, message: "Please write a comment" };
-    if (content.length > MAX_COMMENT_CHARS) return { ok: false, status: 400, message: `Comments can be at most ${MAX_COMMENT_CHARS} characters` };
+    if (!content) return { ok: false, status: 400, message: "writeComment" };
+    if (content.length > MAX_COMMENT_CHARS) return { ok: false, status: 400, message: msg("commentMax", { max: MAX_COMMENT_CHARS }) };
 
     // Replying: always under the top comment of the thread, in the same chapter
     let parent: { id: string; user_id: string | null } | null = null;
     if (parentValue != null && parentValue !== "") {
-        if (typeof parentValue !== "string" || !UUID.test(parentValue)) return { ok: false, status: 404, message: "Comment not found" };
+        if (typeof parentValue !== "string" || !UUID.test(parentValue)) return { ok: false, status: 404, message: "commentNotFound" };
         const { rows } = await dbPool.query(
             `SELECT COALESCE(p.parent_id, p.id) AS id, p.user_id AS reply_to_user
              FROM comments p WHERE p.id = $1 AND p.chapter_id = $2 AND NOT p.blocked`,
             [parentValue, chapter.id]
         );
-        if (!rows[0]) return { ok: false, status: 404, message: "Comment not found" };
+        if (!rows[0]) return { ok: false, status: 404, message: "commentNotFound" };
         parent = { id: rows[0].id, user_id: rows[0].reply_to_user ?? null };
     }
 
@@ -174,13 +175,13 @@ export async function deleteComment(userId: string, commentId: string) {
     return (rowCount ?? 0) > 0;
 }
 
-export type CommentLikeResult = { ok: true; liked: boolean; likes: number } | { ok: false; status: number; message: string };
+export type CommentLikeResult = { ok: true; liked: boolean; likes: number } | { ok: false; status: number; message: Msg };
 
 export async function setCommentLike(userId: string, commentId: string, like: boolean): Promise<CommentLikeResult> {
-    if (!UUID.test(commentId)) return { ok: false, status: 404, message: "Comment not found" };
+    if (!UUID.test(commentId)) return { ok: false, status: 404, message: "commentNotFound" };
     const { rows } = await dbPool.query(`SELECT user_id FROM comments WHERE id = $1 AND NOT blocked`, [commentId]);
-    if (!rows[0]) return { ok: false, status: 404, message: "Comment not found" };
-    if (rows[0].user_id === userId) return { ok: false, status: 400, message: "You can't like your own comment" };
+    if (!rows[0]) return { ok: false, status: 404, message: "commentNotFound" };
+    if (rows[0].user_id === userId) return { ok: false, status: 400, message: "cantLikeOwnComment" };
     if (like) {
         await dbPool.query(`INSERT INTO comment_likes (comment_id, user_id) VALUES ($1, $2) ON CONFLICT DO NOTHING`, [commentId, userId]);
     } else {

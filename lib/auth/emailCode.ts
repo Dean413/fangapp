@@ -1,21 +1,10 @@
 // lib/auth/emailCode.ts
-// Codes sent by email: confirm a new account's email, reset a password, two-factor sign-in,
-// confirm a new email address, and confirm deleting the account.
-// Same rules and same email_codes table as FangWriters (one account across both apps).
-// - 6 digits from a secure random source, stored only as an HMAC keyed with a secret outside the database
-// - each code allows 5 wrong tries over its whole life (asking for a new code doesn't give the old one
-//   more tries); a right code works once
-// - a new code at most once a minute, and at most 10 in any 24 hours (rolling), per account and purpose;
-//   the limit check and the save are one atomic statement, so simultaneous requests can't get around it
-// - the previous code also works until it expires, so it doesn't matter which email arrives last
-// Also the one-time "reset pass" given after a right reset code: a random token, stored as an HMAC,
-// used up in the same transaction that sets the new password. A reset also signs the account out on
-// every other device (sessions_valid_after) and ends any sign-in lock.
 import "server-only";
 import crypto from "crypto";
 import { dbPool as db } from "@/lib/db";
 import { withTransaction } from "@/lib/auth/transaction";
 import { AUTH_CONFIG } from "@/lib/auth/authConfig";
+import { msg } from "@/lib/i18n";
 
 export type CodePurpose = "verify_email" | "reset_password" | "login_2fa" | "change_email" | "delete_account";
 export type CodeCheck = "ok" | "wrong" | "expired" | "too_many";
@@ -114,8 +103,8 @@ export async function issueCode(userId: string, purpose: CodePurpose): Promise<{
 // Message for a "wait" answer
 export function waitMessage(seconds: number) {
     return seconds > 120
-        ? "You've asked for too many codes today. Please try again later."
-        : `Please wait ${seconds} seconds before asking for a new code.`;
+        ? msg("tooManyCodesToday")
+        : msg("waitSeconds", { seconds });
 }
 
 // Makes the account's codes for this purpose unusable, keeping its send history (so limits still apply)

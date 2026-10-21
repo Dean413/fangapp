@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getRankingBooks, type Audience, type NovelType } from "@/lib/rankings";
+import { translateMsg } from "@/lib/i18n";
 
 // GET /api/rankings/<list id>?audience=male|female&type=long|short → the list's books in rank order
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
@@ -13,11 +14,11 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
         });
 
         if (!data) {
-            return NextResponse.json({ message: "Ranking not found" }, { status: 404 });
+            return NextResponse.json({ message: await translateMsg("rankingNotFound") }, { status: 404 });
         }
         return NextResponse.json({ data });
     } catch (error) {
         console.error(error);
-        return NextResponse.json({ message: "Failed to fetch ranking" }, { status: 500 });
+        return NextResponse.json({ message: await translateMsg("failedFetchRanking") }, { status: 500 });
     }
 }

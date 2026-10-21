@@ -5,9 +5,11 @@ import MobileProfileNav from "@/components/mobile-navigation";
 import ProfileSidebar from "@/components/profile-components/profileSidebar";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useAuthModals } from "@/lib/store/auth-card-store";
+import { useTranslations } from "next-intl";
 
 export default function ProfileLayout({ children, }: { children: React.ReactNode; }) {
     const { openSignUp } = useAuthModals()
+    const t = useTranslations("Profile")
     const user = useAuthStore((s) => s.user)
     const loading = useAuthStore((s) => s.loading)
 
@@ -20,8 +22,8 @@ export default function ProfileLayout({ children, }: { children: React.ReactNode
         return (
             <div className="flex items-center justify-center min-h-screen">
                 <div>
-                    <h1 className="font-bold text-2xl text-center mb-4">Create an Account  to Join thousands of readers on FANG</h1>
-                    <Button onClick={openSignUp} label="SIGN UP" />
+                    <h1 className="font-bold text-2xl text-center mb-4">{t("joinPrompt")}</h1>
+                    <Button onClick={openSignUp} label={t("signUp")} />
                 </div>
             </div>
         );

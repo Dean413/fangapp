@@ -1,0 +1,2563 @@
+{
+  "about": {
+    "title": "À propos de FANG",
+    "blocks": [
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Propulsé par FANGVAULT"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Là où l'obsession mord."
+          },
+          {
+            "t": "p",
+            "text": "FANG est une plateforme de narration numérique de premier plan conçue spécifiquement pour les lecteurs en quête de fictions captivantes et les auteurs qui créent des univers inoubliables. De la romance sombre et la fantasy urbaine aux récits intenses de loups-garous, vampires, syndicats de la mafia, thrillers et drames profonds, FANG est le refuge des histoires émotionnellement addictives qui vous marquent longtemps après le dernier chapitre. Nous pensons que la fiction doit être totalement immersive, émouvante, passionnante et impossible à reposer."
+          },
+          {
+            "t": "p",
+            "text": "Plus qu'un simple outil de lecture classique, FANG est un espace dynamique de publication sérielle qui capte l'attention totale des lecteurs, ainsi qu'un sanctuaire pour les passionnés qui aiment se perdre au cœur d'univers narratifs complexes."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "Notre Vision"
+          },
+          {
+            "t": "p",
+            "text": "Nous sommes convaincus que les meilleures histoires sont celles que les lecteurs ne peuvent plus lâcher. Des histoires qui déclenchent une profonde obsession. Des histoires qui rassemblent des communautés de fans à l'échelle mondiale. Des histoires qui tiennent les lecteurs éveillés jusqu'au bout de la nuit. FANG existe pour offrir une demeure permanente à ces récits puissants."
+          },
+          {
+            "t": "p",
+            "text": "Notre objectif principal est de bâtir un écosystème au sein duquel :"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Les lecteurs découvrent sans effort des univers sériels inoubliables ;",
+              "Les auteurs développent des communautés de fans passionnées et très engagées ;",
+              "La narration stratégique est honorée comme une force créative majeure."
+            ]
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "Ce qui distingue FANG"
+          },
+          {
+            "t": "p",
+            "text": "FANG est conçu pour les architectures modernes de lecture numérique. Nous adoptons pleinement :"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "La fiction émotionnellement intense et à forts enjeux ;",
+              "La création d'univers et de personnages riches et immersifs ;",
+              "Un rythme narratif captivant, rythmé par des cliffhangers ;",
+              "Les cycles de lecture numérique en série ;",
+              "Des communautés de lecteurs passionnés et connectés ;",
+              "Le développement de projets entièrement porté par les créateurs."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Nous comprenons intiment que la fiction peut être sombre, dramatique, chaotique, romantique et profondément personnelle. Cette vulnérabilité émotionnelle intense est précisément ce qui rend la création littéraire mémorable."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "Nos Valeurs"
+          },
+          {
+            "t": "p",
+            "text": "<b>Créativité :</b> Les grandes histoires peuvent naître n'importe où et venir de n'importe qui. Certains des univers de fiction les plus inoubliables commencent par un seul auteur assez audacieux pour partager sa vision."
+          },
+          {
+            "t": "p",
+            "text": "<b>Originalité :</b> Nous encourageons les voix narratives uniques, les personnages d'une grande complexité et les intriques qui hantent l'esprit des lecteurs."
+          },
+          {
+            "t": "p",
+            "text": "<b>Communauté :</b> FANG est co-construit pour les deux acteurs du marché littéraire. Nous souhaitons que notre public découvre des histoires qui lui tiennent à cœur, tout en donnant à nos créateurs les moyens de bâtir une communauté fidèle et durable autour de leur œuvre."
+          },
+          {
+            "t": "p",
+            "text": "<b>Croissance :</b> Nous mettons continuellement à jour nos fonctionnalités matérielles, nos outils d'édition et nos opportunités de monétisation afin d'accroître la valeur de la plateforme pour les lecteurs et les auteurs du monde entier."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "Pour les Lecteurs"
+          },
+          {
+            "t": "p",
+            "text": "FANG propose un vaste catalogue d'œuvres sérielles couvrant des genres très populaires, notamment :"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Romance & Dark Romance",
+              "Légendes de Loups-garous & Métamorphes",
+              "Romance Vampirique & Paranormale",
+              "Romance Mafia & Crime",
+              "Fantasy Urbaine & Fantasy Romantique",
+              "Thrillers, Drames & Fiction LGBTQ+"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Que vous soyez à la recherche d'intérêts amoureux dangereux, de chaos émotionnel intense, de cliffhangers addictifs ou de décors fantastiques inoubliables, un autre univers vous attend toujours sur nos étagères."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "Pour les Auteurs"
+          },
+          {
+            "t": "p",
+            "text": "FANG a été fondé en plaçant l'autonomie des créateurs au cœur de son modèle opérationnel. Nous fournissons des métriques de suivi détaillées, des canaux de découverte élargis et une infrastructure de valorisation compétitive pour soutenir le développement de leur carrière artistique sur le long terme."
+          },
+          {
+            "t": "p",
+            "text": "Afin de maintenir l'optimisation de notre système, FANG s'appuie sur une structure multi-plateforme. Tandis que les lecteurs explorent, lisent et achètent du contenu virtuel sur notre domaine principal (fangapp.io), nos auteurs et créateurs indépendants gèrent leur profil d'écriture, analysent leurs statistiques, consultent les paramètres légaux et organisent leurs outils de monétisation exclusivement via notre interface dédiée aux éditeurs sur FangWriters.com. Nous souhaitons que nos auteurs restent pleinement concentrés sur leur véritable passion : créer des histoires captivantes dont les lecteurs ne pourront plus se passer."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-2",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "Contactez-nous"
+          },
+          {
+            "t": "p",
+            "text": "FANG / IFO DIGITAL MEDIA, LLC"
+          },
+          {
+            "t": "p",
+            "text": "1111B S Governors Ave STE 52111"
+          },
+          {
+            "t": "p",
+            "text": "Dover, DE 19904"
+          },
+          {
+            "t": "p",
+            "text": "États-Unis"
+          },
+          {
+            "t": "p",
+            "text": "Support : support@fangapp.io"
+          },
+          {
+            "t": "p",
+            "text": "Service Juridique : legal@fangapp.io"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Propulsé par FANGVAULT"
+          }
+        ]
+      }
+    ] 
+},
+  "communityGuidelines": {
+    "title": "Règles de la communauté et politique de FANG",
+    "blocks": [
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Propulsé par FANGVAULT"
+          },
+          {
+            "t": "p",
+            "text": "Date d'entrée en vigueur : 18 août 2026"
+          },
+          {
+            "t": "p",
+            "text": "FANG est une plateforme de narration numérique de premier plan conçue pour les lecteurs qui apprécient la lecture sérielle immersive et les auteurs qui développent des communautés de fans très engagées. FANG soutient la liberté créative à travers des catégories de fiction adulte complexes, notamment la Dark Romance, les Loups-garous, les Vampires, la Mafia, les Billionnaires, les Thrillers et les arcs narratifs émotionnellement addictifs."
+          },
+          {
+            "t": "p",
+            "text": "Ces règles de la communauté et politiques de contenu définissent les limites structurelles exactes régissant le comportement autorisé des utilisateurs, les seuils de modération de contenu et les restrictions média au sein de notre écosystème. En accédant ou en publiant du contenu sur FANG, vous acceptez explicitement de vous conformer à ces règles ainsi qu'à nos Conditions d'utilisation et à notre Politique de confidentialité."
+          },
+          {
+            "t": "p",
+            "text": "La plateforme FANG est exploitée par IFO DIGITAL MEDIA, LLC, 1111B S Governors Ave STE 52111, Dover, DE 19904, États-Unis. Service d'assistance : support@fangapp.io | Service juridique : legal@fangapp.io"
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "1. Cadre de liberté créative"
+          },
+          {
+            "t": "p",
+            "text": "FANG défend avec fierté un catalogue très vaste de récits de fiction. Nous comprenons que la littérature créative à forts enjeux intègre fréquemment des thèmes émotionnellement intenses, complexes, dramatiques ou sombres. Les conflits fictionnels, l'obsession des personnages, la manipulation narrative et la violence stylisée propre aux genres ne violent pas automatiquement nos limites structurelles. Cependant, le contenu sera systématiquement restreint, démonétisé ou supprimé définitivement s'il franchit les seuils légaux, de sécurité, de conformité ou d'exploitation des passerelles de paiement définis."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "2. Titres de livres et normes de métadonnées"
+          },
+          {
+            "t": "p",
+            "text": "Les titres de livres et les profils de métadonnées textuelles doivent représenter fidèlement l'œuvre créative et rester entièrement appropriés pour les vitrines de distribution publique."
+          },
+          {
+            "t": "p",
+            "text": "Métadonnées autorisées : Titres séduisants ou dramatiques, image de marque de romance adulte et terminologie standard des genres (ex. : L'Obsession de l’Alpha, Captive du Roi de la Mafia, Liée au Seigneur Vampire)."
+          },
+          {
+            "t": "p",
+            "text": "Métadonnées interdites : Titres contenant des formulations pornographiques explicites, des injures du monde réel, des discours de haine ou des termes encourageant directement l'exploitation des mineurs, ou du texte délibérément conçu pour enfreindre des marques déposées sous droit d'auteur ou des marques commerciales établies."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "3. Réglementation des couvertures de livres et des visuels"
+          },
+          {
+            "t": "p",
+            "text": "Les couvertures de livres et les visuels associés dans les vitrines doivent rester strictement adaptés à un affichage public sur les plateformes de distribution mobile mondiales."
+          },
+          {
+            "t": "p",
+            "text": "Visuels autorisés : Étreintes romantiques, scènes de baisers stylisées, armes fantastiques dans des contextes de fiction, éléments de sang artistiques dans des configurations d'horreur, personnages torse nu et illustrations à l'esthétique sombre."
+          },
+          {
+            "t": "p",
+            "text": "Visuels interdits : Nudité explicite et graphique, organes génitaux ou tétons visibles, représentations graphiques d'actes sexuels, violence extrême du monde réel ou représentations graphiques d'auto-mutilation. Toute couverture utilisant des éléments graphiques de source violant le droit d'auteur ou l'image non autorisée de célébrités sera immédiatement supprimée."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "4. Seuils de contenu des histoires"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "4.1 Formats de fiction autorisés"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Romance adulte et interactions complexes entre les personnages ;",
+              "Dark romance atmosphérique, tension psychologique à forts enjeux et drame émotionnel ;",
+              "Combat fantastique stylisé, séquences d'action surnaturelles et légendes de loups-garous/vampires ;",
+              "Tension sexuelle narrative et scènes intimes non graphiques ;",
+              "Relations LGBTQ+ diverses et fiction spéculative complète."
+            ]
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "4.2 Catégories de contenu interdites"
+          },
+          {
+            "t": "p",
+            "text": "En alignement strict avec les cadres juridiques mondiaux et les règles de conformité de nos processeurs de paiement, FANG applique une politique de tolérance zéro à l'égard des configurations textuelles ou médiatiques suivantes :"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Toute représentation de contenu sexuel, d'exploitation ou d'abus impliquant des mineurs ;",
+              "Propagande terroriste du monde réel, extrémisme violent ou texte de recrutement pour des groupes haineux ;",
+              "Guides d'instructions détaillés pour exécuter des actes criminels graves du monde réel ou fabriquer des armes illégales ;",
+              "Exploitation sexuelle explicite non consentie, violence sexuelle graphique ou zoophilie ;",
+              "Violence extrême du monde réel ou mutilation physique graphique présentée à des fins d'amusement ou de choc ;",
+              "La promotion, l'encouragement ou le suivi instructif du suicide ou d'actes d'auto-mutilation."
+            ]
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "5. Modération du contenu et application programmatique"
+          },
+          {
+            "t": "p",
+            "text": "Afin de maintenir une sécurité absolue sur la plateforme, FANG utilise un réseau de vérification de la conformité à plusieurs niveaux."
+          },
+          {
+            "t": "p",
+            "text": "Signalement des utilisateurs : Chaque page d'histoire sur la plateforme dispose d'un bouton d'interface actif « Signaler le livre », permettant aux lecteurs de signaler du contenu pour vol de propriété intellectuelle, violations de sécurité ou infractions aux règles."
+          },
+          {
+            "t": "p",
+            "text": "Contrôles programmatiques : Nos serveurs dorsaux analysent activement ces signaux d'utilisateurs. Les histoires qui accumulent des seuils de signalement vérifiés sont isolées de manière programmatique, masquées de la navigation publique de la vitrine et automatiquement démonétisées en attente d'une révision humaine manuelle."
+          },
+          {
+            "t": "p",
+            "text": "Analyse par mots-clés : Les manuscrits nouvellement publiés sont automatiquement analysés via des filtres de chaînes de caractères pour bloquer les phrases extrémistes à haut risque ou les configurations malveillantes connues avant que la publication n'ait lieu."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "6. Propriété intellectuelle, plagiat et contrôles de l'IA"
+          },
+          {
+            "t": "p",
+            "text": "Atteinte au droit d'auteur : FANG interdit strictement le plagiat, les traductions de texte non autorisées ou la re-publication de romans volés provenant d'autres réseaux d'édition. Les violations systémiques entraîneront la désactivation permanente du compte et la perte totale des privilèges de monétisation."
+          },
+          {
+            "t": "p",
+            "text": "Paramètres de l'intelligence artificielle (IA) : Les créateurs peuvent utiliser des outils logiciels génératifs comme aides créatives, à condition que l'auteur dispose de tous les droits d'utilisation commerciale nécessaires pour les documents sources. Le contenu assisté par IA doit se conformer entièrement à nos règles fondamentales de sécurité du contenu, doit être significativement préparé ou édité, et ne doit pas consister en un texte de spam automatisé généré en masse conçu pour manipuler les métriques de la plateforme. Le texte de spam IA non édité est exclu de manière programmatique des récompenses de contrat de la plateforme."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "7. Avis, commentaires et interactions au sein de la communauté"
+          },
+          {
+            "t": "p",
+            "text": "Nous nous engageons à maintenir un espace numérique bienveillant et professionnel pour nos communautés d'auteurs et de lecteurs. Nous n'autorisons pas :"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Le harcèlement ciblé, le doxxing, les menaces personnelles ou l'intimidation malveillante ;",
+              "La manipulation coordonnée des avis ou le suivi frauduleux de l'engagement ;",
+              "Les discours de haine visant des individus en raison de leur race, religion, orientation ou statut protégé."
+            ]
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "8. Coordonnées de l'entreprise"
+          },
+          {
+            "t": "p",
+            "text": "FANG / IFO DIGITAL MEDIA, LLC"
+          },
+          {
+            "t": "p",
+            "text": "1111B S Governors Ave STE 52111"
+          },
+          {
+            "t": "p",
+            "text": "Dover, DE 19904"
+          },
+          {
+            "t": "p",
+            "text": "États-Unis"
+          },
+          {
+            "t": "p",
+            "text": "Support Utilisateurs : support@fangapp.io"
+          },
+          {
+            "t": "p",
+            "text": "Infrastructure Juridique : legal@fangapp.io"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Propulsé par FANGVAULT"
+          }
+        ]
+      }
+    ]
+},
+  "dmca": {
+    "title": "Directives DMCA",
+    "blocks": [
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Propulsé par FANGVAULT"
+          },
+          {
+            "t": "p",
+            "text": "Date d'entrée en vigueur : 18 août 2026"
+          },
+          {
+            "t": "p",
+            "text": "Identifiant d'enregistrement de l'agent désigné DMCA : DMCA-1073241"
+          },
+          {
+            "t": "p",
+            "text": "FANG respecte les droits de propriété intellectuelle et attend de tous ses lecteurs, auteurs, éditeurs, correcteurs et partenaires qu'ils en fassent de même. Nous nous engageons à maintenir un écosystème de narration numérique légal, équitable et centré sur les créateurs. FANG interdit strictement la publication de contenu qui enfreint les droits d'auteur, marques déposées, brevets ou droits de propriété de tiers."
+          },
+          {
+            "t": "p",
+            "text": "Cette politique de droit d'auteur détaille les procédures spécifiques par lesquelles les titulaires de propriété intellectuelle peuvent signaler une atteinte présumée aux droits numériques, et précise comment les utilisateurs de la plateforme peuvent répondre aux réclamations soumises concernant leur contenu hébergé. FANG opère conformément aux dispositions de protection de la zone de sécurité (« Safe Harbor ») du Digital Millennium Copyright Act (« DMCA ») applicables aux fournisseurs de services numériques en ligne."
+          },
+          {
+            "t": "p",
+            "text": "L'infrastructure du service FANG est exploitée par IFO DIGITAL MEDIA, LLC, 1111B S Governors Ave STE 52111, Dover, DE 19904, États-Unis."
+          },
+          {
+            "t": "p",
+            "text": "Service d'assistance : support@fangapp.io"
+          },
+          {
+            "t": "p",
+            "text": "Service juridique : legal@fangapp.io"
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "1. Protocole de signalement des atteintes au droit d'auteur"
+          },
+          {
+            "t": "p",
+            "text": "Si vous estimez de bonne foi que des œuvres créatives disponibles sur le service FANG enfreignent vos droits d'auteur originaux ou vos droits de propriété intellectuelle, vous pouvez soumettre une plainte formelle écrite pour atteinte au droit d'auteur (« Notification DMCA ») directement à notre service juridique."
+          },
+          {
+            "t": "p",
+            "text": "Votre notification doit contenir des détails précis et complets nous permettant de vérifier votre réclamation et de localiser le contenu litigieux. Lorsque cela est légalement approprié et requis, FANG peut transmettre une copie de votre plainte, y compris les coordonnées que vous avez fournies, à l'utilisateur spécifique de la plateforme qui a mis en ligne les fichiers de l'histoire signalée."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "2. Critères légaux pour une notification DMCA valide"
+          },
+          {
+            "t": "p",
+            "text": "Afin d'évaluer et de traiter rapidement votre réclamation relative au droit d'auteur, votre notification écrite doit inclure les éléments suivants :"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "a) Identification de l'œuvre protégée"
+          },
+          {
+            "t": "p",
+            "text": "Une description de l'œuvre originale protégée par le droit d'auteur ou de la propriété intellectuelle exclusive dont vous affirmez qu'elle a fait l'objet d'une violation."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "b) Identification du contenu contrefaisant"
+          },
+          {
+            "t": "p",
+            "text": "Le titre spécifique de l'histoire, les numéros de chapitres (le cas échéant), le nom d'utilisateur de l'auteur, ainsi que le lien URL direct ou les paramètres de localisation au sein de l'application nécessaires pour isoler le contenu."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "c) Coordonnées du réclamant"
+          },
+          {
+            "t": "p",
+            "text": "Votre nom légal complet, une adresse e-mail valide, votre adresse postale physique et votre numéro de téléphone."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "d) Justificatifs à l'appui"
+          },
+          {
+            "t": "p",
+            "text": "Des copies des certificats officiels d'enregistrement du droit d'auteur, des journaux de publication originaux horodatés, des ébauches créatives historiques ou des contrats de licence de distribution pertinents."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "e) Déclaration de bonne foi"
+          },
+          {
+            "t": "p",
+            "text": "Une déclaration explicite affirmant que vous estimez de bonne foi que l'utilisation contestée de la propriété intellectuelle n'est pas autorisée par le titulaire du droit d'auteur, son agent légal ou les lois fédérales en vigueur."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "f) Déclaration sous peine de perjuré"
+          },
+          {
+            "t": "p",
+            "text": "Une déclaration faite sous peine de parjure attestant que les informations fournies dans votre notification sont entièrement exactes et que vous êtes le titulaire du droit d'auteur ou légalement autorisé à agir au nom du titulaire."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "g) Signature autorisée"
+          },
+          {
+            "t": "p",
+            "text": "Une signature physique ou électronique vérifiée du titulaire du droit d'auteur ou d'un représentant légal autorisé."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "3. Canaux de soumission des plaintes pour atteinte au droit d'auteur"
+          },
+          {
+            "t": "p",
+            "text": "Veuillez adresser votre notification DMCA complétée et signée directement à notre bureau de conformité :"
+          },
+          {
+            "t": "p",
+            "text": "Département : FANG Legal Infrastructure"
+          },
+          {
+            "t": "p",
+            "text": "Canal E-mail : legal@fangapp.io"
+          },
+          {
+            "t": "p",
+            "text": "Objet du message : Notification DMCA - [Insérer le titre de l'histoire]"
+          },
+          {
+            "t": "p",
+            "text": "Remarque : FANG se réserve le droit de demander des documents d'identification supplémentaires ou des journaux textuels avant d'exécuter des actions de suppression si la notification initiale manque de détails suffisants."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "4. Procédure de contre-notification"
+          },
+          {
+            "t": "p",
+            "text": "Si votre texte publié a été supprimé ou masqué à la suite d'une plainte pour atteinte au droit d'auteur, et que vous estimez que cette action découle d'une erreur, d'une mauvaise identification ou d'une protection au titre de l'usage équitable (« Fair Use »), vous pouvez déposer une contre-notification formelle."
+          },
+          {
+            "t": "p",
+            "text": "Votre contre-notification doit être soumise par écrit à legal@fangapp.io et doit contenir :"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Votre nom légal complet, votre numéro de téléphone, votre adresse physique et votre adresse e-mail",
+              "Une description du contenu qui a été masqué ou supprimé ainsi que sa localisation initiale sur la plateforme avant son isolement",
+              "Une déclaration faite sous peine de parjure attestant que vous estimez de bonne foi que le contenu a été supprimé ou désactivé à la suite d'une erreur ou d'une mauvaise identification",
+              "Une déclaration explicite acceptant la juridiction du tribunal fédéral de district (« Federal District Court ») du district judiciaire dont dépend votre adresse (ou du Delaware si vous opérez en dehors des États-Unis), et confirmant que vous acceptez la signification d'actes de la part de la partie plaignante initiale",
+              "Votre signature physique ou électronique vérifiée"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Dès réception d'une contre-notification valide, FANG la transmettra au plaignant initial. Si le titulaire du droit d'auteur n'intente pas d'action en justice pour obtenir une ordonnance d'interdiction visant le contenu dans un délai de dix (10) jours ouvrables, notre système est autorisé, conformément aux règles de zone de sécurité, à rétablir le contenu masqué pour le public."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "5. Intégrité automatisée du contenu et politique relative aux récidivistes"
+          },
+          {
+            "t": "p",
+            "text": "En alignement avec les contrôles automatisés de notre Politique d'utilisation acceptable (AUP), FANG applique une politique de tolérance zéro à l'encontre des récidivistes et du plagiat systémique :"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Violations systémiques : Un récidiviste désigne tout profil d'utilisateur qui publie de manière répétée du contenu non autorisé, accumule plusieurs notifications DMCA valides distinctes ou tente de contourner les verrous numériques de la plateforme.",
+              "Application automatisée : Les utilisateurs peuvent signaler les violations du droit d'auteur directement depuis notre interface de lecture via nos protocoles natifs « Signaler le livre ». Notre système comptabilise de manière programmatique ces signaux afin d'isoler, de restreindre et de démonétiser automatiquement les contenus à haut risque en attente d'un examen formel.",
+              "Désactivation de compte : FANG se réserve le droit absolu de suspendre, restreindre ou fermer définitivement tout compte utilisateur ou profil de créateur en violation chronique de cette section.",
+              "Confiscation des soldes du compte : En cas de plagiat grave et systémique ou de fraude délibérée au droit d'auteur, FANG se réserve le droit de retenir définitivement les gains en pièces virtuelles cumulés, les bonus promotionnels et les récompenses d'éditeur générés via le contenu contrefaisant."
+            ]
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "6. Protection contre les réclamations frauduleuses et abusives"
+          },
+          {
+            "t": "p",
+            "text": "En vertu de la Section 512(f) du DMCA, toute personne qui affirme de manière matériellement inexacte et en connaissance de cause qu'un contenu en ligne est contrefaisant peut être tenue légalement responsable des dommages-intérêts, y compris des frais de justice et d'avocat engagés par le contrefacteur présumé ou par le fournisseur de la plateforme. FANG engagera activement des procédures de désactivation de compte et des recours légaux contre toute partie qui soumet scientifiquement des notifications de droit d'auteur fausses, malveillantes ou trompeuses pour nuire à nos créateurs."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "7. Cadre de neutralité de la plateforme"
+          },
+          {
+            "t": "p",
+            "text": "FANG opère fondamentalement en tant que fournisseur de services en ligne neutre. Nous ne pré-visionnons pas l'ensemble des textes des manuscrits sériels avant leur publication, et nous n'enquêtons pas de manière indépendante sur la chaîne absolue des droits d'auteur de chaque chapitre mis en ligne par les créateurs sur FangWriters."
+          },
+          {
+            "t": "p",
+            "text": "Dès réception de notifications légales valides, nous agissons immédiatement pour examiner, isoler ou restreindre l'accès au contenu litigieux, en totale conformité avec les réglementations fédérales sur la zone de sécurité. FANG se réserve le droit de désactiver temporairement l'accès au contenu ou de le démonétiser, à sa seule discrétion, pendant qu'un audit actif du droit d'auteur est en cours."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "8. Réglementation du contenu généré par intelligence artificielle (IA)"
+          },
+          {
+            "t": "p",
+            "text": "Les utilisateurs publiant du contenu portent l'entière responsabilité de s'assurer que tout texte, illustration ou conception de couverture assisté ou généré par IA et mis en ligne sur la plateforme ne viole pas les droits d'auteur, marques déposées ou droits à l'image de tiers. L'utilisation d'outils logiciels génératifs ne transfère ni ne supprime la responsabilité de l'utilisateur."
+          },
+          {
+            "t": "p",
+            "text": "FANG se réserve le droit absolu de supprimer les histoires générées par IA qui déclenchent nos systèmes automatisés de correspondance de contenu ou de signalement par les utilisateurs. De plus, le contenu textuel généré par IA et non édité ne garantit pas l'éligibilité aux contrats d'entreprise, aux allocations de bonus ou aux promotions marketing personnalisées de la plateforme."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "9. Documentation sur les droits internationaux"
+          },
+          {
+            "t": "p",
+            "text": "Si vous déposez une plainte pour atteinte à la propriété intellectuelle au nom d'une maison d'édition internationale, d'une agence littéraire étrangère ou d'un groupe d'entreprises, FANG peut demander une preuve officielle d'autorisation légale, des extraits du registre du commerce ou des procurations de localisation. Tout justificatif soumis dans une langue autre que l'anglais doit être accompagné d'une traduction certifiée en anglais pour être évalué."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-2",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "10. Coordonnées"
+          },
+          {
+            "t": "p",
+            "text": "FANG / IFO DIGITAL MEDIA, LLC"
+          },
+          {
+            "t": "p",
+            "text": "1111B S Governors Ave STE 52111"
+          },
+          {
+            "t": "p",
+            "text": "Dover, DE 19904"
+          },
+          {
+            "t": "p",
+            "text": "États-Unis"
+          },
+          {
+            "t": "p",
+            "text": "Support Lecteurs : support@fangapp.io"
+          },
+          {
+            "t": "p",
+            "text": "Service Juridique : legal@fangapp.io"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Propulsé par FANGVAULT"
+          }
+        ]
+      }
+    ]
+},
+  "privacy": {
+    "title": "Politique de confidentialité",
+    "blocks": [
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Propulsé par FANGVAULT"
+          },
+          {
+            "t": "p",
+            "text": "Date d'entrée en vigueur : 18 août 2026"
+          },
+          {
+            "t": "p",
+            "text": "FANG (« FANG », « nous », « notre » ou « nos ») respecte votre vie privée et s'engage à protéger vos informations personnelles. Cette Politique de confidentialité explique comment nous collectons, utilisons, stockons, partageons et protégeons les informations lorsque vous utilisez l'application mobile FANG, le site web, le portail des auteurs et les services associés (collectivement, les « Services »). FANG est exploité par IFO DIGITAL MEDIA, LLC."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "1. Informations sur l'entreprise"
+          },
+          {
+            "t": "div",
+            "cls": "space-y-1",
+            "blocks": [
+              {
+                "t": "p",
+                "text": "IFO DIGITAL MEDIA, LLC"
+              },
+              {
+                "t": "p",
+                "text": "1111B S Governors Ave STE 52111"
+              },
+              {
+                "t": "p",
+                "text": "Dover, DE 19904"
+              },
+              {
+                "t": "p",
+                "text": "États-Unis"
+              },
+              {
+                "t": "p",
+                "text": "Support : support@fangapp.io"
+              },
+              {
+                "t": "p",
+                "text": "Service Juridique : legal@fangapp.io"
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Caractère définitif de la vente"
+          },
+          {
+            "t": "p",
+            "text": "Tous les achats de Pièces effectués sur le site web ou les applications mobiles FANG sont fermes, définitifs, instantanés et entièrement non remboursables."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Aucune valeur monétaire"
+          },
+          {
+            "t": "p",
+            "text": "Les Pièces ne possèdent aucune valeur monétaire dans le monde réel, sont strictement non transférables et ne peuvent jamais être échangées, rachetées ou converties en espèces courantes ou en crédits externes."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Renonciation au droit de rétractation après consommation instantanée"
+          },
+          {
+            "t": "p",
+            "text": "Les recharges de pièces numériques fournissent une utilité immédiate dans la base de données. À la seconde exacte où les Pièces sont créditées sur le profil de votre portefeuille utilisateur, le contrat de vente est exécuté dans son intégralité. Vous renoncez explicitement à tout droit légal de rétractation, période de réflexion ou annulation de transaction."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Protection contre les erreurs de l'utilisateur"
+          },
+          {
+            "t": "p",
+            "text": "FANG ne délivre aucun remboursement, remplacement ou crédit pour les Pièces achetées par accident, les Pièces dépensées par inadvertance pour débloquer des chapitres, ou les Pièces perdues suite à la compromission d'un mot de passe résultant d'une négligence de l'utilisateur."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Erreurs techniques exceptionnelles"
+          },
+          {
+            "t": "p",
+            "text": "Si une défaillance bancaire avérée se produit et que les fonds ont été débités de votre carte sans que les Pièces ne soient livrées en raison d'un problème technique du système, vous devez contacter support@fangapp.io dans un délai de quarante-huit (48) heures en fournissant des justificatifs de transaction vérifiés. FANG peut, à sa seule discrétion, émettre un remplacement des Pièces numériques."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "2. Informations que nous collectons"
+          },
+          {
+            "t": "p",
+            "text": "Nous collectons les informations que vous nous fournissez directement, les informations recueillies automatiquement lors de votre utilisation des Services, ainsi que les informations reçues de la part de tiers."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "2.1 Informations que vous fournissez"
+          },
+          {
+            "t": "p",
+            "text": "Lorsque vous créez un compte ou interagissez avec FANG, nous pouvons collecter :"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Le nom d'utilisateur, le nom légal et l'adresse e-mail ;",
+              "Le mot de passe ou les identifiants de connexion sécurisés ;",
+              "Les photos de profil et les détails de la biographie ;",
+              "Les commentaires, avis, messages directs et contenus littéraires générés par les utilisateurs ;",
+              "L'historique des achats, des abonnements et les préférences du registre de paiement ;",
+              "Les communications avec le support client et les informations de vérification de compte de base."
+            ]
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "2.2 Autorisations de l'appareil"
+          },
+          {
+            "t": "p",
+            "text": "Selon les fonctionnalités que vous utilisez, FANG peut demander l'accès à la caméra de votre appareil, à votre bibliothèque de photos, au stockage et aux notifications push. Vous pouvez choisir de refuser ces autorisations, bien que certaines fonctionnalités de la plateforme puissent alors devenir indisponibles."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "2.3 Informations collectées automatiquement"
+          },
+          {
+            "t": "p",
+            "text": "Lorsque vous interagissez avec nos Services, nous collectons automatiquement :"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Le type d'appareil, le modèle matériel, la version du navigateur et le système d'exploitation ;",
+              "La version de l'application et les identifiants uniques de l'appareil ;",
+              "L'adresse IP, les paramètres de langue et le fuseau horaire local ;",
+              "L'activité de lecture, les préférences, l'horodatage des vues et les statistiques d'interaction avec les livres ;",
+              "Les rapports de plantage, les diagnostics système et les dates de connexion au compte."
+            ]
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "2.4 Informations provenant de tiers"
+          },
+          {
+            "t": "p",
+            "text": "Si vous vous connectez ou liez votre compte à travers des services tiers tels qu'Apple, Google, Facebook ou X (Twitter), nous pouvons recevoir votre nom d'utilisateur, votre adresse e-mail, vos informations de profil et les données d'authentification de base de ces systèmes."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "3. Comment nous utilisons les informations"
+          },
+          {
+            "t": "p",
+            "text": "Nous traitons vos informations personnelles pour accomplir nos services commerciaux, notamment pour :"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Créer, gérer et sécuriser les comptes utilisateurs et créateurs ;",
+              "Fournir, maintenir et optimiser les fonctionnalités de la plateforme ;",
+              "Personnaliser les recommandations de lecture et le suivi de découverte de contenu ;",
+              "Traiter en toute sécurité les achats de pièces, les abonnements premium et les paiements des créateurs ;",
+              "Offrir un support client réactif et le dépannage technique ;",
+              "Détecter, enquêter et prévenir la fraude, les abus sur la plateforme, le spam ou les risques de sécurité ;",
+              "Garantir la pleine conformité avec les réglementations fiscales applicables, les lois contre le blanchiment d'argent (AML) et les obligations légales."
+            ]
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "4. Recommandations et publicité"
+          },
+          {
+            "t": "p",
+            "text": "FANG utilise les données d'activité pour recommander des histoires pertinentes, optimiser la visibilité des créateurs et mesurer les performances publicitaires. Nous pouvons travailler avec des partenaires d'analyse et de publicité vérifiés qui utilisent des cookies ou des SDK pour aider à évaluer les tendances de la plateforme. Lorsque la loi locale sur la protection de la vie privée l'exige, nous obtiendrons explicitement votre consentement avant de traiter des données à des fins de publicité ciblée."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "5. Cookies et technologies similaires"
+          },
+          {
+            "t": "p",
+            "text": "Nous utilisons des cookies, des balises web et des SDK mobiles pour maintenir la connexion sécurisée des utilisateurs, mémoriser les préférences système, analyser l'engagement des utilisateurs et soutenir le suivi marketing. Vous pouvez gérer ou désactiver les cookies via les paramètres de votre navigateur, bien que cela puisse empêcher certaines fonctionnalités de connexion et de commerce électronique de fonctionner correctement."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "6. Partage d'informations"
+          },
+          {
+            "t": "p",
+            "text": "FANG ne vend pas d'informations personnelles. Nous ne divulguons des informations que selon les directives d'entreprise suivantes :"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "6.1 Prestataires de services et partenaires de la plateforme"
+          },
+          {
+            "t": "p",
+            "text": "Nous partageons des données avec des fournisseurs tiers vérifiés qui soutiennent nos opérations clés, notamment les hébergeurs cloud, les systèmes d'analyse, les outils de communication et nos partenaires d'infrastructure de paiement marchand (tels que Stripe et PayPal)."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "6.2 Conformité légale et protection de la plateforme"
+          },
+          {
+            "t": "p",
+            "text": "Nous pouvons divulguer des informations lorsque cela est nécessaire pour nous conformer à des ordonnances judiciaires, appliquer nos Conditions d'utilisation, nous défendre contre des responsabilités légales, protéger la sécurité publique ou sécuriser notre infrastructure contre des fraudes ou des cybermenaces actives."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "6.3 Transferts d'entreprises"
+          },
+          {
+            "t": "p",
+            "text": "En cas de fusion d'entreprises, d'acquisition, de réorganisation structurelle ou de vente d'actifs, les informations de la base de données utilisateurs peuvent être transférées en tant qu'actifs standard de l'entreprise."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "6.4 Contenu public de la plateforme"
+          },
+          {
+            "t": "p",
+            "text": "Les informations que vous placez intentionnellement dans les zones publiques de l'application — y compris votre nom d'utilisateur, vos photos de profil publiques, vos romans publiés, vos commentaires, vos avis sur les livres et vos publications communautaires — sont visibles par tous les utilisateurs au sein de l'écosystème FANG."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "7. Informations de paiement"
+          },
+          {
+            "t": "p",
+            "text": "Toutes les transactions financières commerciales sont traitées de manière sécurisée par des passerelles de paiement tierces autorisées, notamment l'App Store d'Apple, Google Play, Stripe et PayPal. FANG opère sur une structure de marché où les ventes de pièces aux consommateurs ont lieu sur fangapp.io et les outils pour créateurs sont gérés séparément sur FangWriters.com."
+          },
+          {
+            "t": "p",
+            "text": "FANG ne stocke pas les numéros complets de cartes de crédit ni les coordonnées bancaires sur ses serveurs. Pour la comptabilité, la prévention de la fraude et le suivi d'audit, nous conservons en toute sécurité :"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Les identifiants de transaction numériques et les clés de référence ;",
+              "L'historique des achats et des abonnements sur la plateforme ;",
+              "L'horodatage et les montants des commandes."
+            ]
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "8. Conservation des données"
+          },
+          {
+            "t": "p",
+            "text": "Nous ne conservons les données personnelles que le temps nécessaire pour assurer la disponibilité de la plateforme, gérer les comptes actifs, résoudre les litiges, prévenir la fraude continue ou satisfaire aux critères fédéraux de déclaration financière et légale."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "9. Suppression de compte et droits des utilisateurs"
+          },
+          {
+            "t": "p",
+            "text": "Vous pouvez demander la suppression complète de votre compte à tout moment via les paramètres logiciels de l'application ou en envoyant un e-mail à support@fangapp.io. Veuillez noter que certaines données de transaction historiques et valeurs de registre peuvent être archivées en permanence en raison de strictes obligations d'audit fiscal et légal. La suppression d'un compte mettra fin immédiatement et définitivement à l'accès à vos soldes de pièces achetées et à vos bibliothèques numériques premium. Selon votre juridiction physique (comme dans le cadre du RGPD ou du CCPA), vous avez le droit d'accéder, de corriger ou de supprimer complètement vos informations personnelles, de retirer votre consentement relatif aux données ou de restreindre des traitements spécifiques."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "10. Transferts internationaux de données"
+          },
+          {
+            "t": "p",
+            "text": "FANG opère via des serveurs cloud répartis dans le monde entier, les opérations principales étant situées aux États-Unis. En utilisant nos services, vous reconnaissez que vos informations personnelles peuvent être transférées et traitées en toute sécurité en dehors de votre pays de résidence sous des réglementations de protection des données qui peuvent différer de vos lois locales."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "11. Protection et sécurité"
+          },
+          {
+            "t": "p",
+            "text": "Nous mettons en œuvre des mesures de sécurité administratives, techniques et physiques pour protéger vos informations contre l'accès non autorisé, la perte ou la manipulation. Cependant, aucune méthode de transmission de données sur Internet ne peut être garantie comme étant 100 % sécurisée. Vous êtes entièrement responsable de la protection des identifiants de votre profil de connexion individuel."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "12. Confidentialité des enfants"
+          },
+          {
+            "t": "p",
+            "text": "FANG est strictement une plateforme de romans web pour adultes. En totale conformité avec nos Conditions d'utilisation, le Service n'est pas destiné ni adressé aux enfants de moins de 18 ans. Nous ne collectons pas sciemment d'informations auprès de mineurs. Si un parent ou un tuteur estime que des données ont été traitées de manière inappropriée, veuillez nous contacter immédiatement à support@fangapp.io."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "13. Services tiers"
+          },
+          {
+            "t": "p",
+            "text": "Nos Services interagissent nativement avec des systèmes externes, des sites web ou des liens d'application (tels que les liens de suivi pour développeurs et les plateformes de créateurs comme FangWriters.com). FANG n'assume aucune responsabilité opérationnelle quant aux politiques de confidentialité distinctes ou aux pratiques de données gérées par des systèmes tiers."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "14. Alertes marketing et de communication"
+          },
+          {
+            "t": "p",
+            "text": "Nous pouvons occasionnellement diffuser des annonces de service, des avertissements de sécurité stricts, des mises à jour de la base de données de la plateforme et des bulletins d'information promotionnels facultatifs par e-mail. Vous pouvez facilement vous désabonner des newsletters promotionnelles à tout moment en cliquant sur les liens « Se désabonner » fournis dans nos pieds de page."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "15. Modifications de cette Politique de confidentialité"
+          },
+          {
+            "t": "p",
+            "text": "Nous nous réservons le droit de modifier cette Politique de confidentialité à tout moment. Si des modifications importantes surviennent, nous en informerons notre communauté via des avertissements de mise à jour visibles dans l'application, des annonces sur le site web ou des alertes directes par e-mail."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-2",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "16. Contactez-nous"
+          },
+          {
+            "t": "p",
+            "text": "Si vous avez des questions, des demandes ou des préoccupations concernant cette Politique de confidentialité ou vos informations, veuillez contacter :"
+          },
+          {
+            "t": "p",
+            "text": "FANG / IFO DIGITAL MEDIA, LLC"
+          },
+          {
+            "t": "p",
+            "text": "1111B S Governors Ave STE 52111"
+          },
+          {
+            "t": "p",
+            "text": "Dover, DE 19904"
+          },
+          {
+            "t": "p",
+            "text": "États-Unis"
+          },
+          {
+            "t": "p",
+            "text": "Support : support@fangapp.io"
+          },
+          {
+            "t": "p",
+            "text": "Service Juridique : legal@fangapp.io"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Propulsé par FANGVAULT"
+          }
+        ]
+      }
+    ]
+},
+  "refund": {
+    "title": "Politique de remboursement",
+    "blocks": [
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Propulsé par FANGVAULT"
+          },
+          {
+            "t": "p",
+            "text": "Date d'entrée en vigueur : 18 août 2026"
+          },
+          {
+            "t": "p",
+            "text": "Merci de soutenir les auteurs et créateurs sur FANG. La plateforme FANG est exploitée par IFO DIGITAL MEDIA, LLC."
+          },
+          {
+            "t": "p",
+            "text": "Cette Politique de remboursement définit les paramètres financiers professionnels régissant toutes les transactions en monnaie virtuelle et les adhésions VIP numériques effectuées au sein de l'écosystème de la plateforme FANG. En initiant toute transaction ou achat premium sur notre plateforme, vous reconnaissez et acceptez explicitement l'ensemble des conditions détaillées ci-dessous."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "1. Conditions de vente de la monnaie virtuelle (Pièces)"
+          },
+          {
+            "t": "p",
+            "text": "FANG utilise une monnaie numérique (« Pièces ») pour permettre aux utilisateurs de débloquer de manière systématique des chapitres premium, des histoires exclusives et des fonctionnalités spécialisées de la plateforme."
+          },
+          {
+            "t": "p",
+            "text": "Caractère définitif de la vente : Tous les achats de packs de monnaie virtuelle effectués sur notre portail web ou nos applications mobiles sont fermes, définitifs, instantanés et entièrement non remboursables."
+          },
+          {
+            "t": "p",
+            "text": "Aucune valeur monétaire : Les Pièces ne possèdent aucune valeur monétaire dans le monde réel, sont strictement non transférables et ne peuvent jamais être échangées, rachetées ou converties en espèces courantes ou en crédits financiers externes."
+          },
+          {
+            "t": "p",
+            "text": "Renonciation au droit de rétractation après consommation instantanée : Les recharges de pièces numériques fournissent une utilité immédiate dans la base de données. À la seconde exacte où les Pièces sont créditées sur le profil de votre portefeuille utilisateur, le contrat de vente est exécuté dans son intégralité. Vous renoncez explicitement à tout droit légal de rétractation, période de réflexion ou annulation de transaction."
+          },
+          {
+            "t": "p",
+            "text": "Protection contre les erreurs de l'utilisateur : FANG ne délivre aucun remboursement, remplacement ou crédit de compte pour les Pièces achetées par accident, les Pièces dépensées par inadvertance pour débloquer des chapitres, ou les soldes perdus suite à la compromission d'identifiants résultant d'une négligence de l'utilisateur."
+          },
+          {
+            "t": "p",
+            "text": "Défaillances techniques exceptionnelles : Si une défaillance vérifiable de l'infrastructure de paiement se produit, où les fonds sont correctement débités de votre carte de paiement mais que les Pièces numériques ne sont pas livrées en raison d'un problème de base de données, vous devez contacter support@fangapp.io dans un délai de quarante-huit (48) heures en fournissant des justificatifs de transaction vérifiés. FANG se réserve le droit, à sa seule discrétion, de créditer des Pièces numériques de remplacement après la réalisation d'un audit de compte."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "2. Adhésions VIP numériques et cycles de facturation"
+          },
+          {
+            "t": "p",
+            "text": "FANG propose des options d'abonnement récurrent hebdomadaires et mensuelles offrant un accès premium à la plateforme."
+          },
+          {
+            "t": "p",
+            "text": "Pas de crédits proratisés : Nous ne délivrons pas de remboursements proratisés ni de crédits partiels pour les jours non utilisés au cours d'une période de facturation mensuelle active."
+          },
+          {
+            "t": "p",
+            "text": "Paramètres d'annulation : Vous pouvez annuler votre abonnement VIP à tout moment via les paramètres de votre compte Apple, Google Play ou sur le site web. Supprimer l'application FANG de votre appareil n'annule pas votre abonnement récurrent."
+          },
+          {
+            "t": "p",
+            "text": "Règles relatives à la suppression de l'application : Désinstaller ou supprimer l'application FANG de votre appareil n'annule ni ne suspend la configuration de votre facturation récurrente VIP active."
+          },
+          {
+            "t": "p",
+            "text": "Maintien de l'accès : Après une annulation réussie, les fonctionnalités premium VIP resteront actives sur votre profil jusqu'à la fin du cycle de facturation payé en cours."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "3. Intégrité des paiements et vérification de compte"
+          },
+          {
+            "t": "p",
+            "text": "Afin de préserver nos systèmes de paiement et de protéger notre réseau contre toute activité frauduleuse, FANG applique des normes strictes de vérification des transactions :"
+          },
+          {
+            "t": "p",
+            "text": "Signalements de suspension de compte : Si un litige officiel de transaction, une demande de rétrofacturation ou un rechargement inversé est initié via un émetteur de carte de crédit ou une banque sans utiliser au préalable notre canal d'assistance interne dédié, les systèmes de notre plateforme se réservent le droit de suspendre immédiatement ou de fermer définitivement le compte utilisateur associé."
+          },
+          {
+            "t": "p",
+            "text": "Perte des données du registre : En cas de fermeture de compte résultant d'un abus de facturation, tous les soldes de Pièces virtuelles restants, les bonus promotionnels accumulés, l'historique d'accès de lecture débloqué et les données du compte sont immédiatement et définitivement confisqués."
+          },
+          {
+            "t": "p",
+            "text": "Restrictions matérielles : Pour préserver l'intégrité de l'infrastructure de la plateforme, FANG se réserve le droit de bloquer de manière programmatique les identifiants d'appareils matériels et les adresses réseau associées impliqués dans des litiges de transaction répétés."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "4. Dispositions relatives aux consommateurs selon les juridictions"
+          },
+          {
+            "t": "p",
+            "text": "Certaines régions du monde appliquent des protections légales obligatoires concernant les logiciels numériques et les transactions de contenu de consommation. Si les lois de protection des consommateurs de votre juridiction locale prévalent légalement sur notre politique standard, notre responsabilité directe de remboursement s'adaptera strictement aux paramètres minimaux absolus requis par ces directives régionales."
+          },
+          {
+            "t": "p",
+            "text": "Remarque : Tout achat effectué via l'infrastructure de paiement de l'App Store d'Apple ou du Google Play Store doit être traité directement par le service d'assistance de leur plateforme respective, conformément à leurs directives de remboursement individuelles."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "5. Mises à jour de la politique"
+          },
+          {
+            "t": "p",
+            "text": "FANG se réserve le droit de modifier ou de remplacer cette Politique de remboursement à tout moment. La poursuite de l'utilisation de notre domaine principal ou des fonctionnalités de l'application après la publication de toute modification textuelle constitue une acceptation officielle des conditions mises à jour."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "6. Coordonnées de l'entreprise"
+          },
+          {
+            "t": "p",
+            "text": "Pour toute question opérationnelle concernant des données de livraison manquantes ou des bugs techniques sur la plateforme, veuillez contacter directement nos structures juridiques et d'assistance."
+          },
+          {
+            "t": "p",
+            "text": "FANG / IFO DIGITAL MEDIA, LLC"
+          },
+          {
+            "t": "p",
+            "text": "1111B S Governors Ave STE 52111"
+          },
+          {
+            "t": "p",
+            "text": "Dover, DE 19904"
+          },
+          {
+            "t": "p",
+            "text": "États-Unis"
+          },
+          {
+            "t": "p",
+            "text": "Support Client : support@fangapp.io"
+          },
+          {
+            "t": "p",
+            "text": "Infrastructure Juridique : legal@fangapp.io"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Propulsé par FANGVAULT"
+          }
+        ]
+      }
+    ]
+}, "terms": {
+    "title": "Conditions d'utilisation et de service",
+    "blocks": [
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Propulsé par FANGVAULT"
+          },
+          {
+            "t": "p",
+            "text": "Date d'entrée en vigueur : 18 août 2026"
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "1. Acceptation des conditions"
+          },
+          {
+            "t": "p",
+            "text": "Ces Conditions d'utilisation et de service (« Conditions ») régissent votre accès et votre utilisation de la plateforme FANG, y compris l'application mobile FANG, le site web, le portail des auteurs, le contenu, les outils, les services et les fonctionnalités associées (collectivement, le « Service »)."
+          },
+          {
+            "t": "p",
+            "text": "Le Service est exploité par IFO DIGITAL MEDIA, LLC (« FANG », « nous », « notre » ou « nos »)."
+          },
+          {
+            "t": "p",
+            "text": "En accédant au Service ou en l'utilisant, vous acceptez de vous conformer à ces Conditions et à notre Politique de confidentialité. Si vous n'acceptez pas ces Conditions, vous devez immédiatement cesser d'utiliser le Service. Nous pouvons mettre à jour ou modifier ces Conditions de temps à autre. La poursuite de l'utilisation du Service après l'entrée en vigueur des modifications constitue votre acceptation des Conditions révisées."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-2",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "2. Informations sur l'entreprise"
+          },
+          {
+            "t": "p",
+            "text": "IFO DIGITAL MEDIA, LLC"
+          },
+          {
+            "t": "p",
+            "text": "1111B S Governors Ave STE 52111"
+          },
+          {
+            "t": "p",
+            "text": "Dover, DE 19904"
+          },
+          {
+            "t": "p",
+            "text": "États-Unis"
+          },
+          {
+            "t": "p",
+            "text": "Support : support@fangapp.io"
+          },
+          {
+            "t": "p",
+            "text": "Service Juridique : legal@fangapp.io"
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "3. Éligibilité"
+          },
+          {
+            "t": "p",
+            "text": "FANG est une plateforme de lecture et de narration en ligne qui permet aux utilisateurs de lire, publier et interagir avec du contenu littéraire numérique. Vous devez avoir au moins 18 ans ou avoir atteint la majorité légale dans votre juridiction pour utiliser le Service."
+          },
+          {
+            "t": "p",
+            "text": "En utilisant le Service, vous déclarez et garantissez que :"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Vous êtes légalement capable de conclure des accords contraignants ;",
+              "Vous vous conformez aux lois et réglementations applicables ;",
+              "Vous n'avez pas été préalablement suspendu ou banni définitivement de FANG."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Vous devez être âgé d'au moins 18 ans, ou avoir l'âge de la majorité légale dans votre juridiction, pour utiliser le Service."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "4. Comptes et inscription"
+          },
+          {
+            "t": "p",
+            "text": "Certaines fonctionnalités du Service nécessitent la création d'un compte. Vous acceptez de fournir des informations exactes et à jour, et de maintenir à jour les informations de votre compte."
+          },
+          {
+            "t": "p",
+            "text": "Vous êtes responsable de :"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Le maintien de la confidentialité de vos identifiants de connexion ;",
+              "Les activités survenant sous votre compte ;",
+              "Toute utilisation non autorisée résultant d'un manque de sécurisation de votre compte."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Vous ne pouvez pas :"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Vendre ou transférer votre compte ;",
+              "Usurper l'identité d'une autre personne ;",
+              "Créer des comptes en utilisant de fausses informations."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "FANG se réserve le droit de suspendre ou de fermer les comptes qui violent ces Conditions."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "5. Pièces, paiements et abonnements"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "5.1 Pièces et monnaie virtuelle"
+          },
+          {
+            "t": "p",
+            "text": "FANG peut proposer une monnaie virtuelle (« Pièces ») utilisée pour débloquer des histoires, des chapitres, du contenu premium ou des fonctionnalités de la plateforme."
+          },
+          {
+            "t": "p",
+            "text": "Les Pièces peuvent être obtenues via :"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Des achats ;",
+              "Des campagnes promotionnelles ;",
+              "Des systèmes de récompense ;",
+              "Des incitations publicitaires."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Les Pièces n'ont aucune valeur monétaire, ne sont pas transférables et ne sont pas remboursables, sauf lorsque la loi l'exige. FANG se réserve le droit de modifier le prix, la disponibilité ou les fonctionnalités des pièces à tout moment."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "5.2 Abonnements"
+          },
+          {
+            "t": "p",
+            "text": "FANG peut proposer des formules d'abonnement récurrent offrant des avantages premium. Les abonnements se renouvelleront automatiquement sauf annulation avant la date de renouvellement. Les paiements peuvent être traités via l'App Store d'Apple, Google Play, Stripe ou d'autres fournisseurs de paiement autorisés."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "5.3 Annulation et remboursements"
+          },
+          {
+            "t": "p",
+            "text": "Les abonnements peuvent être annulés via les paramètres du compte Apple, les paramètres Google Play, les paramètres du compte FANG ou en contactant support@fangapp.io. Supprimer l'application n'annule pas les abonnements. Tous les achats sont définitifs, sauf disposition contraire de la loi applicable ou des politiques de la plateforme."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "6. Contenu utilisateur"
+          },
+          {
+            "t": "p",
+            "text": "Les utilisateurs peuvent télécharger des histoires, des commentaires, des avis, des images et d'autres éléments (« Contenu Utilisateur »). Vous conservez la propriété de votre Contenu Utilisateur. En téléchargeant ou en publiant du contenu sur FANG, vous accordez à FANG une licence mondiale, non exclusive, libre de droits et sous-licenciable pour héberger, stocker, afficher, publier, reproduire, traduire, adapter, promouvoir et distribuer ce contenu uniquement pour le fonctionnement, l'amélioration, le marketing et la promotion du Service. Vous êtes seul responsable de votre Contenu Utilisateur et des conséquences de sa publication."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "7. Conduites interdites et politique d'utilisation acceptable (AUP)"
+          },
+          {
+            "t": "p",
+            "text": "Vous acceptez strictement de ne pas utiliser la plateforme pour télécharger, publier, lier ou partager tout contenu qui :"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Promeut, facilite ou encourage l'extrémisme violent, le terrorisme ou les discours de haine ;",
+              "Implique l'utilisation non autorisée de la propriété intellectuelle (PI), y compris le plagiat, la violation du droit d'auteur, les romans piratés ou la violation de marques déposées ;",
+              "Exploite ou nuit aux mineurs de quelque manière que ce soit ;",
+              "Contient de la pornographie illégale ou du contenu explicitement sexuel ;",
+              "Harcèle, menace, diffame ou abuse d'autrui ;",
+              "Contient des logiciels malveillants, des virus ou du code informatique malveillant."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "En outre, vous acceptez de ne pas :"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Utiliser des bots, des scripts automatisés ou des outils d'extraction de données (« scraping ») pour accéder au service ;",
+              "Faire de l'ingénierie inverse, décompiler ou interférer avec les fonctionnalités de la plateforme ;",
+              "Contourner les mesures de sécurité ou de protection du contenu de la plateforme ;",
+              "Utiliser le Service pour des activités commerciales non autorisées."
+            ]
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "7.1 Application automatisée de l'AUP"
+          },
+          {
+            "t": "p",
+            "text": "Nous appliquons une politique de tolérance zéro à l'égard des violations de cette section. FANG utilise des logiciels automatisés et programmatiques de détection de contenu, associés à des mécanismes actifs de signalement par les utilisateurs (fonctionnalités « Signaler le livre »), pour analyser, surveiller et examiner le contenu. Nous nous réservons le droit absolu de démonétiser, restreindre l'accès, masquer ou supprimer définitivement et automatiquement tout compte utilisateur ou Contenu Utilisateur qui viole notre Politique d'utilisation acceptable, sans préavis."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "8. Propriété intellectuelle"
+          },
+          {
+            "t": "p",
+            "text": "Tous les logiciels, marques, logos, interfaces, graphismes et éléments de la plateforme appartiennent à FANG ou lui sont concédés sous licence, et sont protégés par les lois applicables sur la propriété intellectuelle. Vous ne pouvez pas reproduire, distribuer, modifier ou exploiter commercialement une quelconque partie du Service sans l'autorisation écrite préalable de FANG. Les plaintes relatives au droit d'auteur et les réclamations pour contrefaçon sont traitées conformément à la Politique de droit d'auteur et aux directives DMCA de FANG."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "9. Programme FangWriters"
+          },
+          {
+            "t": "p",
+            "text": "FANG opère au sein d'un cadre de marché multi-entités. Tandis que les lecteurs interagissent avec le contenu sur fangapp.io, les créateurs et auteurs indépendants publient du contenu, gèrent leurs droits et suivent leurs métriques de monétisation exclusivement via notre plateforme dédiée aux auteurs accessible sur FangWriters.com."
+          },
+          {
+            "t": "p",
+            "text": "La participation à notre Programme Auteurs ou à nos options de monétisation pour créateurs nécessite des accords électroniques distincts et le respect de conditions d'éligibilité spécifiques. FANG conserve l'entière discrétion éditoriale pour :"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Approuver ou rejeter les profils de candidature des auteurs ;",
+              "Modifier les paramètres de monétisation de la plateforme et les pourcentages d'attribution des pièces ;",
+              "Suspendre ou supprimer immédiatement les histoires qui violent nos normes de sécurité ou notre Politique d'utilisation acceptable."
+            ]
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "10. Confidentialité"
+          },
+          {
+            "t": "p",
+            "text": "Votre utilisation du Service est également régie par la Politique de confidentialité de FANG. En utilisant le Service, vous consentez à la collecte et à l'utilisation d'informations telles que décrites dans la Politique de confidentialité."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "11. Services tiers"
+          },
+          {
+            "t": "p",
+            "text": "Le Service peut contenir des liens vers des sites web, des services, des publicités ou des fournisseurs de paiement tiers. FANG n'est pas responsable de la disponibilité, du contenu, des produits ou des pratiques de ces services tiers. Votre utilisation des services tiers se fait à vos propres risques."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "12. Disponibilité du service"
+          },
+          {
+            "t": "p",
+            "text": "FANG peut modifier, suspendre, limiter ou interrompre toute partie du Service à tout moment. Nous ne garantissons pas un fonctionnement ininterrompu ou sans erreur du Service. Des pannes temporaires, des interruptions de maintenance ou des défaillances techniques peuvent survenir."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "13. Résiliation"
+          },
+          {
+            "t": "p",
+            "text": "FANG peut suspendre ou résilier votre accès au Service à tout moment en cas de violation de ces Conditions, d'activité frauduleuse, d'abus de la plateforme, de conduite illégale ou de violations répétées du droit d'auteur. Vous pouvez demander la suppression de votre compte à tout moment en contactant support@fangapp.io."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "14. Exclusion de garanties"
+          },
+          {
+            "t": "p",
+            "text": "LE SERVICE EST FOURNI « EN L'ÉTAT » ET « SELON LA DISPONIBILITÉ ». DANS LA MESURE MAXIMALE AUTORISÉE PAR LA LOI, FANG DÉCLINE TOUTE GARANTIE, EXPRESSE OU IMPLICITE, Y COMPRIS LES GARANTIES DE QUALITÉ MARCHANDE, D'ADÉQUATION À UN USAGE PARTICULIER, DE NON-CONTREFAÇON, DE DISPONIBILITÉ CONTINUE, DE SÉCURITÉ OU DE FONCTIONNEMENT SANS ERREUR. L'UTILISATION DU SERVICE SE FAIT À VOS PROPRES RISQUES."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "15. Limitation de responsabilité"
+          },
+          {
+            "t": "p",
+            "text": "DANS LA MESURE MAXIMALE AUTORISÉE PAR LA LOI, FANG NE SERA PAS RESPONSABLE DES DOMMAGES INDIRECTS, ACCESSOIRES, CONSÉCUTIFS OU SPÉCIAUX, NI DE LA PERTE DE PROFITS, DE LA PERTE DE DONNÉES OU DE L'INTERRUPTION D'ACTIVITÉ. LA RESPONSABILITÉ TOTALE DE FANG NE DEVRAN PAS DÉPASSER LE MONTANT QUE VOUS AVEZ PAYÉ À FANG AU COURS DES SIX MOIS PRÉCÉDANT LA RÉCLAMATION."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "16. Indemnisation"
+          },
+          {
+            "t": "p",
+            "text": "Vous acceptez de défendre, d'indemniser et de dégager de toute responsabilité FANG, ses sociétés affiliées, ses employés, ses partenaires et ses concédants de licence contre toute réclamation, responsabilité, dommage, perte et dépense découlant de votre utilisation du Service, de votre Contenu Utilisateur, de votre violation de ces Conditions ou de votre violation des droits de tiers."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "17. Droit applicable et litiges"
+          },
+          {
+            "t": "p",
+            "text": "Ces Conditions sont régies par les lois de l'État du Delaware, États-Unis, sans égard aux principes de conflit de lois. Avant d'entamer une procédure judiciaire formelle, vous acceptez de tenter une résolution amiable en contactant legal@fangapp.io. Dans la mesure maximale autorisée par la loi, les litiges seront réglés individuellement, et il est renoncé aux actions collectives ou aux arbitrages collectifs."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "18. Communications électroniques"
+          },
+          {
+            "t": "p",
+            "text": "En utilisant le Service, vous consentez à recevoir des communications électroniques de la part de FANG. Les avis, accords et enregistrements électroniques satisfont aux exigences légales en matière de communication."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "19. Force majeure"
+          },
+          {
+            "t": "p",
+            "text": "FANG ne sera pas responsable des retards ou manquements causés par des événements échappant à son contrôle raisonnable, y compris les catastrophes naturelles, les pannes d'Internet, les cyberattaques, les actions gouvernementales, les pannes de courant, les guerres ou les conflits du travail."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "20. Dispositions diverses"
+          },
+          {
+            "t": "p",
+            "text": "Si une disposition de ces Conditions est jugée inapplicable, les dispositions restantes restent en vigueur. Le fait de ne pas appliquer une disposition ne constitue pas une renonciation. Ces Conditions constituent l'intégralité de l'accord entre vous et FANG concernant l'utilisation du Service."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-2",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "21. Coordonnées"
+          },
+          {
+            "t": "p",
+            "text": "FANG / IFO DIGITAL MEDIA, LLC"
+          },
+          {
+            "t": "p",
+            "text": "1111B S Governors Ave STE 52111"
+          },
+          {
+            "t": "p",
+            "text": "Dover, DE 19904"
+          },
+          {
+            "t": "p",
+            "text": "États-Unis"
+          },
+          {
+            "t": "p",
+            "text": "Support : support@fangapp.io"
+          },
+          {
+            "t": "p",
+            "text": "Service Juridique : legal@fangapp.io"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Propulsé par FANGVAULT"
+          }
+        ]
+      }
+    ]
+  },
+  "faq": {
+    "title": "FAQ FANG",
+    "blocks": [
+      {
+        "t": "div",
+        "cls": "space-y-4",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "1. Monnaie virtuelle et accès au contenu"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Q : Quelle est la différence entre les Pièces Normales et les Pièces Bonus ?"
+          },
+          {
+            "t": "p",
+            "text": "<b>R :</b>"
+          },
+          {
+            "t": "p",
+            "text": "<b>Pièces Normales :</b> Acquises via des recharges standard directes sur votre portefeuille de la plateforme. Ces pièces n'ont pas de date d'expiration et peuvent être utilisées pour débloquer des niveaux de contenu premium sur l'interface de l'application FANG."
+          },
+          {
+            "t": "p",
+            "text": "<b>Pièces Bonus :</b> Monnaie promotionnelle accordée par le biais de récompenses d'enregistrement quotidien, de tâches d'engagement avec des vidéos publicitaires ou d'événements de lecture spécifiques sur la plateforme. Les Pièces Bonus ont une durée de validité structurelle de exactement deux (2) jours à compter de leur date d'attribution et doivent être utilisées dans ce délai."
+          },
+          {
+            "t": "br"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Q : Combien coûte le déblocage d'un chapitre premium ?"
+          },
+          {
+            "t": "p",
+            "text": "<b>R :</b> Le contenu textuel premium s'ajuste de manière dynamique en fonction de la profondeur de l'histoire et de sa structure au sein de l'arc narratif du livre. Les premiers chapitres premium de lancement coûtent 25 Pièces, les chapitres de progression intermédiaire passent à 35 Pièces, et les chapitres finaux à forte tension (climax) s'élèvent à 45 Pièces."
+          },
+          {
+            "t": "br"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Q : Pourquoi reçois-je des récompenses promotionnelles supplémentaires lorsque j'achète des packs directement sur le portail web FANG ?"
+          },
+          {
+            "t": "p",
+            "text": "<b>R :</b> Le traitement des transactions directement via notre infrastructure de paiement sécurisée native sur le web minimise les frais de gestion par rapport aux boutiques d'applications tierces. Nous répercutons ces économies d'efficacité directement sur notre communauté en offrant jusqu'à 60 % de Pièces Bonus promotionnelles supplémentaires pour les packs réglés via notre passerelle web directe."
+          },
+          {
+            "t": "br"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Q : Puis-je accéder à mon solde virtuel sur plusieurs appareils mobiles ?"
+          },
+          {
+            "t": "p",
+            "text": "<b>R :</b> Oui. Votre solde virtuel est directement lié à votre profil de compte FANG authentifié et unifié. Dès que votre compte est mis à jour, vos soldes de pièces et votre historique de lecture se synchronisent automatiquement sur n'importe quel appareil autorisé où vous vous connectez."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-4",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "2. Facturation, abonnements et annulations"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Q : Puis-je demander un remboursement si j'achète un pack de pièces par accident ?"
+          },
+          {
+            "t": "p",
+            "text": "<b>R :</b> Non. Conformément à nos Conditions de vente mondiales, toutes les transactions en monnaie virtuelle effectuées sur la plateforme FANG procurent une utilité immédiate dans la base de données et sont fermes, définitives et non remboursables. Nous n'émettons aucun remboursement en espèces, ni d'annulation de registre ou de crédit promotionnel pour des choix d'utilisateurs par inadvertance ou des soldes non utilisés."
+          },
+          {
+            "t": "br"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Q : Quels sont les canaux de paiement mondiaux actuellement acceptés sur la plateforme ?"
+          },
+          {
+            "t": "p",
+            "text": "<b>R :</b> Nous prenons en charge tous les principaux systèmes de cartes de crédit/débit internationales (notamment Visa, Mastercard, American Express et Discover), les portefeuilles de paiement mobile cryptés (Apple Pay et Google Pay), ainsi que les portails de partenaires de paiement autorisés. Toutes les transactions financières sont réglées en toute sécurité en dollars américains (USD)."
+          },
+          {
+            "t": "br"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Q : Comment fonctionnent les abonnements et pass VIP FANG ?"
+          },
+          {
+            "t": "p",
+            "text": "<b>R :</b> Les abonnements VIP offrent des environnements de lecture premium améliorés et adaptés à vos préférences de lecture intensive à travers deux formules distinctes :"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "<b>VIP Hebdomadaire (9,99 $ / semaine) :</b> Offre un accès hebdomadaire complet incluant des attributions quotidiennes de pièces bonus promotionnelles, des profils publicitaires entièrement allégés, des privilèges d'accès anticipé aux chapitres, de petits déclencheurs de bonus sur les recharges de compte et un badge de statut de profil VIP exclusif.",
+              "<b>VIP Mensuel (29,99 $ / mois) :</b> Notre formule au meilleur rapport qualité-prix désignée, offrant des récompenses de distribution de pièces quotidiennes beaucoup plus importantes, des multiplicateurs de bonus de recharge maximisés, des réductions améliorées sur les chapitres premium, l'accès à des événements de contenu exclusifs à la plateforme, une utilité maximale de la valeur des pièces mensuelles et un accès prioritaire aux histoires premium tendances."
+            ]
+          },
+          {
+            "t": "br"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Q : Comment puis-je résilier mon abonnement VIP récurrent ?"
+          },
+          {
+            "t": "p",
+            "text": "<b>R :</b> Vous pouvez annuler votre abonnement actif à tout moment. Si vous avez souscrit à votre abonnement depuis l'interface de notre application mobile, les annulations doivent être gérées directement dans les paramètres d'abonnement de votre compte Apple App Store ou Google Play Store. Si vous vous êtes abonné directement sur notre plateforme web, vous pouvez désactiver le bouton de renouvellement automatique dans votre menu Paramètres du compte natif. Toutes les annulations doivent être enregistrées au moins 24 heures avant l'échéance de la prochaine période de facturation pour éviter les frais de renouvellement automatique."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-4",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "3. Sécurité du compte et support technique"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Q : Que se passe-t-il si un utilisateur contourne le support et initie un litige bancaire formel ?"
+          },
+          {
+            "t": "p",
+            "text": "<b>R :</b> FANG maintient des mécanismes de protection stricts contre les abus de paiement et les rétrofacturations non autorisées. Si un litige de transaction officiel ou une demande de rétrofacturation est initié auprès d'un émetteur de carte de crédit ou d'un établissement bancaire sans passer au préalable par notre service de litige dédié, notre système dorsal se réserve le droit de suspendre immédiatement ou de fermer définitivement le profil de compte associé afin de préserver l'intégrité du système."
+          },
+          {
+            "t": "br"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Q : J'ai effectué un achat de pièces mais mon portefeuille n'a pas été mis à jour. Quelles mesures dois-je prendre ?"
+          },
+          {
+            "t": "p",
+            "text": "<b>R :</b> Une brève latence du réseau ou de la base de données peut parfois retarder la synchronisation des transactions. Nous vous recommandons de fermer et de relancer complètement l'interface de votre application. Si votre solde de pièces ne reflète pas votre transaction dans un délai d'une heure, veuillez transmettre une copie numérique de votre reçu de confirmation de paiement officiel Stripe, Apple ou Google directement à notre équipe à l'adresse support@fangapp.io afin que nos ingénieurs du support technique puissent vérifier manuellement l'écriture comptable et créditer votre compte."
+          }
+        ]
+      }
+    ]
+  },
+  "cookies": {
+    "title": "Politique relative aux cookies",
+    "blocks": [
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Propulsé par FANGVAULT"
+          },
+          {
+            "t": "p",
+            "text": "Date d'entrée en vigueur : 18 août 2026"
+          },
+          {
+            "t": "p",
+            "text": "FANG (« FANG », « nous », « notre » ou « nos ») utilise des cookies et des technologies de suivi similaires (« Cookies ») pour exploiter, améliorer, sécuriser et personnaliser la plateforme FANG, incluant nos applications mobiles, notre site web, notre portail des auteurs et les services associés (collectivement, les « Services »)."
+          },
+          {
+            "t": "p",
+            "text": "Cette Politique relative aux cookies explique ce que sont les cookies, comment nous les utilisons, la façon dont les services tiers s'interfacent avec notre plateforme et comment vous pouvez gérer vos préférences. FANG est exploité par IFO DIGITAL MEDIA, LLC."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-4",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "1. Informations sur l'entreprise"
+          },
+          {
+            "t": "div",
+            "cls": "space-y-1",
+            "blocks": [
+              {
+                "t": "p",
+                "text": "IFO DIGITAL MEDIA, LLC"
+              },
+              {
+                "t": "p",
+                "text": "1111B S Governors Ave STE 52111"
+              },
+              {
+                "t": "p",
+                "text": "Dover, DE 19904"
+              },
+              {
+                "t": "p",
+                "text": "États-Unis"
+              },
+              {
+                "t": "p",
+                "text": "Support : support@fangapp.io"
+              },
+              {
+                "t": "p",
+                "text": "Service Juridique : legal@fangapp.io"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-4",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "2. Que sont les cookies ?"
+          },
+          {
+            "t": "p",
+            "text": "Les cookies sont de petits fichiers texte stockés sur votre navigateur ou votre appareil lorsque vous visitez des applications en ligne ou interagissez avec elles. Ils aident les sites web et les applications à reconnaître des appareils uniques, à préserver des sessions sécurisées, à mémoriser les choix des utilisateurs, à analyser les performances du système et à soutenir les cadres de recommandation de contenu."
+          },
+          {
+            "t": "div",
+            "cls": "space-y-2",
+            "blocks": [
+              {
+                "t": "p",
+                "text": "Parmi les technologies de suivi similaires utilisées dans notre écosystème, on trouve :"
+              },
+              {
+                "t": "ul",
+                "cls": "list-disc pl-6 space-y-1",
+                "items": [
+                  "Kits de développement logiciel (SDK) : Blocs de code mobile intégrés qui suivent la stabilité de l'application et les interactions d'événements ;",
+                  "Pixels et balises web : Petites chaînes graphiques utilisées pour surveiller les actions des utilisateurs et mesurer les conversions de campagnes marketing ;",
+                  "Stockage local : Stockage dans la base de données du navigateur utilisé pour mettre en cache les préférences de la plateforme et les paramètres de session."
+                ]
+              }
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Par souci de clarté dans ce document, toutes ces méthodes de suivi sont collectivement désignées sous le terme de « Cookies »."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-5",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "3. Types de cookies que nous utilisons"
+          },
+          {
+            "t": "p",
+            "text": "FANG déploie des cookies selon les classifications fonctionnelles suivantes :"
+          },
+          {
+            "t": "div",
+            "cls": "space-y-3",
+            "blocks": [
+              {
+                "t": "h3",
+                "cls": "font-semibold text-lg",
+                "text": "3.1 Cookies strictement nécessaires"
+              },
+              {
+                "t": "p",
+                "text": "Ces cookies sont essentiels pour que notre application fonctionne en toute sécurité et correctement."
+              },
+              {
+                "t": "div",
+                "cls": "space-y-2",
+                "blocks": [
+                  {
+                    "t": "p",
+                    "text": "Ils sont utilisés pour :"
+                  },
+                  {
+                    "t": "ul",
+                    "cls": "list-disc pl-6 space-y-1",
+                    "items": [
+                      "Authentifier les profils d'utilisateurs et maintenir des sessions de connexion actives ;",
+                      "Suivre les soldes des portefeuilles virtuels et l'attribution des pièces ;",
+                      "Détecter, enquêter et prévenir les abus de scripts automatisés, les bots malveillants ou les menaces de sécurité ;",
+                      "S'assurer que les chemins de navigation principaux de la plateforme fonctionnent correctement."
+                    ]
+                  }
+                ]
+              },
+              {
+                "t": "p",
+                "text": "Remarque : Désactiver les cookies nécessaires via les paramètres de votre navigateur compromettra les actions essentielles du compte et les processus de paiement."
+              }
+            ]
+          },
+          {
+            "t": "div",
+            "cls": "space-y-3",
+            "blocks": [
+              {
+                "t": "h3",
+                "cls": "font-semibold text-lg",
+                "text": "3.2 Cookies de fonctionnalité"
+              },
+              {
+                "t": "p",
+                "text": "Ces cookies préservent vos choix d'application personnalisés afin d'améliorer l'ergonomie."
+              },
+              {
+                "t": "div",
+                "cls": "space-y-2",
+                "blocks": [
+                  {
+                    "t": "p",
+                    "text": "Ils sont utilisés pour :"
+                  },
+                  {
+                    "t": "ul",
+                    "cls": "list-disc pl-6 space-y-1",
+                    "items": [
+                      "Enregistrer les choix d'affichage structurel (tels que les préférences de mode clair ou sombre) ;",
+                      "Maintenir des configurations de lecture spécifiques (notamment la taille du texte, les choix de police et les positions de page des chapitres) ;",
+                      "Mémoriser les paramètres de langue préférés et les paramètres de localisation du système."
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "t": "div",
+            "cls": "space-y-3",
+            "blocks": [
+              {
+                "t": "h3",
+                "cls": "font-semibold text-lg",
+                "text": "3.3 Cookies d'analyse"
+              },
+              {
+                "t": "p",
+                "text": "Ces cookies suivent la façon dont les lecteurs naviguent et interagissent avec notre environnement de lecture."
+              },
+              {
+                "t": "div",
+                "cls": "space-y-2",
+                "blocks": [
+                  {
+                    "t": "p",
+                    "text": "Ils collectent des données concernant :"
+                  },
+                  {
+                    "t": "ul",
+                    "cls": "list-disc pl-6 space-y-1",
+                    "items": [
+                      "Le nombre de pages vues par jour, la durée des sessions de lecture et les préférences de genre ;",
+                      "Les fonctionnalités de l'application utilisées et les statistiques d'engagement pour des livres spécifiques ;",
+                      "Les incidents de plantage du système, les alertes de ralentissement des performances et les échecs de chargement technique."
+                    ]
+                  }
+                ]
+              },
+              {
+                "t": "p",
+                "text": "Nous utilisons ces données anonymisées strictement pour optimiser la vitesse de la plateforme, résoudre les bugs du système dorsal et améliorer les algorithmes globaux de livraison de contenu."
+              }
+            ]
+          },
+          {
+            "t": "div",
+            "cls": "space-y-3",
+            "blocks": [
+              {
+                "t": "h3",
+                "cls": "font-semibold text-lg",
+                "text": "3.4 Cookies de publicité et de marketing"
+              },
+              {
+                "t": "div",
+                "cls": "space-y-2",
+                "blocks": [
+                  {
+                    "t": "p",
+                    "text": "Ces outils de suivi évaluent les performances des promotions. Ils sont utilisés pour :"
+                  },
+                  {
+                    "t": "ul",
+                    "cls": "list-disc pl-6 space-y-1",
+                    "items": [
+                      "Suivre la manière dont les utilisateurs trouvent notre site web par le biais de campagnes publicitaires externes ;",
+                      "Recommander des genres de livres adaptés en fonction des ajouts historiques à la bibliothèque ;",
+                      "Éviter d'afficher des bannières promotionnelles identiques et répétitives au même profil d'utilisateur."
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-4",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "4. Technologies tierces"
+          },
+          {
+            "t": "p",
+            "text": "FANG s'associe à des réseaux externes sécurisés pour soutenir l'infrastructure de sa plateforme. Ces fournisseurs vérifiés déploient des scripts de suivi pour gérer des opérations spécialisées :"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Passerelles de paiement : Des systèmes tels que Stripe et PayPal utilisent des cookies de sécurité pour analyser les métriques de risque des appareils, traiter les écrans de paiement sécurisés et atténuer la fraude aux paiements ;",
+              "Infrastructure Cloud : Les réseaux d'hébergement d'entreprise utilisent des cookies de mise en cache du serveur pour équilibrer le trafic de distribution des textes et maintenir des vitesses de chargement fulgurantes ;",
+              "Liens d'identité sociale : Des fournisseurs tels qu'Apple, Google et Facebook déploient des cookies d'authentification sécurisés pour connecter votre profil de connexion sociale de manière transparente."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Toute l'activité des cookies tiers est régie directement par les politiques de suivi respectives de ces fournisseurs indépendants."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-4",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "5. Gestion des préférences de cookies"
+          },
+          {
+            "t": "p",
+            "text": "Vous avez le droit absolu de contrôler ou de restreindre la manière dont les cookies sont stockés sur votre appareil :"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Règles du navigateur : Vous pouvez ajuster les configurations de votre navigateur sur ordinateur ou mobile pour bloquer tous les suivis tiers ou vous alerter lorsqu'un nouveau cookie est envoyé ;",
+              "Paramètres de l'appareil : Vous pouvez modifier les paramètres du système d'exploitation de votre appareil mobile pour désactiver le suivi de la publicité ciblée ou réinitialiser les clés d'identification uniques."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Veuillez noter que la limitation des suivis non essentiels modifiera la capacité de la plateforme à mémoriser facilement vos paramètres de mise en page personnalisés."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-4",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "6. Gestion du consentement aux cookies"
+          },
+          {
+            "t": "p",
+            "text": "En stricte conformité avec les lois mondiales sur la protection de la vie privée numérique, FANG demandera le consentement explicite de l'utilisateur par le biais d'une bannière d'interface avant d'initialiser tout cookie de suivi analytique ou marketing non essentiel. Vous pouvez accéder à vos préférences pour mettre à jour ou retirer vos configurations de consentement à tout moment."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-4",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "7. Modifications de cette politique relative aux cookies"
+          },
+          {
+            "t": "p",
+            "text": "Nous pouvons mettre à jour cette Politique relative aux cookies périodiquement pour l'adapter aux mises à jour de l'infrastructure ou aux changements réglementaires. Si un changement important survient, nous en informerons notre communauté de lecteurs par le biais d'alertes de notification bien visible dans l'application, de bannières sur le tableau de bord ou d'annonces directes par e-mail."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-4",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "8. Contactez-nous"
+          },
+          {
+            "t": "p",
+            "text": "Si vous avez des questions techniques ou des préoccupations en matière de conformité des données concernant nos politiques de suivi, veuillez nous contacter :"
+          },
+          {
+            "t": "div",
+            "cls": "space-y-1",
+            "blocks": [
+              {
+                "t": "p",
+                "text": "E-mail : legal@fangapp.io"
+              },
+              {
+                "t": "p",
+                "text": "Bureau de l'entreprise : FANG / IFO DIGITAL MEDIA, LLC"
+              },
+              {
+                "t": "p",
+                "text": "1111B S Governors Ave STE 52111"
+              },
+              {
+                "t": "p",
+                "text": "Dover, DE 19904"
+              },
+              {
+                "t": "p",
+                "text": "États-Unis"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "t": "p",
+        "cls": "font-semibold",
+        "text": "Propulsé par FANGVAULT"
+      }
+    ]
+  }
+}

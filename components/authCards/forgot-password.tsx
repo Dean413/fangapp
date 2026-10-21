@@ -6,6 +6,7 @@ import { useForgotPassWordAuth } from "@/hooks/forgotPasswordAuth"
 import OTPInput from "../otp"
 import PasswordInput from "../passwordInput"
 import SuccessCard from "../success-card"
+import { useTranslations } from "next-intl"
 
 type props = {
     open: boolean
@@ -22,6 +23,8 @@ const maskEmail = (email: string) => {
 
 const ForgotPassword = ({ open, onClose, openSignInCard }: props) => {
     const Auth = useForgotPassWordAuth(open)
+    const t = useTranslations("Auth")
+    const c = useTranslations("Common")
     return (
         <>
             <div className="fixed inset-0 z-999 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
@@ -34,32 +37,32 @@ const ForgotPassword = ({ open, onClose, openSignInCard }: props) => {
                     <div className="w-full px-6 md:px-16 sm:px-6 py-5 sm:py-6">
                         {Auth.currentStep === 1 && (
                             <>
-                                <div><Header head="Reset Password" paragraph="Enter the email address linked to your account and we’ll send you a reset code." /></div>
+                                <div><Header head={t("resetTitle")} paragraph={t("resetText")} /></div>
                                 <div className="space-y-6">
-                                    <Input value={Auth.email} onChange={Auth.setEmail} label="Email" />
-                                    <Button label="Send code" onClick={Auth.generateCode} disabled={Auth.loading || !Auth.email.trim()} loading={Auth.loading} loadingText="Sending..." />
-                                    <p className="text-center text-gray-600 dark:text-neutral-300">Remember it? <span onClick={openSignInCard} className="text-red-800 dark:text-red-300 cursor-pointer">Sign in</span></p>
+                                    <Input value={Auth.email} onChange={Auth.setEmail} label={t("email")} placeholder={t("emailPlaceholder")} />
+                                    <Button label={t("sendCode")} onClick={Auth.generateCode} disabled={Auth.loading || !Auth.email.trim()} loading={Auth.loading} loadingText={c("sending")} />
+                                    <p className="text-center text-gray-600 dark:text-neutral-300">{t("rememberIt")} <span onClick={openSignInCard} className="text-red-800 dark:text-red-300 cursor-pointer">{t("signIn")}</span></p>
                                 </div>
                             </>
                         )}
 
                         {Auth.currentStep === 2 && (
                             <>
-                                <button onClick={Auth.PrevStep} className="cursor-pointer w-full items-center flex gap-2 text-left  my-6 text-sm text-gray-500 dark:text-neutral-400"><ChevronLeft size={15} /> Go Back</button>
+                                <button onClick={Auth.PrevStep} className="cursor-pointer w-full items-center flex gap-2 text-left  my-6 text-sm text-gray-500 dark:text-neutral-400"><ChevronLeft size={15} /> {c("goBack")}</button>
                                 <div>
-                                    <Header head="Verify your email" paragraph={`We sent a 6-digit code to ${maskEmail(Auth.email)}. `} />
-                                    <p className="text-gray-400 dark:text-neutral-500 mb-4">Enter it below.</p>
+                                    <Header head={t("verifyTitle")} paragraph={t("codeSentTo", { email: maskEmail(Auth.email) })} />
+                                    <p className="text-gray-400 dark:text-neutral-500 mb-4">{t("enterBelow")}</p>
                                 </div>
                                 <div className="space-y-4">
                                     <OTPInput length={6} onChange={Auth.setOtp} value={Auth.otp} resend={Auth.resendCode} errorMessage={Auth.otpMessage} />
-                                    <Button onClick={Auth.verifyCode} disabled={Auth.verifying || Auth.resending || Auth.otp.length !== 6} loading={Auth.verifying} loadingText="Verifying..." label="Verify" />
+                                    <Button onClick={Auth.verifyCode} disabled={Auth.verifying || Auth.resending || Auth.otp.length !== 6} loading={Auth.verifying} loadingText={c("verifying")} label={c("verify")} />
                                 </div>
                             </>
                         )}
 
                         {Auth.currentStep === 3 && (
                             <>
-                                <div className="my-6"><Header head="New Password" paragraph="Choose a password you haven't used before." /></div>
+                                <div className="my-6"><Header head={t("newPasswordTitle")} paragraph={t("newPasswordText")} /></div>
                                 <div className="space-y-4 mt-8">
                                     <div className="mb-6">
                                         <PasswordInput
@@ -68,8 +71,8 @@ const ForgotPassword = ({ open, onClose, openSignInCard }: props) => {
                                             show={Auth.showPassWord}
                                             setShow={Auth.setShowPassWord}
                                             showStrengthBar={false}
-                                            label="New password"
-                                            placeholder="Enter new password"
+                                            label={t("newPassword")}
+                                            placeholder={t("newPasswordPlaceholder")}
                                         />
                                     </div>
 
@@ -79,10 +82,10 @@ const ForgotPassword = ({ open, onClose, openSignInCard }: props) => {
                                         show={Auth.showConfirmPassWord}
                                         setShow={Auth.setShowConfirmPassword}
                                         showStrengthBar={false}
-                                        label="Confirm password"
-                                        placeholder="Confirm password"
+                                        label={t("confirmPassword")}
+                                        placeholder={t("confirmPassword")}
                                     />
-                                    <div className="my-8"><Button label="Change password" onClick={Auth.changePassWord} disabled={Auth.loading || !Auth.passWord || !Auth.confirmPassWord} loading={Auth.loading} loadingText="Saving..." /></div>
+                                    <div className="my-8"><Button label={t("changePassword")} onClick={Auth.changePassWord} disabled={Auth.loading || !Auth.passWord || !Auth.confirmPassWord} loading={Auth.loading} loadingText={c("saving")} /></div>
                                 </div>
                             </>
                         )}
@@ -90,7 +93,7 @@ const ForgotPassword = ({ open, onClose, openSignInCard }: props) => {
                 </div>
                 {Auth.currentStep === 4 && (
                     <>
-                        <SuccessCard head="Password Updated" text="Your password has been changed successfully" buttonText="Sign in" onDone={openSignInCard} />
+                        <SuccessCard head={t("passwordUpdatedTitle")} text={t("passwordUpdatedText")} buttonText={t("signIn")} onDone={openSignInCard} />
                     </>
                 )}
             </div>

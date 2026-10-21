@@ -12,9 +12,9 @@ import { isEmail, normalizeEmail, readJson, reply } from "@/lib/auth/rules";
 export async function POST(request: NextRequest) {
     const body = await readJson(request);
     const email = normalizeEmail(body?.email);
-    if (!isEmail(email)) return reply(400, "Please enter a valid email address");
+    if (!isEmail(email)) return reply(400, "invalidEmail");
 
-    const SENT = "If an account uses this email, we've sent it a code.";
+    const SENT = "codeSentIfAccount";
 
     try {
         const { rows } = await dbPool.query(`SELECT id, account_status FROM users WHERE email = $1`, [email]);
@@ -27,6 +27,6 @@ export async function POST(request: NextRequest) {
         return reply(200, SENT, { sent: true });
     } catch (error) {
         console.error("Forgot password error:", error);
-        return reply(500, "Couldn't send the code. Please try again.");
+        return reply(500, "couldntSendCode");
     }
 }

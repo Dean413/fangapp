@@ -2,8 +2,10 @@ import { FaInstagram, FaFacebook, FaGooglePlay, FaAppStoreIos, FaLinkedin } from
 import { FaTiktok, FaXTwitter } from "react-icons/fa6"
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 const Footer = () => {
+    const t = useTranslations("Footer");
     return (
         <footer className="bg-gray-950 dark:bg-black dark:border-t dark:border-dark-border text-white py-12 px-6 ">
             <div className="max-w-8xl mx-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-10">
@@ -23,12 +25,12 @@ const Footer = () => {
                             src="/fang_pictures/landinglogo2.png"
                             width={200}
                             height={200}
-                            alt="Where Obsession Bites"
+                            alt={t("tagline")}
                             className="w-20 md:w-20 object-contain"
                         />
 
                     </div>
-                    <p className="mt-2 text-[#A3A3A3]">Where Obsession Bites</p>
+                    <p className="mt-2 text-[#A3A3A3]">{t("tagline")}</p>
                     <div className="mt-4 flex flex-col items-center md:items-start gap-3 text-gray-300">
 
                         {/* Row 1 */}
@@ -72,41 +74,41 @@ const Footer = () => {
                 {/* Genres */}
                 <div className="flex flex-col items-center md:items-start text-center md:text-left">
                     <h3 className="text-lg font-semibold uppercase mb-4 tracking-wide">
-                        Hot Genres
+                        {t("hotGenres")}
                     </h3>
                     <ul className="space-y-2 text-[#A3A3A3]">
-                        <li><Link href="/stories?genre=romance">Romance</Link></li>
-                        <li><Link href="/stories?genre=fantasy">Fantasy</Link></li>
-                        <li><Link href="/stories?genre=mafia">Mafia</Link></li>
-                        <li><Link href="/stories?genre=billionaire">Billionaire</Link></li>
-                        <li><Link href="/stories?genre=werewolf">Werewolf</Link></li>
+                        <li><Link href="/stories?genre=romance">{t("romance")}</Link></li>
+                        <li><Link href="/stories?genre=fantasy">{t("fantasy")}</Link></li>
+                        <li><Link href="/stories?genre=mafia">{t("mafia")}</Link></li>
+                        <li><Link href="/stories?genre=billionaire">{t("billionaire")}</Link></li>
+                        <li><Link href="/stories?genre=werewolf">{t("werewolf")}</Link></li>
                     </ul>
                 </div>
 
                 {/* Company */}
                 <div className="flex flex-col items-center md:items-start text-center md:text-left">
                     <h3 className="text-lg font-semibold uppercase mb-4 tracking-wide">
-                        Company
+                        {t("company")}
                     </h3>
                     <ul className="space-y-2 text-[#A3A3A3]">
-                        <li><Link href="/about">About Fang</Link></li>
-                        <li><Link href="/">Contact</Link></li>
-                        <li><Link href="/refund-policy">Refund Policy</Link></li>
-                        <li><Link href="/dcma">DMCA</Link></li>
+                        <li><Link href="/about">{t("about")}</Link></li>
+                        <li><Link href="/">{t("contact")}</Link></li>
+                        <li><Link href="/refund-policy">{t("refundPolicy")}</Link></li>
+                        <li><Link href="/dcma">{t("dmca")}</Link></li>
                     </ul>
                 </div>
 
                 {/* Support */}
                 <div className="flex col-span-2 md:col-span-1 flex-col items-center md:items-start text-center md:text-left">
                     <h3 className="text-lg font-semibold uppercase mb-4 tracking-wide">
-                        Support
+                        {t("support")}
                     </h3>
                     <ul className="space-y-2 text-[#A3A3A3]">
-                        <li><Link href="/faq">Faq</Link></li>
-                        <li><Link href="/community-guidelines">Community</Link></li>
-                        <li><Link href="/cookie-policy">Cookies</Link></li>
-                        <li><Link href="/terms-of-service">Terms of Service</Link></li>
-                        <li><Link href="/privacy-policy">Privacy Policy</Link></li>
+                        <li><Link href="/faq">{t("faq")}</Link></li>
+                        <li><Link href="/community-guidelines">{t("community")}</Link></li>
+                        <li><Link href="/cookie-policy">{t("cookies")}</Link></li>
+                        <li><Link href="/terms-of-service">{t("terms")}</Link></li>
+                        <li><Link href="/privacy-policy">{t("privacy")}</Link></li>
 
                     </ul>
                 </div>
@@ -141,8 +143,8 @@ const Footer = () => {
 
             {/* Bottom bar */}
             <div className="max-w-8xl flex justify-between mx-auto mt-10 pt-6 border-t border-gray-800 text-center text-xs text-[#A3A3A3]">
-                <p> © {new Date().getFullYear()} FANG. All rights reserved.</p>
-                <p>Powered by FANGVAULT</p>
+                <p>{t("rights", { year: new Date().getFullYear() })}</p>
+                <p>{t("poweredBy")}</p>
             </div>
         </footer>
     );

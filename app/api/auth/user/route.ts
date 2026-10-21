@@ -9,7 +9,7 @@ import { reply } from "@/lib/auth/rules";
 export async function GET() {
     try {
         const user = await getCurrentUser();
-        if (!user) return reply(401, "Not signed in", { user: null });
+        if (!user) return reply(401, "notSignedIn", { user: null });
 
         let profile = await getReaderProfile(user.id);
         if (!profile) {
@@ -37,6 +37,6 @@ export async function GET() {
         });
     } catch (error) {
         console.error("Current user error:", error);
-        return reply(500, "Something went wrong", { user: null });
+        return reply(500, "somethingWrong", { user: null });
     }
 }

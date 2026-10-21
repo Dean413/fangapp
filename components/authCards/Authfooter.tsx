@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "../Button";
+import { useTranslations } from "next-intl";
 
 type AuthFooterProps = {
     agreed?: boolean;
@@ -47,6 +48,7 @@ const AuthFooter = ({
     paragraphText,
     loadingText
 }: AuthFooterProps) => {
+    const t = useTranslations("Auth");
     return (
         <div className="space-y-3">
             {/* TERMS (optional) */}
@@ -72,12 +74,13 @@ const AuthFooter = ({
                     )}
 
                     {signInButton ? (
-                        <p>Remember me</p>
+                        <p>{t("rememberMe")}</p>
                     ) : (
                         <p className="text-xs">
-                            I agree to the{" "}
-                            <span className="text-red-600">Terms of Service</span> and{" "}
-                            <span className="text-red-600">Privacy Policy</span>
+                            {t.rich("agreeTerms", {
+                                terms: (chunks) => <span className="text-red-600">{chunks}</span>,
+                                privacy: (chunks) => <span className="text-red-600">{chunks}</span>,
+                            })}
                         </p>
                     )
                     }
@@ -103,7 +106,7 @@ const AuthFooter = ({
                     onClick={onSubmit}
                     loading={loading}
                     label={buttonLabel}
-                    loadingText="Signing in..."
+                    loadingText={t("signingIn")}
                 />
             )}
 
@@ -123,8 +126,8 @@ const AuthFooter = ({
 
             )}
             <div className="bg-gray-100 dark:bg-dark-raised text-gray-500 dark:text-neutral-400 text-xs rounded-2xl mt-2 p-6">
-                <h1 className="font-bold mb-2 ml-4 text-black dark:text-white">New Reader Benefits</h1>
-                <p className="font-extralight">Sign up today and get <span className="text-red-900 dark:text-red-300 font-bold">50 free coins</span> to unlock premium chapters. No credit card needed.</p>
+                <h1 className="font-bold mb-2 ml-4 text-black dark:text-white">{t("benefitsTitle")}</h1>
+                <p className="font-extralight">{t.rich("benefitsText", { b: (chunks) => <span className="text-red-900 dark:text-red-300 font-bold">{chunks}</span> })}</p>
             </div>
         </div>
     );

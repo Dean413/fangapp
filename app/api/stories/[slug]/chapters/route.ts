@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { getStoryBySlug, listChapters } from "@/lib/stories";
+import { getCurrentUser } from "@/lib/auth/session";
+import { translateMsg } from "@/lib/i18n";
 
 export async function GET(
     _: Request,
@@ -12,20 +14,23 @@ export async function GET(
 
         if (!story) {
             return NextResponse.json(
-                { message: "Story not found" },
+                { message: await translateMsg("storyNotFound") },
                 { status: 404 }
             );
         }
 
-        // Chapter list only (no content), with paywall status per chapter
-        const chapters = await listChapters(story);
+        // Signed-in reader: chapters they unlocked come back as unlocked
+        const user = await getCurrentUser();
+        const chapters = await listChapters(story, user?.id ?? null);
 
-        return NextResponse.json(chapters);
+        return NextResponse.json(chapters, {
+            headers: { "Cache-Control": "no-store" },
+        });
     } catch (error) {
         console.error(error);
 
         return NextResponse.json(
-            { message: "Failed to fetch story chapters" },
+            { message: await translateMsg("failedFetchChapters") },
             { status: 500 }
         );
     }

@@ -2,10 +2,11 @@
 
 import { useRef } from "react";
 import { ThumbsUp } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "@/lib/store/toastStore";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useAuthModals } from "@/lib/store/auth-card-store";
 import { Avatar, formatDateTime } from "@/components/reviews/stars";
+import { useTranslations } from "next-intl";
 
 export type Comment = {
     id: string;
@@ -35,6 +36,8 @@ export default function CommentCard({ comment, isReply, onChange, onReply, onRep
     const signedIn = useAuthStore((s) => Boolean(s.user));
     const openSignIn = useAuthModals((s) => s.openSignIn);
     const likeBusy = useRef(false);
+    const t = useTranslations("Comments");
+    const c = useTranslations("Common");
 
     const toggleLike = async () => {
         if (!signedIn) return openSignIn();
@@ -53,11 +56,11 @@ export default function CommentCard({ comment, isReply, onChange, onReply, onRep
             if (res.ok) onChange({ ...comment, liked: data.liked, likes: data.likes });
             else {
                 onChange(comment);
-                toast.error(data.message || "Couldn't update the like");
+                toast.error(data.message || t("couldntLike"));
             }
         } catch {
             onChange(comment);
-            toast.error("Unable to reach the server. Please try again.");
+            toast.error(c("networkError"));
         } finally {
             likeBusy.current = false;
         }
@@ -73,7 +76,7 @@ export default function CommentCard({ comment, isReply, onChange, onReply, onRep
                 <div className="flex items-center gap-2">
                     <h4 className="font-semibold text-gray-900 dark:text-white truncate">{comment.name}</h4>
                     {comment.isAuthor && (
-                        <span className="text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded bg-red-600 text-white">Author</span>
+                        <span className="text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded bg-red-600 text-white">{t("author")}</span>
                     )}
                 </div>
 
@@ -87,20 +90,20 @@ export default function CommentCard({ comment, isReply, onChange, onReply, onRep
                         <span>{formatDateTime(comment.createdAt)}</span>
                         {onReply && (
                             <button type="button" onClick={() => (signedIn ? onReply(comment) : openSignIn())} className="hover:text-red-500 font-medium">
-                                Reply
+                                {t("reply")}
                             </button>
                         )}
                         {comment.mine && onDelete && (
-                            <button type="button" onClick={() => onDelete(comment)} className="hover:text-red-500">Delete</button>
+                            <button type="button" onClick={() => onDelete(comment)} className="hover:text-red-500">{c("delete")}</button>
                         )}
                         {!comment.mine && onReport && (
                             <button type="button" onClick={() => (signedIn ? onReport(comment) : openSignIn())} className="hover:text-red-500">
-                                Report
+                                {t("report")}
                             </button>
                         )}
                     </div>
 
-                    <button type="button" onClick={toggleLike} disabled={comment.mine} aria-label="Like"
+                    <button type="button" onClick={toggleLike} disabled={comment.mine} aria-label={t("like")}
                         className={`flex items-center gap-1 disabled:cursor-default ${comment.liked ? "text-red-600" : ""}`}>
                         <ThumbsUp size={14} className={comment.liked ? "fill-red-600" : ""} />
                         <span>{comment.likes}</span>

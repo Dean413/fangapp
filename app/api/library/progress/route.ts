@@ -8,17 +8,17 @@ import { readJson, reply } from "@/lib/auth/rules";
 
 export async function POST(request: NextRequest) {
     const user = await getCurrentUser();
-    if (!user) return reply(401, "Please sign in first");
+    if (!user) return reply(401, "signInFirst");
 
     const body = await readJson(request);
     const id = typeof body?.id === "string" ? body.id.trim() : "";
     const chapter = Number(body?.chapter);
-    if (!id || id.length > 200 || !Number.isInteger(chapter)) return reply(400, "Invalid chapter");
+    if (!id || id.length > 200 || !Number.isInteger(chapter)) return reply(400, "invalidChapter");
     try {
         const ok = await recordProgress(user.id, id, chapter);
-        return ok ? reply(200, "OK") : reply(404, "Chapter not found");
+        return ok ? reply(200, "OK") : reply(404, "chapterNotFound");
     } catch (error) {
         console.error("Reading progress error:", error);
-        return reply(500, "Something went wrong");
+        return reply(500, "somethingWrong");
     }
 }

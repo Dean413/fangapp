@@ -7,16 +7,16 @@ import { readJson, reply } from "@/lib/auth/rules";
 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     const user = await getCurrentUser();
-    if (!user) return reply(401, "Please sign in to like comments");
+    if (!user) return reply(401, "signInToLikeComments");
     const { id } = await params;
     const body = await readJson(request);
-    if (typeof body?.like !== "boolean") return reply(400, "Invalid request");
+    if (typeof body?.like !== "boolean") return reply(400, "invalidRequest");
     try {
         const result = await setCommentLike(user.id, id, body.like);
         if (!result.ok) return reply(result.status, result.message);
         return reply(200, "OK", { liked: result.liked, likes: result.likes });
     } catch (error) {
         console.error("Comment like error:", error);
-        return reply(500, "Couldn't update the like. Please try again.");
+        return reply(500, "couldntUpdateLike");
     }
 }

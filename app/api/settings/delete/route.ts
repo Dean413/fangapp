@@ -30,35 +30,35 @@ async function deletePhotoFiles(urls: string[]) {
 
 export async function POST(request: NextRequest) {
     const user = await getCurrentUser();
-    if (!user) return reply(401, "Please sign in first");
+    if (!user) return reply(401, "signInFirst");
 
     const body = await readJson(request);
     try {
         const check = await checkCurrentPassword(user.id, body?.password);
         if (typeof check === "object") return reply(429, lockedMessage(check.waitSeconds), { code: "TOO_MANY_ATTEMPTS" });
-        if (check === "wrong") return reply(400, "Your password is wrong", { field: "password" });
+        if (check === "wrong") return reply(400, "passwordWrong", { field: "password" });
         if (check === "none") {
             const code = typeof body?.code === "string" ? body.code.trim() : "";
             const result = await checkCode(user.id, "delete_account", code);
             if (result !== "ok") {
-                return reply(400, result === "expired" ? "This code has expired. Send a new one." : result === "too_many" ? "Too many wrong tries. Send a new code." : "That code is incorrect", { field: "code" });
+                return reply(400, result === "expired" ? "codeExpired" : result === "too_many" ? "tooManyTries" : "codeIncorrectShort", { field: "code" });
             }
         }
 
         const deleted = await deleteAccount(user.id);
         if (!deleted.ok) {
-            return reply(409, "This account is also your FangWriters account, so it can't be deleted here. Contact support@fangwriters.com.", { code: "WRITER_ACCOUNT" });
+            return reply(409, "writerAccount", { code: "WRITER_ACCOUNT" });
         }
         await deletePhotoFiles(deleted.photos);
 
         // Sign out on this browser: both login cookies removed on the reply itself
-        const response = reply(200, "Your account has been deleted");
+        const response = await reply(200, "accountDeleted");
         for (const name of ["fang_access", "fang_refresh"]) {
             response.cookies.set(name, "", { httpOnly: true, secure: process.env.NODE_ENV === "production", sameSite: "lax", path: "/", maxAge: 0 });
         }
         return response;
     } catch (error) {
         console.error("Delete account error:", error);
-        return reply(500, "Couldn't delete your account. Please try again.");
+        return reply(500, "couldntDeleteAccount");
     }
 }

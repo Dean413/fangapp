@@ -9,21 +9,21 @@ import { readJson, reply } from "@/lib/auth/rules";
 
 export async function POST(request: NextRequest) {
     const user = await getCurrentUser();
-    if (!user) return reply(401, "Please sign in first");
+    if (!user) return reply(401, "signInFirst");
 
     const body = await readJson(request);
-    if (typeof body?.enabled !== "boolean") return reply(400, "Invalid request");
+    if (typeof body?.enabled !== "boolean") return reply(400, "invalidRequest");
 
     try {
         const check = await checkCurrentPassword(user.id, body.password);
-        if (check === "none") return reply(400, "Set a password first: two-factor protects password sign-in.", { code: "NO_PASSWORD" });
+        if (check === "none") return reply(400, "setPasswordFor2fa", { code: "NO_PASSWORD" });
         if (typeof check === "object") return reply(429, lockedMessage(check.waitSeconds), { code: "TOO_MANY_ATTEMPTS" });
-        if (check === "wrong") return reply(400, "Your password is wrong", { field: "password" });
+        if (check === "wrong") return reply(400, "passwordWrong", { field: "password" });
 
         await setTwoFactor(user.id, body.enabled);
-        return reply(200, body.enabled ? "Two-factor sign-in is on" : "Two-factor sign-in is off", { twoFactor: body.enabled });
+        return reply(200, body.enabled ? "twoFactorOn" : "twoFactorOff", { twoFactor: body.enabled });
     } catch (error) {
         console.error("Two-factor change error:", error);
-        return reply(500, "Couldn't change two-factor sign-in. Please try again.");
+        return reply(500, "couldntChange2fa");
     }
 }

@@ -4,6 +4,8 @@ import { dbPool } from "@/lib/db";
 import { withTransaction } from "@/lib/auth/transaction";
 import { getWalletBalance, type WalletBalance } from "@/lib/wallet";
 import { chapterHtml } from "@/lib/chapterHtml";
+import { getVipStatus } from "@/lib/vip";
+import { msg, type Msg } from "@/lib/i18n";
 
 export const CHAPTER_PRICES = [
     { maxWords: 1000, coins: 25 },
@@ -56,8 +58,8 @@ export async function setAutoUnlock(userId: string, storyId: string, enabled: bo
 }
 
 export type UnlockResult =
-    | { ok: true; charged: number; wallet: WalletBalance }
-    | { ok: false; code: "NOT_FOUND" | "NOT_PAID" | "NOT_ENOUGH" | "ACCOUNT"; message: string; price?: number; wallet?: WalletBalance };
+    | { ok: true; charged: number; free: boolean; wallet: WalletBalance }
+    | { ok: false; code: "NOT_FOUND" | "NOT_PAID" | "NOT_ENOUGH" | "ACCOUNT" | "EARLIER_LOCKED"; message: Msg; price?: number; wallet?: WalletBalance; firstLocked?: number };
 
 class StopUnlock extends Error {
     constructor(public result: UnlockResult) {
@@ -69,14 +71,14 @@ class StopUnlock extends Error {
 // `paywall` is the story's first paid chapter (from lib/stories.ts).
 export async function unlockChapter(userId: string, storyId: string, paywall: number | null, chapterNumber: number): Promise<UnlockResult> {
     try {
-        const charged = await withTransaction(async (client): Promise<number> => {
+        const { charged, free } = await withTransaction(async (client): Promise<{ charged: number; free: boolean }> => {
             // The account must be active
             const { rows: account } = await client.query(
                 `SELECT COALESCE(account_status, 'active') AS status FROM users WHERE id = $1 FOR UPDATE`,
                 [userId]
             );
             if (account[0]?.status !== "active") {
-                throw new StopUnlock({ ok: false, code: "ACCOUNT", message: "Your account can't unlock chapters right now." });
+                throw new StopUnlock({ ok: false, code: "ACCOUNT", message: "cantUnlock" });
             }
 
             // The chapter (published, with its number and length) and who wrote the book
@@ -96,13 +98,45 @@ export async function unlockChapter(userId: string, storyId: string, paywall: nu
                 [storyId, chapterNumber]
             );
             const chapter = found[0];
-            if (!chapter) throw new StopUnlock({ ok: false, code: "NOT_FOUND", message: "Chapter not found." });
+            if (!chapter) throw new StopUnlock({ ok: false, code: "NOT_FOUND", message: "chapterNotFoundDot" });
             if (!(paywall != null && paywall > 0 && chapterNumber >= paywall) || chapter.creator_id === userId) {
-                throw new StopUnlock({ ok: false, code: "NOT_PAID", message: "This chapter is free to read." });
+                throw new StopUnlock({ ok: false, code: "NOT_PAID", message: "chapterFree" });
+            }
+
+            // Chapters unlock in order: the first earlier paid chapter this reader hasn't unlocked
+            const { rows: earlier } = await client.query(
+                `WITH published AS (
+                     SELECT c.id,
+                            COALESCE(c.chapter_number,
+                                     ROW_NUMBER() OVER (ORDER BY COALESCE(c.published_at, c.created_at), c.created_at, c.id))::int AS n
+                     FROM chapters c WHERE c.story_id = $1 AND c.status = 'published'
+                 )
+                 SELECT min(p.n)::int AS first FROM published p
+                 WHERE p.n >= $3 AND p.n < $2
+                   AND NOT EXISTS (SELECT 1 FROM chapter_unlocks u WHERE u.user_id = $4 AND u.chapter_id = p.id)`,
+                [storyId, chapterNumber, paywall, userId]
+            );
+            const firstLocked = earlier[0]?.first != null ? Number(earlier[0].first) : null;
+            if (firstLocked !== null) {
+                throw new StopUnlock({ ok: false, code: "EARLIER_LOCKED", message: msg("unlockEarlierFirst", { chapter: firstLocked }), firstLocked });
             }
 
             // Same count as the price shown on the chapter (lib/stories.ts getChapter)
             const price = priceForWords(chapterWords(chapter.words, chapterHtml(chapter.content)));
+
+            // VIP with free unlocks left today: open it free (no coins, no creator earnings).
+            // The account row is locked above, so two taps can't both use the last free unlock.
+            const vip = await getVipStatus(userId, client);
+            if (vip.freeUnlocksLeft > 0) {
+                const { rows: freed } = await client.query(
+                    `INSERT INTO chapter_unlocks (user_id, chapter_id, story_id, coins, method)
+                     VALUES ($1, $2, $3, 0, 'vip')
+                     ON CONFLICT (user_id, chapter_id) DO NOTHING
+                     RETURNING 1`,
+                    [userId, chapter.id, storyId]
+                );
+                return { charged: 0, free: Boolean(freed[0]) };
+            }
 
             // Claim the unlock first: if it's already unlocked, nothing is charged
             const { rows: claimed } = await client.query(
@@ -112,7 +146,7 @@ export async function unlockChapter(userId: string, storyId: string, paywall: nu
                  RETURNING 1`,
                 [userId, chapter.id, storyId, price]
             );
-            if (!claimed[0]) return 0;
+            if (!claimed[0]) return { charged: 0, free: false };
 
             // Spendable coins: bonus / VIP bonus first (soonest to expire first), then bought coins (oldest first)
             const { rows: lots } = await client.query(
@@ -125,7 +159,7 @@ export async function unlockChapter(userId: string, storyId: string, paywall: nu
             );
             const available = lots.reduce((sum: number, l: any) => sum + Number(l.remaining), 0);
             if (available < price) {
-                throw new StopUnlock({ ok: false, code: "NOT_ENOUGH", message: "You don't have enough coins.", price });
+                throw new StopUnlock({ ok: false, code: "NOT_ENOUGH", message: "notEnoughCoins", price });
             }
 
             let left = price;
@@ -150,9 +184,9 @@ export async function unlockChapter(userId: string, storyId: string, paywall: nu
                         storyId, chapter.id, chapter.creator_id ?? null, chapter.contract_id ?? null]
                 );
             }
-            return price;
+            return { charged: price, free: false };
         });
-        return { ok: true, charged, wallet: await getWalletBalance(userId) };
+        return { ok: true, charged, free, wallet: await getWalletBalance(userId) };
     } catch (error) {
         if (error instanceof StopUnlock) {
             const r = error.result;

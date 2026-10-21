@@ -7,6 +7,8 @@ const PUBLISHED_CHAPTER_STATUS = "published";
 const SHORT_STORY_LENGTH_PATTERN = "short%";
 // Only show stories distributed to this tenant (matched against stories.tenants). Unset = no filter.
 const STORY_TENANT = process.env.STORY_TENANT || null;
+// Books owned by the platform account show no author
+const PLATFORM_OWNER = `COALESCE(su.role, '') LIKE 'platform%'`;
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
 const PREVIEW_RATIO = 0.1;
@@ -62,7 +64,7 @@ const STORY_COLUMNS = `
     s.id,
     COALESCE(s.slug, s.book_id, s.id::text) AS slug,
     s.title,
-    p.name AS author,
+    CASE WHEN ${PLATFORM_OWNER} THEN '' ELSE p.name END AS author,
     COALESCE(s.genre, '') AS genre,
     s.image,
     s.story_status,
@@ -81,6 +83,7 @@ const STORY_COLUMNS = `
 // The author's newest profile (a plain join would repeat the story once per profile row)
 const STORY_FROM = `
     FROM stories s
+    LEFT JOIN users su ON su.id = s.user_id
     LEFT JOIN LATERAL (
         SELECT COALESCE(NULLIF(trim(pen_name), ''), NULLIF(trim(full_name), ''), 'Unknown') AS name
         FROM user_profiles WHERE user_id = s.user_id ORDER BY created_at DESC LIMIT 1
@@ -352,6 +355,19 @@ export async function getChapter(story: StoryCard, chapterNumber: number, viewer
     const html = chapterHtml(ch.content);
     const content = locked ? previewHtml(html, PREVIEW_RATIO) : html;
 
+    // A locked chapter: the first earlier paid chapter this reader hasn't unlocked (unlocking goes in order)
+    let firstLocked: number | null = null;
+    if (locked && viewerId && story.startPaywallChapter) {
+        const { rows: earlier } = await dbPool.query(
+            `${PUBLISHED_CHAPTERS_CTE}
+             SELECT min(chapter_number)::int AS first FROM published
+             WHERE chapter_number >= $2 AND chapter_number < $3
+               AND NOT EXISTS (SELECT 1 FROM chapter_unlocks u WHERE u.user_id = $4 AND u.chapter_id = published.id)`,
+            [story.id, story.startPaywallChapter, ch.chapter_number, viewerId]
+        );
+        firstLocked = earlier[0]?.first != null ? Number(earlier[0].first) : null;
+    }
+
     return {
         id: ch.id,
         book_id: story.slug,
@@ -364,6 +380,7 @@ export async function getChapter(story: StoryCard, chapterNumber: number, viewer
         price: paid ? priceForWords(chapterWords(ch.words, html)) : 0,
         isLocked: locked,
         autoUnlock: access.autoUnlock,
+        firstLocked
     };
 }
 
@@ -519,7 +536,7 @@ export async function searchStories(query: string, language: string | null, limi
 
     where.push(`(
         s.title ILIKE ${contains}
-        OR p.name ILIKE ${contains}
+        OR (NOT ${PLATFORM_OWNER} AND p.name ILIKE ${contains})
         OR EXISTS (SELECT 1 FROM unnest(COALESCE(s.tags, '{}')) t(tag) WHERE t.tag ILIKE ${contains})
     )`);
     if (language) {

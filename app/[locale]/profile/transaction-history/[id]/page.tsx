@@ -3,9 +3,11 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ArrowLeft, Copy, MessageCircle } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "@/lib/store/toastStore";
+import { useLocale, useTranslations } from "next-intl";
+import { coinDescription, coinType } from "@/lib/coinLabels";
 
-const SUPPORT_EMAIL = "support@fangwriters.com";
+const SUPPORT_EMAIL = "support@fangapp.com";
 
 type Transaction = {
     id: string;
@@ -17,6 +19,8 @@ type Transaction = {
     coinKind: "coins" | "bonus coins";
     balance: number;
     expiresAt: string | null;
+    reason: string;
+    refId: string | null;
 };
 
 const BADGE: Record<Transaction["category"], string> = {
@@ -27,14 +31,17 @@ const BADGE: Record<Transaction["category"], string> = {
     expired: "bg-gray-100 dark:bg-neutral-800 text-gray-500",
 };
 
-const formatDate = (iso: string) => new Date(iso).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
-const formatTime = (iso: string) => new Date(iso).toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+const formatDate = (iso: string, locale: string) => new Date(iso).toLocaleDateString(locale, { day: "numeric", month: "short", year: "numeric" });
+const formatTime = (iso: string, locale: string) => new Date(iso).toLocaleTimeString(locale, { hour: "numeric", minute: "2-digit" });
 const displayId = (id: string) => `#${id}`;
 
 export default function TransactionDetails() {
     const router = useRouter();
     const params = useParams();
     const id = Array.isArray(params.id) ? params.id[0] : String(params.id ?? "");
+    const t = useTranslations("Transactions");
+    const ct = useTranslations("Coins");
+    const locale = useLocale();
 
     const [transaction, setTransaction] = useState<Transaction | null>(null);
     const [loading, setLoading] = useState(true);
@@ -53,9 +60,9 @@ export default function TransactionDetails() {
     const copyId = async () => {
         try {
             await navigator.clipboard.writeText(displayId(id));
-            toast.success("Transaction ID copied");
+            toast.success(t("idCopied"));
         } catch {
-            toast.error("Couldn't copy");
+            toast.error(t("copyFailed"));
         }
     };
 
@@ -74,9 +81,9 @@ export default function TransactionDetails() {
     if (!transaction) {
         return (
             <div className="p-6">
-                <p>Transaction not found</p>
+                <p>{t("notFound")}</p>
                 <button type="button" onClick={() => router.back()}>
-                    Go back
+                    {t("goBack")}
                 </button>
             </div>
         );
@@ -84,20 +91,23 @@ export default function TransactionDetails() {
 
     const previousBalance = transaction.balance - transaction.amount;
     const added = transaction.amount > 0;
-    const unit = transaction.coinKind === "coins" ? "Coins" : "Bonus Coins";
+    const unit = transaction.coinKind === "coins" ? t("unitCoinsTitle") : t("unitBonusCoinsTitle");
+    const description = transaction.reason === "expired"
+        ? t("expiredEntry", { source: coinDescription(ct, transaction.reason, transaction.refId) })
+        : coinDescription(ct, transaction.reason, transaction.refId, transaction.description);
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-dark p-6">
             {/* Back Button */}
             <button type="button" onClick={() => router.back()} className="flex items-center gap-2 text-gray-600 dark:text-neutral-300 hover:text-gray-800 dark:hover:text-neutral-100 mb-6 text-sm">
                 <ArrowLeft size={16} />
-                Back to Transaction History
+                {t("backToHistory")}
             </button>
 
             {/* Page Header */}
             <div className="mb-6">
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Transaction Details</h1>
-                <p className="text-gray-500 dark:text-neutral-400 text-sm mt-1">View detailed information about this transaction.</p>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t("detailsTitle")}</h1>
+                <p className="text-gray-500 dark:text-neutral-400 text-sm mt-1">{t("detailsSubtitle")}</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl">
@@ -107,11 +117,11 @@ export default function TransactionDetails() {
                     {/* Type Badge & Date */}
                     <div className="flex items-start justify-between">
                         <span className={`${BADGE[transaction.category]} text-xs font-semibold px-3 py-1 rounded-full`}>
-                            {transaction.type}
+                            {coinType(ct, transaction.reason, transaction.amount)}
                         </span>
                         <div className="text-right text-xs text-gray-400 dark:text-neutral-500">
-                            <p>{formatDate(transaction.at)}</p>
-                            <p>{formatTime(transaction.at)}</p>
+                            <p>{formatDate(transaction.at, locale)}</p>
+                            <p>{formatTime(transaction.at, locale)}</p>
                         </div>
                     </div>
 
@@ -121,18 +131,18 @@ export default function TransactionDetails() {
                             🪙
                         </div>
                         <div>
-                            <h2 className="font-bold text-gray-900 dark:text-white text-base">{transaction.description}</h2>
+                            <h2 className="font-bold text-gray-900 dark:text-white text-base">{description}</h2>
                             {transaction.category === "expired" ? (
-                                <p className="text-gray-400 text-sm font-medium">Expired unused</p>
+                                <p className="text-gray-400 text-sm font-medium">{t("expiredUnused")}</p>
                             ) : (
-                                <p className="text-green-500 text-sm font-medium">✓ Completed</p>
+                                <p className="text-green-500 text-sm font-medium">{t("completed")}</p>
                             )}
                         </div>
                     </div>
 
                     {/* Transaction ID */}
                     <div className="flex items-center gap-2 text-xs text-gray-400 dark:text-neutral-500">
-                        <span>Transaction ID: {displayId(transaction.id)}</span>
+                        <span>{t("transactionId", { id: displayId(transaction.id) })}</span>
                         <button type="button" onClick={copyId} className="hover:text-gray-600 dark:hover:text-neutral-300">
                             <Copy size={12} />
                         </button>
@@ -143,20 +153,20 @@ export default function TransactionDetails() {
                     {/* Details Rows */}
                     <div className="space-y-3 text-sm">
                         <div className="flex justify-between">
-                            <span className="text-gray-500 dark:text-neutral-400">Type</span>
+                            <span className="text-gray-500 dark:text-neutral-400">{t("type")}</span>
                             <span className="text-gray-800 dark:text-neutral-100 font-medium">{unit}</span>
                         </div>
                         <div className="flex justify-between">
-                            <span className="text-gray-500 dark:text-neutral-400">{added ? "Coins Received" : transaction.category === "expired" ? "Coins Expired" : "Coins Spent"}</span>
+                            <span className="text-gray-500 dark:text-neutral-400">{added ? t("coinsReceived") : transaction.category === "expired" ? t("coinsExpired") : t("coinsSpent")}</span>
                             <span className={`${added ? "text-green-500" : "text-red-500"} font-medium`}>
                                 {added ? "+" : "−"}{Math.abs(transaction.amount).toLocaleString()} {unit}
                             </span>
                         </div>
                         {transaction.expiresAt && (
                             <div className="flex justify-between">
-                                <span className="text-gray-500 dark:text-neutral-400">{new Date(transaction.expiresAt) > new Date() ? "Expires" : "Expired"}</span>
+                                <span className="text-gray-500 dark:text-neutral-400">{new Date(transaction.expiresAt) > new Date() ? t("expires") : t("expired")}</span>
                                 <span className="text-gray-800 dark:text-neutral-100 font-medium">
-                                    {formatDate(transaction.expiresAt)}, {formatTime(transaction.expiresAt)}
+                                    {formatDate(transaction.expiresAt, locale)}, {formatTime(transaction.expiresAt, locale)}
                                 </span>
                             </div>
                         )}
@@ -165,12 +175,12 @@ export default function TransactionDetails() {
                     {/* Balance */}
                     <div className="space-y-2 text-sm">
                         <div className="flex justify-between">
-                            <span className="text-gray-500 dark:text-neutral-400">Previous Balance</span>
-                            <span className="text-gray-800 dark:text-neutral-100 font-medium">{previousBalance.toLocaleString()} Coins</span>
+                            <span className="text-gray-500 dark:text-neutral-400">{t("previousBalance")}</span>
+                            <span className="text-gray-800 dark:text-neutral-100 font-medium">{t("coinsAmount", { amount: previousBalance.toLocaleString() })}</span>
                         </div>
                         <div className="flex justify-between">
-                            <span className="text-gray-500 dark:text-neutral-400">New Balance</span>
-                            <span className="text-gray-800 dark:text-neutral-100 font-medium">{transaction.balance.toLocaleString()} Coins</span>
+                            <span className="text-gray-500 dark:text-neutral-400">{t("newBalance")}</span>
+                            <span className="text-gray-800 dark:text-neutral-100 font-medium">{t("coinsAmount", { amount: transaction.balance.toLocaleString() })}</span>
                         </div>
                     </div>
 
@@ -179,16 +189,16 @@ export default function TransactionDetails() {
                     {/* Help Section */}
                     <div className="flex items-start justify-between gap-4">
                         <div>
-                            <p className="font-semibold text-gray-800 dark:text-neutral-100 text-sm">Need help with this transaction?</p>
+                            <p className="font-semibold text-gray-800 dark:text-neutral-100 text-sm">{t("helpTitle")}</p>
                             <p className="text-gray-400 dark:text-neutral-500 text-xs mt-1">
-                                If you have any issues or did not receive your coins, our support team is here to help.
+                                {t("helpText")}
                             </p>
                         </div>
                         <a
-                            href={`mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(`Help with transaction ${displayId(transaction.id)}`)}`}
+                            href={`mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(t("helpSubject", { id: displayId(transaction.id) }))}`}
                             className="flex items-center gap-2 border border-red-400 text-red-400 rounded-full px-4 py-2 text-xs font-medium whitespace-nowrap hover:bg-red-50 dark:hover:bg-red-500/10 transition">
                             <MessageCircle size={14} />
-                            Contact Support
+                            {t("contactSupport")}
                         </a>
                     </div>
                 </div>
@@ -199,8 +209,8 @@ export default function TransactionDetails() {
                     <div className="bg-linear-to-r from-blue-500 to-purple-500 rounded-2xl p-4">
                         <p className="text-white text-xs">
                             {transaction.coinKind === "bonus coins"
-                                ? "✨ Bonus coins expire 2 days after you get them. Use them to unlock chapters before they run out."
-                                : "✨ Coins are added to your account instantly. You can use them to unlock chapters and enjoy premium features."}
+                                ? t("bonusInfo")
+                                : t("coinsInfo")}
                         </p>
                     </div>
                 </div>

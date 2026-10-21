@@ -8,7 +8,7 @@ import { readJson, reply } from "@/lib/auth/rules";
 
 export async function POST(request: NextRequest) {
     const user = await getCurrentUser();
-    if (!user) return reply(401, "Please sign in first");
+    if (!user) return reply(401, "signInFirst");
 
     const body = await readJson(request);
     try {
@@ -16,11 +16,11 @@ export async function POST(request: NextRequest) {
             await markAllRead(user.id);
             return reply(200, "OK");
         }
-        if (!Array.isArray(body?.ids)) return reply(400, "Invalid request");
+        if (!Array.isArray(body?.ids)) return reply(400, "invalidRequest");
         const updated = await markRead(user.id, body.ids as string[]);
         return reply(200, "OK", { updated });
     } catch (error) {
         console.error("Notifications read error:", error);
-        return reply(500, "Couldn't update your notifications.");
+        return reply(500, "couldntUpdateNotifications");
     }
 }

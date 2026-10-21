@@ -13,7 +13,7 @@ const FALLBACK_COVER = "/fang_pictures/bookFace.png";
 export async function GET(request: NextRequest) {
     const limit = Math.min(Math.max(Number(request.nextUrl.searchParams.get("limit")) || 4, 1), 12);
     const user = await getCurrentUser();
-    if (!user) return noStore(reply(200, "OK", { books: [] }));
+    if (!user) return noStore(await reply(200, "OK", { books: [] }));
 
     try {
         const { rows } = await dbPool.query(
@@ -60,10 +60,10 @@ export async function GET(request: NextRequest) {
                 href: `/stories/${genre}/${r.slug}/reader?chapter=${lastChapter}`,
             };
         });
-        return noStore(reply(200, "OK", { books }));
+        return noStore(await reply(200, "OK", { books }));
     } catch (error) {
         console.error("Continue reading error:", error);
-        return reply(500, "Couldn't load your reading");
+        return reply(500, "couldntLoadReading");
     }
 }
 

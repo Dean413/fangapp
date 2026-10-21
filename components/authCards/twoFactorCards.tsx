@@ -3,11 +3,12 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "@/lib/store/toastStore";
 import { Button } from "../Button";
 import OTPInput from "../otp";
 import { useTwoFactorStore } from "@/lib/store/twoFactorStore";
 import { useAuthStore } from "@/lib/store/authStore";
+import { useTranslations } from "next-intl";
 
 // The OTP box shows this message in green; any other message in red
 const CODE_SENT = "New code sent";
@@ -22,6 +23,8 @@ const maskEmail = (email: string) => {
 export default function TwoFactorCard() {
     const email = useTwoFactorStore((s) => s.email);
     const close = useTwoFactorStore((s) => s.close);
+    const t = useTranslations("Auth");
+    const c = useTranslations("Common");
     const [otp, setOtp] = useState("");
     const [otpMessage, setOtpMessage] = useState("");
     const [verifying, setVerifying] = useState(false);
@@ -50,14 +53,14 @@ export default function TwoFactorCard() {
             });
             const data = await res.json().catch(() => ({}));
             if (!res.ok) {
-                setOtpMessage(data.message || "Oh no! The code you entered is incorrect");
+                setOtpMessage(data.message || t("codeIncorrect"));
                 return;
             }
             await useAuthStore.getState().fetchUser();
-            toast.success("Signed in successfully");
+            toast.success(t("signedIn"));
             close();
         } catch {
-            setOtpMessage("Could not verify the code. Please try again.");
+            setOtpMessage(t("couldntVerify"));
         } finally {
             verifyBusy.current = false;
             setVerifying(false);
@@ -89,9 +92,9 @@ export default function TwoFactorCard() {
                 body: JSON.stringify({ email }),
             });
             const data = await res.json().catch(() => ({}));
-            setOtpMessage(res.ok ? CODE_SENT : data.message || "Could not resend the code");
+            setOtpMessage(res.ok ? CODE_SENT : data.message || t("couldntResend"));
         } catch {
-            setOtpMessage("Could not resend the code");
+            setOtpMessage(t("couldntResend"));
         } finally {
             sendBusy.current = false;
         }
@@ -111,15 +114,15 @@ export default function TwoFactorCard() {
                         <Image src="/fang_pictures/fang_logo1.png" alt="logo text" width={110} height={110} />
                     </div>
                     <div className="mb-4 sm:mb-6">
-                        <h2 className="text-2xl font-bold mb-1 text-gray-900 dark:text-white">Enter your sign-in code</h2>
+                        <h2 className="text-2xl font-bold mb-1 text-gray-900 dark:text-white">{t("twoFactorTitle")}</h2>
                         <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
-                            <span className="block">We sent a 6 digit code to {maskEmail(email)}</span>
-                            <span className="block text-sm mt-2">Two-factor sign-in is on for this account.</span>
+                            <span className="block">{t("codeSentTo", { email: maskEmail(email) })}</span>
+                            <span className="block text-sm mt-2">{t("twoFactorText")}</span>
                         </p>
                     </div>
                     <div className="space-y-4 sm:space-y-5">
                         <OTPInput length={6} onChange={setOtp} value={otp} resend={resend} errorMessage={otpMessage} />
-                        <Button onClick={verify} disabled={verifying || otp.length !== 6} loading={verifying} loadingText="Verifying..." label="Sign in" />
+                        <Button onClick={verify} disabled={verifying || otp.length !== 6} loading={verifying} loadingText={c("verifying")} label={t("signIn")} />
                     </div>
                 </div>
             </div>

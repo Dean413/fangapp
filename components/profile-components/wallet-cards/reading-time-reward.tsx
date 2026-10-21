@@ -1,8 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "@/lib/store/toastStore";
 import { useAuthStore } from "@/lib/store/authStore";
+import { useTranslations } from "next-intl";
+
+type T = (key: string, values?: Record<string, string | number>) => string;
 
 // What the server says (reading time is counted by the server, never by this browser)
 type Milestone = { minutes: number; coins: number; reached: boolean; claimed: boolean };
@@ -20,8 +23,8 @@ const DEFAULT_MILESTONES: Milestone[] = [
     { minutes: 90, coins: 22, reached: false, claimed: false },
 ];
 
-const label = (minutes: number) =>
-    minutes < 60 ? `${minutes} minutes` : minutes % 60 === 0 ? `${minutes / 60} hour${minutes === 60 ? "" : "s"}` : `${Math.floor(minutes / 60)}h ${minutes % 60}m`;
+const label = (minutes: number, t: T) =>
+    minutes < 60 ? t("minutes", { count: minutes }) : minutes % 60 === 0 ? t("hours", { count: minutes / 60 }) : t("hoursMinutes", { h: Math.floor(minutes / 60), m: minutes % 60 });
 
 const formatTime = (ms: number) => {
     const totalSec = Math.ceil(ms / 1000);
@@ -43,11 +46,12 @@ export function RewardCard({ milestone, seconds, resetIn, claiming, onClaim }: R
     const limit = milestone.minutes * 60;
     const percent = limit > 0 ? Math.min((seconds / limit) * 100, 100) : 0;
     const canClaim = milestone.reached && !milestone.claimed && !claiming;
+    const t = useTranslations("Wallet");
 
     return (
         <div className="bg-white dark:bg-dark-card p-4 rounded-xl border border-gray-400 dark:border-neutral-600">
             <div className="flex items-center justify-between">
-                <p className="font-semibold">{label(milestone.minutes)}</p>
+                <p className="font-semibold">{label(milestone.minutes, t)}</p>
 
                 <div className="flex gap-1 items-center">
                     <p className="text-gray-500 dark:text-neutral-400 text-sm">+{milestone.coins}</p>
@@ -56,7 +60,7 @@ export function RewardCard({ milestone, seconds, resetIn, claiming, onClaim }: R
             </div>
 
             <p className="text-xs text-gray-400 dark:text-neutral-500 mt-1">
-                {milestone.minutes} mins reading
+                {t("minsReading", { count: milestone.minutes })}
             </p>
 
             <div className="w-full my-4">
@@ -78,12 +82,12 @@ export function RewardCard({ milestone, seconds, resetIn, claiming, onClaim }: R
                     }`}
             >
                 {milestone.claimed
-                    ? `Resets in ${formatTime(resetIn)}`
+                    ? t("resetsIn", { time: formatTime(resetIn) })
                     : claiming
-                        ? "Claiming..."
+                        ? t("claiming")
                         : milestone.reached
-                            ? "claim"
-                            : "in progress"}
+                            ? t("claim")
+                            : t("inProgress")}
             </button>
         </div>
     );
@@ -92,6 +96,8 @@ export function RewardCard({ milestone, seconds, resetIn, claiming, onClaim }: R
 // The four reading-time cards on the wallet's Earn tab
 export default function ReadingRewards() {
     const [status, setStatus] = useState<ReadingStatus | null>(null);
+    const t = useTranslations("Wallet");
+    const c = useTranslations("Common");
     const [claimingMinutes, setClaimingMinutes] = useState<number | null>(null);
     const [resetIn, setResetIn] = useState(0);
     const busy = useRef(false);
@@ -151,14 +157,14 @@ export default function ReadingRewards() {
             const data = await res.json().catch(() => ({}));
             if (data.status) applyStatus(data.status);
             if (!res.ok) {
-                toast.error(data.message || "Couldn't claim your reward");
+                toast.error(data.message || t("claimFailed"));
                 return;
             }
             const user = useAuthStore.getState().user;
             if (user && data.wallet) useAuthStore.getState().setUser({ ...user, wallet: data.wallet });
-            toast.success(data.message || "Reward claimed");
+            toast.success(data.message || t("claimed"));
         } catch {
-            toast.error("Unable to reach the server. Please try again.");
+            toast.error(c("networkError"));
         } finally {
             busy.current = false;
             setClaimingMinutes(null);

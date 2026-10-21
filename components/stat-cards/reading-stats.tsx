@@ -1,4 +1,9 @@
 import { PieChart, Pie, Cell, Tooltip, Line, XAxis, YAxis, LineChart, ResponsiveContainer, Area, AreaChart, } from "recharts";
+import { useLocale, useTranslations } from "next-intl";
+
+// Monday to Sunday as one letter (or the language's shortest form)
+const weekdayLetters = (locale: string) =>
+    Array.from({ length: 7 }, (_, i) => new Intl.DateTimeFormat(locale, { weekday: "narrow" }).format(new Date(Date.UTC(2024, 0, 1 + i))));
 
 const genreData = [
     { name: "Fantasy", value: 45 },
@@ -107,28 +112,30 @@ export default function StatsCard({ title, subtitle, children, className = "" }:
 
 
 export function ReadingStats() {
+    const t = useTranslations("Stats");
+    const locale = useLocale();
     return (
         <section className="space-y-5 mt-8 pt-8 w-full mx-auto">
             <div className="bg-white dark:bg-transparent p-4 md:p-8 dark:px-0">
                 <div className="flex items-center justify-between mb-8">
-                    <h2 className="text-xl font-bold">Reading Stats</h2>
+                    <h2 className="text-xl font-bold">{t("title")}</h2>
                     <select className="border border-gray-100 dark:border-dark-border dark:bg-dark-card rounded-lg px-3 py-2">
-                        <option>This Year</option>
-                        <option>This Month</option>
-                        <option>Last Year</option>
+                        <option>{t("thisYear")}</option>
+                        <option>{t("thisMonth")}</option>
+                        <option>{t("lastYear")}</option>
                     </select>
                 </div>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
                     {/* Line Chart */}
-                    <StatsCard title="Books Read Over Time" subtitle="Last 6 months" className="md:col-span-2 w-full md:w-[85%] min-h-95">
+                    <StatsCard title={t("booksOverTime")} subtitle={t("last6Months")} className="md:col-span-2 w-full md:w-[85%] min-h-95">
                         <div className="w-full h-75 md:h-100">
                             <ReadingChart />
                         </div>
                     </StatsCard>
 
                     {/* Genre Chart */}
-                    <StatsCard title="Books by Genre" className="min-h-95">
+                    <StatsCard title={t("booksByGenre")} className="min-h-95">
                         <div className="h-95 flex items-center justify-center text-gray-400 dark:text-neutral-500">
                             <GenreChart />
                         </div>
@@ -139,10 +146,10 @@ export function ReadingStats() {
 
             <div className="grid lg:grid-cols-2 gap-5 w-full lg:w-[90%] mx-auto bg-white dark:bg-transparent p-4 dark:px-0">
                 {/* Streak */}
-                <StatsCard title="Reading Streak" className="min-h-95">
+                <StatsCard title={t("streak")} className="min-h-95">
                     <div className="mb-6">
                         <span className="text-5xl font-bold">28</span>
-                        <span className="ml-2 text-gray-500 dark:text-neutral-400">days</span>
+                        <span className="ml-2 text-gray-500 dark:text-neutral-400">{t("days")}</span>
                     </div>
 
                     <div className="grid grid-cols-7 gap-2 sm:gap-3">
@@ -153,19 +160,13 @@ export function ReadingStats() {
                 </StatsCard>
 
                 {/* Most Active Day */}
-                <StatsCard title="Most Active Day" className="min-h-95">
+                <StatsCard title={t("mostActiveDay")} className="min-h-95">
                     <div>
-                        <h2 className="text-4xl font-bold">Sunday</h2>
-                        <p className="text-gray-500 dark:text-neutral-400 mt-2">Avg. 3h 42m reading time</p>
+                        <h2 className="text-4xl font-bold">{new Intl.DateTimeFormat(locale, { weekday: "long" }).format(new Date(Date.UTC(2024, 0, 7)))}</h2>
+                        <p className="text-gray-500 dark:text-neutral-400 mt-2">{t("avgTime", { time: "3h 42m" })}</p>
                     </div>
                     <div className="flex justify-between mt-20 text-gray-400 dark:text-neutral-500 text-sm">
-                        <span>M</span>
-                        <span>T</span>
-                        <span>W</span>
-                        <span>T</span>
-                        <span>F</span>
-                        <span>S</span>
-                        <span>S</span>
+                        {weekdayLetters(locale).map((d, i) => <span key={i}>{d}</span>)}
                     </div>
                 </StatsCard>
             </div>

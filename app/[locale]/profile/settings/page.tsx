@@ -20,10 +20,13 @@ import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
-import { toast } from "react-toastify";
+import { toast } from "@/lib/store/toastStore";
 import { FaFacebookF, FaFile, FaShieldHalved, FaUserPen, FaUserShield } from "react-icons/fa6";
 import { FiLifeBuoy, FiLink } from "react-icons/fi";
 import { FaInfoCircle, FaQuestionCircle } from "react-icons/fa";
+import { useLocale, useTranslations } from "next-intl";
+
+type T = (key: string, values?: Record<string, string | number>) => string;
 
 type Provider = "google" | "facebook";
 
@@ -41,25 +44,28 @@ type AccountSettings = {
 
 const PROVIDER_NAMES: Record<Provider, string> = { google: "Google", facebook: "Facebook" };
 
-const formatDate = (iso: string | null) =>
-    iso ? new Date(iso).toLocaleDateString(undefined, { month: "long", day: "numeric", year: "numeric" }) : "—";
+const formatDate = (iso: string | null, locale: string) =>
+    iso ? new Date(iso).toLocaleDateString(locale, { month: "long", day: "numeric", year: "numeric" }) : "—";
 
 // "Changed 3 months ago"
-function changedAgo(iso: string | null) {
-    if (!iso) return "Set";
+function changedAgo(iso: string | null, locale: string, t: T) {
+    if (!iso) return t("set");
     const seconds = Math.round((new Date(iso).getTime() - Date.now()) / 1000);
-    const rtf = new Intl.RelativeTimeFormat(undefined, { numeric: "auto" });
+    const rtf = new Intl.RelativeTimeFormat(locale, { numeric: "auto" });
     const units: [Intl.RelativeTimeFormatUnit, number][] = [["year", 31536000], ["month", 2592000], ["week", 604800], ["day", 86400], ["hour", 3600], ["minute", 60]];
     for (const [unit, size] of units) {
-        if (Math.abs(seconds) >= size) return `Changed ${rtf.format(Math.round(seconds / size), unit)}`;
+        if (Math.abs(seconds) >= size) return t("changedAgo", { when: rtf.format(Math.round(seconds / size), unit) });
     }
-    return "Changed just now";
+    return t("changedJustNow");
 }
 
 const actionClass = "text-red-500 font-medium cursor-pointer";
 
 export default function SettingsPage() {
     const router = useRouter();
+    const t = useTranslations("Settings");
+    const c = useTranslations("Common");
+    const locale = useLocale();
     const pathname = usePathname();
     const { resolvedTheme, setTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
@@ -94,7 +100,7 @@ export default function SettingsPage() {
         const url = new URL(window.location.href);
         const linked = url.searchParams.get("linked") as Provider | null;
         if (!linked) return;
-        if (!url.searchParams.get("auth_error") && PROVIDER_NAMES[linked]) toast.success(`${PROVIDER_NAMES[linked]} connected`);
+        if (!url.searchParams.get("auth_error") && PROVIDER_NAMES[linked]) toast.success(t("connectedToast", { provider: PROVIDER_NAMES[linked] }));
         url.searchParams.delete("linked");
         window.history.replaceState(window.history.state, "", url.pathname + url.search + url.hash);
     }, []);
@@ -117,13 +123,13 @@ export default function SettingsPage() {
             });
             const data = await res.json().catch(() => ({}));
             if (!res.ok) {
-                toast.error(data.message || "Couldn't disconnect");
+                toast.error(data.message || t("disconnectFailed"));
                 return;
             }
-            toast.success(`${PROVIDER_NAMES[provider]} disconnected`);
+            toast.success(t("disconnectedToast", { provider: PROVIDER_NAMES[provider] }));
             await load();
         } catch {
-            toast.error("Unable to reach the server. Please try again.");
+            toast.error(c("networkError"));
         } finally {
             unlinking.current = null;
         }
@@ -138,7 +144,7 @@ export default function SettingsPage() {
     const openTwoFactor = () => {
         if (!settings) return;
         if (!settings.hasPassword) {
-            toast.info("Set a password first: two-factor protects password sign-in.");
+            toast.info(t("setPasswordFor2fa"));
             setDialog("password");
             return;
         }
@@ -159,44 +165,44 @@ export default function SettingsPage() {
     return (
         <div className="max-w-6xl mx-auto p-6 space-y-6">
             <div>
-                <h1 className="text-3xl font-bold">Settings</h1>
-                <p className="text-gray-500 dark:text-neutral-400">Manage your account, preferences and connected services.</p>
+                <h1 className="text-3xl font-bold">{t("title")}</h1>
+                <p className="text-gray-500 dark:text-neutral-400">{t("subtitle")}</p>
             </div>
 
-            <SettingsSection title="Account Information" icon={<FaUserPen size={20} color="red" />}>
+            <SettingsSection title={t("account")} icon={<FaUserPen size={20} color="red" />}>
                 <SettingRow
-                    title="Username"
-                    description={s ? (s.username ? `@${s.username}` : "Not set") : "…"}
-                    action={<button type="button" onClick={() => setDialog("profile")} className={actionClass}>Edit</button>}
+                    title={t("username")}
+                    description={s ? (s.username ? `@${s.username}` : t("notSet")) : "…"}
+                    action={<button type="button" onClick={() => setDialog("profile")} className={actionClass}>{t("edit")}</button>}
                 />
 
                 <SettingRow
-                    title="Email"
+                    title={t("email")}
                     description={s?.email ?? user?.email ?? "…"}
-                    action={<button type="button" onClick={() => setDialog("email")} disabled={!s} className={actionClass}>Edit</button>}
+                    action={<button type="button" onClick={() => setDialog("email")} disabled={!s} className={actionClass}>{t("edit")}</button>}
                 />
 
                 <SettingRow
-                    title="Joined Date"
-                    description={s ? formatDate(s.joinedAt) : "…"}
-                    action={<span className="text-gray-400 text-sm">Read only</span>}
+                    title={t("joined")}
+                    description={s ? formatDate(s.joinedAt, locale) : "…"}
+                    action={<span className="text-gray-400 text-sm">{t("readOnly")}</span>}
                 />
             </SettingsSection>
 
-            <SettingsSection title="Secure & Login" icon={<FaShieldHalved color="red" size={20} />}>
+            <SettingsSection title={t("security")} icon={<FaShieldHalved color="red" size={20} />}>
                 <SettingRow
-                    title="Password"
-                    description={s ? (s.hasPassword ? changedAgo(s.passwordChangedAt) : "Not set: you sign in with Google or Facebook") : "…"}
+                    title={t("password")}
+                    description={s ? (s.hasPassword ? changedAgo(s.passwordChangedAt, locale, t) : t("passwordNotSet")) : "…"}
                     action={
                         <button type="button" onClick={() => setDialog("password")} disabled={!s} className={actionClass}>
-                            {s && !s.hasPassword ? "Set" : "Change"}
+                            {s && !s.hasPassword ? t("set") : t("change")}
                         </button>
                     }
                 />
 
                 <SettingRow
-                    title="Two-Factor Authentication"
-                    description="Email a code when you sign in with your password"
+                    title={t("twoFactor")}
+                    description={t("twoFactorText")}
                     action={
                         <ToggleSwitch
                             enabled={Boolean(s?.twoFactor)}
@@ -206,20 +212,20 @@ export default function SettingsPage() {
                 />
 
                 <SettingRow
-                    title="Delete Account"
-                    description="Permanently remove your account and data"
+                    title={t("deleteAccount")}
+                    description={t("deleteAccountText")}
                     action={
                         <button type="button" onClick={() => setDialog("delete")} disabled={!s} className="border border-red-500 text-red-500 px-4 py-1 rounded-full">
-                            Delete
+                            {c("delete")}
                         </button>
                     }
                 />
             </SettingsSection>
 
-            <SettingsSection title="Social Accounts" icon={<FiLink size={20} color="red" />}>
+            <SettingsSection title={t("social")} icon={<FiLink size={20} color="red" />}>
                 <SettingRow
                     title="Google" icon={<Image src="https://www.svgrepo.com/show/355037/google.svg" alt="Google" width={20} height={20} unoptimized className="w-5" />}
-                    description={s ? (s.providers.google ? "Connected" : "Not Connected") : "…"}
+                    description={s ? (s.providers.google ? t("connected") : t("notConnected")) : "…"}
                     action={
                         <ToggleSwitch
                             enabled={Boolean(s?.providers.google)}
@@ -230,7 +236,7 @@ export default function SettingsPage() {
 
                 <SettingRow icon={<FaFacebookF size={20} color="blue" />}
                     title="Facebook"
-                    description={s ? (s.providers.facebook ? "Connected" : "Not Connected") : "…"}
+                    description={s ? (s.providers.facebook ? t("connected") : t("notConnected")) : "…"}
                     action={
                         <ToggleSwitch
                             enabled={Boolean(s?.providers.facebook)}
@@ -240,16 +246,16 @@ export default function SettingsPage() {
                 />
             </SettingsSection>
 
-            <SettingsSection title="Preferences" icon={<SlidersHorizontal size={20} className="text-red-500" />}>
+            <SettingsSection title={t("preferences")} icon={<SlidersHorizontal size={20} className="text-red-500" />}>
                 <SettingRow
-                    title="Dark Mode"
-                    description="Lower Light Reading Experience"
+                    title={t("darkMode")}
+                    description={t("darkModeText")}
                     action={<ToggleSwitch enabled={isDark} onChange={() => setTheme(isDark ? "light" : "dark")} />}
                 />
 
                 <SettingRow
-                    title="Language"
-                    description="App + Reading Language"
+                    title={t("language")}
+                    description={t("languageText")}
                     action={
                         <div className="z-999">
                             <LanguageChange />
@@ -257,37 +263,37 @@ export default function SettingsPage() {
                 />
 
                 <SettingRow
-                    title="Notification Preferences"
-                    description="Choose what alert you should receive"
-                    action={<button type="button" onClick={() => setDialog("notifications")} disabled={!s} className={actionClass}>configure</button>}
+                    title={t("notifications")}
+                    description={t("notificationsText")}
+                    action={<button type="button" onClick={() => setDialog("notifications")} disabled={!s} className={actionClass}>{t("configure")}</button>}
                 />
             </SettingsSection>
 
-            <SettingsSection title="Help & Info" icon={<FaInfoCircle size={20} className="text-red-500" />}>
+            <SettingsSection title={t("help")} icon={<FaInfoCircle size={20} className="text-red-500" />}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-x-6">
                     <SettingRow icon={<FaFile />}
                         link="/terms-of-service"
-                        title="Terms of Service"
+                        title={t("terms")}
                     />
 
                     <SettingRow icon={<FaUserShield />}
-                        title="Privacy Policy"
+                        title={t("privacy")}
                         link="/privacy-policy"
                     />
 
                     <SettingRow icon={<FiLifeBuoy />}
-                        title="Help Center"
+                        title={t("helpCenter")}
                         link="/profile/live-chat"
 
                     />
 
                     <SettingRow icon={<FaQuestionCircle />}
-                        title="About Fang"
+                        title={t("about")}
                         link="/about"
                     />
                 </div>
             </SettingsSection>
-            <p className="text-center text-gray-500 dark:text-neutral-400">FANG v2.4.1 · © 2026 FANG Reading Co.</p>
+            <p className="text-center text-gray-500 dark:text-neutral-400">{t("version", { version: "2.4.1", year: 2026 })}</p>
 
             {/* POPUPS */}
             <EditProfileCard open={dialog === "profile"} onClose={() => { setDialog(null); load(); }} />

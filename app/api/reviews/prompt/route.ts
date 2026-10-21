@@ -8,11 +8,11 @@ import { readJson, reply } from "@/lib/auth/rules";
 
 export async function POST(request: NextRequest) {
     const user = await getCurrentUser();
-    if (!user) return reply(401, "Please sign in first");
+    if (!user) return reply(401, "signInFirst");
 
     const body = await readJson(request);
     const book = typeof body?.book === "string" ? body.book.trim() : "";
-    if (!book || book.length > 200) return reply(404, "Book not found");
+    if (!book || book.length > 200) return reply(404, "bookNotFound");
 
     try {
         const result = await reviewPromptAt(user.id, book, Number(body?.chapter));
@@ -20,6 +20,6 @@ export async function POST(request: NextRequest) {
         return reply(200, "OK", { show: result.show });
     } catch (error) {
         console.error("Review prompt error:", error);
-        return reply(500, "Something went wrong");
+        return reply(500, "somethingWrong");
     }
 }

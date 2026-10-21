@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { FaGem } from "react-icons/fa6"
 import { GiGemChain } from "react-icons/gi";
+import { useTranslations } from "next-intl";
 
 
 
@@ -36,16 +37,16 @@ const gifts: Gift[] = [
 const rubyTasks = [
     {
         id: 1,
-        title: "Reading Task",
+        title: "readingTask",
         amount: "+1",
-        desc: "You will get 1 gem for 30 minutes of reading everyday",
+        desc: "readingTaskDesc",
 
     },
     {
         id: 2,
-        title: "Top Up",
+        title: "topUp",
         amount: "+3",
-        desc: "Everytime you top up any amount, you will get three rubies",
+        desc: "topUpDesc",
 
     }
 ];
@@ -56,6 +57,7 @@ export default function GiftCard({ onClose, title, image }: any) {
     const [selectedGems, setSelectedGems] = useState(0);
     const [active, setActive] = useState("gifts");
     const [selectedGift, setSelectedGift] = useState<Gift | null>(null);
+    const t = useTranslations("Gift");
 
     return (
         <div className="fixed inset-0 z-50 flex">
@@ -65,18 +67,18 @@ export default function GiftCard({ onClose, title, image }: any) {
                 <div className="flex border-b border-gray-500 dark:border-neutral-600">
                     <button onClick={() => setActive("ruby")}
                         className={`w-1/2 py-5 text-sm font-semibold ${active === "ruby" ? "bg-red-200 dark:bg-red-500/25" : ""} text-black dark:text-white rounded-t-xl`}>
-                        RUBY
+                        {t("ruby")}
                     </button>
 
                     <button onClick={() => setActive("gifts")}
                         className={`w-1/2 py-5 text-sm font-semibold ${active === "gifts" ? "bg-red-200 dark:bg-red-500/25" : ""} text-black dark:text-white rounded-t-xl`}>
-                        GIFTS
+                        {t("gifts")}
                     </button>
                 </div>
 
                 {/* Header */}
                 <div className="bg-red-100 dark:bg-red-500/15 px-4 py-3 font-semibold text-gray-800 dark:text-neutral-100">
-                    Fans Contribution
+                    {t("fansContribution")}
                 </div>
 
                 {/* Gifts */}
@@ -114,10 +116,10 @@ export default function GiftCard({ onClose, title, image }: any) {
                             />
                             <div>
                                 <p className="font-semibold text-gray-900 dark:text-white">{title}</p>
-                                <p className="text-sm text-gray-600 dark:text-neutral-300">400 Readers Voted</p>
+                                <p className="text-sm text-gray-600 dark:text-neutral-300">{t("readersVoted", { count: 400 })}</p>
                             </div>
                         </div>
-                        <h2 className="text-red-400 text-xl mb-5">How to get Rubies</h2>
+                        <h2 className="text-red-400 text-xl mb-5">{t("howToGet")}</h2>
                         <div>
                             {rubyTasks.map((task) => (
                                 <div
@@ -126,7 +128,7 @@ export default function GiftCard({ onClose, title, image }: any) {
 
                                     <div>
                                         <div className="flex items-center gap-2 text-gray-900 dark:text-white">
-                                            <span>{task.title}</span>
+                                            <span>{t(task.title)}</span>
 
                                             <Image
                                                 src="/fang_pictures/gift-icons/ruby.png"
@@ -141,14 +143,14 @@ export default function GiftCard({ onClose, title, image }: any) {
                                         </div>
 
                                         <p className="text-[8px] md:text-xs text-gray-500 dark:text-neutral-400">
-                                            {task.desc}
+                                            {t(task.desc)}
                                         </p>
                                     </div>
 
 
-                                    {task.title === "Top Up" && (
+                                    {task.title === "topUp" && (
                                         <button className="text-red-500 text-xs md:text-sm font-semibold cursor-pointer">
-                                            Top up {">"}
+                                            {t("topUpLink")} {">"}
                                         </button>
                                     )}
 
@@ -170,12 +172,12 @@ export default function GiftCard({ onClose, title, image }: any) {
                                 </div>
 
                                 <div className="text-sm">
-                                    <p>{ownedGems - selectedGems} Gem Left</p>
+                                    <p>{t("gemsLeft", { count: ownedGems - selectedGems })}</p>
                                 </div>
                             </div>
-                            <button disabled={selectedGems == 0} onClick={() => alert(`sent ${selectedGems} votes`)} className={`${selectedGems === 0 ? "bg-red-200 dark:bg-red-500/25" : "bg-red-700"} cursor-pointer text-white px-8 py-3 rounded-full font-semibold flex items-center gap-3`}>
+                            <button disabled={selectedGems == 0} onClick={() => alert(t("votesSent", { count: selectedGems }))} className={`${selectedGems === 0 ? "bg-red-200 dark:bg-red-500/25" : "bg-red-700"} cursor-pointer text-white px-8 py-3 rounded-full font-semibold flex items-center gap-3`}>
                                 <Image src="/fang_pictures/gift-icons/ruby.png" alt="gems" width={20} height={20} />
-                                <span>Vote</span>
+                                <span>{t("vote")}</span>
                             </button>
                         </div>
                     </div>
@@ -183,8 +185,8 @@ export default function GiftCard({ onClose, title, image }: any) {
                 {/* Button */}
                 {active === "gifts" && (
                     <div className="p-4">
-                        <button disabled={!selectedGift} onClick={() => alert(`sent ${selectedGift?.label} to author`)} className={`w-full cursor-pointer py-3 rounded-full ${selectedGift ? "bg-red-700" : "bg-red-300"} text-white font-semibold transition`}>
-                            Send
+                        <button disabled={!selectedGift} onClick={() => alert(t("giftSent", { gift: selectedGift?.label ?? "" }))} className={`w-full cursor-pointer py-3 rounded-full ${selectedGift ? "bg-red-700" : "bg-red-300"} text-white font-semibold transition`}>
+                            {t("send")}
                         </button>
                     </div>
                 )}

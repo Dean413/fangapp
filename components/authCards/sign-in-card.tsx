@@ -5,9 +5,9 @@ import { useAuth } from "@/hooks/useAuth";
 import Image from "next/image";
 import AuthFooter from "./Authfooter";
 import { useState } from "react";
-import { toast } from "react-toastify";
 import { useLoginAuth } from "@/hooks/useLoginAuth";
 import Header from "../header-and-logo";
+import { useTranslations } from "next-intl";
 type SignInProps = {
     open: boolean;
     onClose: () => void;
@@ -16,6 +16,7 @@ type SignInProps = {
 }
 const SignInCard = ({ open, onClose, onOpenSignUp, onOpenForgotPassWord }: SignInProps) => {
     const LoginAuth = useLoginAuth(open)
+    const t = useTranslations("Auth")
 
 
     return (
@@ -27,7 +28,7 @@ const SignInCard = ({ open, onClose, onOpenSignUp, onOpenForgotPassWord }: SignI
                 </button>
                 <div className="w-full px-6 md:px-16 sm:px-6 py-5 sm:py-6">
 
-                    <Header head="Welcome Back" paragraph="Sign in to continue your reading journey" />
+                    <Header head={t("welcomeTitle")} paragraph={t("welcomeText")} />
 
                     <div className="space-y-3 sm:space-y-4">
                         <ReusableInput
@@ -39,8 +40,8 @@ const SignInCard = ({ open, onClose, onOpenSignUp, onOpenForgotPassWord }: SignI
                             setShowPassword={LoginAuth.setShowPassword}
                             showNameField={false}
                             showStrengthBar={false}
-                            label="Password"
-                            placeholder="Enter password"
+                            label={t("password")}
+                            placeholder={t("passwordPlaceholder")}
 
                         />
 
@@ -48,16 +49,16 @@ const SignInCard = ({ open, onClose, onOpenSignUp, onOpenForgotPassWord }: SignI
                             remember={LoginAuth.remember}
                             setRemember={LoginAuth.setRemember}
                             loading={LoginAuth.loading}
-                            loadingText="Signing in...."
-                            buttonLabel="Sign in"
+                            loadingText={t("signingIn")}
+                            buttonLabel={t("signIn")}
                             onSubmit={LoginAuth.signIn}
-                            paragraphText="Already have an account?"
-                            buttonText="Sign up"
+                            paragraphText={t("noAccount")}
+                            buttonText={t("signUp")}
                             buttonAction={onOpenSignUp}
                             button={false}
                             signInButton
                             forgotPassWord
-                            forgotPasswordButtonText="Forgot Password?"
+                            forgotPasswordButtonText={t("forgotPassword")}
                             forgotPasswordButtonAction={onOpenForgotPassWord}
                         />
                     </div>

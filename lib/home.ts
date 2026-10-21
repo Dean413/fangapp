@@ -18,6 +18,7 @@ export type HomeBook = {
     completed: boolean;
     exclusive: boolean; // under a signed Exclusive or MAB-Exclusive contract
     rating: number | null; // average of the readers' reviews (0.5 to 5), null = no reviews yet
+    createdAt: string | null; // when the book was created (for "New")
 };
 
 export type HomeCollection = {
@@ -38,7 +39,10 @@ const list = (v: unknown) => (Array.isArray(v) ? (v as string[]).filter(Boolean)
 // Pen name, else full name (some profiles have '' saved as the pen name)
 const AUTHOR = `
     LEFT JOIN LATERAL (
-        SELECT COALESCE(NULLIF(trim(pen_name), ''), NULLIF(trim(full_name), ''), 'Unknown') AS name
+        SELECT CASE
+        WHEN EXISTS (SELECT 1 FROM users u WHERE u.id = b.user_id AND COALESCE(u.role, '') LIKE 'platform%') THEN ''
+        ELSE COALESCE(NULLIF(trim(pen_name), ''), NULLIF(trim(full_name), ''), 'Unknown')
+        END AS name
         FROM user_profiles WHERE user_id = b.user_id ORDER BY created_at DESC LIMIT 1
     ) p ON true`;
 
@@ -60,7 +64,7 @@ const SIGNED_PLAN = (column: "story_id" | "comic_id") => `
 // collection_id is compared as a number (not cast to text) so Postgres can use its index.
 const STORY_ITEMS = `
     SELECT i.collection_id::text AS collection_id, b.id, b.slug, b.title, b.image, b.genre, b.tags, b.blurb, b.views,
-           b.story_status AS progress, p.name AS author, ct.plan, rv.rating
+           b.story_status AS progress, p.name AS author, ct.plan, rv.rating, b.created_at
     FROM curation_items i
     JOIN stories b ON b.id = i.story_id
     ${AUTHOR}
@@ -74,7 +78,7 @@ const STORY_ITEMS = `
 
 const COMIC_ITEMS = `
     SELECT i.collection_id::text AS collection_id, b.id, b.slug, b.title, b.cover_image AS image, b.genre, b.tags,
-           b.description AS blurb, b.views, b.status AS progress, p.name AS author, ct.plan, NULL::numeric AS rating
+           b.description AS blurb, b.views, b.status AS progress, p.name AS author, ct.plan, NULL::numeric AS rating, b.created_at
     FROM curation_items i
     JOIN comics b ON b.id = i.comic_id
     ${AUTHOR}
@@ -100,6 +104,7 @@ function toBook(r: any, comics: boolean): HomeBook {
         completed: r.progress === "completed",
         exclusive: r.plan === "exclusive" || r.plan === "mab-exclusive",
         rating: r.rating != null ? Number(r.rating) : null,
+        createdAt: r.created_at ? new Date(r.created_at).toISOString() : null,
     };
 }
 
@@ -159,7 +164,7 @@ export async function getRecommended(userId: string, { tenant, language = "Engli
              WHERE g.user_id = $1
          )
          SELECT b.id, b.slug, b.title, b.image, b.genre, b.tags, b.blurb, b.views,
-                b.story_status AS progress, p.name AS author, ct.plan, rv.rating
+                b.story_status AS progress, p.name AS author, ct.plan, rv.rating, b.created_at
          FROM stories b
          ${AUTHOR}
          ${SIGNED_PLAN("story_id")}

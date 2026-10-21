@@ -39,6 +39,7 @@ export type NotificationItem = {
     // coins_* and bonus_expiring
     amount?: number;
     reason?: string;
+    refId?: string | null; // for the description in the reader's language (lib/coinLabels.ts)
     description?: string;
     code?: string;
     expiresAt?: string;
@@ -221,6 +222,7 @@ function toItem(r: any, checkinRef: string | null): NotificationItem {
                 amount: Number(d.amount) || 0,
                 reason: d.reason,
                 description: describeCoins(d.reason, d.refId ?? null),
+                refId: d.refId ?? null,
                 code: r.ref,
                 href: `/profile/transaction-history/${r.ref}`,
             };

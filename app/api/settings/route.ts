@@ -6,13 +6,13 @@ import { reply } from "@/lib/auth/rules";
 
 export async function GET() {
     const user = await getCurrentUser();
-    if (!user) return reply(401, "Please sign in first");
+    if (!user) return reply(401, "signInFirst");
     try {
         const settings = await getAccountSettings(user.id);
-        if (!settings) return reply(404, "Account not found");
+        if (!settings) return reply(404, "accountNotFound");
         return reply(200, "OK", { settings });
     } catch (error) {
         console.error("Settings load error:", error);
-        return reply(500, "Couldn't load your settings. Please try again.");
+        return reply(500, "couldntLoadSettings");
     }
 }

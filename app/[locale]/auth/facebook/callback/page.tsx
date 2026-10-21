@@ -3,12 +3,14 @@
 
 import { useEffect, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { toast } from "react-toastify";
+import { toast } from "@/lib/store/toastStore";
+import { useTranslations } from "next-intl";
 
 function FacebookCallbackContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const hasCalled = useRef(false);
+    const t = useTranslations("Auth");
 
     useEffect(() => {
         const code = searchParams.get("code");
@@ -25,10 +27,10 @@ function FacebookCallbackContent() {
 
                 const data = await res.json();
                 if (!res.ok) {
-                    throw new Error(data.message || "Authentication failed");
+                    throw new Error(data.message || t("authFailed"));
                 }
 
-                toast.success(data.message || "Logged in successfully!");
+                toast.success(data.message || t("loggedIn"));
                 
                 // Redirect user to home page
                 router.push("/");
@@ -37,7 +39,7 @@ function FacebookCallbackContent() {
                 router.refresh();
             } catch (err: any) {
                 console.error("Facebook OAuth error:", err);
-                toast.error(err.message || "Failed to log in with Facebook");
+                toast.error(err.message || t("failedLogin", { provider: "Facebook" }));
                 router.push("/");
             }
         };
@@ -48,18 +50,19 @@ function FacebookCallbackContent() {
     return (
         <div className="flex flex-col items-center justify-center min-h-[60vh] bg-white dark:bg-dark p-4 text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mb-4"></div>
-            <h2 className="text-xl font-semibold text-gray-955 dark:text-white mb-2">Authenticating with Facebook...</h2>
-            <p className="text-gray-500 dark:text-neutral-400">Please wait while we set up your session.</p>
+            <h2 className="text-xl font-semibold text-gray-955 dark:text-white mb-2">{t("authenticating", { provider: "Facebook" })}</h2>
+            <p className="text-gray-500 dark:text-neutral-400">{t("pleaseWait")}</p>
         </div>
     );
 }
 
 export default function FacebookCallback() {
+    const c = useTranslations("Common");
     return (
         <Suspense fallback={
             <div className="flex flex-col items-center justify-center min-h-[60vh] bg-white dark:bg-dark p-4 text-center">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mb-4"></div>
-                <h2 className="text-xl font-semibold text-gray-955 dark:text-white mb-2">Loading...</h2>
+                <h2 className="text-xl font-semibold text-gray-955 dark:text-white mb-2">{c("loading")}</h2>
             </div>
         }>
             <FacebookCallbackContent />

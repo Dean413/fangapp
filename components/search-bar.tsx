@@ -7,7 +7,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { ArrowLeft, Clock, Loader2, Search, X } from "lucide-react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/routing";
 import { languageForLocale } from "@/lib/language";
 
@@ -59,6 +59,7 @@ function writeRecent(list: string[]) {
 // onClose: closed by the reader (✕, Esc); onLeave: going to another page (the screen just disappears)
 function SearchScreen({ onClose, onLeave }: { onClose: () => void; onLeave: () => void }) {
     const router = useRouter();
+    const t = useTranslations("Search");
     const language = languageForLocale(useLocale());
     const input = useRef<HTMLInputElement>(null);
     const [text, setText] = useState("");
@@ -168,12 +169,12 @@ function SearchScreen({ onClose, onLeave }: { onClose: () => void; onLeave: () =
     const typing = q.length >= MIN_CHARS;
 
     return (
-        <div role="dialog" aria-modal="true" aria-label="Search"
+        <div role="dialog" aria-modal="true" aria-label={t("dialog")}
             className="fixed inset-0 z-1000 flex flex-col bg-white text-gray-900 dark:bg-dark dark:text-white">
             {/* Search box */}
             <div className="border-b border-gray-100 dark:border-dark-border">
                 <div className="mx-auto flex w-[92%] max-w-3xl items-center gap-2 py-3 md:py-4">
-                    <button type="button" onClick={onClose} aria-label="Close search"
+                    <button type="button" onClick={onClose} aria-label={t("close")}
                         className="rounded-full p-2 text-gray-600 hover:bg-gray-100 dark:text-neutral-300 dark:hover:bg-dark-raised">
                         <ArrowLeft size={20} />
                     </button>
@@ -185,8 +186,8 @@ function SearchScreen({ onClose, onLeave }: { onClose: () => void; onLeave: () =
                             value={text}
                             onChange={(e) => setText(e.target.value)}
                             onKeyDown={onKeyDown}
-                            placeholder="Search by title, author or tag"
-                            aria-label="Search books"
+                            placeholder={t("inputPlaceholder")}
+                            aria-label={t("searchBooks")}
                             autoComplete="off"
                             enterKeyHint="search"
                             maxLength={80}
@@ -195,7 +196,7 @@ function SearchScreen({ onClose, onLeave }: { onClose: () => void; onLeave: () =
                         {searching ? (
                             <Loader2 size={16} className="absolute right-4 top-1/2 -translate-y-1/2 animate-spin text-gray-400" />
                         ) : text && (
-                            <button type="button" onClick={() => { setText(""); input.current?.focus(); }} aria-label="Clear"
+                            <button type="button" onClick={() => { setText(""); input.current?.focus(); }} aria-label={t("clearText")}
                                 className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1 text-gray-400 hover:text-gray-700 dark:hover:text-white">
                                 <X size={16} />
                             </button>
@@ -221,10 +222,10 @@ function SearchScreen({ onClose, onLeave }: { onClose: () => void; onLeave: () =
                                 ))}
                             </div>
                         ) : failed ? (
-                            <p className="py-12 text-center text-sm text-gray-500 dark:text-neutral-400">Couldn&apos;t search right now. Please try again.</p>
+                            <p className="py-12 text-center text-sm text-gray-500 dark:text-neutral-400">{t("failed")}</p>
                         ) : results.length === 0 ? (
                             <p className="py-12 text-center text-sm text-gray-500 dark:text-neutral-400">
-                                No books found for &ldquo;{q}&rdquo;. Try a different title, author or tag.
+                                {t("noResults", { q })}
                             </p>
                         ) : (
                             <>
@@ -239,7 +240,7 @@ function SearchScreen({ onClose, onLeave }: { onClose: () => void; onLeave: () =
                                                 <Search size={15} className="shrink-0 text-gray-400 dark:text-neutral-500" />
                                                 <div className="min-w-0 flex-1">
                                                     <p className="truncate text-sm md:text-base font-semibold">{b.title}</p>
-                                                    <p className="truncate text-xs md:text-sm text-gray-500 dark:text-neutral-400">by {b.author}</p>
+                                                    <p className="truncate text-xs md:text-sm text-gray-500 dark:text-neutral-400">{t("byAuthor", { author: b.author })}</p>
                                                 </div>
                                             </Link>
                                         </li>
@@ -247,7 +248,7 @@ function SearchScreen({ onClose, onLeave }: { onClose: () => void; onLeave: () =
                                 </ul>
                                 <button type="button" onClick={seeAll}
                                     className="mt-4 w-full rounded-full border border-gray-200 py-2.5 text-sm font-medium text-red-600 hover:bg-gray-50 dark:border-dark-border dark:text-red-400 dark:hover:bg-dark-card">
-                                    See all results
+                                    {t("seeAll")}
                                 </button>
                             </>
                         )
@@ -257,9 +258,9 @@ function SearchScreen({ onClose, onLeave }: { onClose: () => void; onLeave: () =
                             {recent.length > 0 && (
                                 <section className="mb-8">
                                     <div className="mb-3 flex items-center justify-between">
-                                        <h2 className="text-sm font-semibold text-gray-700 dark:text-neutral-300">Recent searches</h2>
+                                        <h2 className="text-sm font-semibold text-gray-700 dark:text-neutral-300">{t("recent")}</h2>
                                         <button type="button" onClick={clearRecent} className="text-xs font-medium text-red-600 hover:underline dark:text-red-400">
-                                            Clear
+                                            {t("clear")}
                                         </button>
                                     </div>
                                     <div className="flex flex-wrap gap-2">
@@ -268,7 +269,7 @@ function SearchScreen({ onClose, onLeave }: { onClose: () => void; onLeave: () =
                                                 <button type="button" onClick={() => { setText(r); input.current?.focus(); }} className="inline-flex items-center gap-1.5">
                                                     <Clock size={13} className="text-gray-400" /> {r}
                                                 </button>
-                                                <button type="button" onClick={() => removeRecent(r)} aria-label={`Remove ${r}`}
+                                                <button type="button" onClick={() => removeRecent(r)} aria-label={t("remove", { term: r })}
                                                     className="rounded-full p-1 text-gray-400 hover:text-gray-700 dark:hover:text-white">
                                                     <X size={12} />
                                                 </button>
@@ -280,7 +281,7 @@ function SearchScreen({ onClose, onLeave }: { onClose: () => void; onLeave: () =
 
                             {/* Popular now */}
                             <section>
-                                <h2 className="mb-3 text-sm font-semibold text-gray-700 dark:text-neutral-300">Popular now</h2>
+                                <h2 className="mb-3 text-sm font-semibold text-gray-700 dark:text-neutral-300">{t("popular")}</h2>
                                 <ul className="space-y-1">
                                     {popularLoading
                                         ? Array.from({ length: POPULAR }, (_, i) => (
@@ -296,7 +297,7 @@ function SearchScreen({ onClose, onLeave }: { onClose: () => void; onLeave: () =
                                                     <span className={`w-5 shrink-0 text-center text-sm font-bold ${i < 3 ? "text-red-600" : "text-gray-400 dark:text-neutral-500"}`}>{i + 1}</span>
                                                     <div className="min-w-0 flex-1">
                                                         <p className="truncate text-sm md:text-base font-semibold">{b.title}</p>
-                                                        <p className="truncate text-xs md:text-sm text-gray-500 dark:text-neutral-400">by {b.author}</p>
+                                                        <p className="truncate text-xs md:text-sm text-gray-500 dark:text-neutral-400">{t("byAuthor", { author: b.author })}</p>
                                                     </div>
                                                 </Link>
                                             </li>
@@ -311,7 +312,8 @@ function SearchScreen({ onClose, onLeave }: { onClose: () => void; onLeave: () =
     );
 }
 
-export default function SearchBar({ placeholder = "Search for any books", variant = "bar" }: SearchBarProps) {
+export default function SearchBar({ placeholder, variant = "bar" }: SearchBarProps) {
+    const t = useTranslations("Search");
     const [open, setOpen] = useState(false);
     const [mounted, setMounted] = useState(false);
     useEffect(() => setMounted(true), []);
@@ -334,15 +336,15 @@ export default function SearchBar({ placeholder = "Search for any books", varian
     return (
         <>
             {variant === "icon" ? (
-                <button type="button" onClick={() => setOpen(true)} aria-label="Search books"
+                <button type="button" onClick={() => setOpen(true)} aria-label={t("searchBooks")}
                     className="flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-gray-700 transition hover:bg-gray-100 dark:border-dark-border dark:text-neutral-200 dark:hover:bg-dark-raised">
                     <Search size={17} />
                 </button>
             ) : (
-                <button type="button" onClick={() => setOpen(true)} aria-label="Search books"
+                <button type="button" onClick={() => setOpen(true)} aria-label={t("searchBooks")}
                     className="relative flex h-10 w-full min-w-56 lg:min-w-72 items-center rounded-full border border-gray-200 bg-gray-100 pl-11 pr-4 text-left text-sm text-gray-400 transition hover:border-gray-300 dark:border-transparent dark:bg-neutral-200 dark:text-neutral-500">
                     <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-neutral-600" />
-                    <span className="truncate">{placeholder}</span>
+                    <span className="truncate">{placeholder ?? t("placeholder")}</span>
                 </button>
             )}
             {open && mounted && createPortal(<SearchScreen onClose={close} onLeave={() => setOpen(false)} />, document.body)}

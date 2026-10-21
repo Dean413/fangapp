@@ -9,11 +9,13 @@ import { Eye } from "lucide-react";
 import type { HomeBook } from "@/lib/home";
 import { useAuthStore } from "@/lib/store/authStore";
 import { BookPills, Cover, Rating, SectionHeader, bookHref, formatCount } from "./bookBits";
+import { useTranslations } from "next-intl";
 
 const CARD = "block w-36 shrink-0 snap-start sm:w-40 lg:w-[calc((100%-5rem)/6)]";
 
 export default function RecommendedShelf({ tenant, language }: { tenant: string; language?: string }) {
     const userId = useAuthStore((s) => s.user?.id ?? null);
+    const t = useTranslations("Books");
     const [books, setBooks] = useState<HomeBook[]>([]);
     const [loading, setLoading] = useState(false);
 
@@ -35,7 +37,7 @@ export default function RecommendedShelf({ tenant, language }: { tenant: string;
 
     return (
         <section>
-            <SectionHeader title="Recommended" />
+            <SectionHeader title={t("recommended")} />
             <div className="-mx-1 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-1 pb-2 scrollbar-width:none [&::-webkit-scrollbar]:hidden">
                 {loading
                     ? Array.from({ length: 6 }, (_, i) => (

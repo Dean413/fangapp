@@ -11,7 +11,7 @@ import { normalizeEmail, readJson, reply } from "@/lib/auth/rules";
 export async function POST(request: NextRequest) {
     const body = await readJson(request);
     const email = normalizeEmail(body?.email);
-    if (!email) return reply(400, "Invalid request");
+    if (!email) return reply(400, "invalidRequest");
 
     try {
         const { rows } = await dbPool.query(
@@ -27,9 +27,9 @@ export async function POST(request: NextRequest) {
             if (!("code" in issued)) return reply(429, waitMessage(issued.waitSeconds), { code: "WAIT" });
             await sendCodeEmail("login_2fa", user.email, issued.code);
         }
-        return reply(200, "New code sent");
+        return reply(200, "newCodeSent");
     } catch (error) {
         console.error("Sign-in code resend error:", error);
-        return reply(500, "Could not resend the code");
+        return reply(500, "couldNotResendCode");
     }
 }

@@ -12,6 +12,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { ProfileImagePicker } from "../imagePicker";
 import GenrePicker from "../genreSelectionCard";
 import SuccessCard from "../success-card";
+import { useTranslations } from "next-intl";
 
 type AuthCardProps = {
     open: boolean;
@@ -24,6 +25,8 @@ const steps = [1, 2, 3, 4];
 
 const RegistrationCard = ({ open, onClose, onOpenSignIn }: AuthCardProps) => {
     const Auth = useAuth(open);
+    const t = useTranslations("Auth");
+    const c = useTranslations("Common");
     if (!open) return null;
 
     const maskEmail = (email: string) => {
@@ -83,7 +86,7 @@ const RegistrationCard = ({ open, onClose, onOpenSignIn }: AuthCardProps) => {
                                     onClick={Auth.prevStep}
                                     className="cursor-pointer w-full items-center flex gap-1.5 text-left mb-5 text-xs sm:text-sm text-gray-500 dark:text-neutral-400"
                                 >
-                                    <ChevronLeft size={14} /> Go Back
+                                    <ChevronLeft size={14} /> {c("goBack")}
                                 </button>
                             )}
 
@@ -96,23 +99,23 @@ const RegistrationCard = ({ open, onClose, onOpenSignIn }: AuthCardProps) => {
                             {/* HEADER */}
                             <div className="mb-4 sm:mb-6">
                                 <h2 className="text-2xl font-bold mb-1 text-gray-900 dark:text-white">
-                                    {Auth.currentStep === 1 && "Create Your Account"}
-                                    {Auth.currentStep === 2 && "Verify Your Email"}
-                                    {Auth.currentStep === 3 && "Set up your Profile"}
+                                    {Auth.currentStep === 1 && t("createTitle")}
+                                    {Auth.currentStep === 2 && t("verifyTitle")}
+                                    {Auth.currentStep === 3 && t("profileTitle")}
                                 </h2>
                                 <p className="text-xs sm:text-sm text-gray-500 dark:text-neutral-400">
-                                    {Auth.currentStep === 1 && "Join thousands of readers on FANG"}
+                                    {Auth.currentStep === 1 && t("createText")}
                                     {Auth.currentStep === 2 && (
                                         <>
                                             <span className="block">
-                                                We sent a 6 digit code to {maskEmail(Auth.email)}
+                                                {t("codeSentTo", { email: maskEmail(Auth.email) })}
                                             </span>
                                             <span className="block text-sm  mt-2">
-                                                Enter it below
+                                                {t("enterBelow")}
                                             </span>
                                         </>
                                     )}
-                                    {Auth.currentStep === 3 && "Tell us a little about yourself"}
+                                    {Auth.currentStep === 3 && t("profileText")}
                                 </p>
                             </div>
 
@@ -132,8 +135,8 @@ const RegistrationCard = ({ open, onClose, onOpenSignIn }: AuthCardProps) => {
                                             strength={Auth.strength}
                                             showNameField
                                             showStrengthBar
-                                            placeholder="Enter password"
-                                            label="Password"
+                                            placeholder={t("passwordPlaceholder")}
+                                            label={t("password")}
                                         />
                                     </div>
                                     <AuthFooter
@@ -143,11 +146,11 @@ const RegistrationCard = ({ open, onClose, onOpenSignIn }: AuthCardProps) => {
                                         message={Auth.message}
                                         loading={Auth.loading}
                                         canCreateAccount={Auth.canCreateAccount}
-                                        loadingText="Creating Account"
-                                        buttonLabel="Create Account"
+                                        loadingText={t("creatingAccount")}
+                                        buttonLabel={t("createAccount")}
                                         onSubmit={Auth.nextStep}
-                                        paragraphText="Already have an account?"
-                                        buttonText="Sign in"
+                                        paragraphText={t("haveAccount")}
+                                        buttonText={t("signIn")}
                                         button
                                         signInButton={false}
                                         buttonAction={onOpenSignIn}
@@ -160,18 +163,18 @@ const RegistrationCard = ({ open, onClose, onOpenSignIn }: AuthCardProps) => {
                             {Auth.currentStep === 2 && (
                                 <div className="space-y-4 sm:space-y-5">
                                     <div ><OTPInput length={6} onChange={Auth.setOtp} value={Auth.otp} resend={Auth.resendCode} errorMessage={Auth.otpMessage} /></div>
-                                    <Button onClick={Auth.verifyCode} disabled={Auth.verifying || Auth.otp.length !== 6} loading={Auth.verifying} loadingText="Verifying..." label="Verify" />
+                                    <Button onClick={Auth.verifyCode} disabled={Auth.verifying || Auth.otp.length !== 6} loading={Auth.verifying} loadingText={c("verifying")} label={c("verify")} />
                                 </div>
                             )}
 
                             {/* STEP 3 */}
                             {Auth.currentStep === 3 && (
                                 <div className="space-y-4 sm:space-y-5">
-                                    <ProfileImagePicker image={Auth.image} setImage={Auth.setImage} name={Auth.fullName || Auth.userName} uploadIcon="Upload Photo" pictureHeader="Profile Photo" />
-                                    <Input label="Username" value={Auth.userName} onChange={Auth.setUserName} />
-                                    <h1 className="text-sm sm:text-base font-semibold text-gray-700 dark:text-neutral-300">Favourite Genres</h1>
+                                    <ProfileImagePicker image={Auth.image} setImage={Auth.setImage} name={Auth.fullName || Auth.userName} uploadIcon={t("uploadPhoto")} pictureHeader={t("profilePhoto")} />
+                                    <Input label={t("username")} placeholder={t("usernamePlaceholder")} value={Auth.userName} onChange={Auth.setUserName} />
+                                    <h1 className="text-sm sm:text-base font-semibold text-gray-700 dark:text-neutral-300">{t("favouriteGenres")}</h1>
                                     <GenrePicker selected={Auth.selectedGenres} onChange={Auth.setSelectedGenres} bio={Auth.bio} setBio={Auth.setBio} />
-                                    <Button onClick={Auth.finalStep} disabled={Auth.savingProfile} loading={Auth.savingProfile} loadingText="Saving..." label="Continue" />
+                                    <Button onClick={Auth.finalStep} disabled={Auth.savingProfile} loading={Auth.savingProfile} loadingText={c("saving")} label={c("continue")} />
                                 </div>
                             )}
 
@@ -180,7 +183,7 @@ const RegistrationCard = ({ open, onClose, onOpenSignIn }: AuthCardProps) => {
                 )}
                 {/* STEP 4 */}
                 {Auth.currentStep === 4 && (
-                    <SuccessCard head="Profile Setup Complete" text="Your profile has been successfully created and saved." buttonText="Done" onDone={onClose} />
+                    <SuccessCard head={t("profileDoneTitle")} text={t("profileDoneText")} buttonText={c("done")} onDone={onClose} />
                 )}
             </div>
 

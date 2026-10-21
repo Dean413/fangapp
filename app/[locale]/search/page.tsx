@@ -3,7 +3,7 @@
 // Search results: every book matching the words (title, author or tag), in the language picked on the site
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Footer from "@/components/footer";
 import { Bone } from "@/components/skeleton";
 import { GenreCard } from "@/components/cards/two-column-cards/genre-card";
@@ -27,6 +27,7 @@ function CardSkeleton() {
 function SearchResults() {
     const q = (useSearchParams().get("q") ?? "").trim();
     const language = languageForLocale(useLocale());
+    const t = useTranslations("Search");
     const [books, setBooks] = useState<StoryCard[]>([]);
     const [loading, setLoading] = useState(true);
     const [failed, setFailed] = useState(false);
@@ -58,11 +59,11 @@ function SearchResults() {
         <div className="bg-gray-50 dark:bg-dark min-h-screen">
             <div className="w-[90%] mx-auto pt-8 pb-12">
                 <h1 className="text-2xl md:text-3xl font-bold text-black dark:text-white">
-                    {q ? <>Results for &ldquo;{q}&rdquo;</> : "Search"}
+                    {q ? t("resultsFor", { q }) : t("dialog")}
                 </h1>
                 {!loading && !failed && q.length >= 2 && (
                     <p className="mt-1 text-sm text-gray-500 dark:text-neutral-400">
-                        {books.length} {books.length === 1 ? "book" : "books"}
+                        {t("bookCount", { count: books.length })}
                     </p>
                 )}
 
@@ -72,11 +73,11 @@ function SearchResults() {
                             {Array.from({ length: 4 }, (_, i) => <CardSkeleton key={i} />)}
                         </div>
                     ) : failed ? (
-                        <p className="py-16 text-center text-sm text-gray-500 dark:text-neutral-400">Couldn&apos;t search right now. Please try again.</p>
+                        <p className="py-16 text-center text-sm text-gray-500 dark:text-neutral-400">{t("failed")}</p>
                     ) : q.length < 2 ? (
-                        <p className="py-16 text-center text-sm text-gray-500 dark:text-neutral-400">Type at least 2 letters in the search bar.</p>
+                        <p className="py-16 text-center text-sm text-gray-500 dark:text-neutral-400">{t("tooShort")}</p>
                     ) : books.length === 0 ? (
-                        <p className="py-16 text-center text-sm text-gray-500 dark:text-neutral-400">No books found. Try a different title, author or tag.</p>
+                        <p className="py-16 text-center text-sm text-gray-500 dark:text-neutral-400">{t("noBooks")}</p>
                     ) : (
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                             {books.map((b) => <GenreCard key={b.id} {...b} />)}

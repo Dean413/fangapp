@@ -3,6 +3,7 @@
 // (2 to 80 characters; fewer than 2 = no results).
 import { NextRequest, NextResponse } from "next/server";
 import { searchStories } from "@/lib/stories";
+import { translateMsg } from "@/lib/i18n";
 
 export async function GET(request: NextRequest) {
     const p = request.nextUrl.searchParams;
@@ -16,6 +17,6 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ books }, { headers: { "Cache-Control": "no-store" } });
     } catch (error) {
         console.error("Search error:", error);
-        return NextResponse.json({ message: "Couldn't search right now", books: [] }, { status: 500 });
+        return NextResponse.json({ message: await translateMsg("couldntSearch"), books: [] }, { status: 500 });
     }
 }

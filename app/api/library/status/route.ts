@@ -10,13 +10,13 @@ export async function GET(request: NextRequest) {
     if (!user) return reply(200, "OK", { saved: false, lastChapter: null });
 
     const id = (request.nextUrl.searchParams.get("id") ?? "").trim();
-    if (!id || id.length > 200) return reply(400, "Book not found");
+    if (!id || id.length > 200) return reply(400, "bookNotFound");
     try {
         const status = await getBookStatus(user.id, id);
-        if (!status) return reply(404, "Book not found");
+        if (!status) return reply(404, "bookNotFound");
         return reply(200, "OK", status);
     } catch (error) {
         console.error("Library status error:", error);
-        return reply(500, "Something went wrong");
+        return reply(500, "somethingWrong");
     }
 }

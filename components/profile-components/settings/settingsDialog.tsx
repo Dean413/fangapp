@@ -4,12 +4,14 @@
 // notification preferences. Same card style as the sign-in cards.
 import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "@/lib/store/toastStore";
 import { Button } from "@/components/Button";
 import Input from "@/components/input";
 import PasswordInput from "@/components/passwordInput";
 import OTPInput from "@/components/otp";
 import ToggleSwitch from "./toggle-switch";
+import { useTranslations } from "next-intl";
+import { tc } from "@/lib/i18n-client";
 
 export type NotificationSettings = { newChapters: boolean; rewards: boolean; replies: boolean; emailUpdates: boolean };
 
@@ -67,7 +69,7 @@ function useBusy() {
         try {
             await fn();
         } catch {
-            toast.error("Unable to reach the server. Please try again.");
+            toast.error(tc("Common.networkError"));
         } finally {
             ref.current = false;
             setBusy(false);
@@ -77,7 +79,7 @@ function useBusy() {
 }
 
 const passwordProblem = (p: string) =>
-    p.length < 10 || !/[a-zA-Z]/.test(p) || !/[0-9]/.test(p) ? "Password must be at least 10 characters with letters and numbers" : null;
+    p.length < 10 || !/[a-zA-Z]/.test(p) || !/[0-9]/.test(p) ? tc("Auth.passwordRule") : null;
 
 // ---------- Password ----------
 
@@ -89,36 +91,38 @@ export function ChangePasswordDialog({ open, onClose, hasPassword, onDone }: {
     const [confirm, setConfirm] = useState("");
     const [show, setShow] = useState({ current: false, password: false, confirm: false });
     const { busy, run } = useBusy();
+    const t = useTranslations("SettingsDialogs");
+    const c = useTranslations("Common");
 
     useEffect(() => {
         if (!open) { setCurrent(""); setPassword(""); setConfirm(""); }
     }, [open]);
 
     const save = () => run(async () => {
-        if (hasPassword && !current) return void toast.error("Enter your current password");
+        if (hasPassword && !current) return void toast.error(t("enterCurrent"));
         const problem = passwordProblem(password);
         if (problem) return void toast.error(problem);
-        if (password !== confirm) return void toast.error("Passwords don't match");
+        if (password !== confirm) return void toast.error(t("mismatch"));
         const { ok, data } = await send("/api/settings/password", "POST", { current, password });
-        if (!ok) return void toast.error(data.message || "Couldn't change your password");
-        toast.success(data.message || "Password changed");
+        if (!ok) return void toast.error(data.message || t("passwordFailed"));
+        toast.success(data.message || t("passwordChanged"));
         onDone();
         onClose();
     });
 
     return (
         <Dialog open={open} onClose={onClose} busy={busy}
-            title={hasPassword ? "Change Password" : "Set a Password"}
-            text={hasPassword ? "Other devices will be signed out." : "Add a password so you can also sign in with your email."}>
+            title={hasPassword ? t("changePasswordTitle") : t("setPasswordTitle")}
+            text={hasPassword ? t("changePasswordText") : t("setPasswordText")}>
             {hasPassword && (
                 <PasswordInput value={current} onChange={setCurrent} show={show.current} setShow={(v) => setShow((s) => ({ ...s, current: v }))}
-                    showStrengthBar={false} label="Current password" placeholder="Enter current password" />
+                    showStrengthBar={false} label={t("currentPassword")} placeholder={t("currentPasswordPlaceholder")} />
             )}
             <PasswordInput value={password} onChange={setPassword} show={show.password} setShow={(v) => setShow((s) => ({ ...s, password: v }))}
-                showStrengthBar={false} label="New password" placeholder="Enter new password" />
+                showStrengthBar={false} label={t("newPassword")} placeholder={t("newPasswordPlaceholder")} />
             <PasswordInput value={confirm} onChange={setConfirm} show={show.confirm} setShow={(v) => setShow((s) => ({ ...s, confirm: v }))}
-                showStrengthBar={false} label="Confirm password" placeholder="Confirm password" />
-            <Button onClick={save} disabled={busy || !password || !confirm} loading={busy} loadingText="Saving..." label={hasPassword ? "Change password" : "Set password"} />
+                showStrengthBar={false} label={t("confirmPassword")} placeholder={t("confirmPassword")} />
+            <Button onClick={save} disabled={busy || !password || !confirm} loading={busy} loadingText={c("saving")} label={hasPassword ? t("changePassword") : t("setPassword")} />
         </Dialog>
     );
 }
@@ -136,17 +140,19 @@ export function ChangeEmailDialog({ open, onClose, hasPassword, onDone }: {
     const [otpMessage, setOtpMessage] = useState("");
     const { busy, run } = useBusy();
     const lastAutoCode = useRef("");
+    const t = useTranslations("SettingsDialogs");
+    const c = useTranslations("Common");
 
     useEffect(() => {
         if (!open) { setStep(1); setNewEmail(""); setPassword(""); setOtp(""); setOtpMessage(""); }
     }, [open]);
 
     const sendCode = () => run(async () => {
-        if (!newEmail.trim()) return void toast.error("Enter your new email");
-        if (hasPassword && !password) return void toast.error("Enter your password");
+        if (!newEmail.trim()) return void toast.error(t("enterNewEmail"));
+        if (hasPassword && !password) return void toast.error(t("enterPassword"));
         const { ok, data } = await send("/api/settings/email", "POST", { newEmail, password });
-        if (!ok) return void toast.error(data.message || "Couldn't send the code");
-        toast.success(data.message || "Code sent");
+        if (!ok) return void toast.error(data.message || t("sendCodeFailed"));
+        toast.success(data.message || t("codeSent"));
         setOtp("");
         setOtpMessage("");
         setStep(2);
@@ -155,14 +161,14 @@ export function ChangeEmailDialog({ open, onClose, hasPassword, onDone }: {
     const resend = () => run(async () => {
         setOtp("");
         const { ok, data } = await send("/api/settings/email", "POST", { newEmail, password });
-        setOtpMessage(ok ? "New code sent" : data.message || "Could not resend the code");
+        setOtpMessage(ok ? "New code sent" : data.message || t("resendFailed"));
     });
 
     const confirmCode = () => run(async () => {
         if (otp.length !== 6) return;
         const { ok, data } = await send("/api/settings/email/confirm", "POST", { code: otp });
-        if (!ok) return void setOtpMessage(data.message || "That code is incorrect");
-        toast.success(data.message || "Email changed");
+        if (!ok) return void setOtpMessage(data.message || t("codeIncorrect"));
+        toast.success(data.message || t("emailChanged"));
         onDone(data.email);
         onClose();
     });
@@ -177,21 +183,21 @@ export function ChangeEmailDialog({ open, onClose, hasPassword, onDone }: {
     }, [otp, step, busy]);
 
     return (
-        <Dialog open={open} onClose={onClose} busy={busy} title="Change Email"
-            text={step === 1 ? "We'll send a code to your new email to confirm it." : `Enter the 6 digit code we sent to ${newEmail.trim().toLowerCase()}.`}>
+        <Dialog open={open} onClose={onClose} busy={busy} title={t("changeEmailTitle")}
+            text={step === 1 ? t("changeEmailText") : t("enterCodeSentTo", { email: newEmail.trim().toLowerCase() })}>
             {step === 1 ? (
                 <>
-                    <Input label="New email" value={newEmail} onChange={setNewEmail} />
+                    <Input label={t("newEmail")} placeholder={t("newEmailPlaceholder")} value={newEmail} onChange={setNewEmail} />
                     {hasPassword && (
                         <PasswordInput value={password} onChange={setPassword} show={show} setShow={setShow}
-                            showStrengthBar={false} label="Password" placeholder="Enter your password" />
+                            showStrengthBar={false} label={t("password")} placeholder={t("passwordPlaceholder")} />
                     )}
-                    <Button onClick={sendCode} disabled={busy || !newEmail.trim()} loading={busy} loadingText="Sending..." label="Send code" />
+                    <Button onClick={sendCode} disabled={busy || !newEmail.trim()} loading={busy} loadingText={c("sending")} label={t("sendCode")} />
                 </>
             ) : (
                 <>
                     <OTPInput length={6} onChange={setOtp} value={otp} resend={resend} errorMessage={otpMessage} />
-                    <Button onClick={confirmCode} disabled={busy || otp.length !== 6} loading={busy} loadingText="Verifying..." label="Change email" />
+                    <Button onClick={confirmCode} disabled={busy || otp.length !== 6} loading={busy} loadingText={c("verifying")} label={t("changeEmail")} />
                 </>
             )}
         </Dialog>
@@ -208,11 +214,13 @@ export function TwoFactorDialog({ open, onClose, enable, onDone }: {
     const { busy, run } = useBusy();
 
     useEffect(() => { if (!open) setPassword(""); }, [open]);
+    const t = useTranslations("SettingsDialogs");
+    const c = useTranslations("Common");
 
     const save = () => run(async () => {
-        if (!password) return void toast.error("Enter your password");
+        if (!password) return void toast.error(t("enterPassword"));
         const { ok, data } = await send("/api/settings/two-factor", "POST", { enabled: enable, password });
-        if (!ok) return void toast.error(data.message || "Couldn't change two-factor sign-in");
+        if (!ok) return void toast.error(data.message || t("twoFactorFailed"));
         toast.success(data.message);
         onDone(enable);
         onClose();
@@ -220,13 +228,13 @@ export function TwoFactorDialog({ open, onClose, enable, onDone }: {
 
     return (
         <Dialog open={open} onClose={onClose} busy={busy}
-            title={enable ? "Turn On Two-Factor" : "Turn Off Two-Factor"}
+            title={enable ? t("twoFactorOnTitle") : t("twoFactorOffTitle")}
             text={enable
                 ? "When you sign in with your password, we'll also email you a 6 digit code."
                 : "You'll sign in with just your password."}>
             <PasswordInput value={password} onChange={setPassword} show={show} setShow={setShow}
-                showStrengthBar={false} label="Password" placeholder="Enter your password" />
-            <Button onClick={save} disabled={busy || !password} loading={busy} loadingText="Saving..." label={enable ? "Turn on" : "Turn off"} />
+                showStrengthBar={false} label={t("password")} placeholder={t("passwordPlaceholder")} />
+            <Button onClick={save} disabled={busy || !password} loading={busy} loadingText={c("saving")} label={enable ? t("turnOn") : t("turnOff")} />
         </Dialog>
     );
 }
@@ -246,17 +254,19 @@ export function DeleteAccountDialog({ open, onClose, hasPassword, isWriter, onDo
     useEffect(() => {
         if (!open) { setPassword(""); setCodeSent(false); setOtp(""); setOtpMessage(""); }
     }, [open]);
+    const t = useTranslations("SettingsDialogs");
+    const c = useTranslations("Common");
 
     const sendCode = () => run(async () => {
         setOtp("");
         const { ok, data } = await send("/api/settings/delete/code", "POST");
         if (!ok) {
-            if (codeSent) setOtpMessage(data.message || "Could not send the code");
-            else toast.error(data.message || "Couldn't send the code");
+            if (codeSent) setOtpMessage(data.message || t("sendCodeFailed"));
+            else toast.error(data.message || t("sendCodeFailed"));
             return;
         }
         if (codeSent) setOtpMessage("New code sent");
-        else toast.success(data.message || "Code sent");
+        else toast.success(data.message || t("codeSent"));
         setCodeSent(true);
     });
 
@@ -264,40 +274,40 @@ export function DeleteAccountDialog({ open, onClose, hasPassword, isWriter, onDo
         const body = hasPassword ? { password } : { code: otp };
         const { ok, data } = await send("/api/settings/delete", "POST", body);
         if (!ok) {
-            if (!hasPassword) setOtpMessage(data.message || "That code is incorrect");
-            else toast.error(data.message || "Couldn't delete your account");
+            if (!hasPassword) setOtpMessage(data.message || t("codeIncorrect"));
+            else toast.error(data.message || t("deleteFailed"));
             return;
         }
-        toast.success(data.message || "Your account has been deleted");
+        toast.success(data.message || t("deleted"));
         onDone();
     });
 
     const ready = hasPassword ? Boolean(password) : codeSent && otp.length === 6;
 
     return (
-        <Dialog open={open} onClose={onClose} busy={busy} title="Delete Account"
-            text="Your profile, library and reading history will be removed and you won't be able to sign in again. Unused coins are lost. This can't be undone.">
+        <Dialog open={open} onClose={onClose} busy={busy} title={t("deleteTitle")}
+            text={t("deleteText")}>
             {isWriter ? (
                 <p className="text-sm text-gray-700 dark:text-gray-300">
-                    This account is also your FangWriters account, so it can&apos;t be deleted here. Contact support@fangwriters.com.
+                    {t("writerAccount")}
                 </p>
             ) : hasPassword ? (
                 <>
                     <PasswordInput value={password} onChange={setPassword} show={show} setShow={setShow}
-                        showStrengthBar={false} label="Password" placeholder="Enter your password" />
+                        showStrengthBar={false} label={t("password")} placeholder={t("passwordPlaceholder")} />
                     <button type="button" onClick={remove} disabled={busy || !ready}
                         className="w-full py-3 rounded-xl bg-red-600 text-white font-semibold disabled:opacity-50">
-                        {busy ? "Deleting..." : "Delete my account"}
+                        {busy ? t("deleting") : t("deleteMine")}
                     </button>
                 </>
             ) : !codeSent ? (
-                <Button onClick={sendCode} disabled={busy} loading={busy} loadingText="Sending..." label="Email me a code" />
+                <Button onClick={sendCode} disabled={busy} loading={busy} loadingText={c("sending")} label={t("emailMeCode")} />
             ) : (
                 <>
                     <OTPInput length={6} onChange={setOtp} value={otp} resend={sendCode} errorMessage={otpMessage} />
                     <button type="button" onClick={remove} disabled={busy || !ready}
                         className="w-full py-3 rounded-xl bg-red-600 text-white font-semibold disabled:opacity-50">
-                        {busy ? "Deleting..." : "Delete my account"}
+                        {busy ? t("deleting") : t("deleteMine")}
                     </button>
                 </>
             )}
@@ -307,12 +317,8 @@ export function DeleteAccountDialog({ open, onClose, hasPassword, isWriter, onDo
 
 // ---------- Notifications ----------
 
-const NOTIFICATION_ROWS: { key: keyof NotificationSettings; title: string; text: string }[] = [
-    { key: "newChapters", title: "New chapters", text: "When a book in your library gets a new chapter" },
-    { key: "rewards", title: "Rewards", text: "Check-in reminders and bonus coins about to expire" },
-    { key: "replies", title: "Replies", text: "When someone replies to your comment" },
-    { key: "emailUpdates", title: "Email updates", text: "News and recommendations by email" },
-];
+// Texts: SettingsDialogs.notify_<key> and notify_<key>Text
+const NOTIFICATION_ROWS: (keyof NotificationSettings)[] = ["newChapters", "rewards", "replies", "emailUpdates"];
 
 export function NotificationsDialog({ open, onClose, value, onDone }: {
     open: boolean; onClose: () => void; value: NotificationSettings; onDone: (n: NotificationSettings) => void;
@@ -321,29 +327,31 @@ export function NotificationsDialog({ open, onClose, value, onDone }: {
     const { busy, run } = useBusy();
 
     useEffect(() => { if (open) setDraft(value); }, [open, value]);
+    const t = useTranslations("SettingsDialogs");
+    const c = useTranslations("Common");
 
     const save = () => run(async () => {
         const { ok, data } = await send("/api/settings/notifications", "PUT", draft);
-        if (!ok) return void toast.error(data.message || "Couldn't save");
-        toast.success(data.message || "Saved");
+        if (!ok) return void toast.error(data.message || t("saveFailed"));
+        toast.success(data.message || t("saved"));
         onDone(draft);
         onClose();
     });
 
     return (
-        <Dialog open={open} onClose={onClose} busy={busy} title="Notification Preferences" text="Choose what alerts you receive.">
+        <Dialog open={open} onClose={onClose} busy={busy} title={t("notificationsTitle")} text={t("notificationsText")}>
             <div>
-                {NOTIFICATION_ROWS.map((row) => (
-                    <div key={row.key} className="flex justify-between items-center py-3 border-b border-b-gray-200 last:border-none gap-4">
+                {NOTIFICATION_ROWS.map((key) => (
+                    <div key={key} className="flex justify-between items-center py-3 border-b border-b-gray-200 last:border-none gap-4">
                         <div>
-                            <p className="font-semibold">{row.title}</p>
-                            <p className="text-sm text-gray-500 dark:text-neutral-400">{row.text}</p>
+                            <p className="font-semibold">{t(`notify_${key}`)}</p>
+                            <p className="text-sm text-gray-500 dark:text-neutral-400">{t(`notify_${key}Text`)}</p>
                         </div>
-                        <ToggleSwitch enabled={draft[row.key]} onChange={() => setDraft((d) => ({ ...d, [row.key]: !d[row.key] }))} />
+                        <ToggleSwitch enabled={draft[key]} onChange={() => setDraft((d) => ({ ...d, [key]: !d[key] }))} />
                     </div>
                 ))}
             </div>
-            <Button onClick={save} disabled={busy} loading={busy} loadingText="Saving..." label="Save" />
+            <Button onClick={save} disabled={busy} loading={busy} loadingText={c("saving")} label={c("save")} />
         </Dialog>
     );
 }

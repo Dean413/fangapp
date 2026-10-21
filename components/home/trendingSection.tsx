@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { HomeBook, HomeCollection } from "@/lib/home";
 import { BookPills, Cover, SectionHeader, bookHref, formatCount } from "./bookBits";
+import { useTranslations } from "next-intl";
 
 const ROTATE_EVERY = 6000;
 // Each new book fades in
@@ -36,7 +37,11 @@ function RotatingCard({ books }: { books: HomeBook[] }) {
             {/* key = the book: each turn fades in */}
             <Link key={book.id} href={bookHref(book)} className="group flex flex-1 flex-col animate-[fangTrendingFade_500ms_ease-out]">
                 <Cover book={book} imprint="lg" className="mx-auto aspect-3/4 w-full max-w-50" />
-                <h3 className="mt-5 line-clamp-2 text-lg font-bold text-gray-900 dark:text-white">{book.title}</h3>
+                {/* The book's place in Trending: #1, #2, #3… as the card turns */}
+                <p className="mt-5 text-[10px] font-bold uppercase tracking-wide text-red-600 dark:text-red-400">
+                    #{(index % books.length) + 1} This Week
+                </p>
+                <h3 className="mt-1 line-clamp-2 text-lg font-bold text-gray-900 dark:text-white">{book.title}</h3>
                 <p className="text-xs text-gray-500 dark:text-neutral-400">by {book.author}</p>
                 {book.blurb && <p className="mt-3 line-clamp-3 text-xs leading-relaxed text-gray-600 dark:text-neutral-300">{book.blurb}</p>}
                 <div className="mt-3">
@@ -48,6 +53,7 @@ function RotatingCard({ books }: { books: HomeBook[] }) {
 }
 
 export default function TrendingSection({ collection }: { collection: HomeCollection }) {
+    const t = useTranslations("Books");
     const [top, ...rest] = collection.books;
     if (!top) return null;
     const others = rest.slice(0, 3);
@@ -85,7 +91,7 @@ export default function TrendingSection({ collection }: { collection: HomeCollec
                             </div>
                             <div className="shrink-0 text-right">
                                 <p className="text-base font-bold text-gray-900 dark:text-white">{formatCount(book.views)}</p>
-                                <p className="text-[9px] uppercase tracking-wide text-gray-400 dark:text-neutral-500">Reads</p>
+                                <p className="text-[9px] uppercase tracking-wide text-gray-400 dark:text-neutral-500">{t("reads")}</p>
                             </div>
                         </Link>
                     ))}

@@ -1,6 +1,7 @@
 
 import { NextResponse } from "next/server";
 import { dbPool } from "@/lib/db";
+import { translateMsg } from "@/lib/i18n";
 
 export const dynamic = "force-dynamic";
 
@@ -151,7 +152,7 @@ export async function GET() {
         console.error("Failed to fetch homepage curation:", error);
 
         return NextResponse.json(
-            { error: "Failed to load homepage collections" },
+            { error: await translateMsg("failedLoadHome") },
             { status: 500 }
         );
     }

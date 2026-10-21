@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 type BioFieldProps = {
     label: string;
@@ -11,6 +12,7 @@ type BioFieldProps = {
 export default function BioField({ label, value, onChange }: BioFieldProps) {
     // Used only when the page doesn't pass value/onChange
     const [ownBio, setOwnBio] = useState("");
+    const t = useTranslations("Auth");
     const bio = value ?? ownBio;
 
     const handleChange = (text: string) => {
@@ -29,7 +31,7 @@ export default function BioField({ label, value, onChange }: BioFieldProps) {
                     value={bio}
                     maxLength={200}
                     onChange={(e) => handleChange(e.target.value)}
-                    placeholder="Tell us about yourself..."
+                    placeholder={t("bioPlaceholder")}
                     className="w-full h-32 p-4 rounded-xl overflow-auto no-scrollbar bg-gray-200 dark:bg-dark-raised border border-gray-200 dark:border-neutral-700
                     text-gray-900 dark:text-white
                     outline-none resize-none

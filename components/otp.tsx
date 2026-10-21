@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { CircleAlert, CircleCheck } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type OTPProps = {
     value?: string;
@@ -11,13 +12,14 @@ type OTPProps = {
     onChange: (code: string) => void;
 };
 
-// The hooks send this exact text after a new code goes out; it shows in green, any other message in red
+// The hooks send this exact text after a new code goes out; it shows (translated) in green, any other message in red
 const CODE_SENT = "New code sent";
 
 const OTPInput = ({ length = 6, onChange, value, errorMessage, resend, }: OTPProps) => {
     const [countDown, setCountDown] = useState(60);
     const [otp, setOtp] = useState<string[]>(Array(length).fill(""));
     const inputsRef = useRef<Array<HTMLInputElement | null>>([]);
+    const t = useTranslations("Auth");
     const isError = Boolean(errorMessage) && errorMessage !== CODE_SENT;
 
     useEffect(() => {
@@ -109,18 +111,18 @@ const OTPInput = ({ length = 6, onChange, value, errorMessage, resend, }: OTPPro
                     <div className={`flex items-center justify-center gap-2 py-2 px-4 mb-4 rounded-lg w-full
                         ${isError ? "text-red-500 bg-red-200 dark:bg-red-500/25" : "text-green-500 bg-green-200 dark:bg-green-500/25"}`}>
                         {isError ? <CircleAlert size={18} /> : <CircleCheck size={18} />}
-                        <p>{errorMessage}</p>
+                        <p>{isError ? errorMessage : t("newCodeSent")}</p>
                     </div>
                 )}
                 {countDown > 0 ? (
-                    <p className="text-center">Didn’t receive it?{" "} <span className="text-[#8B0000] dark:text-red-400">
-                        Resend code in {countDown}s
+                    <p className="text-center">{t("didntReceive")}{" "} <span className="text-[#8B0000] dark:text-red-400">
+                        {t("resendIn", { seconds: countDown })}
                     </span>
                     </p>
                 ) : (
                     <div className="flex justify-center">
                         <button type="button" onClick={handleResendClick} className="text-[#8B0000] dark:text-red-400 font-bold">
-                            Resend Code
+                            {t("resendCode")}
                         </button>
                     </div>
                 )}

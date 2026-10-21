@@ -2,6 +2,7 @@
 import { createStory, listStories, StorySort } from "@/lib/stories";
 import { verifyAuth } from "@/lib/rbac";
 import { NextResponse } from "next/server";
+import { translateMsg } from "@/lib/i18n";
 
 // GET /api/stories?genre=<slug>&status=ongoing|completed&short=true&sort=new|views|likes|recommended&exclude=<slug>
 //                 &language=<e.g. English>&limit=<n>
@@ -30,7 +31,7 @@ export async function GET(req: Request) {
 
         return NextResponse.json(
             {
-                message: "Failed to fetch stories.",
+                message: await translateMsg("failedFetchStories"),
             },
             {
                 status: 500,

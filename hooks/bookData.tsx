@@ -1,8 +1,11 @@
 import { BookCard } from "@/components/cards/home-cards/cards";
 import { BookGridSkeleton } from "@/components/skeleton";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
-export const SectionHeader = ({ title, href }: { title: string; href: string }) => (
+export const SectionHeader = ({ title, href }: { title: string; href: string }) => {
+    const t = useTranslations("Books");
+    return (
     <div className="flex items-center justify-between z-35 mb-5">
         <div>
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">{title}</h2>
@@ -10,10 +13,11 @@ export const SectionHeader = ({ title, href }: { title: string; href: string }) 
         </div>
 
         <Link href={href} className="text-red-500 dark:text-red-400 text-sm font-medium hover:underline shrink-0">
-            View all
+            {t("viewAll")}
         </Link>
     </div>
-);
+    );
+};
 
 export const BookGrid = ({ data, loading = false }: { data: any; loading?: boolean }) =>
     loading ? (

@@ -6,9 +6,11 @@ import VipPlans from "@/components/profile-components/wallet-cards/vip";
 import { useWalletStore } from "@/lib/store/wallet-action-store";
 import { useAuthStore } from "@/lib/store/authStore";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 export default function WalletPage() {
     const { active, setActive } = useWalletStore()
+    const t = useTranslations("Wallet")
     const wallet = useAuthStore((s) => s.user?.wallet)
     // Coins bought with money + bonus coins that haven't expired
     const totalBalance = (wallet?.coins ?? 0) + (wallet?.bonusCoins ?? 0)
@@ -20,21 +22,21 @@ export default function WalletPage() {
                 {/* Header */}
                 <div className="md:flex items-center justify-between space-y-2 md">
                     <div>
-                        <h1 className="text-2xl font-bold">My Wallet</h1>
-                        <p className="text-gray-500 dark:text-neutral-400 text-sm md:text-lg">Earn, top up and manage your VIP perks</p>
+                        <h1 className="text-2xl font-bold">{t("title")}</h1>
+                        <p className="text-gray-500 dark:text-neutral-400 text-sm md:text-lg">{t("subtitle")}</p>
                     </div>
 
                     <div className="flex gap-2 dark:gap-1 dark:p-1 dark:rounded-full dark:border dark:border-dark-border">
                         <button type="button" onClick={() => setActive("earn")} className={`px-4 py-2 rounded-full text-sm ${active === "earn" ? "bg-black text-white dark:bg-[#D90404]" : "bg-white border dark:bg-transparent dark:border-transparent dark:text-white"}`}>
-                            Earn
+                            {t("tabEarn")}
                         </button>
 
                         <button type="button" onClick={() => setActive("topup")} className={`px-4 py-2 rounded-full text-sm ${active === "topup" ? "bg-black text-white dark:bg-[#D90404]" : "bg-white border dark:bg-transparent dark:border-transparent dark:text-white"}`}>
-                            Top Up
+                            {t("tabTopUp")}
                         </button>
 
                         <button type="button" onClick={() => setActive("vip")} className={`px-4 py-2 rounded-full text-sm ${active === "vip" ? "bg-black text-white dark:bg-[#D90404]" : "bg-white border dark:bg-transparent dark:border-transparent dark:text-white"}`}>
-                            VIP
+                            {t("tabVip")}
                         </button>
                     </div>
 
@@ -43,32 +45,32 @@ export default function WalletPage() {
                 {active !== "vip" && (
                     <div className="bg-linear-to-r space-y-4 from-black to-gray-900 dark:bg-none dark:bg-dark-card dark:border dark:border-dark-border text-white rounded-2xl p-6 md:flex items-center justify-between">
                         <div className="space-y-2">
-                            <p className="text-sm md:text-base tracking-[0.2em] text-gray-300 dark:text-neutral-400">TOTAL BALANCE</p>
+                            <p className="text-sm md:text-base tracking-[0.2em] text-gray-300 dark:text-neutral-400 uppercase">{t("totalBalance")}</p>
 
                             <h2 className="text-4xl md:text-5xl font-bold flex items-center gap-3">
                                 <Image
                                     src="/fang_pictures/balance.png"
                                     width={44}
                                     height={44}
-                                    alt="coin balance"
+                                    alt={t("coinBalance")}
                                 />
                                 {totalBalance.toLocaleString()}
                             </h2>
 
                             {/* Bought coins, bonus coins and gems on their own */}
                             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm md:text-base text-gray-300 dark:text-neutral-400">
-                                <span>Coins: {(wallet?.coins ?? 0).toLocaleString()}</span>
-                                <span>Bonus: {(wallet?.bonusCoins ?? 0).toLocaleString()}</span>
+                                <span>{t("coins", { amount: (wallet?.coins ?? 0).toLocaleString() })}</span>
+                                <span>{t("bonus", { amount: (wallet?.bonusCoins ?? 0).toLocaleString() })}</span>
                                 <span className="flex items-center gap-2">
-                                    <Image src="/fang_pictures/gift-icons/ruby.png" width={22} height={22} alt="gems" />
+                                    <Image src="/fang_pictures/gift-icons/ruby.png" width={22} height={22} alt={t("gems")} />
                                     <span className="text-white">{(wallet?.gems ?? 0).toLocaleString()}</span>
                                 </span>
                             </div>
                         </div>
                         <div className="">
                             <div className="flex gap-3">
-                                <button type="button" onClick={() => setActive("topup")} className="bg-red-500 dark:bg-[#D90404] px-4 py-2 rounded-full text-xs md:text-sm">+ Top Up</button>
-                                <button type="button" className="bg-white/10 dark:bg-neutral-800 px-4 py-2 rounded-full text-sm">History</button>
+                                <button type="button" onClick={() => setActive("topup")} className="bg-red-500 dark:bg-[#D90404] px-4 py-2 rounded-full text-xs md:text-sm">{t("plusTopUp")}</button>
+                                <button type="button" className="bg-white/10 dark:bg-neutral-800 px-4 py-2 rounded-full text-sm">{t("history")}</button>
                             </div>
                         </div>
 

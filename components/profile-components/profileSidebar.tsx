@@ -8,50 +8,51 @@ import { useState } from "react";
 import { FiUser, FiBell, FiSettings, FiUsers, FiCreditCard, FiStar, FiClipboard, FiMessageCircle } from "react-icons/fi";
 import { ClipboardEdit, LucideMessageSquareText, MessageCircle } from "lucide-react";
 import UnreadBadge from "@/components/unreadBadge";
+import { useTranslations } from "next-intl";
 
 const NOTIFICATIONS_PATH = "/profile/notifications";
 
 const links = [
     {
-        name: "Profile",
+        name: "Profile" as const,
         href: "/profile",
         icon: FiUser,
     },
     {
-        name: "Wallet",
+        name: "Wallet" as const,
         href: "/profile/wallet",
         icon: FiCreditCard,
     },
 
     {
-        name: "Transaction History",
+        name: "TransactionHistory" as const,
         href: "/profile/transaction-history",
         icon: ClipboardEdit,
     },
 
     {
-        name: "Community",
+        name: "Community" as const,
         href: "/profile/community",
         icon: FiUsers,
     },
     {
-        name: "Notifications",
+        name: "Notifications" as const,
         href: NOTIFICATIONS_PATH,
         icon: FiBell,
     },
     {
-        name: "Reviews",
+        name: "Reviews" as const,
         href: "/profile/reviews",
         icon: FiStar,
     },
     {
-        name: "Settings",
+        name: "Settings" as const,
         href: "/profile/settings",
         icon: FiSettings,
     },
 
     {
-        name: "Live chat",
+        name: "LiveChat" as const,
         href: "/profile/live-chat",
         icon: LucideMessageSquareText,
     },
@@ -63,16 +64,19 @@ export default function ProfileSidebar() {
     const router = useRouter();
     const { logout } = useAuthStore();
     const [loading, setLoading] = useState(false);
+    const t = useTranslations("ProfileNav");
+    const n = useTranslations("NavBar");
 
     const logOut = async () => {
         const result = await Swal.fire({
-            title: "Are you sure?",
-            text: "You will be logged out of your account",
+            title: n("logoutConfirmTitle"),
+            text: n("logoutConfirmText"),
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#ef4444",
             cancelButtonColor: "#6b7280",
-            confirmButtonText: "Yes, logout",
+            confirmButtonText: n("logoutConfirmButton"),
+            cancelButtonText: n("cancel"),
         });
 
         if (!result.isConfirmed) return;
@@ -81,8 +85,8 @@ export default function ProfileSidebar() {
             setLoading(true);
             await logout();
             await Swal.fire({
-                title: "Logged out",
-                text: "You have been successfully logged out",
+                title: n("loggedOutTitle"),
+                text: n("loggedOutText"),
                 icon: "success",
                 timer: 1500,
                 showConfirmButton: false,
@@ -107,7 +111,7 @@ export default function ProfileSidebar() {
                         )}
                         <Icon size={18} className={`${isActive(link.href) ? "red" : "black"}`} />
                         <span className="">
-                            {link.name}
+                            {t(link.name)}
                         </span>
                         {link.href === NOTIFICATIONS_PATH && <UnreadBadge className="ml-auto" />}
                     </Link>
@@ -116,7 +120,7 @@ export default function ProfileSidebar() {
             })}
             <div className="border-t flex justify-center border-gray-100 dark:border-dark-border">
                 <button onClick={logOut} disabled={loading} className="text-center text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 mt-4 rounded-md px-4 py-3">
-                    Log out
+                    {n("LogOut")}
                 </button>
             </div>
         </nav>

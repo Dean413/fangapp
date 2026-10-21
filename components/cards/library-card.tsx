@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useLibraryStore } from "@/lib/store/library-store";
+import { useTranslations } from "next-intl";
 
 
 type Props = {
@@ -19,17 +20,17 @@ type Props = {
 
 // Diagonal ribbons in the cover's top-left corner (sit on the cover image, so the same in both themes)
 function Ribbons({ completed, exclusive }: { completed?: boolean; exclusive?: boolean }) {
+    const t = useTranslations("Books");
     const ribbons = [
-        exclusive && { label: "Exclusive", color: "bg-red-600" },
-        completed ? { label: "Completed", color: "bg-green-600" } : { label: "Ongoing", color: "bg-red-600" },
+        exclusive && { label: t("exclusive"), color: "bg-red-600" },
+        completed ? { label: t("completed"), color: "bg-green-600" } : { label: t("ongoing"), color: "bg-purple-600" },
     ].filter(Boolean) as { label: string; color: string }[];
 
     return ribbons.map((r, i) => (
         <span
             key={r.label}
-            className={`absolute -left-7 w-24 -rotate-45 py-0.5 text-center text-[7px] font-bold uppercase tracking-wide text-white shadow ${r.color}`}
-            style={{ top: 10 + i * 13 }}
-        >
+            className={`absolute -left-8 w-28 -rotate-45 py-0.5 text-center text-[7px] font-bold uppercase tracking-wide text-white shadow ${r.color}`}
+            style={{ top: 10 + i * 19 }}>
             {r.label}
         </span>
     ));
@@ -50,6 +51,7 @@ export default function LibraryCard({
     const isEditMode = useLibraryStore((state) => state.isEditMode);
     const selected = useLibraryStore((state) => state.selected);
     const toggleSelect = useLibraryStore((state) => state.toggleSelect);
+    const t = useTranslations("Books");
 
     const checked = selected.includes(id);
 
@@ -108,7 +110,7 @@ export default function LibraryCard({
                         <div className="h-full rounded-full bg-red-600" style={{ width: `${percent}%` }} />
                     </div>
                     <p className="mt-1.5 text-[11px] text-gray-500 dark:text-neutral-400">
-                        Ch. {lastChapter} / {total} · {percent}%
+                        {t("progress", { chapter: lastChapter, total, percent })}
                     </p>
                 </div>
             )}

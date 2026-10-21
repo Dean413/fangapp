@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAuthStore } from "@/lib/store/authStore";
 import { SectionHeader } from "@/components/home/bookBits";
+import { useTranslations } from "next-intl";
 
 type ContinueBook = {
     slug: string;
@@ -52,6 +53,8 @@ function CardSkeleton() {
 // viewAllHref: where "View All" goes (the reader's library)
 const ContinueReading = ({ viewAllHref = "/library" }: { viewAllHref?: string }) => {
     const userId = useAuthStore((s) => s.user?.id ?? null);
+    const t = useTranslations("Reader");
+    const b = useTranslations("Books");
     const [books, setBooks] = useState<ContinueBook[]>([]);
     const [loading, setLoading] = useState(false);
 
@@ -72,7 +75,7 @@ const ContinueReading = ({ viewAllHref = "/library" }: { viewAllHref?: string })
 
     return (
         <section>
-            <SectionHeader title="Continue Reading" href={viewAllHref} />
+            <SectionHeader title={t("continueReading")} href={viewAllHref} />
             <div className="-mx-1 flex snap-x snap-mandatory gap-4 overflow-x-auto px-1 pb-2 scrollbar-width:none [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 lg:grid-cols-4">
                 {loading
                     ? Array.from({ length: SHOWN }, (_, i) => <CardSkeleton key={i} />)
@@ -86,18 +89,18 @@ const ContinueReading = ({ viewAllHref = "/library" }: { viewAllHref?: string })
                                 <BookCover book={book} />
                                 <div className="min-w-0 flex-1 pt-2">
                                     <h3 className="line-clamp-2 text-sm font-semibold text-gray-900 dark:text-white">{book.title}</h3>
-                                    <p className="mt-0.5 truncate text-xs text-gray-500 dark:text-neutral-400">by {book.author}</p>
+                                    <p className="mt-0.5 truncate text-xs text-gray-500 dark:text-neutral-400">{t("byAuthor", { author: book.author })}</p>
 
                                     {/* Progress */}
                                     <div className="mt-3 h-0.5 w-14 rounded-full bg-gray-200 dark:bg-neutral-700 overflow-hidden">
                                         <div className="h-full bg-red-600 rounded-full" style={{ width: `${percent}%` }} />
                                     </div>
                                     <p className="mt-1.5 text-[11px] text-gray-600 dark:text-neutral-300">
-                                        Ch. {book.lastChapter} / {book.totalChapters} · {percent}%
+                                        {b("progress", { chapter: book.lastChapter, total: book.totalChapters, percent })}
                                     </p>
 
                                     <span className="mt-2 inline-block text-[11px] font-medium text-red-600 group-hover:text-red-500">
-                                        Continue Reading
+                                        {t("continueReading")}
                                     </span>
                                 </div>
                             </Link>

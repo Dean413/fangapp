@@ -6,7 +6,7 @@ import { Bone } from "@/components/skeleton";
 import { fetchStories } from "@/lib/fetch-stories";
 import { languageForLocale } from "@/lib/language";
 import type { StoryCard } from "@/lib/stories";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 // TEMPORARY: repeats the books in a random order below the real ones (see the file to remove it)
 import FillerBooks from "@/components/cards/two-column-cards/fillerBooks";
 import { useSearchParams } from "next/navigation";
@@ -38,6 +38,7 @@ function GenreCardSkeleton() {
 const GenreBrowser = () => {
     const searchParams = useSearchParams();
     const selected = searchParams.get("genre") ?? ALL;
+    const t = useTranslations("Stories");
     // The language the reader picked on the site: only books in it
     const language = languageForLocale(useLocale());
 
@@ -108,12 +109,12 @@ const GenreBrowser = () => {
             <div className="relative w-[90%] mx-auto pb-12">
 
                 <h1 className="text-3xl font-bold mt-8 text-black dark:text-white">
-                    Stories
+                    {t("genres")}
                 </h1>
 
                 <div className="flex gap-8 my-6 flex-wrap">
                     <button type="button" onClick={() => pick(ALL)} className={genreClass(selected === ALL)}>
-                        All
+                        {t("all")}
                     </button>
                     {genres.map((genre) => (
                         <button
@@ -133,11 +134,11 @@ const GenreBrowser = () => {
                     </div>
                 ) : failed ? (
                     <p className="py-16 text-center text-sm text-gray-500 dark:text-neutral-400">
-                        Couldn&apos;t load these books. Please try again.
+                        {t("loadFailed")}
                     </p>
                 ) : books.length === 0 ? (
                     <p className="py-16 text-center text-sm text-gray-500 dark:text-neutral-400">
-                        No books in this genre yet.
+                        {t("emptyGenre")}
                     </p>
                 ) : (
                     <>

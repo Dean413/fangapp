@@ -4,6 +4,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getRecommended } from "@/lib/home";
+import { translateMsg } from "@/lib/i18n";
 
 const TENANTS = ["fang", "fangnova", "fangverse", "fangink"];
 
@@ -21,6 +22,6 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ books }, { headers: { "Cache-Control": "no-store" } });
     } catch (error) {
         console.error("Recommended error:", error);
-        return NextResponse.json({ message: "Couldn't load recommendations", books: [] }, { status: 500 });
+        return NextResponse.json({ message: await translateMsg("couldntLoadRecommendations"), books: [] }, { status: 500 });
     }
 }

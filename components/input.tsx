@@ -2,8 +2,9 @@ type BaseInputProps = {
     label: string;
     value: string;
     onChange: (value: string) => void;
+    placeholder?: string;
 };
-const Input = ({ label, value, onChange }: BaseInputProps) => {
+const Input = ({ label, value, onChange, placeholder }: BaseInputProps) => {
     return (
         <div className="mx-auto">
             <label className="block mb-2 font-medium">
@@ -13,7 +14,7 @@ const Input = ({ label, value, onChange }: BaseInputProps) => {
                 type="text"
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
-                placeholder={`Enter your ${label.toLowerCase()}`}
+                placeholder={placeholder ?? label}
                 className="w-full border border-gray-300 dark:border-neutral-700 rounded-2xl px-4 py-3 bg-gray-100 dark:bg-dark-raised outline-none focus:border-red-500 focus:bg-gray-50 dark:focus:bg-dark-raised transition-colors duration-200"
             />
         </div>

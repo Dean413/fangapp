@@ -4,8 +4,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { SectionTitle } from "./earn-card";
 import Image from "next/image";
 import { ClipboardCheck } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "@/lib/store/toastStore";
 import { useAuthStore } from "@/lib/store/authStore";
+import { useTranslations } from "next-intl";
 
 // What the server says (the amounts and the timer come from the server, never from this browser)
 type CheckinStatus = {
@@ -34,6 +35,8 @@ async function fetchWithTimeout(url: string, init: RequestInit = {}) {
 
 export default function DailyCheckIn() {
     const [status, setStatus] = useState<CheckinStatus | null>(null);
+    const t = useTranslations("Wallet");
+    const c = useTranslations("Common");
     const [loadError, setLoadError] = useState<string | null>(null);
     const [signedOut, setSignedOut] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -74,18 +77,18 @@ export default function DailyCheckIn() {
                 setSignedOut(true);
                 return;
             }
-            setLoadError(data.message || "Couldn't load your check-in");
+            setLoadError(data.message || t("checkinLoadFailed"));
         } catch (error) {
             setLoadError(
                 error instanceof DOMException && error.name === "AbortError"
-                    ? "The server took too long to answer"
-                    : "Unable to reach the server"
+                    ? t("tooSlow")
+                    : t("unreachable")
             );
         } finally {
             loadBusy.current = false;
             setLoading(false);
         }
-    }, [applyStatus]);
+    }, [applyStatus, t]);
 
     useEffect(() => {
         loadStatus();
@@ -120,19 +123,19 @@ export default function DailyCheckIn() {
             if (data.status) applyStatus(data.status);
 
             if (!res.ok) {
-                toast.error(data.message || "Couldn't claim your reward");
+                toast.error(data.message || t("claimFailed"));
                 return;
             }
 
             // Show the new balance straight away
             const user = useAuthStore.getState().user;
             if (user && data.wallet) useAuthStore.getState().setUser({ ...user, wallet: data.wallet });
-            toast.success(data.message || "Reward claimed");
+            toast.success(data.message || t("claimed"));
         } catch (error) {
             toast.error(
                 error instanceof DOMException && error.name === "AbortError"
-                    ? "The server took too long to answer. Check your wallet before trying again."
-                    : "Unable to reach the server. Please try again."
+                    ? t("tooSlowCheckWallet")
+                    : c("networkError")
             );
         } finally {
             busy.current = false;
@@ -160,7 +163,7 @@ export default function DailyCheckIn() {
             <SectionTitle title={
                 <div className="flex gap-2">
                     <ClipboardCheck className="text-red-500" />
-                    <p>Daily Check-in</p>
+                    <p>{t("dailyCheckin")}</p>
                 </div>
             } />
             <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-3 my-4">
@@ -173,7 +176,7 @@ export default function DailyCheckIn() {
                             ${isCompleted ? "bg-white dark:bg-dark-card border-gray-300 dark:border-neutral-700" : ""}
                             ${isCurrent ? "bg-red-100 dark:bg-red-500/15 border-red-400" : ""}
                             ${isLocked ? "bg-white dark:bg-dark-card border-gray-200 dark:border-dark-border opacity-70" : ""}`}>
-                            <p className="text-xs text-gray-400 dark:text-neutral-500">DAY</p>
+                            <p className="text-xs text-gray-400 dark:text-neutral-500 uppercase">{t("day")}</p>
                             <p className="text-lg font-bold">{item.day}</p>
 
                             <div className="flex justify-center">
@@ -182,7 +185,7 @@ export default function DailyCheckIn() {
                                 ) : (
                                     <Image
                                         src="/fang_pictures/balance.png"
-                                        alt="reward"
+                                        alt={t("reward")}
                                         width={14}
                                         height={14}
                                     />
@@ -200,18 +203,18 @@ export default function DailyCheckIn() {
             <button type="button" onClick={canRetry ? loadStatus : handleClaim} disabled={!canClaim && !canRetry}
                 className={`w-full py-3 rounded-xl text-white ${canClaim || canRetry ? "bg-red-500" : "bg-gray-400 dark:bg-neutral-700 cursor-not-allowed"}`}>
                 {signedOut && !status ? (
-                    <span>Sign in to claim your reward</span>
+                    <span>{t("signInToClaim")}</span>
                 ) : !status && loading ? (
-                    <span>Loading...</span>
+                    <span>{c("loading")}</span>
                 ) : canRetry ? (
-                    <span>{loadError} · Try again</span>
+                    <span>{loadError} · {c("retry")}</span>
                 ) : !status ? (
-                    <span>Loading...</span>
+                    <span>{c("loading")}</span>
                 ) : claiming ? (
-                    <span>Claiming...</span>
+                    <span>{t("claiming")}</span>
                 ) : status.canClaim ? (
                     <div className="flex items-center justify-center gap-2">
-                        <span>Claim Reward today + {status.nextCoins}</span>
+                        <span>{t("claimToday", { coins: status.nextCoins })}</span>
                         <Image
                             src="/fang_pictures/balance.png"
                             alt="coin"
@@ -220,7 +223,7 @@ export default function DailyCheckIn() {
                         />
                     </div>
                 ) : (
-                    <span>Next Claim in {formatTime(remainingTime)}</span>
+                    <span>{t("nextClaimIn", { time: formatTime(remainingTime) })}</span>
                 )}
             </button>
         </div>

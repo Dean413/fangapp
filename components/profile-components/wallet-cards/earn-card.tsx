@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaVideo } from "react-icons/fa";
-import { toast } from "react-toastify";
+import { useTranslations } from "next-intl";
 
 
 type SocialCardProps = {
@@ -67,16 +67,17 @@ export function EngagementItem({ title, progress, coins, text, showProgress, tar
 }
 
 export function SocialItem({ platform, icon }: SocialCardProps) {
+    const t = useTranslations("Wallet");
     return (
         <div className="bg-white dark:bg-dark-card p-4 rounded-xl border border-gray-400 dark:border-neutral-600 flex items-center justify-between">
             <div className="flex gap-2 items-center">
                 <div>{icon}</div>
-                <p className="font-medium">Follow on {platform}</p>
+                <p className="font-medium">{t("followOn", { platform })}</p>
             </div>
 
 
             <button className="px-4 py-1 bg-red-500 text-white rounded-full text-sm">
-                Claim
+                {t("claim")}
             </button>
         </div>
     );

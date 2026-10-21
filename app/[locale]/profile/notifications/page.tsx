@@ -8,6 +8,11 @@ import NotificationCard from "@/components/profile-components/notification/notif
 import NotificationSection from "@/components/profile-components/notification/notification-section";
 import { FaBookOpen, FaClock, FaCrown, FaGift } from "react-icons/fa6";
 import { FaUnlockAlt } from "react-icons/fa";
+import { useTranslations } from "next-intl";
+import { coinDescription } from "@/lib/coinLabels";
+
+// Translators for the Notifications and Coins messages
+type T = (key: string, values?: Record<string, string | number>) => string;
 
 type Kind = "new_chapter" | "coins_added" | "coins_spent" | "coins_expired" | "bonus_expiring" | "checkin_ready" | "reply";
 
@@ -22,6 +27,7 @@ type Notification = {
     chapter?: number;
     amount?: number;
     reason?: string;
+    refId?: string | null;
     description?: string;
     code?: string;
     expiresAt?: string;
@@ -31,13 +37,6 @@ type Notification = {
 };
 
 const TAB_PARAM: Record<string, string> = { All: "all", Unread: "unread", Mentions: "mentions", Transactions: "transactions" };
-
-const EMPTY_TEXT: Record<string, string> = {
-    All: "No notifications yet",
-    Unread: "You're all caught up",
-    Mentions: "No mentions yet",
-    Transactions: "No transactions yet",
-};
 
 const COIN = "/fang_pictures/balance.png";
 
@@ -59,29 +58,30 @@ function groupOf(iso: string, now: number): Group {
     return "Earlier";
 }
 
-const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"}`;
-
-function timeText(iso: string, now: number): string {
-    const t = new Date(iso).getTime();
+function timeText(iso: string, now: number, t: T): string {
+    const ms = new Date(iso).getTime();
     const group = groupOf(iso, now);
-    if (group === "Yesterday") return "Yesterday";
+    if (group === "Yesterday") return t("group_Yesterday");
     if (group === "Earlier") {
-        const d = new Date(t);
+        const d = new Date(ms);
         const sameYear = d.getFullYear() === new Date(now).getFullYear();
         return d.toLocaleDateString(undefined, { month: "short", day: "numeric", ...(sameYear ? {} : { year: "numeric" }) });
     }
-    const seconds = Math.max(0, Math.round((now - t) / 1000));
-    if (seconds < 60) return "Just now";
-    if (seconds < 3600) return `${plural(Math.floor(seconds / 60), "min")} ago`;
-    return `${plural(Math.floor(seconds / 3600), "hour")} ago`;
+    const seconds = Math.max(0, Math.round((now - ms) / 1000));
+    if (seconds < 60) return t("justNow");
+    if (seconds < 3600) return t("minsAgo", { count: Math.floor(seconds / 60) });
+    return t("hoursAgo", { count: Math.floor(seconds / 3600) });
 }
 
-function expiresText(iso: string | undefined, now: number): string {
-    if (!iso) return "expire soon";
+// The whole sentence: "<b>N bonus coins</b> expire in 2 hours"
+function expiringTitle(amount: number, iso: string | undefined, now: number, t: T): ReactNode {
+    const b = (chunks: ReactNode) => <strong>{chunks}</strong>;
+    const rich = t as unknown as { rich: (key: string, values: Record<string, unknown>) => ReactNode };
+    if (!iso) return rich.rich("expireSoon", { count: amount, b });
     const seconds = Math.round((new Date(iso).getTime() - now) / 1000);
-    if (seconds <= 0) return "have expired";
-    if (seconds < 3600) return `expire in ${plural(Math.max(1, Math.floor(seconds / 60)), "min")}`;
-    return `expire in ${plural(Math.floor(seconds / 3600), "hour")}`;
+    if (seconds <= 0) return rich.rich("expired", { count: amount, b });
+    if (seconds < 3600) return rich.rich("expireInMins", { count: amount, mins: Math.max(1, Math.floor(seconds / 60)), b });
+    return rich.rich("expireInHours", { count: amount, hours: Math.floor(seconds / 3600), b });
 }
 
 // ---------- Cards ----------
@@ -95,9 +95,12 @@ const Spent = ({ amount }: { amount: number }) => (
 
 type CardParts = { icon: ReactNode; title: ReactNode; subtitle?: string; action?: ReactNode; wholeCardLink?: boolean };
 
-function cardParts(n: Notification, now: number): CardParts {
-    const time = timeText(n.at, now);
+function cardParts(n: Notification, now: number, t: T, ct: T): CardParts {
+    const time = timeText(n.at, now, t);
     const amount = n.amount ?? 0;
+    const rich = (t as unknown as { rich: (key: string, values: Record<string, unknown>) => ReactNode }).rich;
+    const b = (chunks: ReactNode) => <strong>{chunks}</strong>;
+    const description = coinDescription(ct, n.reason, n.refId, n.description);
 
     switch (n.kind) {
         case "new_chapter":
@@ -107,16 +110,11 @@ function cardParts(n: Notification, now: number): CardParts {
                         <FaBookOpen size={20} />
                     </div>
                 ),
-                title: (
-                    <>
-                        <strong>{n.author}</strong> updated
-                        <strong> {n.storyTitle}</strong>
-                    </>
-                ),
-                subtitle: `${time} • Chapter ${n.chapter}`,
+                title: rich("updated", { author: n.author ?? "", story: n.storyTitle ?? "", b }),
+                subtitle: `${time} • ${t("chapterN", { chapter: n.chapter ?? 1 })}`,
                 action: n.href ? (
                     <Link href={n.href} className="bg-red-500 text-white px-5 py-2 rounded-full">
-                        Read
+                        {t("read")}
                     </Link>
                 ) : undefined,
             };
@@ -129,7 +127,7 @@ function cardParts(n: Notification, now: number): CardParts {
                             <Image src={COIN} alt="coins" width={20} height={20} />
                         </div>
                     ),
-                    title: <strong>{amount} Coins Purchased</strong>,
+                    title: <strong>{t("purchased", { count: amount })}</strong>,
                     subtitle: `#${n.code}`,
                     action: <span className="font-semibold text-green-600"> +{amount} 🪙</span>,
                     wholeCardLink: true,
@@ -141,12 +139,8 @@ function cardParts(n: Notification, now: number): CardParts {
                         <Image src={COIN} alt="coins" width={20} height={20} />
                     </div>
                 ),
-                title: (
-                    <>
-                        You received <strong>{amount} coins</strong>
-                    </>
-                ),
-                subtitle: `${time} • ${n.description}`,
+                title: rich("received", { count: amount, b }),
+                subtitle: `${time} • ${description}`,
                 wholeCardLink: true,
             };
 
@@ -158,7 +152,7 @@ function cardParts(n: Notification, now: number): CardParts {
                             <FaCrown size={20} color="red" />
                         </div>
                     ),
-                    title: "VIP Subscription",
+                    title: t("vipSubscription"),
                     subtitle: time,
                     action: <Spent amount={amount} />,
                     wholeCardLink: true,
@@ -170,7 +164,7 @@ function cardParts(n: Notification, now: number): CardParts {
                         <FaUnlockAlt size={20} color="purple" />
                     </div>
                 ),
-                title: n.reason === "unlock" ? "Chapter Unlocked" : n.description,
+                title: n.reason === "unlock" ? t("chapterUnlocked") : description,
                 subtitle: time,
                 action: <Spent amount={amount} />,
                 wholeCardLink: true,
@@ -183,12 +177,8 @@ function cardParts(n: Notification, now: number): CardParts {
                         <Image src={COIN} alt="coins" width={20} height={20} />
                     </div>
                 ),
-                title: (
-                    <>
-                        <strong>{Math.abs(amount)} bonus coins</strong> expired
-                    </>
-                ),
-                subtitle: `${time} • ${n.description}`,
+                title: rich("bonusExpired", { count: Math.abs(amount), b }),
+                subtitle: `${time} • ${description}`,
                 action: <Spent amount={amount} />,
                 wholeCardLink: true,
             };
@@ -200,15 +190,11 @@ function cardParts(n: Notification, now: number): CardParts {
                         <FaClock size={20} />
                     </div>
                 ),
-                title: (
-                    <>
-                        <strong>{amount} bonus coins</strong> {expiresText(n.expiresAt, now)}
-                    </>
-                ),
-                subtitle: `${time} • Use them before they run out`,
+                title: expiringTitle(amount, n.expiresAt, now, t),
+                subtitle: `${time} • ${t("useBeforeExpire")}`,
                 action: n.href ? (
                     <Link href={n.href} className="border border-red-500 text-red-500 px-4 py-2 rounded-full">
-                        View
+                        {t("view")}
                     </Link>
                 ) : undefined,
             };
@@ -220,15 +206,11 @@ function cardParts(n: Notification, now: number): CardParts {
                         <FaGift size={20} color="red" />
                     </div>
                 ),
-                title: (
-                    <>
-                        Your <strong>Day {n.day}</strong> check-in is ready
-                    </>
-                ),
-                subtitle: `${time} • +${n.coins} bonus coins`,
+                title: rich("checkinReady", { day: n.day ?? 1, b }),
+                subtitle: `${time} • ${t("bonusCoins", { count: n.coins ?? 0 })}`,
                 action: n.claimable && n.href ? (
                     <Link href={n.href} className="bg-red-500 text-white px-5 py-2 rounded-full">
-                        Claim
+                        {t("claim")}
                     </Link>
                 ) : undefined,
             };
@@ -240,7 +222,7 @@ function cardParts(n: Notification, now: number): CardParts {
                         <UserPlus />
                     </div>
                 ),
-                title: n.description || "New reply",
+                title: n.description || t("newReply"),
                 subtitle: time,
                 wholeCardLink: Boolean(n.href),
             };
@@ -266,6 +248,9 @@ function Skeleton() {
 // ---------- Page ----------
 
 export default function NotificationsPage() {
+    const t = useTranslations("Notifications");
+    const ct = useTranslations("Coins");
+    const c = useTranslations("Common");
     const [active, setActive] = useState("Unread");
     const [items, setItems] = useState<Notification[]>([]);
     const [hasMore, setHasMore] = useState(false);
@@ -393,7 +378,7 @@ export default function NotificationsPage() {
     return (
         <div className="max-w-7xl mx-auto p-6">
             <div className="md:flex justify-between items-center mb-8">
-                <h1 className="text-xl md:text-3xl font-bold">Notifications</h1>
+                <h1 className="text-xl md:text-3xl font-bold">{t("title")}</h1>
                 <NotificationTabs
                     active={active}
                     setActive={setActive}
@@ -404,20 +389,20 @@ export default function NotificationsPage() {
                 <Skeleton />
             ) : error ? (
                 <div className="text-center py-16">
-                    <p className="text-gray-500 dark:text-neutral-400 mb-4">Couldn&apos;t load your notifications.</p>
+                    <p className="text-gray-500 dark:text-neutral-400 mb-4">{t("loadFailed")}</p>
                     <button type="button" onClick={() => load(active)} className="border border-red-500 text-red-500 px-4 py-2 rounded-full">
-                        Try again
+                        {c("retry")}
                     </button>
                 </div>
             ) : groups.length === 0 ? (
-                <p className="text-center py-16 text-gray-500 dark:text-neutral-400">{EMPTY_TEXT[active]}</p>
+                <p className="text-center py-16 text-gray-500 dark:text-neutral-400">{t(`empty_${TAB_PARAM[active]}`)}</p>
             ) : (
                 <>
                     {groups.map((group, i) => (
                         <div key={group.title} className={i > 0 ? "mt-10" : undefined}>
-                            <NotificationSection title={group.title}>
+                            <NotificationSection title={t(`group_${group.title}`)}>
                                 {group.list.map((n) => {
-                                    const parts = cardParts(n, serverNow);
+                                    const parts = cardParts(n, serverNow, t, ct);
                                     const card = (
                                         <NotificationCard
                                             highlighted={!n.read}

@@ -1,14 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "@/lib/store/toastStore";
 import { useAuthModals } from "@/lib/store/auth-card-store";
 import { useAuthStore } from "@/lib/store/authStore";
+import { useTranslations } from "next-intl";
 
 // The OTP box shows this message in green; any other message in red
 const CODE_SENT = "New code sent";
 
 export const useAuth = (open: boolean) => {
+    const t = useTranslations("Auth");
+    const c = useTranslations("Common");
     const [currentStep, setCurrentStep] = useState(1);
     const [showPassword, setShowPassword] = useState(false);
     const [fullName, setFullName] = useState("");
@@ -77,15 +80,15 @@ export const useAuth = (open: boolean) => {
         if (password.length < 5) {
             return {
                 score: 1,
-                label: "Very weak",
-                message: "Use at least 5 characters"
+                label: t("strengthVeryWeak"),
+                message: t("strengthMin5")
             };
         }
 
         if (password.length < 8) {
             return {
                 score: 2,
-                label: "Fair",
+                label: t("strengthFair"),
                 message: ""
             };
         }
@@ -93,15 +96,15 @@ export const useAuth = (open: boolean) => {
         if (password.length >= 10 && hasLetters && hasNumbers) {
             return {
                 score: 4,
-                label: "Strong",
+                label: t("strengthStrong"),
                 message: ""
             };
         }
 
         return {
             score: 3,
-            label: "Good",
-            message: "Add letters and numbers"
+            label: t("strengthGood"),
+            message: t("strengthAddMix")
         };
     };
 
@@ -132,13 +135,13 @@ export const useAuth = (open: boolean) => {
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                setOtpMessage(data.message || "Could not resend the code");
+                setOtpMessage(data.message || t("couldntResend"));
                 return;
             }
 
             setOtpMessage(CODE_SENT);
         } catch {
-            setOtpMessage("Could not resend the code");
+            setOtpMessage(t("couldntResend"));
         } finally {
             sendBusy.current = false;
             setResending(false);
@@ -160,17 +163,17 @@ export const useAuth = (open: boolean) => {
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                setOtpMessage(data.message || "Oh no! The code you entered is incorrect");
+                setOtpMessage(data.message || t("codeIncorrect"));
                 return;
             }
 
             // Signed in from here on (and the 50 bonus coins are in the wallet)
             await useAuthStore.getState().fetchUser();
-            toast.success("Verified Successfully");
+            toast.success(t("verified"));
             setOtpMessage("");
             setCurrentStep(3);
         } catch {
-            setOtpMessage("Could not verify the code. Please try again.");
+            setOtpMessage(t("couldntVerify"));
         } finally {
             verifyBusy.current = false;
             setVerifying(false);
@@ -194,7 +197,7 @@ export const useAuth = (open: boolean) => {
     const nextStep = async () => {
         if (!canCreateAccount || sendBusy.current) return;
         if (!agreed) {
-            setMessage("You must agree to the terms");
+            setMessage(t("mustAgree"));
             return;
         }
         setMessage("");
@@ -211,17 +214,17 @@ export const useAuth = (open: boolean) => {
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                toast.error(data.message || "Unable to create account");
+                toast.error(data.message || t("cantCreateAccount"));
                 return;
             }
 
             if (data.email) setEmail(data.email);
             setOtp("");
             setOtpMessage("");
-            toast.success("We've sent a code to your email")
+            toast.success(t("codeSent"))
             setCurrentStep(2);
         } catch {
-            toast.error("Unable to reach the server. Please try again.");
+            toast.error(c("networkError"));
         } finally {
             sendBusy.current = false;
             setLoading(false);
@@ -233,11 +236,11 @@ export const useAuth = (open: boolean) => {
         if (profileBusy.current) return;
         const name = userName.trim();
         if (!/^[A-Za-z0-9_]{3,20}$/.test(name)) {
-            toast.error("Username must be 3–20 letters, numbers or _ (no spaces)");
+            toast.error(t("usernameRule"));
             return;
         }
         if (bio.trim().length > 300) {
-            toast.error("About you can be at most 300 characters");
+            toast.error(t("bioMax", { max: 300 }));
             return;
         }
 
@@ -254,7 +257,7 @@ export const useAuth = (open: boolean) => {
                 });
                 const photoData = await photo.json().catch(() => ({}));
                 if (!photo.ok) {
-                    toast.error(photoData.message || "Couldn't save your photo");
+                    toast.error(photoData.message || t("couldntSavePhoto"));
                     return;
                 }
                 setImage(photoData.avatar_url ?? null);
@@ -269,14 +272,14 @@ export const useAuth = (open: boolean) => {
             const data = await res.json().catch(() => ({}));
 
             if (!res.ok) {
-                toast.error(data.message || "Couldn't save your profile");
+                toast.error(data.message || t("couldntSaveProfile"));
                 return;
             }
 
             await useAuthStore.getState().fetchUser();
             setCurrentStep(4)
         } catch {
-            toast.error("Unable to reach the server. Please try again.");
+            toast.error(c("networkError"));
         } finally {
             profileBusy.current = false;
             setSavingProfile(false);

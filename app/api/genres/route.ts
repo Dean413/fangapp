@@ -5,6 +5,7 @@
 import { NextResponse } from "next/server";
 import { listGenres } from "@/lib/stories";
 import { getGenreOptions } from "@/lib/readerProfile";
+import { translateMsg } from "@/lib/i18n";
 
 export async function GET() {
     const [data, genres] = await Promise.all([
@@ -19,7 +20,7 @@ export async function GET() {
     ]);
 
     if (data === null && genres === null) {
-        return NextResponse.json({ message: "Couldn't load genres", data: [], genres: [] }, { status: 500 });
+        return NextResponse.json({ message: await translateMsg("couldntLoadGenres"), data: [], genres: [] }, { status: 500 });
     }
     return NextResponse.json({ data: data ?? [], genres: genres ?? [] });
 }

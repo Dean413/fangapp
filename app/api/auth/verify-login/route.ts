@@ -12,9 +12,9 @@ import { prepareReader } from "@/lib/auth/account";
 import { normalizeEmail, readJson, reply } from "@/lib/auth/rules";
 
 const MESSAGES = {
-    wrong: { status: 400, code: "WRONG_CODE", message: "Oh no! The code you entered is incorrect" },
-    expired: { status: 410, code: "CODE_EXPIRED", message: "This code has expired. Sign in again to get a new one." },
-    too_many: { status: 429, code: "TOO_MANY_ATTEMPTS", message: "Too many wrong tries. Sign in again to get a new code." },
+    wrong: { status: 400, code: "WRONG_CODE", message: "codeIncorrect" },
+    expired: { status: 410, code: "CODE_EXPIRED", message: "codeExpiredSignIn" },
+    too_many: { status: 429, code: "TOO_MANY_ATTEMPTS", message: "tooManyTriesSignIn" },
 } as const;
 
 const answer = (kind: keyof typeof MESSAGES) => reply(MESSAGES[kind].status, MESSAGES[kind].message, { code: MESSAGES[kind].code });
@@ -40,9 +40,9 @@ export async function POST(request: NextRequest) {
 
         await startSession({ id: user.id, email: user.email, role: user.role });
         await prepareReader(user.id);
-        return reply(200, "Signed in successfully", { user: { id: user.id, email: user.email } });
+        return reply(200, "signedIn", { user: { id: user.id, email: user.email } });
     } catch (error) {
         console.error("Two-factor sign-in error:", error);
-        return reply(500, "Something went wrong. Please try again.");
+        return reply(500, "somethingWrongRetry");
     }
 }

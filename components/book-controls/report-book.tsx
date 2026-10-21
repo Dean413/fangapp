@@ -3,10 +3,11 @@
 // Report Book (the flag in the reader's side menu)
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown, UploadCloud, FileText, X } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "@/lib/store/toastStore";
 import { Modal, REPORT_REASONS, useBusy } from "@/components/reviews/reviewsDialog";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useAuthModals } from "@/lib/store/auth-card-store";
+import { useTranslations } from "next-intl";
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
 const MAX_FILES = 5;
@@ -24,6 +25,8 @@ const fileSize = (bytes: number) => (bytes >= 1024 * 1024 ? `${(bytes / 1024 / 1
 
 export default function ReportBookDialog({ open, onClose, book }: Props) {
     const signedIn = useAuthStore((s) => Boolean(s.user));
+    const t = useTranslations("Report");
+    const rt = useTranslations("ReportReasons");
     const openSignIn = useAuthModals((s) => s.openSignIn);
     const [reason, setReason] = useState("");
     const [menuOpen, setMenuOpen] = useState(false);
@@ -57,22 +60,22 @@ export default function ReportBookDialog({ open, onClose, book }: Props) {
 
     if (!open || !signedIn) return null;
 
-    const reasonLabel = REPORT_REASONS.find((r) => r.code === reason)?.label;
+    const reasonLabel = reason ? rt(reason) : null;
 
     const addFiles = (list: FileList | null) => {
         if (!list || busy) return;
         const next = [...files];
         for (const file of Array.from(list)) {
             if (next.length >= MAX_FILES) {
-                toast.error(`You can add up to ${MAX_FILES} files`);
+                toast.error(t("maxFiles", { max: MAX_FILES }));
                 break;
             }
             if (!ACCEPT.includes(file.type)) {
-                toast.error(`${file.name}: only images (PNG, JPEG, WebP) or PDFs`);
+                toast.error(t("badType", { name: file.name }));
                 continue;
             }
             if (file.size > MAX_BYTES) {
-                toast.error(`${file.name} is over 5 MB`);
+                toast.error(t("tooBig", { name: file.name }));
                 continue;
             }
             if (next.some((f) => f.name === file.name && f.size === file.size)) continue;
@@ -83,10 +86,10 @@ export default function ReportBookDialog({ open, onClose, book }: Props) {
     };
 
     const submit = () => run(async () => {
-        if (!reason) return void toast.error("Please select a violation reason");
-        if (files.length === 0) return void toast.error("Please add supporting evidence");
+        if (!reason) return void toast.error(t("selectReason"));
+        if (files.length === 0) return void toast.error(t("addEvidence"));
         const link_ = link.trim();
-        if (link_ && !/^https?:\/\/\S+$/i.test(link_)) return void toast.error("Please enter a valid link (starting with https://)");
+        if (link_ && !/^https?:\/\/\S+$/i.test(link_)) return void toast.error(t("validLink"));
 
         const form = new FormData();
         form.append("book", book.slug);
@@ -102,8 +105,8 @@ export default function ReportBookDialog({ open, onClose, book }: Props) {
             openSignIn();
             return;
         }
-        if (!res.ok) return void toast.error(data.message || "Couldn't send your report");
-        toast.success(data.message || "Report sent");
+        if (!res.ok) return void toast.error(data.message || t("couldntSend"));
+        toast.success(data.message || t("sent"));
         onClose();
     });
 
@@ -111,7 +114,7 @@ export default function ReportBookDialog({ open, onClose, book }: Props) {
     const label = "text-sm font-semibold text-gray-600 dark:text-neutral-300";
 
     return (
-        <Modal open onClose={onClose} title="Report Book" busy={busy}>
+        <Modal open onClose={onClose} title={t("title")} busy={busy}>
             {/* The book */}
             <div className="flex items-start gap-3">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -123,17 +126,17 @@ export default function ReportBookDialog({ open, onClose, book }: Props) {
                 />
                 <div className="min-w-0">
                     <p className="text-base text-gray-900 dark:text-white truncate">{book.title}</p>
-                    <p className="text-xs text-gray-700 dark:text-neutral-300 truncate">Author:&nbsp; {book.author || "Unknown"}</p>
+                    <p className="text-xs text-gray-700 dark:text-neutral-300 truncate">{t("author", { author: book.author || t("unknown") })}</p>
                 </div>
             </div>
 
             {/* Violation reason */}
-            <p className={`mt-6 ${label}`}>Violation Reason *</p>
+            <p className={`mt-6 ${label}`}>{t("reason")}</p>
             <div className="relative mt-2">
                 <button type="button" onClick={() => setMenuOpen((o) => !o)} disabled={busy}
                     className={`${field} flex items-center justify-between text-left`}>
                     <span className={reasonLabel ? "text-gray-900 dark:text-white" : "text-gray-400 dark:text-neutral-500"}>
-                        {reasonLabel ?? "Select a violation reason"}
+                        {reasonLabel ?? t("selectReasonPlaceholder")}
                     </span>
                     <ChevronDown size={18} className={`text-gray-700 dark:text-neutral-300 transition-transform ${menuOpen ? "rotate-180" : ""}`} />
                 </button>
@@ -143,7 +146,7 @@ export default function ReportBookDialog({ open, onClose, book }: Props) {
                             <button key={r.code} type="button"
                                 onClick={() => { setReason(r.code); setMenuOpen(false); }}
                                 className={`w-full text-left px-3 py-2 text-sm border-b last:border-0 border-gray-100 dark:border-dark-border hover:bg-gray-50 dark:hover:bg-dark-raised ${reason === r.code ? "text-red-600 font-semibold" : "text-gray-800 dark:text-neutral-200"}`}>
-                                {r.label}
+                                {rt(r.code)}
                             </button>
                         ))}
                     </div>
@@ -151,33 +154,33 @@ export default function ReportBookDialog({ open, onClose, book }: Props) {
             </div>
 
             {/* Link to the original work */}
-            <p className={`mt-5 ${label}`}>Link to Original Work</p>
+            <p className={`mt-5 ${label}`}>{t("link")}</p>
             <input
                 type="url"
                 inputMode="url"
                 value={link}
                 onChange={(e) => setLink(e.target.value.slice(0, 500))}
                 disabled={busy}
-                placeholder="Enter the URL of the original work (optional)"
+                placeholder={t("linkPlaceholder")}
                 className={`mt-2 ${field}`}
             />
 
             {/* Description */}
-            <p className={`mt-5 ${label}`}>Description of Infringement</p>
+            <p className={`mt-5 ${label}`}>{t("description")}</p>
             <div className="relative mt-2">
                 <textarea
                     value={details}
                     onChange={(e) => setDetails(e.target.value.slice(0, MAX_DETAILS))}
                     disabled={busy}
                     rows={3}
-                    placeholder="Describe the issue and explain why this book should be reviewed."
+                    placeholder={t("descriptionPlaceholder")}
                     className={`${field} resize-none pb-6 bg-white dark:bg-dark`}
                 />
                 <span className="absolute bottom-2 right-3 text-[10px] text-gray-400 dark:text-neutral-500">{details.length}/{MAX_DETAILS}</span>
             </div>
 
             {/* Supporting evidence */}
-            <p className={`mt-5 ${label}`}>Supporting Evidence *</p>
+            <p className={`mt-5 ${label}`}>{t("evidence")}</p>
             <button
                 type="button"
                 disabled={busy || files.length >= MAX_FILES}
@@ -189,9 +192,9 @@ export default function ReportBookDialog({ open, onClose, book }: Props) {
                     ${dragging ? "border-red-400 bg-red-50 dark:bg-red-500/10" : "border-gray-300 dark:border-dark-border bg-white dark:bg-dark"}`}>
                 <UploadCloud size={36} className="text-gray-500 dark:text-neutral-400" />
                 <span className="text-sm text-gray-500 dark:text-neutral-400">
-                    {files.length >= MAX_FILES ? `${MAX_FILES} files added` : "Upload Files or Drag and Drop Here"}
+                    {files.length >= MAX_FILES ? t("filesAdded", { count: MAX_FILES }) : t("upload")}
                 </span>
-                <span className="text-[11px] text-gray-400 dark:text-neutral-500">Images or PDF · up to {MAX_FILES} files · 5 MB each</span>
+                <span className="text-[11px] text-gray-400 dark:text-neutral-500">{t("uploadHint", { max: MAX_FILES })}</span>
             </button>
             <input
                 ref={input}
@@ -209,7 +212,7 @@ export default function ReportBookDialog({ open, onClose, book }: Props) {
                             <FileText size={18} className="shrink-0 text-gray-500 dark:text-neutral-400" />
                             <span className="min-w-0 flex-1 truncate text-sm text-gray-800 dark:text-neutral-200">{f.name}</span>
                             <span className="shrink-0 text-xs text-gray-400 dark:text-neutral-500">{fileSize(f.size)}</span>
-                            <button type="button" disabled={busy} aria-label={`Remove ${f.name}`}
+                            <button type="button" disabled={busy} aria-label={t("removeFile", { name: f.name })}
                                 onClick={() => setFiles((list) => list.filter((_, j) => j !== i))}
                                 className="shrink-0 p-1 rounded-full text-gray-500 hover:bg-gray-100 dark:hover:bg-dark-raised">
                                 <X size={16} />
@@ -222,7 +225,7 @@ export default function ReportBookDialog({ open, onClose, book }: Props) {
             <div className="mt-8 flex justify-center">
                 <button type="button" onClick={submit} disabled={busy}
                     className="w-full sm:w-[80%] rounded-full bg-[#D90404] hover:bg-red-700 transition py-2.5 text-sm font-semibold text-white disabled:opacity-60">
-                    {busy ? "Sending..." : "Submit Report"}
+                    {busy ? t("sending") : t("submit")}
                 </button>
             </div>
         </Modal>

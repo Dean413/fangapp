@@ -1,10 +1,13 @@
 // lib/auth/email.tsx
 // Sends the 6-digit code emails (and the "email changed" notice) with Resend and React Email,
 // the same way FangWriters sends its emails. No welcome email.
+// Written in the reader's language (see lib/i18n.ts; the texts are under "Email" in messages/*.json).
 import "server-only";
 import { Resend } from "resend";
+import { getTranslations } from "next-intl/server";
 import CodeEmail, { type CodeEmailKind } from "@/components/email/verificationCodeEmail";
 import { AUTH_CONFIG } from "@/lib/auth/authConfig";
+import { getRequestLocale } from "@/lib/i18n";
 
 const MINUTES: Record<CodeEmailKind, number> = {
     verify_email: 15,
@@ -13,15 +16,6 @@ const MINUTES: Record<CodeEmailKind, number> = {
     change_email: 15,
     delete_account: 10,
     email_changed: 0,
-};
-
-const SUBJECT: Record<CodeEmailKind, (app: string, code: string) => string> = {
-    verify_email: (app, code) => `Your ${app} code: ${code}`,
-    reset_password: (app, code) => `Your ${app} password reset code: ${code}`,
-    login_2fa: (app, code) => `Your ${app} sign-in code: ${code}`,
-    change_email: (app, code) => `Confirm your new ${app} email: ${code}`,
-    delete_account: (app, code) => `Confirm deleting your ${app} account: ${code}`,
-    email_changed: (app) => `Your ${app} email was changed`,
 };
 
 let client: Resend | null = null;
@@ -36,18 +30,33 @@ export async function sendCodeEmail(kind: CodeEmailKind, to: string, code: strin
         throw new Error("resendApiKey is not set in lib/auth/config.ts");
     }
 
+    const locale = await getRequestLocale();
+    const t = await getTranslations({ locale, namespace: "Email" });
+    const app = AUTH_CONFIG.appName;
+    const minutes = MINUTES[kind];
+
     const { error } = await resend().emails.send({
         from: AUTH_CONFIG.emailFrom,
         to: [to],
-        subject: SUBJECT[kind](AUTH_CONFIG.appName, code),
+        subject: t(`${kind}.subject`, { app, code }),
         react: (
             <CodeEmail
-                kind={kind}
+                lang={locale}
                 code={code}
-                minutes={MINUTES[kind]}
-                appName={AUTH_CONFIG.appName}
+                appName={app}
                 logoUrl={AUTH_CONFIG.logoUrl || undefined}
                 supportEmail={AUTH_CONFIG.supportEmail}
+                text={{
+                    preview: code ? t("preview", { app, code }) : t(`${kind}.heading`),
+                    heading: t(`${kind}.heading`),
+                    line: t(`${kind}.line`, { app }),
+                    ignore: (code ? `${t("validFor", { minutes })} ` : "") + t(`${kind}.ignore`, { app }),
+                    neverShare: t("neverShare", { app }),
+                    warmly: t("warmly"),
+                    team: t("team", { app }),
+                    rights: t("rights", { year: new Date().getFullYear() }),
+                    needHelp: t("needHelp"),
+                }}
             />
         ),
     });

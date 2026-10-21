@@ -2,9 +2,11 @@
 
 import { useRouter } from "next/navigation";
 import { FaLock } from "react-icons/fa6";
+import { useTranslations } from "next-intl";
 
 export default function TocSheet({ chapters, currentChapter, onClose }: any) {
     const router = useRouter();
+    const t = useTranslations("Book");
     const handleClick = (ch: any) => {
         if (ch.isLocked) return;
 
@@ -19,7 +21,7 @@ export default function TocSheet({ chapters, currentChapter, onClose }: any) {
 
             {/* PANEL */}
             <div className="w-80 md:w-105 fixed md:right-15 right-5 top-1/2 -translate-y-1/2 bg-white dark:bg-dark-card rounded-xl shadow-xl p-4 z-50">
-                <h2 className="text-center border-b border-gray-300 dark:border-neutral-700 pb-3 font-bold mb-4">Table of Contents</h2>
+                <h2 className="text-center border-b border-gray-300 dark:border-neutral-700 pb-3 font-bold mb-4">{t("contents")}</h2>
 
                 <div className="flex flex-col gap-2 max-h-100 overflow-y-auto no-scrollbar">
                     {chapters?.map((ch: any) => (
@@ -31,7 +33,7 @@ export default function TocSheet({ chapters, currentChapter, onClose }: any) {
                                 <FaLock className="text-gray-500 dark:text-neutral-400 text-sm" />
                             )}
 
-                            Chapter {ch.chapter_number} — {ch.title}
+                            {t("chapterTitled", { chapter: ch.chapter_number, title: ch.title })}
                         </button>
                     ))}
                 </div>

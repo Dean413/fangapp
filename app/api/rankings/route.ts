@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getRankTypes, RANKING_PERIODS, type RankingPeriod } from "@/lib/rankings";
 import { languageForLocale } from "@/lib/language";
+import { translateMsg } from "@/lib/i18n";
 
 // GET /api/rankings?locale=en&period=daily → the tabs and their ranking lists
 export async function GET(request: Request) {
@@ -14,6 +15,6 @@ export async function GET(request: Request) {
         return NextResponse.json({ data });
     } catch (error) {
         console.error(error);
-        return NextResponse.json({ message: "Failed to fetch rankings" }, { status: 500 });
+        return NextResponse.json({ message: await translateMsg("failedFetchRankings") }, { status: 500 });
     }
 }

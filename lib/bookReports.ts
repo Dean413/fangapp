@@ -12,6 +12,7 @@ import { withTransaction } from "@/lib/auth/transaction";
 import { cleanText } from "@/lib/content";
 import { REPORT_REASONS } from "@/lib/userActions/reports";
 import { s3Client, storageReady, UPLOAD_BUCKET } from "@/lib/storage";
+import { msg, type Msg } from "@/lib/i18n";
 
 export const MAX_EVIDENCE_FILES = 5;
 export const MAX_EVIDENCE_BYTES = 5 * 1024 * 1024;
@@ -56,25 +57,25 @@ function cleanUrl(value: unknown): string | null | false {
 
 export type EvidenceFile = { name: string; bytes: Buffer };
 export type BookReportInput = { storyId: string; reason: unknown; originalUrl: unknown; details: unknown; files: EvidenceFile[] };
-export type BookReportResult = { ok: true } | { ok: false; status: number; message: string };
+export type BookReportResult = { ok: true } | { ok: false; status: number; message: Msg };
 
 export async function createBookReport(userId: string, input: BookReportInput): Promise<BookReportResult> {
     const { reason, files } = input;
     if (typeof reason !== "string" || !REPORT_REASONS.some((r) => r.code === reason)) {
-        return { ok: false, status: 400, message: "Please select a violation reason" };
+        return { ok: false, status: 400, message: "selectViolation" };
     }
     const originalUrl = cleanUrl(input.originalUrl);
-    if (originalUrl === false) return { ok: false, status: 400, message: "Please enter a valid link (starting with https://)" };
+    if (originalUrl === false) return { ok: false, status: 400, message: "enterValidLink" };
     const details = cleanText(input.details, 2000);
 
-    if (files.length === 0) return { ok: false, status: 400, message: "Please add supporting evidence" };
-    if (files.length > MAX_EVIDENCE_FILES) return { ok: false, status: 400, message: `You can add up to ${MAX_EVIDENCE_FILES} files` };
+    if (files.length === 0) return { ok: false, status: 400, message: "addEvidence" };
+    if (files.length > MAX_EVIDENCE_FILES) return { ok: false, status: 400, message: msg("maxFiles", { max: MAX_EVIDENCE_FILES }) };
 
     const checked: { name: string; type: string; bytes: Buffer }[] = [];
     for (const file of files) {
         const type = detectType(file.bytes);
         if (!type || file.bytes.length === 0 || file.bytes.length > MAX_EVIDENCE_BYTES) {
-            return { ok: false, status: 400, message: "Evidence must be images (PNG, JPEG, WebP) or PDFs under 5 MB each" };
+            return { ok: false, status: 400, message: "evidenceTypes" };
         }
         checked.push({ name: cleanFileName(file.name, type), type, bytes: file.bytes });
     }
@@ -89,17 +90,17 @@ export async function createBookReport(userId: string, input: BookReportInput): 
         [userId, input.storyId]
     );
     const r = rows[0];
-    if (!r || r.status !== "active") return { ok: false, status: 403, message: "Your account can't send reports right now" };
-    if (!r.writer_id) return { ok: false, status: 404, message: "Story not found" };
-    if (r.writer_id === userId) return { ok: false, status: 400, message: "You can't report your own book" };
-    if (r.already) return { ok: false, status: 409, message: "You've already reported this book" };
+    if (!r || r.status !== "active") return { ok: false, status: 403, message: "cantSendReports" };
+    if (!r.writer_id) return { ok: false, status: 404, message: "storyNotFound" };
+    if (r.writer_id === userId) return { ok: false, status: 400, message: "cantReportOwnBook" };
+    if (r.already) return { ok: false, status: 409, message: "alreadyReportedBook" };
     if (Number(r.today) >= MAX_BOOK_REPORTS_A_DAY) {
-        return { ok: false, status: 429, message: "You've sent a lot of reports today. Please try again tomorrow." };
+        return { ok: false, status: 429, message: "tooManyReports" };
     }
 
     if (!storageReady()) {
         console.error("Report evidence upload is not set up: AWS settings missing (lib/storage.ts)");
-        return { ok: false, status: 503, message: "Reports can't be sent right now. Please try again later." };
+        return { ok: false, status: 503, message: "reportsUnavailable" };
     }
 
     // Upload the evidence, then save the report. If saving fails, the uploaded files are removed again.
@@ -151,7 +152,7 @@ export async function createBookReport(userId: string, input: BookReportInput): 
 
         if (!saved) {
             await removeUploaded();
-            return { ok: false, status: 409, message: "You've already reported this book" };
+            return { ok: false, status: 409, message: "alreadyReportedBook" };
         }
         return { ok: true };
     } catch (error) {

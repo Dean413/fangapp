@@ -8,7 +8,7 @@ import { reply } from "@/lib/auth/rules";
 
 export async function GET(request: NextRequest) {
     const user = await getCurrentUser();
-    if (!user) return reply(401, "Please sign in first");
+    if (!user) return reply(401, "signInFirst");
 
     const asked = request.nextUrl.searchParams.get("tab") as NotificationTab | null;
     const tab: NotificationTab = asked && NOTIFICATION_TABS.includes(asked) ? asked : "all";
@@ -16,11 +16,11 @@ export async function GET(request: NextRequest) {
     try {
         if (!before) await syncNotifications(user.id);
         const page = await listNotifications(user.id, tab, before);
-        const response = reply(200, "OK", { tab, ...page });
+        const response = await reply(200, "OK", { tab, ...page });
         response.headers.set("Cache-Control", "no-store");
         return response;
     } catch (error) {
         console.error("Notifications load error:", error);
-        return reply(500, "Couldn't load your notifications. Please try again.");
+        return reply(500, "couldntLoadNotificationsRetry");
     }
 }

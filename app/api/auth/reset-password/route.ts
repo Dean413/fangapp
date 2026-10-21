@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { hashPassword } from "@/lib/auth/token";
 import { RESET_SESSION_COOKIE_PATH, resetPasswordWithSession } from "@/lib/auth/emailCode";
 import { newPasswordProblem, readJson, reply } from "@/lib/auth/rules";
+import { translateMsg } from "@/lib/i18n";
 
 export async function POST(request: NextRequest) {
     const body = await readJson(request);
@@ -13,18 +14,18 @@ export async function POST(request: NextRequest) {
     if (problem) return reply(400, problem);
 
     const token = request.cookies.get("reset_session")?.value;
-    if (!token) return reply(401, "Your reset has expired. Please start again.", { code: "RESET_EXPIRED" });
+    if (!token) return reply(401, "resetExpired", { code: "RESET_EXPIRED" });
 
     try {
         const result = await resetPasswordWithSession(token, await hashPassword(password as string));
-        if (result === "invalid") return reply(401, "Your reset has expired. Please start again.", { code: "RESET_EXPIRED" });
-        if (result === "blocked") return reply(403, "This account can't reset its password.");
+        if (result === "invalid") return reply(401, "resetExpired", { code: "RESET_EXPIRED" });
+        if (result === "blocked") return reply(403, "cantResetPassword");
 
-        const response = NextResponse.json({ message: "Password changed. You can sign in now." });
+        const response = NextResponse.json({ message: await translateMsg("passwordChangedSignIn") });
         response.cookies.set("reset_session", "", { path: RESET_SESSION_COOKIE_PATH, maxAge: 0 });
         return response;
     } catch (error) {
         console.error("Reset password error:", error);
-        return reply(500, "Failed to update password. Please try again.");
+        return reply(500, "failedUpdatePassword");
     }
 }

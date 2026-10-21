@@ -7,13 +7,14 @@ import EditProfileCard from "@/components/editProfileCard";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useAuthModals } from "@/lib/store/auth-card-store";
 import React, { useEffect, useRef, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "@/lib/store/toastStore";
 import { FaPen } from "react-icons/fa";
+import { useLocale, useTranslations } from "next-intl";
 
 type Genre = { id: string; name: string };
 
-const joinedText = (iso?: string | null) =>
-    iso ? `joined ${new Date(iso).toLocaleDateString("en-US", { month: "long", year: "numeric" })}` : "";
+const joinedDate = (iso: string | null | undefined, locale: string) =>
+    iso ? new Date(iso).toLocaleDateString(locale, { month: "long", year: "numeric" }) : "";
 
 // Makes a picked cover photo at most 1600px wide and saves it as JPEG, so the upload stays small.
 // Works with whatever the cover picker gives (an image data URL or a blob: URL).
@@ -39,6 +40,9 @@ const shrinkImage = (src: string, maxWidth = 1600): Promise<string> =>
 const ProfilePage = () => {
     const { user, loading, fetchUser } = useAuthStore();
     const openSignIn = useAuthModals((s) => s.openSignIn);
+    const t = useTranslations("Profile");
+    const c = useTranslations("Common");
+    const locale = useLocale();
 
     // The cover being uploaded, shown straight away until the saved one comes back
     const [coverPreview, setCoverPreview] = useState<string | null>(null);
@@ -72,13 +76,13 @@ const ProfilePage = () => {
             });
             const data = await res.json().catch(() => ({}));
             if (!res.ok) {
-                toast.error(data.message || "Couldn't save your photo");
+                toast.error(data.message || t("couldntSavePhoto"));
                 return;
             }
             await fetchUser();
-            toast.success("Photo saved");
+            toast.success(t("photoSaved"));
         } catch {
-            toast.error("Unable to reach the server. Please try again.");
+            toast.error(c("networkError"));
         } finally {
             photoBusy.current = false;
         }
@@ -99,13 +103,13 @@ const ProfilePage = () => {
             });
             const data = await res.json().catch(() => ({}));
             if (!res.ok) {
-                toast.error(data.message || "Couldn't save your cover photo");
+                toast.error(data.message || t("couldntSaveCover"));
                 return;
             }
             await fetchUser();
-            toast.success("Cover saved");
+            toast.success(t("coverSaved"));
         } catch {
-            toast.error("Couldn't save your cover photo. Please try again.");
+            toast.error(t("couldntSaveCoverRetry"));
         } finally {
             coverBusy.current = false;
             setCoverPreview(null);
@@ -131,21 +135,21 @@ const ProfilePage = () => {
         return (
             <div className="pb-10 mx-auto">
                 <div className="bg-white dark:bg-dark-card py-16 rounded-2xl w-[95%] mx-auto text-center">
-                    <h1 className="text-lg font-semibold">Sign in to see your profile</h1>
+                    <h1 className="text-lg font-semibold">{t("signInPrompt")}</h1>
                     <button
                         type="button"
                         onClick={openSignIn}
                         className="mt-5 bg-red-500 text-white text-sm rounded-full py-2 px-6">
-                        Sign in
+                        {t("signIn")}
                     </button>
                 </div>
             </div>
         );
     }
 
-    const displayName = user.full_name || user.username || "Fang Reader";
+    const displayName = user.full_name || user.username || t("defaultName");
     const handle = user.username ? `@${user.username}` : "";
-    const joined = joinedText(user.joined_at);
+    const joined = user.joined_at ? t("joined", { date: joinedDate(user.joined_at, locale) }) : "";
     const genreIds = user.genre_ids ?? [];
     const favoriteGenres = genres.filter((g) => genreIds.includes(g.id));
 
@@ -182,7 +186,7 @@ const ProfilePage = () => {
 
                         <button type="button" onClick={() => setEditOpen(true)} className="bg-red-700 text-white text-xs md:text-sm rounded-full py-1 md:py-2 px-2 md:px-4 flex items-center gap-2 ">
                             <FaPen size={12} />
-                            Edit Profile
+                            {t("editProfile")}
                         </button>
                     </div>
 
@@ -193,19 +197,19 @@ const ProfilePage = () => {
                     )}
 
                     <p className="mt-2 text-gray-700 dark:text-neutral-200">
-                        {user.bio || <span className="text-gray-400 dark:text-neutral-500">No bio yet</span>}
+                        {user.bio || <span className="text-gray-400 dark:text-neutral-500">{t("noBio")}</span>}
                     </p>
 
                     {/* STATS (reading and following aren't recorded yet, so these start at 0) */}
                     <div className="w-full md:w-[40%] flex justify-between mt-6 text-center">
                         <div>
                             <p className="font-bold text-lg">0</p>
-                            <p className="text-gray-500 dark:text-neutral-400 text-sm">Book Reads</p>
+                            <p className="text-gray-500 dark:text-neutral-400 text-sm">{t("bookReads")}</p>
                         </div>
 
                         <div>
                             <p className="font-bold text-lg">0</p>
-                            <p className="text-gray-500 dark:text-neutral-400 text-sm">Following</p>
+                            <p className="text-gray-500 dark:text-neutral-400 text-sm">{t("following")}</p>
                         </div>
 
                     </div>
@@ -217,17 +221,17 @@ const ProfilePage = () => {
                 {/* AUTHORS */}
                 <div className="flex-1 border w-[95%] mx-auto border-gray-300 dark:border-transparent dark:bg-dark-card rounded-2xl p-6">
                     <div className="flex justify-between items-center mb-3">
-                        <h1 className="font-semibold">Authors I Follow</h1>
+                        <h1 className="font-semibold">{t("authorsIFollow")}</h1>
                     </div>
 
-                    <p className="text-sm text-gray-400 dark:text-neutral-500">Not following any authors yet.</p>
+                    <p className="text-sm text-gray-400 dark:text-neutral-500">{t("noAuthors")}</p>
                 </div>
 
                 {/* GENRES */}
                 <div className="flex-1 w-[95%] mx-auto border border-gray-300 dark:border-transparent dark:bg-dark-card p-6 rounded-2xl">
                     <div className="flex justify-between items-center mb-3">
-                        <h1 className="font-semibold">Favorite Genres</h1>
-                        <button type="button" onClick={() => setEditOpen(true)} className="text-red-500 text-sm">Edit</button>
+                        <h1 className="font-semibold">{t("favoriteGenres")}</h1>
+                        <button type="button" onClick={() => setEditOpen(true)} className="text-red-500 text-sm">{t("edit")}</button>
                     </div>
 
                     <div className="flex flex-wrap gap-3">
@@ -238,7 +242,7 @@ const ProfilePage = () => {
                                 </p>
                             ))
                         ) : (
-                            <p className="text-sm text-gray-400 dark:text-neutral-500">No favourite genres yet.</p>
+                            <p className="text-sm text-gray-400 dark:text-neutral-500">{t("noGenres")}</p>
                         )}
                     </div>
                 </div>

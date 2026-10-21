@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Eye } from "lucide-react";
 import { CoverPlaceholder } from "@/components/skeleton";
+import { useTranslations } from "next-intl";
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
 const MAX_TAGS = 3;
@@ -25,6 +26,7 @@ interface cardDataProps {
 export const GenreCard = (genreCard: cardDataProps) => {
     const { image, title, slug, genreSlug, author, genre, tags, chapter, summary, status, views } = genreCard;
     const [failed, setFailed] = useState(false);
+    const t = useTranslations("Books");
     useEffect(() => setFailed(false), [image]);
 
     const completed = String(status).toUpperCase() === "COMPLETED";
@@ -59,10 +61,10 @@ export const GenreCard = (genreCard: cardDataProps) => {
                 {/* Ongoing • Chapter 412 • Author */}
                 <div className="mt-1 flex items-center gap-x-1.5 sm:gap-x-2 text-[11px] sm:text-sm text-gray-500 dark:text-neutral-400 min-w-0">
                     <span className={`shrink-0 font-semibold ${completed ? "text-green-600 dark:text-green-400" : "text-gray-800 dark:text-neutral-200"}`}>
-                        {completed ? "Completed" : "Ongoing"}
+                        {completed ? t("completed") : t("ongoing")}
                     </span>
                     <span aria-hidden="true">•</span>
-                    <span className="shrink-0">Chapter {chapter}</span>
+                    <span className="shrink-0">{t("chapterN", { chapter })}</span>
                     <span aria-hidden="true">•</span>
                     <span className="truncate">{author}</span>
                 </div>

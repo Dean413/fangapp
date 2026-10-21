@@ -1,5 +1,5 @@
 "use client";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { fetchYouMayLike } from "@/lib/fetchYouMayLike";
 import { languageForLocale } from "@/lib/language";
 import Footer from "@/components/footer";
@@ -87,6 +87,8 @@ function HeroSkeleton() {
 
 export default function Page() {
     const router = useRouter();
+    const t = useTranslations("Book");
+    const b = useTranslations("Books");
     const [book, setBook] = useState<Book | null>(null);
     const [chapters, setChapters] = useState<ChapterRow[]>([]);
     const [loading, setLoading] = useState(true);
@@ -123,10 +125,10 @@ export default function Page() {
     // Otherwise "Continue Reading" goes back to the last chapter opened.
     const startChapter = reachedEnd && completed ? firstChapter : lastChapter ?? firstChapter;
     const readLabel = !lastChapter
-        ? "Read Now"
+        ? t("readNow")
         : reachedEnd
-            ? completed ? "Read Again" : `Up to date (Ch. ${lastChapter})`
-            : `Continue Reading (Ch. ${lastChapter})`;
+            ? completed ? t("readAgain") : t("upToDate", { chapter: lastChapter })
+            : t("continueReading", { chapter: lastChapter });
     const chapterCount = book?.chapter ?? (Number(book?.chapters) || chapters.length);
 
     // Genre first, then the tags (no repeats)
@@ -175,7 +177,8 @@ export default function Page() {
         const fetchChapters = async () => {
             setChaptersLoading(true);
             try {
-                const res = await fetch(`/api/stories/${safeSlug}/chapters`);
+                const res = await fetch(`/api/stories/${safeSlug}/chapters`,
+                    { credentials: "include", cache: "no-store" });
                 setChapters(res.ok ? await res.json() : []);
             } catch (err) {
                 console.log(err);
@@ -185,7 +188,7 @@ export default function Page() {
             }
         };
         if (safeSlug) fetchChapters();
-    }, [safeSlug]);
+    }, [safeSlug, signedIn]);
 
     useEffect(() => {
         setLastChapter(null);
@@ -231,7 +234,7 @@ export default function Page() {
 
                 <div className="relative mx-auto max-w-6xl px-4 md:px-8 pt-5 md:pt-6 pb-10 md:pb-14">
                     <nav className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] md:text-[11px] text-white/80">
-                        <Link href="/" className="hover:text-white">Home</Link>
+                        <Link href="/" className="hover:text-white">{t("home")}</Link>
                         <span>/</span>
                         <span>{book?.genre || safeGenre}</span>
                         <span>/</span>
@@ -251,19 +254,20 @@ export default function Page() {
                             <div className="min-w-0 pt-1 md:pt-2">
                                 <h1 className="text-xl md:text-[26px] font-bold text-white leading-tight">{book.title}</h1>
 
-                                <p className="mt-1 text-sm md:text-[15px] text-white/50">
-                                    Written by <span className="text-red-600">{book.author}</span>
-                                    {book.status && <><span className="mx-1.5">•</span>{titleCase(book.status)}</>}
-                                </p>
+                                <div className="mt-1 text-sm md:text-[15px] text-white/50">
+                                    {book.author && (
+                                        <p>{t.rich("writtenBy", { author: book.author, name: (chunks) => <span className="text-red-600">{chunks}</span> })}</p>)}
+                                    {book.status && <><span className="mx-1.5">•</span>{completed ? b("completed") : book.status.toLowerCase() === "ongoing" ? b("ongoing") : titleCase(book.status)}</>}
+                                </div>
 
                                 <div className="mt-2.5 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-sm md:text-[15px] text-white/85">
-                                    <span>👁️ {book.views} Views</span>
+                                    <span>👁️ {t("views", { views: book.views ?? 0 })}</span>
                                     <span>•</span>
-                                    <span>📚 {chapterCount} Chapters</span>
+                                    <span>📚 {t("chapters", { count: chapterCount })}</span>
                                     {ratingText && (
                                         <>
                                             <span>•</span>
-                                            <span>⭐ {ratingText} Rating</span>
+                                            <span>⭐ {t("rating", { rating: ratingText })}</span>
                                         </>
                                     )}
                                 </div>
@@ -292,13 +296,13 @@ export default function Page() {
                                             ? "border-red-600 bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500/15"
                                             : "border-gray-200 dark:border-dark-border bg-white dark:bg-dark-card text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-raised"
                                             }`}>
-                                        {saved ? "✓ In Library" : "+ Add to Library"}
+                                        {saved ? t("inLibrary") : t("addToLibrary")}
                                     </button>
                                 </div>
                             </div>
                         </div>
                     ) : (
-                        <p className="mt-6 text-white/80">Story not found</p>
+                        <p className="mt-6 text-white/80">{t("notFound")}</p>
                     )}
                 </div>
             </section>
@@ -309,12 +313,12 @@ export default function Page() {
                     <button
                         onClick={() => setActive("overview")}
                         className={`-mb-px pb-2 text-sm ${active === "overview" ? "border-b-2 border-red-600 font-semibold text-black dark:text-white" : "text-gray-500 dark:text-neutral-400 hover:text-black dark:hover:text-white"}`}>
-                        Overview
+                        {t("overview")}
                     </button>
                     <button
                         onClick={() => setActive("contents")}
                         className={`-mb-px pb-2 text-sm ${active === "contents" ? "border-b-2 border-red-600 font-semibold text-black dark:text-white" : "text-gray-500 dark:text-neutral-400 hover:text-black dark:hover:text-white"}`}>
-                        Table of Contents{!chaptersLoading && ` (${chapters.length})`}
+                        {t("contents")}{!chaptersLoading && ` (${chapters.length})`}
                     </button>
                 </div>
 
@@ -343,8 +347,9 @@ export default function Page() {
                                             className={`flex items-center gap-3 rounded p-2 text-sm hover:bg-gray-100 dark:hover:bg-dark-card ${chapter.isLocked ? "opacity-60" : ""}`}>
                                             {chapter.isLocked && <FaLock className="text-xs text-gray-500 dark:text-neutral-400" />}
                                             <span className="truncate">
-                                                Chapter {chapter.chapter_number}
-                                                {chapter.title ? `: ${chapter.title}` : ""}
+                                                {chapter.title
+                                                    ? t("chapterTitled", { chapter: chapter.chapter_number, title: chapter.title })
+                                                    : b("chapterN", { chapter: chapter.chapter_number })}
                                             </span>
                                         </Link>
                                     ))}
@@ -352,7 +357,7 @@ export default function Page() {
                                 {chapters.length > 18 && (
                                     <div className="mt-4 flex justify-center">
                                         <button onClick={() => setShowAll((prev) => !prev)} className="rounded-lg border border-gray-200 px-4 py-2 text-sm hover:bg-gray-100 dark:border-dark-border dark:hover:bg-dark-card">
-                                            {showAll ? "Show Less" : "Show More"}
+                                            {showAll ? t("showLess") : t("showMore")}
                                         </button>
                                     </div>
                                 )}
@@ -363,7 +368,7 @@ export default function Page() {
 
                 {/* YOU MAY LIKE */}
                 <section className="mt-10 md:mt-12">
-                    <SectionHeader title="You May Like" href={`/stories/${book?.genreSlug || safeGenre}`} />
+                    <SectionHeader title={t("youMayLike")} href={`/stories/${book?.genreSlug || safeGenre}`} />
                     <BookGrid data={books} loading={booksLoading} />
                 </section>
 
@@ -372,7 +377,7 @@ export default function Page() {
                     <BookReviews bookId={book.slug} onSummary={setReviewSummary} />
                 ) : (
                     <section className="mt-10 md:mt-12 pb-12 md:pb-20">
-                        <h2 className="text-sm md:text-base font-semibold text-gray-700 dark:text-neutral-300">Reader Reviews</h2>
+                        <h2 className="text-sm md:text-base font-semibold text-gray-700 dark:text-neutral-300">{t("readerReviews")}</h2>
                     </section>
                 )}
             </div>

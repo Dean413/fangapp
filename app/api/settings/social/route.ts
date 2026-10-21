@@ -5,19 +5,19 @@ import { readJson, reply } from "@/lib/auth/rules";
 
 export async function DELETE(request: NextRequest) {
     const user = await getCurrentUser();
-    if (!user) return reply(401, "Please sign in first");
+    if (!user) return reply(401, "signInFirst");
 
     const body = await readJson(request);
     const provider = body?.provider as Provider;
-    if (!PROVIDERS.includes(provider)) return reply(400, "Invalid request");
+    if (!PROVIDERS.includes(provider)) return reply(400, "invalidRequest");
     try {
         const result = await unlinkProvider(user.id, provider);
         if (result === "last_way_in") {
-            return reply(409, "Set a password first, otherwise you won't be able to sign in.", { code: "LAST_WAY_IN" });
+            return reply(409, "setPasswordFirst", { code: "LAST_WAY_IN" });
         }
-        return reply(200, "Disconnected");
+        return reply(200, "disconnected");
     } catch (error) {
         console.error("Disconnect error:", error);
-        return reply(500, "Couldn't disconnect. Please try again.");
+        return reply(500, "couldntDisconnect");
     }
 }

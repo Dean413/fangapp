@@ -1,25 +1,17 @@
 "use client";
 
 import { useEffect } from "react";
-import { toast } from "react-toastify";
+import { toast } from "@/lib/store/toastStore";
 import { useAuthStore } from "./authStore";
 import { useLibraryStore } from "./library-store";
 import TwoFactorCard from "@/components/authCards/twoFactorCards";
+import { useTranslations } from "next-intl";
 
-// Messages for ?auth_error=<code>, added to the address when Google/Facebook sign-in fails
-const AUTH_ERRORS: Record<string, string> = {
-    cancelled: "Sign-in was cancelled.",
-    google_failed: "Couldn't sign in with Google. Please try again.",
-    google_unverified: "Your Google email isn't verified. Verify it with Google, or sign up with email.",
-    facebook_failed: "Couldn't sign in with Facebook. Please try again.",
-    facebook_no_email: "Your Facebook account has no email address. Please sign up with email instead.",
-    email_exists: "An account with this email already exists. Sign in with your email and password or Google.",
-    link_expired: "Please sign in with your email and password.",
-    account_closed: "This account has been closed. If you think this is a mistake, contact support@fangwriters.com.",
-    not_allowed: "This account can't be used to sign in here.",
-    link_signin: "Please sign in first, then connect your account in Settings.",
-    linked_elsewhere: "That account is already connected to another Fang account.",
-};
+// ?auth_error=<code> is added to the address when Google/Facebook sign-in fails; its message is AuthErrors.<code>
+const AUTH_ERRORS = [
+    "cancelled", "google_failed", "google_unverified", "facebook_failed", "facebook_no_email", "email_exists",
+    "link_expired", "account_closed", "not_allowed", "link_signin", "linked_elsewhere",
+];
 
 export default function AuthProvider({
     children,
@@ -27,6 +19,7 @@ export default function AuthProvider({
     children: React.ReactNode;
 }) {
     const fetchUser = useAuthStore((s) => s.fetchUser);
+    const t = useTranslations("AuthErrors");
 
     useEffect(() => {
         fetchUser();
@@ -44,9 +37,10 @@ export default function AuthProvider({
         const url = new URL(window.location.href);
         const code = url.searchParams.get("auth_error");
         if (!code) return;
-        toast.error(AUTH_ERRORS[code] ?? "Sign-in failed. Please try again.");
+        toast.error(t(AUTH_ERRORS.includes(code) ? code : "failed"));
         url.searchParams.delete("auth_error");
         window.history.replaceState(window.history.state, "", url.pathname + url.search + url.hash);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

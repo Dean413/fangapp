@@ -4,8 +4,10 @@ import { Filter, ChevronDown } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "@/lib/store/toastStore";
 import { useWalletStore } from "@/lib/store/wallet-action-store";
+import { useLocale, useTranslations } from "next-intl";
+import { coinDescription, coinType } from "@/lib/coinLabels";
 
 // The wallet page (Top Up opens its Top Up tab)
 const WALLET_PATH = "/profile/wallet";
@@ -21,14 +23,12 @@ type Transaction = {
     coinKind: "coins" | "bonus coins";
     balance: number;
     expiresAt: string | null;
+    reason: string;
+    refId: string | null;
 };
 
-const FILTERS: { key: TxFilter; label: string }[] = [
-    { key: "all", label: "All" },
-    { key: "earned", label: "Earned" },
-    { key: "spent", label: "Spent" },
-    { key: "expired", label: "Expired" },
-];
+// Labels: Transactions.filter_<key>
+const FILTERS: TxFilter[] = ["all", "earned", "spent", "expired"];
 
 const DOT: Record<Transaction["category"], string> = {
     topup: "bg-pink-500",
@@ -38,13 +38,16 @@ const DOT: Record<Transaction["category"], string> = {
     expired: "bg-gray-400",
 };
 
-const formatDate = (iso: string) => new Date(iso).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
-const formatTime = (iso: string) => new Date(iso).toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+const formatDate = (iso: string, locale: string) => new Date(iso).toLocaleDateString(locale, { day: "numeric", month: "short", year: "numeric" });
+const formatTime = (iso: string, locale: string) => new Date(iso).toLocaleTimeString(locale, { hour: "numeric", minute: "2-digit" });
 const formatAmount = (n: number) => `${n > 0 ? "+" : "−"}${Math.abs(n).toLocaleString()}`;
 
 export default function TransactionHistory() {
     const router = useRouter()
     const setActive = useWalletStore((s) => s.setActive)
+    const t = useTranslations("Transactions")
+    const ct = useTranslations("Coins")
+    const locale = useLocale()
 
     const [filter, setFilter] = useState<TxFilter>("all");
     const [filterOpen, setFilterOpen] = useState(false);
@@ -60,9 +63,9 @@ export default function TransactionHistory() {
             cache: "no-store",
         });
         const data = await res.json().catch(() => ({}));
-        if (!res.ok) throw new Error(data.message || "Couldn't load your transactions");
+        if (!res.ok) throw new Error(data.message || t("loadFailed"));
         return data as { transactions: Transaction[]; hasMore: boolean };
-    }, []);
+    }, [t]);
 
     // First page (again when the filter changes)
     useEffect(() => {
@@ -88,7 +91,7 @@ export default function TransactionHistory() {
             setTransactions((prev) => [...prev, ...data.transactions]);
             setHasMore(data.hasMore);
         } catch (err) {
-            toast.error(err instanceof Error ? err.message : "Couldn't load more");
+            toast.error(err instanceof Error ? err.message : t("loadMoreFailed"));
         } finally {
             busy.current = false;
             setLoadingMore(false);
@@ -106,30 +109,30 @@ export default function TransactionHistory() {
             <div className="flex items-start justify-between mb-8">
                 <div>
                     <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-                        Transaction History
+                        {t("title")}
                     </h2>
                     <p className="text-gray-500 dark:text-neutral-400 mt-1">
-                        View all your wallet transactions and activities.
+                        {t("subtitle")}
                     </p>
                 </div>
 
                 <div className="relative">
                     <button type="button" onClick={() => setFilterOpen((o) => !o)} className="flex items-center gap-2 border rounded-xl px-4 py-2 text-gray-700 dark:text-neutral-200 hover:bg-gray-50 dark:hover:bg-dark-card">
                         <Filter size={16} />
-                        {filter === "all" ? "Filter" : FILTERS.find((f) => f.key === filter)?.label}
+                        {filter === "all" ? t("filter") : t(`filter_${filter}`)}
                         <ChevronDown size={14} />
                     </button>
 
                     {filterOpen && (
                         <div className="absolute right-0 mt-2 w-40 rounded-xl border bg-white dark:bg-dark-card dark:border-dark-border shadow-lg z-10 overflow-hidden">
-                            {FILTERS.map((f) => (
+                            {FILTERS.map((key) => (
                                 <button
-                                    key={f.key}
+                                    key={key}
                                     type="button"
-                                    onClick={() => { setFilter(f.key); setFilterOpen(false); }}
-                                    className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-neutral-800 ${filter === f.key ? "font-semibold text-red-600" : "text-gray-700 dark:text-neutral-200"}`}
+                                    onClick={() => { setFilter(key); setFilterOpen(false); }}
+                                    className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-neutral-800 ${filter === key ? "font-semibold text-red-600" : "text-gray-700 dark:text-neutral-200"}`}
                                 >
-                                    {f.label}
+                                    {t(`filter_${key}`)}
                                 </button>
                             ))}
                         </div>
@@ -150,29 +153,29 @@ export default function TransactionHistory() {
                         <div className="flex flex-col items-center justify-center h-[70vh] gap-4">
                             <Image
                                 src="/fang_pictures/transaction-history.png"
-                                alt="No transactions"
+                                alt={t("emptyTitle")}
                                 width={200}
                                 height={200}
                             />
 
-                            <h2 className="text-2xl font-bold">No Transactions yet</h2>
-                            <p className="w-80 text-center">Your transaction history will appear here once you start using your wallet.</p>
+                            <h2 className="text-2xl font-bold">{t("emptyTitle")}</h2>
+                            <p className="w-80 text-center">{t("emptyText")}</p>
                             <button type="button" onClick={goTopUp} className="bg-red-700 text-white px-6 py-3 w-50 text-center rounded-xl">
-                                Top Up
+                                {t("topUp")}
                             </button>
                         </div>
                     ) : (
-                        <p className="text-center text-gray-500 dark:text-neutral-400 py-20">No {FILTERS.find((f) => f.key === filter)?.label.toLowerCase()} transactions.</p>
+                        <p className="text-center text-gray-500 dark:text-neutral-400 py-20">{t(`empty_${filter}`)}</p>
                     )
                 ) : (
                     <table className="w-full min-w-225">
                         <thead>
                             <tr className="border-b text-left text-gray-500 dark:text-neutral-400 text-sm">
-                                <th className="pb-4 font-medium">Date</th>
-                                <th className="pb-4 font-medium">Type</th>
-                                <th className="pb-4 font-medium">Description</th>
-                                <th className="pb-4 font-medium">Amount</th>
-                                <th className="pb-4 font-medium">Balance</th>
+                                <th className="pb-4 font-medium">{t("date")}</th>
+                                <th className="pb-4 font-medium">{t("type")}</th>
+                                <th className="pb-4 font-medium">{t("description")}</th>
+                                <th className="pb-4 font-medium">{t("amount")}</th>
+                                <th className="pb-4 font-medium">{t("balance")}</th>
                             </tr>
                         </thead>
 
@@ -184,10 +187,10 @@ export default function TransactionHistory() {
                                     className="border-b cursor-pointer border-gray-100 dark:border-dark-border hover:bg-gray-50 dark:hover:bg-dark-card transition">
                                     <td className="py-5">
                                         <div className="font-medium text-gray-900 dark:text-white">
-                                            {formatDate(item.at)}
+                                            {formatDate(item.at, locale)}
                                         </div>
                                         <div className="text-sm text-gray-400 dark:text-neutral-500">
-                                            {formatTime(item.at)}
+                                            {formatTime(item.at, locale)}
                                         </div>
                                     </td>
 
@@ -196,15 +199,15 @@ export default function TransactionHistory() {
                                             <span
                                                 className={`w-2.5 h-2.5 rounded-full ${DOT[item.category]}`}
                                             />
-                                            <span>{item.type}</span>
+                                            <span>{coinType(ct, item.reason, item.amount)}</span>
                                         </div>
                                     </td>
 
                                     <td className="py-5 text-gray-700 dark:text-neutral-200">
-                                        {item.description}
+                                        {item.reason === "expired" ? t("expiredEntry", { source: coinDescription(ct, item.reason, item.refId) }) : coinDescription(ct, item.reason, item.refId, item.description)}
                                         {item.expiresAt && (
                                             <div className="text-xs text-gray-400 dark:text-neutral-500">
-                                                {new Date(item.expiresAt) > new Date() ? "Expires" : "Expired"} {formatDate(item.expiresAt)}, {formatTime(item.expiresAt)}
+                                                {t(new Date(item.expiresAt) > new Date() ? "expiresOn" : "expiredOn", { date: `${formatDate(item.expiresAt, locale)}, ${formatTime(item.expiresAt, locale)}` })}
                                             </div>
                                         )}
                                     </td>
@@ -212,7 +215,7 @@ export default function TransactionHistory() {
                                     <td
                                         className={`py-5 font-semibold ${item.amount > 0 ? "text-green-500" : item.category === "expired" ? "text-gray-400 dark:text-neutral-500" : "text-red-500"}`}
                                     >
-                                        {formatAmount(item.amount)} {item.coinKind}
+                                        {formatAmount(item.amount)} {item.coinKind === "coins" ? t("unitCoins") : t("unitBonusCoins")}
                                     </td>
 
                                     <td className="py-5 text-gray-800 dark:text-neutral-100">
@@ -230,7 +233,7 @@ export default function TransactionHistory() {
             {!loading && hasMore && (
                 <div className="flex justify-center mt-8">
                     <button type="button" onClick={loadMore} disabled={loadingMore} className={`border rounded-xl px-6 py-3 text-gray-700 dark:text-neutral-200 hover:bg-gray-50 dark:hover:bg-dark-card disabled:opacity-60`}>
-                        {loadingMore ? "Loading..." : "+ Load More"}
+                        {loadingMore ? t("loading") : t("loadMore")}
                     </button>
                 </div>
             )}

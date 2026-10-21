@@ -2,6 +2,7 @@
 import { getStoryBySlug, storyBelongsToUser, updateStoryBySlug } from "@/lib/stories";
 import { verifyAuth } from "@/lib/rbac";
 import { NextRequest, NextResponse } from "next/server";
+import { translateMsg } from "@/lib/i18n";
 
 export async function GET(
     _: Request,
@@ -14,7 +15,7 @@ export async function GET(
 
         if (!story) {
             return NextResponse.json(
-                { message: "Story not found" },
+                { message: await translateMsg("storyNotFound") },
                 { status: 404 }
             );
         }
@@ -24,7 +25,7 @@ export async function GET(
         console.error(error);
 
         return NextResponse.json(
-            { message: "Failed to fetch story" },
+            { message: await translateMsg("failedFetchStory") },
             { status: 500 }
         );
     }

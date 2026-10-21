@@ -9,9 +9,11 @@ import { FaBookOpen, FaFacebook, FaInstagram, FaYoutube } from "react-icons/fa"
 import { RedditLogo } from "phosphor-react"
 import CoinCard from "./coin-card"
 import { useWalletStore } from "@/lib/store/wallet-action-store"
+import { useTranslations } from "next-intl"
 
 const EarnSection = () => {
     const { active, setActive } = useWalletStore()
+    const t = useTranslations("Wallet")
     let totalBalance = 0
 
     return (
@@ -22,7 +24,7 @@ const EarnSection = () => {
                     <SectionTitle title={
                         <div className="flex gap-2">
                             <Clock5Icon className="text-xs text-red-500" />
-                            <p>Time reading reward</p>
+                            <p>{t("readingReward")}</p>
                         </div>
                     } />
                     <ReadingRewards />
@@ -32,7 +34,7 @@ const EarnSection = () => {
                     <SectionTitle title={
                         <div className="flex gap-2 items-center mb-4">
                             <Target color="red" />
-                            <p>General Engagement Rewards</p>
+                            <p>{t("engagementRewards")}</p>
                         </div>
                     } />
                     <div className="space-y-3">
@@ -42,7 +44,7 @@ const EarnSection = () => {
                                     <FaVideo size={30} color="red" />
                                 </div>
                             }
-                            title="Watch a video"
+                            title={t("watchVideo")}
                             coins={5}
                             target={25}
                             progress={18}
@@ -56,8 +58,8 @@ const EarnSection = () => {
                                     <FaUserPlus size={30} color="red" />
                                 </div>
                             }
-                            title="Invite a friend"
-                            text="Earn coins for every friend you invite to FANG"
+                            title={t("inviteFriend")}
+                            text={t("inviteFriendText")}
                             coins={100}
                             progress={0}
                             target={0}
@@ -72,7 +74,7 @@ const EarnSection = () => {
                                     <FaBookOpen size={30} color="red" />
                                 </div>
                             }
-                            title="Read 3 different stories"
+                            title={t("readStories", { count: 3 })}
                             coins={30}
                             progress={1}
                             target={3}
@@ -85,7 +87,7 @@ const EarnSection = () => {
                             <SectionTitle title={
                                 <div className="flex items-center gap-2">
                                     <FaShareNodes className="text-red-500" />
-                                    <p>New User Social Rewards</p>
+                                    <p>{t("socialRewards")}</p>
                                 </div>
                             } />
 
@@ -141,10 +143,10 @@ const EarnSection = () => {
 
                         <div className="bg-orange-50 dark:bg-orange-500/10 border border-orange-200 dark:border-orange-500/30 rounded-2xl p-6 flex flex-col items-center justify-center text-center mt-8">
                             <p className="text-yellow-600 text-2xl">🏆</p>
-                            <h3 className="text-lg font-bold mt-2">Total Possible</h3>
+                            <h3 className="text-lg font-bold mt-2">{t("totalPossible")}</h3>
                             <p className="text-3xl font-bold">105</p>
-                            <p className="text-sm text-gray-600 dark:text-neutral-300">Coins</p>
-                            <button className="mt-4 bg-orange-400 text-white px-4 py-2 rounded-full">Get Started</button>
+                            <p className="text-sm text-gray-600 dark:text-neutral-300">{t("coinsTitle")}</p>
+                            <button className="mt-4 bg-orange-400 text-white px-4 py-2 rounded-full">{t("getStarted")}</button>
                         </div>
                     </div>
                 </>

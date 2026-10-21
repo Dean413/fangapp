@@ -8,19 +8,19 @@ import { readJson, reply } from "@/lib/auth/rules";
 
 export async function POST(request: NextRequest) {
     const user = await getCurrentUser();
-    if (!user) return reply(401, "Please sign in first");
+    if (!user) return reply(401, "signInFirst");
 
     const body = await readJson(request);
     const book = typeof body?.book === "string" ? body.book.trim() : "";
-    if (!book || book.length > 200 || typeof body?.enabled !== "boolean") return reply(400, "Invalid request");
+    if (!book || book.length > 200 || typeof body?.enabled !== "boolean") return reply(400, "invalidRequest");
 
     try {
         const story = await getStoryBySlug(book);
-        if (!story) return reply(404, "Story not found");
+        if (!story) return reply(404, "storyNotFound");
         await setAutoUnlock(user.id, String(story.id), body.enabled);
-        return reply(200, body.enabled ? "Auto-unlock is on for this book" : "Auto-unlock is off", { autoUnlock: body.enabled });
+        return reply(200, body.enabled ? "autoUnlockOn" : "autoUnlockOff", { autoUnlock: body.enabled });
     } catch (error) {
         console.error("Auto-unlock error:", error);
-        return reply(500, "Couldn't change auto-unlock. Please try again.");
+        return reply(500, "couldntChangeAutoUnlock");
     }
 }

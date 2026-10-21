@@ -8,7 +8,7 @@ import { reply } from "@/lib/auth/rules";
 
 export async function POST() {
     const user = await getCurrentUser();
-    if (!user) return reply(401, "Please sign in first");
+    if (!user) return reply(401, "signInFirst");
     try {
         const seconds = await recordReadingBeat(user.id);
 
@@ -29,6 +29,6 @@ export async function POST() {
         });
     } catch (error) {
         console.error("Reading signal error:", error);
-        return reply(500, "Something went wrong");
+        return reply(500, "somethingWrong");
     }
 }

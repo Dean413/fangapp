@@ -3,6 +3,7 @@
 // the same writer's other books first, then the same genre; only books in the reader's language.
 import { NextRequest, NextResponse } from "next/server";
 import { getStoryBySlug, listYouMayLike } from "@/lib/stories";
+import { translateMsg } from "@/lib/i18n";
 
 export async function GET(request: NextRequest) {
     const q = request.nextUrl.searchParams;
@@ -19,6 +20,6 @@ export async function GET(request: NextRequest) {
         return NextResponse.json(books, { headers: { "Cache-Control": "no-store" } });
     } catch (error) {
         console.error("You May Like error:", error);
-        return NextResponse.json({ message: "Couldn't load books" }, { status: 500 });
+        return NextResponse.json({ message: await translateMsg("couldntLoadBooks") }, { status: 500 });
     }
 }

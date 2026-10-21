@@ -7,7 +7,7 @@ import { reply } from "@/lib/auth/rules";
 
 export async function GET(request: NextRequest) {
     const user = await getCurrentUser();
-    if (!user) return reply(401, "Please sign in first");
+    if (!user) return reply(401, "signInFirst");
 
     const asked = request.nextUrl.searchParams.get("filter") as TxFilter | null;
     const filter: TxFilter = asked && TX_FILTERS.includes(asked) ? asked : "all";
@@ -16,6 +16,6 @@ export async function GET(request: NextRequest) {
         return reply(200, "OK", { filter, ...(await listTransactions(user.id, filter, before)) });
     } catch (error) {
         console.error("Transactions error:", error);
-        return reply(500, "Couldn't load your transactions. Please try again.");
+        return reply(500, "couldntLoadTransactions");
     }
 }

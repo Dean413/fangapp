@@ -2,28 +2,32 @@
 
 import Link from "next/link";
 import { FaCheck } from "react-icons/fa6";
+import { useTranslations } from "next-intl";
 
 export interface UnlockCardProps {
-    price: number;                    // coins for this chapter (from its length)
+    price: number;
     signedIn: boolean;
     wallet: { coins: number; bonusCoins: number } | null;
     unlocking: boolean;
     onUnlock: () => void;
     onSignIn: () => void;
-    autoUnlock: boolean;              // "Auto-Unlock Next Chapter" for this book
+    autoUnlock: boolean;
     autoBusy: boolean;
     onToggleAuto: () => void;
-    dark?: boolean;                   // the reader's Dark / Black theme: the card goes dark too
+    dark?: boolean;
+    firstLocked?: number | null
+    onGoToFirst?: () => void;
 }
 
 const WALLET_PATH = "/profile/wallet";
 
-export default function UnlockCard({ price, signedIn, wallet, unlocking, onUnlock, onSignIn, autoUnlock, autoBusy, onToggleAuto, dark }: UnlockCardProps) {
+export default function UnlockCard({ price, firstLocked, onGoToFirst, signedIn, wallet, unlocking, onUnlock, onSignIn, autoUnlock, autoBusy, onToggleAuto, dark }: UnlockCardProps) {
     const coins = wallet?.coins ?? 0;
     const bonus = wallet?.bonusCoins ?? 0;
     const balance = coins + bonus;
     const short = Math.max(price - balance, 0);
     const enough = signedIn && short === 0;
+    const t = useTranslations("Reader");
 
     // Ads (2 ads unlock one chapter): set up later
     // const DAILY_LIMIT = 20;
@@ -66,24 +70,34 @@ export default function UnlockCard({ price, signedIn, wallet, unlocking, onUnloc
 
                     {/* Amount */}
                     <div className="text-3xl font-extrabold text-gray-900 dark:text-white">{price}</div>
-                    <p className="mt-1 mb-6 text-sm text-gray-500 dark:text-neutral-400">Coins or Bonus</p>
+                    <p className="mt-1 mb-6 text-sm text-gray-500 dark:text-neutral-400">{t("coinsOrBonus")}</p>
 
                     {/* Unlock / sign in / top up */}
-                    {!signedIn ? (
+                    {signedIn && firstLocked ? (
+                        // An earlier paid chapter is still locked: that one first
+                        <>
+                            <p className="mb-3 text-sm text-gray-700 dark:text-neutral-300">
+                                {t("unlockEarlierFirst", { chapter: firstLocked })}
+                            </p>
+                            <button type="button" onClick={onGoToFirst} className={buttonClass}>
+                                {t("goToChapter", { chapter: firstLocked })}
+                            </button>
+                        </>
+                    ) : !signedIn ? (
                         <button type="button" onClick={onSignIn} className={buttonClass}>
-                            Sign in to unlock
+                            {t("signInToUnlock")}
                         </button>
                     ) : enough ? (
                         <button type="button" onClick={onUnlock} disabled={unlocking} className={buttonClass}>
-                            {unlocking ? "Unlocking..." : "Unlock"}
+                            {unlocking ? t("unlocking") : t("unlock")}
                         </button>
                     ) : (
                         <>
                             <Link href={WALLET_PATH} className={`${buttonClass} block`}>
-                                Top Up
+                                {t("topUp")}
                             </Link>
                             <p className="mt-2 text-xs text-red-600 dark:text-red-400">
-                                You need {short} more {short === 1 ? "coin" : "coins"} to unlock this chapter.
+                                {t("needMore", { count: short })}
                             </p>
                         </>
                     )}
@@ -95,9 +109,9 @@ export default function UnlockCard({ price, signedIn, wallet, unlocking, onUnloc
                     {/* Balance */}
                     {signedIn && (
                         <div className="mt-4 text-sm text-gray-600 dark:text-neutral-300">
-                            Balance:{" "}
-                            <span className="font-semibold text-gray-900 dark:text-white">{coins.toLocaleString()} Coins</span>
-                            <span className="ml-4 font-semibold text-gray-900 dark:text-white">{bonus.toLocaleString()} Bonus</span>
+                            {t("balance")}{" "}
+                            <span className="font-semibold text-gray-900 dark:text-white">{t("coinsAmount", { amount: coins.toLocaleString() })}</span>
+                            <span className="ml-4 font-semibold text-gray-900 dark:text-white">{t("bonusAmount", { amount: bonus.toLocaleString() })}</span>
                         </div>
                     )}
 
@@ -111,7 +125,7 @@ export default function UnlockCard({ price, signedIn, wallet, unlocking, onUnloc
                                     {autoUnlock && <FaCheck color="white" size={10} />}
                                 </span>
                                 <span className="text-sm font-medium text-gray-800 dark:text-neutral-200">
-                                    Auto-Unlock Next Chapter
+                                    {t("autoUnlock")}
                                 </span>
                             </button>
                         </div>

@@ -7,14 +7,14 @@ import { reply } from "@/lib/auth/rules";
 
 export async function POST() {
     const user = await getCurrentUser();
-    if (!user) return reply(401, "Please sign in first");
+    if (!user) return reply(401, "signInFirst");
     try {
         const issued = await issueCode(user.id, "delete_account");
         if (!("code" in issued)) return reply(429, waitMessage(issued.waitSeconds), { code: "WAIT", waitSeconds: issued.waitSeconds });
         await sendCodeEmail("delete_account", user.email, issued.code);
-        return reply(200, "We've sent a code to your email");
+        return reply(200, "codeSent");
     } catch (error) {
         console.error("Delete code error:", error);
-        return reply(500, "Couldn't send the code. Please try again.");
+        return reply(500, "couldntSendCode");
     }
 }

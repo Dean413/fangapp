@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Eye } from "lucide-react";
 import Footer from "@/components/footer";
 import { getHomeCollection } from "@/lib/home";
+import { getTranslations } from "next-intl/server";
 import { BookPills, Cover, Rating, bookHref, formatCount } from "@/components/home/bookBits";
 
 // Always the admin's latest list
@@ -13,19 +14,21 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
     const collection = await getHomeCollection(id);
-    return { title: collection ? `${collection.name} | Fang` : "Collection | Fang" };
+    const t = await getTranslations("Collection");
+    return { title: collection ? `${collection.name} | Fang` : t("metaTitle") };
 }
 
 export default async function CollectionPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
     const collection = await getHomeCollection(id);
     if (!collection) notFound();
+    const t = await getTranslations("Collection");
 
     return (
         <div className="min-h-screen bg-white dark:bg-dark">
             <div className="w-[90%] mx-auto pt-6 md:pt-8 pb-12 md:pb-16">
-                <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-gray-500 dark:text-neutral-400">
-                    <Link href="/" className="hover:text-gray-900 dark:hover:text-white">Home</Link>
+                <nav aria-label={t("breadcrumb")} className="flex items-center gap-2 text-sm text-gray-500 dark:text-neutral-400">
+                    <Link href="/" className="hover:text-gray-900 dark:hover:text-white">{t("home")}</Link>
                     <span aria-hidden="true">/</span>
                     <span className="font-semibold text-gray-900 dark:text-white truncate">{collection.name}</span>
                 </nav>
@@ -37,7 +40,7 @@ export default async function CollectionPage({ params }: { params: Promise<{ id:
                         <p className="mt-3 max-w-3xl text-sm text-gray-600 dark:text-neutral-400">{collection.description}</p>
                     )}
                     <p className="mt-2 text-xs text-gray-500 dark:text-neutral-500">
-                        {collection.books.length} {collection.books.length === 1 ? "book" : "books"}
+                        {t("bookCount", { count: collection.books.length })}
                     </p>
                 </div>
 

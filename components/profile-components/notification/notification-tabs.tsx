@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 interface Props {
     active: string;
     setActive: (tab: string) => void;
@@ -7,6 +9,7 @@ interface Props {
 
 export default function NotificationTabs({ active, setActive }: Props) {
     const tabs = ["All", "Unread", "Mentions", "Transactions"];
+    const t = useTranslations("Notifications");
 
     return (
         <div className="flex gap-2">
@@ -20,7 +23,7 @@ export default function NotificationTabs({ active, setActive }: Props) {
                             : "bg-gray-100 dark:bg-dark-raised text-gray-700 dark:text-neutral-200 hover:bg-gray-200 dark:hover:bg-neutral-800"
                         }`}
                 >
-                    {tab}
+                    {t(`tab_${tab}`)}
                 </button>
             ))}
         </div>

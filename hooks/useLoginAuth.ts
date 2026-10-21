@@ -1,12 +1,15 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "@/lib/store/toastStore";
 import { useAuthModals } from "@/lib/store/auth-card-store";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useTwoFactorStore } from "@/lib/store/twoFactorStore";
+import { useTranslations } from "next-intl";
 
 export const useLoginAuth = (open: boolean) => {
+    const t = useTranslations("Auth");
+    const c = useTranslations("Common");
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false)
     const [remember, setRemember] = useState(false)
@@ -33,7 +36,7 @@ export const useLoginAuth = (open: boolean) => {
     const signIn = async () => {
         if (busy.current) return;
         if (!email.trim() || !password) {
-            toast.error("Email and password are required");
+            toast.error(t("emailPasswordRequired"));
             return;
         }
 
@@ -65,16 +68,16 @@ export const useLoginAuth = (open: boolean) => {
                     openTwoFactor(data.email || email.trim().toLowerCase())
                     return
                 }
-                toast.error(data.message || "Invalid email or password")
+                toast.error(data.message || t("wrongLogin"))
                 return
             }
 
             await useAuthStore.getState().fetchUser();
-            toast.success(data.message || "Signed in successfully")
+            toast.success(data.message || t("signedIn"))
             setPassword("")
             closeAll()
         } catch {
-            toast.error("Unable to reach the server. Please try again.")
+            toast.error(c("networkError"))
         } finally {
             busy.current = false;
             setLoading(false)

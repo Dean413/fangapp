@@ -5,27 +5,28 @@ import { getCurrentUser } from "@/lib/auth/session";
 import { claimCheckin, getCheckinStatus } from "@/lib/reward";
 import { getWalletBalance } from "@/lib/wallet";
 import { reply } from "@/lib/auth/rules";
+import { msg } from "@/lib/i18n";
 
 export async function GET() {
     const user = await getCurrentUser();
-    if (!user) return reply(401, "Please sign in first");
+    if (!user) return reply(401, "signInFirst");
     try {
         return reply(200, "OK", { status: await getCheckinStatus(user.id) });
     } catch (error) {
         console.error("Check-in status error:", error);
-        return reply(500, "Couldn't load your check-in. Please try again.");
+        return reply(500, "couldntLoadCheckin");
     }
 }
 
 export async function POST() {
     const user = await getCurrentUser();
-    if (!user) return reply(401, "Please sign in first");
+    if (!user) return reply(401, "signInFirst");
     try {
         const result = await claimCheckin(user.id);
         if (!result.ok) {
-            return reply(409, "You've already claimed today's reward", { code: "ALREADY_CLAIMED", status: result.status });
+            return reply(409, "alreadyClaimedToday", { code: "ALREADY_CLAIMED", status: result.status });
         }
-        return reply(200, `+${result.coins} bonus coins`, {
+        return reply(200, msg("bonusCoins", { coins: result.coins }), {
             day: result.day,
             coins: result.coins,
             status: result.status,
@@ -33,6 +34,6 @@ export async function POST() {
         });
     } catch (error) {
         console.error("Check-in claim error:", error);
-        return reply(500, "Couldn't claim your reward. Please try again.");
+        return reply(500, "couldntClaimReward");
     }
 }

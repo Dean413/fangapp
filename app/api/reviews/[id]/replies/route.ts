@@ -14,21 +14,21 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
         return reply(200, "OK", page);
     } catch (error) {
         console.error("Replies load error:", error);
-        return reply(500, "Couldn't load the replies. Please try again.");
+        return reply(500, "couldntLoadReplies");
     }
 }
 
 export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     const user = await getCurrentUser();
-    if (!user) return reply(401, "Please sign in to reply");
+    if (!user) return reply(401, "signInToReply");
     const { id } = await params;
     const body = await readJson(request);
     try {
         const result = await addReply(user.id, id, body?.content);
         if (!result.ok) return reply(result.status, result.message);
-        return reply(200, "Reply posted", { reply: result.reply });
+        return reply(200, "replyPosted", { reply: result.reply });
     } catch (error) {
         console.error("Reply save error:", error);
-        return reply(500, "Couldn't post your reply. Please try again.");
+        return reply(500, "couldntPostReply");
     }
 }

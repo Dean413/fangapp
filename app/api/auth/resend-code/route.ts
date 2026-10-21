@@ -12,13 +12,13 @@ import { normalizeEmail, readJson, reply } from "@/lib/auth/rules";
 export async function POST(request: NextRequest) {
     const body = await readJson(request);
     const email = normalizeEmail(body?.email);
-    if (!email) return reply(400, "Email is required");
+    if (!email) return reply(400, "emailRequired");
 
     try {
         const { rows } = await dbPool.query(`SELECT id, role, email_verified_at, account_status FROM users WHERE email = $1`, [email]);
         const user = rows[0];
         if (!user || !canUseReaderApp(user.role) || user.email_verified_at || isClosedAccount(user.account_status)) {
-            return reply(200, "New code sent", { sent: true });
+            return reply(200, "newCodeSent", { sent: true });
         }
 
         const issued = await issueCode(user.id, "verify_email");
@@ -27,9 +27,9 @@ export async function POST(request: NextRequest) {
         }
 
         await sendCodeEmail("verify_email", email, issued.code);
-        return reply(200, "New code sent", { sent: true });
+        return reply(200, "newCodeSent", { sent: true });
     } catch (error) {
         console.error("Resend code error:", error);
-        return reply(500, "Couldn't send the code. Please try again.");
+        return reply(500, "couldntSendCode");
     }
 }

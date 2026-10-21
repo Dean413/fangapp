@@ -10,11 +10,11 @@ import { readJson, reply } from "@/lib/auth/rules";
 
 export async function GET(request: NextRequest) {
     const book = request.nextUrl.searchParams.get("book")?.trim() ?? "";
-    if (!book || book.length > 200) return reply(404, "Book not found");
+    if (!book || book.length > 200) return reply(404, "bookNotFound");
     const before = request.nextUrl.searchParams.get("before");
     try {
         const story = await getStoryBySlug(book);
-        if (!story) return reply(404, "Book not found");
+        if (!story) return reply(404, "bookNotFound");
         const storyId = String(story.id);
         const user = await getCurrentUser();
         const viewerId = user?.id ?? null;
@@ -28,30 +28,30 @@ export async function GET(request: NextRequest) {
             getEligibility(storyId, viewerId),
             viewerId ? getMyReview(storyId, viewerId) : Promise.resolve(null),
         ]);
-        const response = reply(200, "OK", { ...page, summary, eligibility, mine });
+        const response = await reply(200, "OK", { ...page, summary, eligibility, mine });
         response.headers.set("Cache-Control", "no-store");
         return response;
     } catch (error) {
         console.error("Reviews load error:", error);
-        return reply(500, "Couldn't load the reviews. Please try again.");
+        return reply(500, "couldntLoadReviews");
     }
 }
 
 export async function POST(request: NextRequest) {
     const user = await getCurrentUser();
-    if (!user) return reply(401, "Please sign in to write a review");
+    if (!user) return reply(401, "signInToReview");
 
     const body = await readJson(request);
     const book = typeof body?.book === "string" ? body.book.trim() : "";
-    if (!book || book.length > 200) return reply(404, "Book not found");
+    if (!book || book.length > 200) return reply(404, "bookNotFound");
     try {
         const result = await saveReview(user.id, book, body?.rating, body?.content);
         if (!result.ok) return reply(result.status, result.message);
         const story = await getStoryBySlug(book);
         const summary = story ? await getSummary(String(story.id)) : null;
-        return reply(200, result.created ? "Review posted" : "Review updated", { review: result.review, summary });
+        return reply(200, result.created ? "reviewPosted" : "reviewUpdated", { review: result.review, summary });
     } catch (error) {
         console.error("Review save error:", error);
-        return reply(500, "Couldn't save your review. Please try again.");
+        return reply(500, "couldntSaveReview");
     }
 }

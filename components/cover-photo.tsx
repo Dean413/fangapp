@@ -2,8 +2,9 @@
 
 import { useCallback, useState } from "react";
 import Cropper from "react-easy-crop";
-import { toast } from "react-toastify";
+import { toast } from "@/lib/store/toastStore";
 import { FiCamera } from "react-icons/fi";
+import { useTranslations } from "next-intl";
 
 type imagePickerProps = {
     name: string;
@@ -12,6 +13,7 @@ type imagePickerProps = {
 };
 
 export function CoverImagePicker({ name, image, setImage }: imagePickerProps) {
+    const t = useTranslations("Photo");
     const [preview, setPreview] = useState<string | null>(null);
     const [openPreview, setOpenPreview] = useState(false);
     const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -70,7 +72,7 @@ export function CoverImagePicker({ name, image, setImage }: imagePickerProps) {
 
         setImage(cropped);
         setOpenPreview(false);
-        toast.success("Banner updated successfully");
+        toast.success(t("bannerUpdated"));
     };
 
     return (
@@ -81,7 +83,7 @@ export function CoverImagePicker({ name, image, setImage }: imagePickerProps) {
                 {image ? (
                     <img
                         src={image}
-                        alt="banner"
+                        alt={t("banner")}
                         className="w-full h-full object-cover"
                     />
                 ) : (
@@ -96,7 +98,7 @@ export function CoverImagePicker({ name, image, setImage }: imagePickerProps) {
                 <label className="absolute top-8 right-4 cursor-pointer">
                     <div className="flex items-center gap-2 text-black dark:text-white bg-white dark:bg-dark-card px-4 py-2 rounded-full shadow-lg transition cursor-pointer">
                         <FiCamera size={18} />
-                        <p className="text-sm font-medium">Edit Cover</p>
+                        <p className="text-sm font-medium">{t("editCover")}</p>
                     </div>
                     <input
                         type="file"
@@ -113,7 +115,7 @@ export function CoverImagePicker({ name, image, setImage }: imagePickerProps) {
                     <div className="bg-white dark:bg-dark-card rounded-2xl p-5 w-full max-w-2xl shadow-xl">
 
                         <h2 className="text-xl font-bold mb-4 text-center">
-                            Edit Banner
+                            {t("editBanner")}
                         </h2>
 
                         <div className="relative w-full h-80 bg-black rounded-xl overflow-hidden">
@@ -147,14 +149,14 @@ export function CoverImagePicker({ name, image, setImage }: imagePickerProps) {
                                 onClick={() => setOpenPreview(false)}
                                 className="px-4 py-2 border rounded-lg"
                             >
-                                Cancel
+                                {t("cancel")}
                             </button>
 
                             <button
                                 onClick={saveImage}
                                 className="px-4 py-2 bg-red-600 text-white rounded-lg"
                             >
-                                Save Banner
+                                {t("saveBanner")}
                             </button>
                         </div>
 

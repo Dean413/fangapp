@@ -2,11 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Send, X } from "lucide-react";
-import { toast } from "react-toastify";
+import { toast } from "@/lib/store/toastStore";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useAuthModals } from "@/lib/store/auth-card-store";
 import { Avatar } from "@/components/reviews/stars";
 import type { Comment } from "./comment-card";
+import { useTranslations } from "next-intl";
 
 const MAX = 1000;
 
@@ -20,6 +21,8 @@ type Props = {
 export default function CommentInput({ chapterId, replyingTo, onCancelReply, onPosted }: Props) {
     const user = useAuthStore((s) => s.user);
     const openSignIn = useAuthModals((s) => s.openSignIn);
+    const t = useTranslations("Comments");
+    const c = useTranslations("Common");
     const [message, setMessage] = useState("");
     const [sending, setSending] = useState(false);
     const busy = useRef(false);
@@ -44,13 +47,13 @@ export default function CommentInput({ chapterId, replyingTo, onCancelReply, onP
             });
             const data = await res.json().catch(() => ({}));
             if (!res.ok) {
-                toast.error(data.message || "Couldn't post your comment");
+                toast.error(data.message || t("couldntPost"));
                 return;
             }
             setMessage("");
             onPosted?.(data.comment, data.parentId ?? null);
         } catch {
-            toast.error("Unable to reach the server. Please try again.");
+            toast.error(c("networkError"));
         } finally {
             busy.current = false;
             setSending(false);
@@ -68,8 +71,8 @@ export default function CommentInput({ chapterId, replyingTo, onCancelReply, onP
             <div className="flex-1 min-w-0">
                 {replyingTo && (
                     <div className="mb-2 flex items-center justify-between gap-2 rounded-md bg-gray-100 dark:bg-dark-raised px-3 py-1.5 text-xs text-gray-600 dark:text-neutral-300">
-                        <span className="truncate">Replying to <strong>{replyingTo.name}</strong></span>
-                        <button type="button" onClick={onCancelReply} aria-label="Cancel reply"><X size={14} /></button>
+                        <span className="truncate">{t.rich("replyingTo", { name: replyingTo.name, b: (chunks) => <strong>{chunks}</strong> })}</span>
+                        <button type="button" onClick={onCancelReply} aria-label={t("cancelReply")}><X size={14} /></button>
                     </div>
                 )}
 
@@ -80,7 +83,7 @@ export default function CommentInput({ chapterId, replyingTo, onCancelReply, onP
                         onChange={(e) => setMessage(e.target.value.slice(0, MAX))}
                         onFocus={() => { if (!user) openSignIn(); }}
                         disabled={sending}
-                        placeholder={user ? (replyingTo ? "Write a reply..." : "Write a comment...") : "Sign in to comment"}
+                        placeholder={user ? (replyingTo ? t("writeReply") : t("writeComment")) : t("signInToComment")}
                         className="w-full min-h-20 resize-none rounded-lg border border-gray-300 dark:border-neutral-700 bg-transparent px-4 py-3 pb-6 text-sm outline-none focus:border-black dark:focus:border-white"
                     />
                     {message.length > 0 && <span className="absolute right-3 bottom-3 text-[10px] text-gray-400">{message.length}/{MAX}</span>}
@@ -89,7 +92,7 @@ export default function CommentInput({ chapterId, replyingTo, onCancelReply, onP
                 <div className="flex justify-end mt-2">
                     <button type="button" onClick={handleSubmit} disabled={sending || (Boolean(user) && !message.trim())}
                         className="flex items-center gap-2 bg-red-800 text-white px-4 py-2 rounded-lg text-sm hover:opacity-80 transition disabled:opacity-50">
-                        {sending ? "Sending..." : user ? (replyingTo ? "Reply" : "Comment") : "Sign in"}
+                        {sending ? c("sending") : user ? (replyingTo ? t("reply") : t("comment")) : t("signIn")}
                         {!sending && <Send size={15} />}
                     </button>
                 </div>
