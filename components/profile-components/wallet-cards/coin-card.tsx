@@ -24,6 +24,11 @@ export default function CoinCard(_props: CardProps) {
     const [selected, setSelected] = useState<TopUpPackage | null>(null);
     const isVip = vipPercent > 0;
 
+    // Same columns for the header and every row, so they always line up
+    const cols = isVip
+        ? "md:grid-cols-[minmax(0,2fr)_1fr_1fr_1fr_1fr_7rem]"
+        : "md:grid-cols-[minmax(0,2fr)_1fr_1fr_1fr_7rem]";
+
     useEffect(() => {
         let alive = true;
         fetch("/api/vip/status", { cache: "no-store" })
@@ -64,12 +69,13 @@ export default function CoinCard(_props: CardProps) {
                     {/* LEFT (one bordered table in dark mode) */}
                     <div className="flex-1 self-start dark:bg-dark-card dark:rounded-lg dark:border dark:border-dark-border dark:overflow-hidden">
                         {/* Coin Tabs */}
-                        <div className="hidden md:flex w-157.5 ml-6 bh px-2 mb-3 items-center uppercase text-xs text-center text-gray-400 justify-between dark:mb-0 dark:py-3 dark:font-semibold dark:text-white">
-                            <p>{t("baseCoins")}</p>
-                            <p className="ml-8">{t("baseBonus")}</p>
+                        <div className={`hidden md:grid ${cols} gap-4 px-2 mb-3 items-center uppercase text-xs text-gray-400 dark:mb-0 dark:py-3 dark:font-semibold dark:text-white`}>
+                            <p className="pl-12">{t("baseCoins")}</p>
+                            <p>{t("baseBonus")}</p>
                             {isVip && (<p className="text-red-500 uppercase font-bold">{t("vipBonusPercent", { percent: vipPercent })}</p>)}
                             <p>{t("totalCoins")}</p>
                             <p>{t("price")}</p>
+                            <p></p>
                         </div>
 
                         <div className="space-y-4 dark:space-y-0 dark:border-t dark:border-dark-border dark:divide-y dark:divide-dark-border">
@@ -77,8 +83,8 @@ export default function CoinCard(_props: CardProps) {
                                 const vipBonus = Math.floor((item.coins * vipPercent) / 100);
                                 const total = item.coins + item.bonus + vipBonus;
                                 return (
-                                    <div key={item.coins} className="bg-white dark:bg-dark-card rounded-2xl dark:rounded-none border border-gray-100 dark:border-0 py-4 flex items-center justify-between gap-3 md:gap-0 px-2 shadow-sm dark:shadow-none">
-                                        <div className="flex items-center gap-4 min-w-0">
+                                    <div key={item.coins} className={`bg-white dark:bg-dark-card rounded-2xl dark:rounded-none border border-gray-100 dark:border-0 py-4 flex md:grid ${cols} md:gap-4 items-center justify-between gap-3 px-2 shadow-sm dark:shadow-none`}>
+                                        <div className="flex items-center gap-3 md:gap-4 min-w-0 flex-1">
                                             <div className="relative shrink-0">
                                                 <Image
                                                     src="/fang_pictures/coin-topup.png"
@@ -97,7 +103,7 @@ export default function CoinCard(_props: CardProps) {
 
                                             <div className="min-w-0">
                                                 <div className="flex items-center gap-2 flex-wrap">
-                                                    <h3 className="font-semibold">
+                                                    <h3 className="font-semibold whitespace-nowrap">
                                                         {t("coinsCount", { count: item.coins })}
                                                     </h3>
                                                     {/* Mobile: badge next to the title */}
@@ -134,7 +140,7 @@ export default function CoinCard(_props: CardProps) {
                                         </div>
 
                                         {/* Mobile: price and button together on the right. PC: they stay separate columns */}
-                                        <div className="flex items-center gap-3 shrink-0 md:contents">
+                                        <div className="flex flex-col items-end gap-2 shrink-0 md:contents">
                                             <div className="font-semibold text-base md:text-lg">
                                                 ${item.price}
                                             </div>
@@ -142,7 +148,7 @@ export default function CoinCard(_props: CardProps) {
                                             <button
                                                 type="button"
                                                 onClick={() => openTopUp(item)}
-                                                className="bg-red-500 hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-600 transition text-white px-3 sm:px-5 py-2 rounded-xl dark:rounded-md"
+                                                className="bg-red-500 hover:bg-red-600 dark:bg-red-700 dark:hover:bg-red-600 transition text-white px-4 py-1.5 text-sm md:text-base md:px-5 md:py-2 rounded-xl dark:rounded-md md:w-full"
                                             >
                                                 {t("tabTopUp")}
                                             </button>

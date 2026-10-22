@@ -7,6 +7,7 @@ import { useAuthStore } from "@/lib/store/authStore";
 import { toast } from "@/lib/store/toastStore";
 import { VIP_PLAN_INFO, formatUsd, monthlySavingPercent, type VipPlanId } from "@/lib/vipRates";
 import TopUpModal from "./topUp";
+import Image from "next/image";
 
 // Messages under Vip
 const weeklyFeatures = ["weekly1", "weekly2", "weekly3", "weekly4", "weekly5"];
@@ -37,29 +38,56 @@ export default function VipPlans() {
     }, []);
 
     function subscribe(plan: VipPlanId) {
+        if (hasVip) return;
         if (!user) {
             toast.error(w("signInToClaim"));
             return;
         }
         setCheckoutPlan(plan);
     }
-
+    const hasVip = !!vip?.active;
     return (
         <div className="flex flex-col gap-6">
             {/* Active VIP: plan, end date and today's free unlocks */}
+            {/* Active VIP: plan, end date and today's free unlocks */}
             {vip?.active && vip.endsAt && (
-                <div className="max-w-5xl mx-auto w-full rounded-2xl p-5 text-white bg-linear-to-r from-black to-gray-900 dark:bg-none dark:bg-dark-card dark:border dark:border-dark-border md:flex items-center justify-between gap-4">
-                    <div>
-                        <p className="text-xl font-bold text-yellow-400">
-                            {vip.plan === "weekly" ? t("youAreWeekly") : t("youAreMonthly")}
-                        </p>
-                        <p className="text-sm text-white/70">
+                <div className="max-w-5xl mx-auto w-full bg-linear-to-r from-black to-gray-900 dark:bg-none dark:bg-dark-card text-white rounded-2xl px-6 py-1 md:flex items-center justify-between">
+                    <div className="flex items-center gap-2 md:gap-8">
+                        <h2 className="text-4xl font-bold flex items-center gap-2">
+                            <Image
+                                src="/fang_pictures/vip.png"
+                                width={120}
+                                height={120}
+                                alt={w("coinBalance")}
+                            />
+                        </h2>
+
+                        <div>
+                            <p className="text-xl">{t("currentPlan")}</p>
+                            <div className="md:flex items-center gap-8">
+                                <p className="text-xl md:text-3xl font-bold text-yellow-400">
+                                    {vip.plan === "weekly" ? t("weekly") : t("monthly")}
+                                </p>
+                                {vip.plan === "monthly" && (
+                                    <div className="inline-flex items-center justify-center rounded-full px-4 py-1
+                                        bg-linear-to-b from-yellow-200 via-yellow-300 to-yellow-400
+                                        border border-yellow-500
+                                        shadow-[0_6px_16px_rgba(0,0,0,0.15)]
+                                        ring-2 ring-yellow-200/50">
+                                        <span className="font-bold text-yellow-950 dark:text-yellow-300 text-xs md:text-xl">{t("bestValue")}</span>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="py-3 md:py-0 md:text-right">
+                        <p className="text-sm text-white/80">
                             {t("activeUntil", { date: new Date(vip.endsAt).toLocaleDateString(locale, { day: "numeric", month: "long", year: "numeric" }) })}
                         </p>
+                        <p className="mt-1 text-sm text-white/80">
+                            {t.rich("freeUnlocks", { left: vip.freeUnlocksLeft, total: vip.freeUnlocksPerDay, b: (chunks) => <span className="font-bold text-white">{chunks}</span> })}
+                        </p>
                     </div>
-                    <p className="mt-3 md:mt-0 text-sm text-white/80">
-                        {t.rich("freeUnlocks", { left: vip.freeUnlocksLeft, total: vip.freeUnlocksPerDay, b: (chunks) => <span className="font-bold text-white">{chunks}</span> })}
-                    </p>
                 </div>
             )}
 
@@ -93,8 +121,8 @@ export default function VipPlans() {
                                 ))}
                             </ul>
 
-                            <button onClick={() => subscribe("weekly")} className="w-full py-3 rounded-xl bg-red-600 font-bold text-sm
-                        transition-all duration-200 hover:bg-red-500 active:scale-95">
+                            <button onClick={() => subscribe("weekly")} disabled={hasVip} className="w-full py-3 rounded-xl bg-red-600 font-bold text-sm
+                        transition-all duration-200 hover:bg-red-500 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-red-600 disabled:active:scale-100">
                                 {t("subscribeWeekly")}
                             </button>
                         </div>
@@ -140,7 +168,7 @@ export default function VipPlans() {
                                 ))}
                             </ul>
 
-                            <button onClick={() => subscribe("monthly")} className="w-full py-3 rounded-xl font-bold text-sm transition-all duration-200 hover:opacity-90 active:scale-95"
+                            <button onClick={() => subscribe("monthly")} disabled={hasVip} className="w-full py-3 rounded-xl font-bold text-sm transition-all duration-200 hover:opacity-90 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 disabled:active:scale-100"
                                 style={{ background: "linear-gradient(90deg, #c9a227, #f0d060)", color: "#2a1a00", }}>
                                 {t("subscribeMonthly")}
                             </button>

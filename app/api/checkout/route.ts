@@ -60,6 +60,9 @@ export async function POST(request: NextRequest) {
         let productName: string;
         let paymentId: number;
 
+        const current = await getVipStatus(user.id);
+        if (current.active) return fail(409, "You already have an active VIP plan");
+
         if (buyingVip) {
             const info = VIP_PLAN_INFO[plan as keyof typeof VIP_PLAN_INFO];
             priceCents = info.priceCents;
