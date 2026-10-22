@@ -701,7 +701,20 @@
         "resetsIn": "Zurücksetzung in {time}",
         "inProgress": "In Arbeit",
         "gemEarned": "+{count} Edelstein für 30 Minuten Lesen",
-        "vipSyncBonus": "VIP-Bonus: +{coins} Münzen"
+        "vipSyncBonus": "VIP-Bonus: +{coins} Münzen",
+        "payTitle": "Zahlungsmethode",
+        "payStripe": "Stripe",
+        "payPaypal": "PayPal",
+        "payTotal": "Gesamt",
+        "payCoin": "Münzen",
+        "payBonus": "Bonus",
+        "payVipBonus": "VIP-Bonus",
+        "payUsd": "USD",
+        "payConsent": "Mit dem Klick auf „Zur Zahlung“ stimme ich ausdrücklich der sofortigen Bereitstellung meines digitalen Guthabens zu. Ich nehme zur Kenntnis und stimme zu, dass alle Käufe virtueller Währung endgültig und nicht erstattungsfähig sind und nach der Verarbeitung nicht storniert werden können.",
+        "payProceed": "Zur Zahlung",
+        "payRedirecting": "Weiterleitung...",
+        "payFailed": "Die Zahlung konnte nicht gestartet werden. Bitte versuche es erneut.",
+        "payClose": "Schließen"
     },
     "Reviews": {
         "couldntPostReply": "Deine Antwort konnte nicht veröffentlicht werden",

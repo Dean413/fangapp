@@ -701,7 +701,20 @@
         "resetsIn": "Reinicia em {time}",
         "inProgress": "Em andamento",
         "gemEarned": "+{count} gema por 30 minutos de leitura",
-        "vipSyncBonus": "Bônus VIP: +{coins} moedas"
+        "vipSyncBonus": "Bônus VIP: +{coins} moedas",
+        "payTitle": "Método de pagamento",
+        "payStripe": "Stripe",
+        "payPaypal": "PayPal",
+        "payTotal": "Total",
+        "payCoin": "Moedas",
+        "payBonus": "Bônus",
+        "payVipBonus": "Bônus VIP",
+        "payUsd": "USD",
+        "payConsent": "Ao clicar em \"Prosseguir para o pagamento\", autorizo expressamente a entrega imediata do meu saldo digital. Reconheço e concordo que todas as compras de moeda virtual são definitivas, não reembolsáveis e não podem ser canceladas após o processamento.",
+        "payProceed": "Prosseguir para o pagamento",
+        "payRedirecting": "Redirecionando...",
+        "payFailed": "Não foi possível iniciar o pagamento. Tente novamente.",
+        "payClose": "Fechar"
     },
     "Reviews": {
         "couldntPostReply": "Não foi possível publicar sua resposta",

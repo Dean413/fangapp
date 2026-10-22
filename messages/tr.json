@@ -701,7 +701,20 @@
         "resetsIn": "{time} sonra sıfırlanır",
         "inProgress": "Devam ediyor",
         "gemEarned": "30 dakikalık okuma için +{count} mücevher",
-        "vipSyncBonus": "VIP bonusu: +{coins} jeton"
+        "vipSyncBonus": "VIP bonusu: +{coins} jeton",
+        "payTitle": "Ödeme Yöntemi",
+        "payStripe": "Stripe",
+        "payPaypal": "PayPal",
+        "payTotal": "Toplam",
+        "payCoin": "Coin",
+        "payBonus": "Bonus",
+        "payVipBonus": "VIP Bonusu",
+        "payUsd": "USD",
+        "payConsent": "\"Ödemeye Geç\" düğmesine tıklayarak dijital bakiyemin derhal teslim edilmesine açıkça izin veriyorum. Tüm sanal para birimi satın alımlarının kesin olduğunu, iade edilemeyeceğini ve işlendikten sonra iptal edilemeyeceğini kabul ve beyan ederim.",
+        "payProceed": "Ödemeye Geç",
+        "payRedirecting": "Yönlendiriliyor...",
+        "payFailed": "Ödeme başlatılamadı. Lütfen tekrar deneyin.",
+        "payClose": "Kapat"
     },
     "Reviews": {
         "couldntPostReply": "Yanıtın yayınlanamadı",

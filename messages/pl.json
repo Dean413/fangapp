@@ -701,7 +701,20 @@
         "resetsIn": "Reset za {time}",
         "inProgress": "W toku",
         "gemEarned": "+{count} klejnot za 30 minut czytania",
-        "vipSyncBonus": "Bonus VIP: +{coins} monet"
+        "vipSyncBonus": "Bonus VIP: +{coins} monet",
+        "payTitle": "Metoda płatności",
+        "payStripe": "Stripe",
+        "payPaypal": "PayPal",
+        "payTotal": "Suma",
+        "payCoin": "Monety",
+        "payBonus": "Bonus",
+        "payVipBonus": "Bonus VIP",
+        "payUsd": "USD",
+        "payConsent": "Klikając „Przejdź do płatności”, wyraźnie wyrażam zgodę na natychmiastowe dostarczenie mojego salda cyfrowego. Przyjmuję do wiadomości i zgadzam się, że wszystkie zakupy wirtualnej waluty są ostateczne, bezzwrotne i nie mogą zostać anulowane po przetworzeniu.",
+        "payProceed": "Przejdź do płatności",
+        "payRedirecting": "Przekierowywanie...",
+        "payFailed": "Nie udało się rozpocząć płatności. Spróbuj ponownie.",
+        "payClose": "Zamknij"
     },
     "Reviews": {
         "couldntPostReply": "Nie udało się opublikować odpowiedzi",

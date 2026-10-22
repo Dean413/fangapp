@@ -4,10 +4,9 @@ import { withTransaction } from "@/lib/auth/transaction";
 
 // The two VIP plans (prices in USD)
 export const VIP_PLANS = {
-    weekly: { days: 7, freeUnlocksPerDay: 3, dailyBonusCoins: 10, priceUsd: 9.99 },
-    monthly: { days: 30, freeUnlocksPerDay: 5, dailyBonusCoins: 20, priceUsd: 29.99 },
+    weekly: { days: 7, freeUnlocksPerDay: 3, dailyBonusCoins: 10, topUpBonusPercent: 10, priceUsd: 9.99 },
+    monthly: { days: 30, freeUnlocksPerDay: 5, dailyBonusCoins: 20, topUpBonusPercent: 15, priceUsd: 29.99 },
 } as const;
-
 export type VipPlan = keyof typeof VIP_PLANS;
 
 // A pool or a transaction client
@@ -20,6 +19,7 @@ export type VipStatus = {
     freeUnlocksPerDay: number;
     freeUnlocksLeft: number;
 };
+
 
 const NOT_VIP: VipStatus = { active: false, plan: null, endsAt: null, freeUnlocksPerDay: 0, freeUnlocksLeft: 0 };
 
@@ -99,9 +99,9 @@ export async function syncVipDay(userId: string, timezone: string | null): Promi
         // The coins: VIP bonus, no purchase value, they end with the plan
         const { rows: lot } = await client.query(
             `INSERT INTO wallet_lots (user_id, currency, kind, amount, remaining, source, expires_at)
-             VALUES ($1, 'coin', 'vip_bonus', $2, $2, 'vip_daily', $3)
-             RETURNING id`,
-            [userId, coins, sub.ends_at]
+     VALUES ($1, 'coin', 'vip_bonus', $2, $2, 'vip_daily', now() + interval '7 days')
+     RETURNING id`,
+            [userId, coins]
         );
         await client.query(
             `INSERT INTO wallet_ledger (user_id, lot_id, currency, kind, delta, reason, ref_type, ref_id)

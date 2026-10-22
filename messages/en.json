@@ -701,7 +701,20 @@
         "resetsIn": "Resets in {time}",
         "inProgress": "In progress",
         "gemEarned": "+{count} gem for 30 minutes of reading",
-        "vipSyncBonus": "VIP bonus: +{coins} coins"
+        "vipSyncBonus": "VIP bonus: +{coins} coins",
+        "payTitle": "Payment Method",
+        "payStripe": "Stripe",
+        "payPaypal": "Paypal",
+        "payTotal": "Total",
+        "payCoin": "Coin",
+        "payBonus": "Bonus",
+        "payVipBonus": "VIP Bonus",
+        "payUsd": "USD",
+        "payConsent": "By clicking \"Proceed to Payment,\" I explicitly authorize the immediate delivery of my digital balance. I acknowledge and agree that all purchases of virtual currency are final, non-refundable, and cannot be canceled once processed.",
+        "payProceed": "Proceed to Payment",
+        "payRedirecting": "Redirecting...",
+        "payFailed": "Couldn't start the payment. Please try again.",
+        "payClose": "Close"
     },
     "Reviews": {
         "couldntPostReply": "Couldn't post your reply",
