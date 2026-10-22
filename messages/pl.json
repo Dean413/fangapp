@@ -710,11 +710,17 @@
         "payBonus": "Bonus",
         "payVipBonus": "Bonus VIP",
         "payUsd": "USD",
-        "payConsent": "Klikając „Przejdź do płatności”, wyraźnie wyrażam zgodę na natychmiastowe dostarczenie mojego salda cyfrowego. Przyjmuję do wiadomości i zgadzam się, że wszystkie zakupy wirtualnej waluty są ostateczne, bezzwrotne i nie mogą zostać anulowane po przetworzeniu.",
+        "payConsent": "Klikając „Przejdź do płatności”, akceptuję <terms>Regulamin</terms> i <privacy>Politykę prywatności</privacy> oraz wyraźnie wyrażam zgodę na natychmiastowe dostarczenie mojego salda cyfrowego. Przyjmuję do wiadomości, że wszystkie zakupy wirtualnej waluty są ostateczne, bezzwrotne i nie mogą zostać anulowane po przetworzeniu.",
         "payProceed": "Przejdź do płatności",
         "payRedirecting": "Przekierowywanie...",
         "payFailed": "Nie udało się rozpocząć płatności. Spróbuj ponownie.",
-        "payClose": "Zamknij"
+        "payClose": "Zamknij",
+        "payDuration": "Okres",
+        "payDays": "{count, plural, one {# dzień} few {# dni} many {# dni} other {# dnia}}",
+        "payDailyCoins": "Codzienne monety",
+        "payFreeUnlocks": "Darmowe odblokowania dziennie",
+        "payTopupBonus": "Bonus za doładowanie",
+        "payConsentVip": "Klikając „Przejdź do płatności”, akceptuję <terms>Regulamin</terms> i <privacy>Politykę prywatności</privacy> oraz wyraźnie wyrażam zgodę na natychmiastową aktywację mojego członkostwa VIP. Jest to płatność jednorazowa, która nie odnawia się automatycznie. Przyjmuję do wiadomości, że zakupy VIP są ostateczne, bezzwrotne i nie mogą zostać anulowane po aktywacji."
     },
     "Reviews": {
         "couldntPostReply": "Nie udało się opublikować odpowiedzi",

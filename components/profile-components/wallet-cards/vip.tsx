@@ -2,8 +2,11 @@
 
 import { CheckCircle } from "lucide-react";
 import { useEffect, useState } from "react";
-import SelectionCard from "./vip-selection";
 import { useLocale, useTranslations } from "next-intl";
+import { useAuthStore } from "@/lib/store/authStore";
+import { toast } from "@/lib/store/toastStore";
+import { VIP_PLAN_INFO, formatUsd, monthlySavingPercent, type VipPlanId } from "@/lib/vipRates";
+import TopUpModal from "./topUp";
 
 // Messages under Vip
 const weeklyFeatures = ["weekly1", "weekly2", "weekly3", "weekly4", "weekly5"];
@@ -18,18 +21,28 @@ type VipState = {
 };
 
 export default function VipPlans() {
-    const [selectedPlan, setSelectedPlan] = useState<"weekly" | "monthly" | null>(null);
+    const [checkoutPlan, setCheckoutPlan] = useState<VipPlanId | null>(null);
+    const user = useAuthStore((s) => s.user);
     const [vip, setVip] = useState<VipState | null>(null);
     const t = useTranslations("Vip");
+    const w = useTranslations("Wallet");
     const locale = useLocale();
 
     // The reader's real VIP plan, if they have one
     useEffect(() => {
         fetch("/api/vip/status", { credentials: "include", cache: "no-store" })
             .then((res) => (res.ok ? res.json() : null))
-            .then((body) => setVip(body))
+            .then((body) => setVip(body?.vip ?? body))
             .catch(() => { });
     }, []);
+
+    function subscribe(plan: VipPlanId) {
+        if (!user) {
+            toast.error(w("signInToClaim"));
+            return;
+        }
+        setCheckoutPlan(plan);
+    }
 
     return (
         <div className="flex flex-col gap-6">
@@ -54,9 +67,8 @@ export default function VipPlans() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-5xl mx-auto w-full">
 
                 {/* Weekly VIP */}
-                {!selectedPlan && (
+                {(
                     <>
-
                         <div className="w-full md:w-[80%] space-y-6 rounded-2xl p-6 flex flex-col gap-5 text-white shadow-lg transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 hover:shadow-2xl"
                             style={{ background: "linear-gradient(160deg, #2d1212 0%, #1a0808 100%)", }}>
                             {/* Crown */}
@@ -67,7 +79,7 @@ export default function VipPlans() {
                             <div>
                                 <p className="text-xl font-bold">{t("weekly")}</p>
                                 <p className="mt-1">
-                                    <span className="text-3xl font-extrabold">$9.99</span>
+                                    <span className="text-3xl font-extrabold">{formatUsd(VIP_PLAN_INFO.weekly.priceCents)}</span>
                                     <span className="text-white/50 text-sm"> {t("perWeek")}</span>
                                 </p>
                             </div>
@@ -81,7 +93,7 @@ export default function VipPlans() {
                                 ))}
                             </ul>
 
-                            <button onClick={() => setSelectedPlan("weekly")} className="w-full py-3 rounded-xl bg-red-600 font-bold text-sm
+                            <button onClick={() => subscribe("weekly")} className="w-full py-3 rounded-xl bg-red-600 font-bold text-sm
                         transition-all duration-200 hover:bg-red-500 active:scale-95">
                                 {t("subscribeWeekly")}
                             </button>
@@ -114,7 +126,7 @@ export default function VipPlans() {
                             <div>
                                 <p className="text-xl font-bold text-white">{t("monthly")}</p>
                                 <p className="mt-1 text-white">
-                                    <span className="text-3xl font-extrabold">$29.99</span>
+                                    <span className="text-3xl font-extrabold">{formatUsd(VIP_PLAN_INFO.monthly.priceCents)}</span>
                                     <span className="text-white/50 text-sm"> {t("perMonth")}</span>
                                 </p>
                             </div>
@@ -128,7 +140,7 @@ export default function VipPlans() {
                                 ))}
                             </ul>
 
-                            <button onClick={() => setSelectedPlan("monthly")} className="w-full py-3 rounded-xl font-bold text-sm transition-all duration-200 hover:opacity-90 active:scale-95"
+                            <button onClick={() => subscribe("monthly")} className="w-full py-3 rounded-xl font-bold text-sm transition-all duration-200 hover:opacity-90 active:scale-95"
                                 style={{ background: "linear-gradient(90deg, #c9a227, #f0d060)", color: "#2a1a00", }}>
                                 {t("subscribeMonthly")}
                             </button>
@@ -137,7 +149,7 @@ export default function VipPlans() {
                         <div className="flex items-center justify-center gap-3 px-5 py-3.5 rounded-2xl bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/30 max-w-5xl mx-auto w-full">
                             <span className="text-xl">🪙</span>
                             <p className="text-amber-800 dark:text-amber-300 text-sm font-medium">
-                                {t("save", { percent: 25 })}
+                                {t("save", { percent: monthlySavingPercent() })}
                             </p>
                         </div>
                     </>
@@ -147,9 +159,7 @@ export default function VipPlans() {
             </div>
 
 
-            {selectedPlan && (
-                <SelectionCard plan={selectedPlan} isVip />
-            )}
+            <TopUpModal plan={checkoutPlan} onClose={() => setCheckoutPlan(null)} />
 
         </div>
     );

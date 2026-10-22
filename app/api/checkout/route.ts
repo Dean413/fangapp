@@ -1,12 +1,13 @@
 // app/api/checkout/route.ts
-// Starts a Stripe or PayPal payment for a coin package. The browser only says which package
-// and which provider; price, coins and the VIP bonus are decided here.
+// Starts a Stripe or PayPal payment for a coin package or a VIP plan. The browser only says
+// which one and which provider; price, coins and the VIP bonus are decided here.
 import { NextRequest, NextResponse } from "next/server";
 import { dbPool } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getVipStatus } from "@/lib/vip";
 import { PAYMENT_CONFIG } from "@/lib/payments/config";
-import { findPackage, TOPUP_GEMS, VIP_TOPUP_PERCENT } from "@/lib/payments/packages";
+import { findPackage, TOPUP_GEMS } from "@/lib/payments/packages";
+import { VIP_PLAN_INFO, VIP_TOPUP_PERCENT, isVipPlan } from "@/lib/vipRates";
 
 // Where readers land after paying (change to your wallet page)
 const WALLET_PATH = "/profile/wallet";
@@ -38,9 +39,14 @@ export async function POST(request: NextRequest) {
     } catch {
         return fail(400, "Invalid request");
     }
-    const pkg = findPackage(body?.coins);
     const provider = body?.provider;
-    if (!pkg || (provider !== "stripe" && provider !== "paypal")) return fail(400, "Invalid request");
+    if (provider !== "stripe" && provider !== "paypal") return fail(400, "Invalid request");
+
+    // What is being bought: a VIP plan or a coin package
+    const buyingVip = body?.plan !== undefined;
+    const plan = buyingVip ? body.plan : null;
+    const pkg = buyingVip ? null : findPackage(body?.coins);
+    if (buyingVip ? !isVipPlan(plan) : !pkg) return fail(400, "Invalid request");
 
     try {
         // No piling up of unfinished payments
@@ -50,19 +56,36 @@ export async function POST(request: NextRequest) {
         );
         if (recent[0].n >= 10) return fail(429, "Too many attempts. Please wait a few minutes.");
 
-        // What this reader gets, fixed now and shown to them in the popup
-        const vip = await getVipStatus(user.id);
-        const vipPercent = vip.active && vip.plan ? VIP_TOPUP_PERCENT[vip.plan] ?? 0 : 0;
-        const vipBonus = Math.floor((pkg.coins * vipPercent) / 100);
+        let priceCents: number;
+        let productName: string;
+        let paymentId: number;
 
-        const { rows } = await dbPool.query(
-            `INSERT INTO payments (user_id, provider, price_cents, base_coins, bonus_coins, vip_bonus_coins, vip_plan, gems)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-             RETURNING id`,
-            [user.id, provider, pkg.priceCents, pkg.coins, pkg.bonus, vipBonus, vipPercent > 0 ? vip.plan : null, TOPUP_GEMS]
-        );
-        const paymentId = rows[0].id as number;
-        const totalCoins = pkg.coins + pkg.bonus + vipBonus;
+        if (buyingVip) {
+            const info = VIP_PLAN_INFO[plan as keyof typeof VIP_PLAN_INFO];
+            priceCents = info.priceCents;
+            productName = plan === "weekly" ? "FANG Weekly VIP" : "FANG Monthly VIP";
+            const { rows } = await dbPool.query(
+                `INSERT INTO payments (user_id, provider, product, price_cents, base_coins, bonus_coins, vip_bonus_coins, vip_plan, gems)
+                 VALUES ($1, $2, 'vip', $3, 0, 0, 0, $4, 0)
+                 RETURNING id`,
+                [user.id, provider, priceCents, plan]
+            );
+            paymentId = rows[0].id;
+        } else {
+            // What this reader gets, fixed now and shown to them in the popup
+            const vip = await getVipStatus(user.id);
+            const vipPercent = vip.active && vip.plan ? VIP_TOPUP_PERCENT[vip.plan] ?? 0 : 0;
+            const vipBonus = Math.floor((pkg!.coins * vipPercent) / 100);
+            priceCents = pkg!.priceCents;
+            productName = `${(pkg!.coins + pkg!.bonus + vipBonus).toLocaleString("en-US")} FANG Coins`;
+            const { rows } = await dbPool.query(
+                `INSERT INTO payments (user_id, provider, product, price_cents, base_coins, bonus_coins, vip_bonus_coins, vip_plan, gems)
+                 VALUES ($1, $2, 'coins', $3, $4, $5, $6, $7, $8)
+                 RETURNING id`,
+                [user.id, provider, priceCents, pkg!.coins, pkg!.bonus, vipBonus, vipPercent > 0 ? vip.plan : null, TOPUP_GEMS]
+            );
+            paymentId = rows[0].id;
+        }
 
         let ref: string;
         let url: string;
@@ -71,12 +94,12 @@ export async function POST(request: NextRequest) {
             const form = new URLSearchParams({
                 mode: "payment",
                 client_reference_id: String(paymentId),
-                success_url: `${site()}${WALLET_PATH}?payment=success`,
+                success_url: `${site()}/api/stripe/return?session_id={CHECKOUT_SESSION_ID}`,
                 cancel_url: `${site()}${WALLET_PATH}?payment=cancelled`,
                 "line_items[0][quantity]": "1",
                 "line_items[0][price_data][currency]": "usd",
-                "line_items[0][price_data][unit_amount]": String(pkg.priceCents),
-                "line_items[0][price_data][product_data][name]": `${totalCoins.toLocaleString("en-US")} FANG Coins`,
+                "line_items[0][price_data][unit_amount]": String(priceCents),
+                "line_items[0][price_data][product_data][name]": productName,
                 "metadata[payment_id]": String(paymentId),
             });
             if (user.email) form.set("customer_email", user.email);
@@ -109,8 +132,8 @@ export async function POST(request: NextRequest) {
                         {
                             reference_id: String(paymentId),
                             custom_id: String(paymentId),
-                            description: `${totalCoins.toLocaleString("en-US")} FANG Coins`,
-                            amount: { currency_code: "USD", value: (pkg.priceCents / 100).toFixed(2) },
+                            description: productName,
+                            amount: { currency_code: "USD", value: (priceCents / 100).toFixed(2) },
                         },
                     ],
                     payment_source: {

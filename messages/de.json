@@ -710,11 +710,17 @@
         "payBonus": "Bonus",
         "payVipBonus": "VIP-Bonus",
         "payUsd": "USD",
-        "payConsent": "Mit dem Klick auf „Zur Zahlung“ stimme ich ausdrücklich der sofortigen Bereitstellung meines digitalen Guthabens zu. Ich nehme zur Kenntnis und stimme zu, dass alle Käufe virtueller Währung endgültig und nicht erstattungsfähig sind und nach der Verarbeitung nicht storniert werden können.",
+        "payConsent": "Mit dem Klick auf „Zur Zahlung“ stimme ich den <terms>Nutzungsbedingungen</terms> und der <privacy>Datenschutzerklärung</privacy> zu und verlange ausdrücklich die sofortige Bereitstellung meines digitalen Guthabens. Mir ist bekannt, dass alle Käufe virtueller Währung endgültig und nicht erstattungsfähig sind und nach der Verarbeitung nicht storniert werden können.",
         "payProceed": "Zur Zahlung",
         "payRedirecting": "Weiterleitung...",
         "payFailed": "Die Zahlung konnte nicht gestartet werden. Bitte versuche es erneut.",
-        "payClose": "Schließen"
+        "payClose": "Schließen",
+        "payDuration": "Laufzeit",
+        "payDays": "{count, plural, one {# Tag} other {# Tage}}",
+        "payDailyCoins": "Tägliche Münzen",
+        "payFreeUnlocks": "Kostenlose Freischaltungen pro Tag",
+        "payTopupBonus": "Aufladebonus",
+        "payConsentVip": "Mit dem Klick auf „Zur Zahlung“ stimme ich den <terms>Nutzungsbedingungen</terms> und der <privacy>Datenschutzerklärung</privacy> zu und verlange ausdrücklich die sofortige Aktivierung meiner VIP-Mitgliedschaft. Es handelt sich um eine einmalige Zahlung ohne automatische Verlängerung. Mir ist bekannt, dass VIP-Käufe endgültig und nicht erstattungsfähig sind und nach der Aktivierung nicht storniert werden können."
     },
     "Reviews": {
         "couldntPostReply": "Deine Antwort konnte nicht veröffentlicht werden",

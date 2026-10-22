@@ -710,11 +710,17 @@
         "payBonus": "ボーナス",
         "payVipBonus": "VIPボーナス",
         "payUsd": "USD",
-        "payConsent": "「お支払いへ進む」をクリックすることで、デジタル残高の即時付与に明示的に同意します。仮想通貨の購入はすべて最終的なものであり、返金不可で、処理後のキャンセルはできないことを承認し、同意します。",
+        "payConsent": "「お支払いへ進む」をクリックすることで、<terms>利用規約</terms>および<privacy>プライバシーポリシー</privacy>に同意し、デジタル残高の即時付与に明示的に同意します。仮想通貨の購入はすべて最終的なものであり、返金不可で、処理後のキャンセルはできないことを承認します。",
         "payProceed": "お支払いへ進む",
         "payRedirecting": "リダイレクト中...",
         "payFailed": "お支払いを開始できませんでした。もう一度お試しください。",
-        "payClose": "閉じる"
+        "payClose": "閉じる",
+        "payDuration": "期間",
+        "payDays": "{count, plural, other {#日}}",
+        "payDailyCoins": "毎日のコイン",
+        "payFreeUnlocks": "1日あたりの無料解放数",
+        "payTopupBonus": "チャージボーナス",
+        "payConsentVip": "「お支払いへ進む」をクリックすることで、<terms>利用規約</terms>および<privacy>プライバシーポリシー</privacy>に同意し、VIPメンバーシップの即時有効化に明示的に同意します。これは1回限りのお支払いで、自動更新はされません。VIPの購入は最終的なものであり、返金不可で、有効化後のキャンセルはできないことを承認します。"
     },
     "Reviews": {
         "couldntPostReply": "返信を投稿できませんでした",

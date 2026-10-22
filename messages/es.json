@@ -710,11 +710,17 @@
         "payBonus": "Bono",
         "payVipBonus": "Bono VIP",
         "payUsd": "USD",
-        "payConsent": "Al hacer clic en \"Proceder al pago\", autorizo expresamente la entrega inmediata de mi saldo digital. Reconozco y acepto que todas las compras de moneda virtual son definitivas, no reembolsables y no pueden cancelarse una vez procesadas.",
+        "payConsent": "Al hacer clic en \"Proceder al pago\", acepto los <terms>Términos del servicio</terms> y la <privacy>Política de privacidad</privacy> y autorizo expresamente la entrega inmediata de mi saldo digital. Reconozco que todas las compras de moneda virtual son definitivas, no reembolsables y no pueden cancelarse una vez procesadas.",
         "payProceed": "Proceder al pago",
         "payRedirecting": "Redirigiendo...",
         "payFailed": "No se pudo iniciar el pago. Inténtalo de nuevo.",
-        "payClose": "Cerrar"
+        "payClose": "Cerrar",
+        "payDuration": "Duración",
+        "payDays": "{count, plural, one {# día} other {# días}}",
+        "payDailyCoins": "Monedas diarias",
+        "payFreeUnlocks": "Desbloqueos gratis por día",
+        "payTopupBonus": "Bono de recarga",
+        "payConsentVip": "Al hacer clic en \"Proceder al pago\", acepto los <terms>Términos del servicio</terms> y la <privacy>Política de privacidad</privacy> y autorizo expresamente la activación inmediata de mi membresía VIP. Es un pago único que no se renueva automáticamente. Reconozco que las compras VIP son definitivas, no reembolsables y no pueden cancelarse una vez activadas."
     },
     "Reviews": {
         "couldntPostReply": "No pudimos publicar tu respuesta",

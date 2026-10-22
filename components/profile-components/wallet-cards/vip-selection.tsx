@@ -1,59 +1,81 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
-import { useTranslations } from "next-intl";
+import { useEffect, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { useAuthStore } from "@/lib/store/authStore";
+import { toast } from "@/lib/store/toastStore";
+// import { VIP_TOPUP_PERCENT } from "@/lib/vipRates";
+import TopUpModal, { type TopUpPackage } from "./topUp";
 
 interface SelectionCardProps {
     plan: "weekly" | "monthly";
     isVip?: boolean;
 }
 
+type VipState = {
+    active: boolean;
+    plan: "weekly" | "monthly" | null;
+    endsAt: string | null;
+};
+// lib/vipRates.ts
+// Extra coins a VIP gets on top-ups. One place for the browser and the server.
+// (No "server-only" here on purpose: the wallet screens use it too.)
+export const VIP_TOPUP_PERCENT: Record<string, number> = { weekly: 10, monthly: 15 };
+const coinPackages = [
+    { coins: 500, bonus: 50, price: 4.99 },
+    { coins: 1000, bonus: 150, price: 9.99, badge: "POPULAR" },
+    { coins: 2000, bonus: 550, price: 19.99 },
+    { coins: 3500, bonus: 1500, price: 34.99 },
+    { coins: 4000, bonus: 1850, price: 39.99, badge: "BEST VALUE" },
+];
 
 export default function SelectionCard({ plan, isVip }: SelectionCardProps) {
     const t = useTranslations("Vip");
     const w = useTranslations("Wallet");
+    const locale = useLocale();
+    const user = useAuthStore((s) => s.user);
 
-    const coinPackages = [
-        {
-            coins: 500,
-            bonus: 50,
-            vipBonus: plan === "weekly" ? 50 : 75,
-            total: 600,
-            price: 4.99,
-        },
-        {
-            coins: 1000,
-            bonus: 150,
-            vipBonus: plan === "weekly" ? 100 : 150,
-            total: 1250,
-            price: 9.99,
-            badge: "POPULAR",
-        },
-        {
-            coins: 2000,
-            bonus: 550,
-            vipBonus: plan === "weekly" ? 200 : 300,
-            total: 2750,
-            price: 19.99,
-        },
-        {
-            coins: 3500,
-            bonus: 1500,
-            vipBonus: plan === "weekly" ? 350 : 525,
-            total: 5300,
-            price: 34.99,
+    const [vip, setVip] = useState<VipState | null>(null);
+    const [selected, setSelected] = useState<TopUpPackage | null>(null);
 
-        },
-        {
-            coins: 4000,
-            bonus: 1850,
-            vipBonus: plan === "weekly" ? 400 : 600,
-            total: 6250,
-            price: 39.99,
-            badge: "BEST VALUE",
-        },
-    ];
+    // The reader's real VIP plan, if they have one
+    useEffect(() => {
+        let alive = true;
+        fetch("/api/vip/status", { credentials: "include", cache: "no-store" })
+            .then((res) => (res.ok ? res.json() : null))
+            .then((body) => {
+                if (alive && body) setVip(body.vip ?? body);
+            })
+            .catch(() => { });
+        return () => {
+            alive = false;
+        };
+    }, []);
+
+    // Bonus shown in the table is for the plan being looked at
+    const percent = VIP_TOPUP_PERCENT[plan] ?? 0;
+    const vipBonusOf = (coins: number) => Math.floor((coins * percent) / 100);
+    const totalOf = (item: { coins: number; bonus: number }) =>
+        item.coins + item.bonus + (isVip ? vipBonusOf(item.coins) : 0);
+
+    // What the reader really gets at checkout depends on their own active plan
+    const realPercent = vip?.active && vip.plan ? VIP_TOPUP_PERCENT[vip.plan] ?? 0 : 0;
+
+    // Best "coins you get per coin you buy" across the packages
+    const bestValue = Math.max(...coinPackages.map((p) => totalOf(p) / p.coins));
+
+    // The banner only claims "Current Plan" when this really is their plan
+    const isCurrent = !!vip?.active && vip.plan === plan && !!vip.endsAt;
+
+    function openTopUp(item: { coins: number; bonus: number; price: number }) {
+        if (!user) {
+            toast.error(w("signInToClaim"));
+            return;
+        }
+        setSelected({ coins: item.coins, bonus: item.bonus, price: item.price });
+    }
+
     return (
         <div className="bg-[#fafafa] dark:bg-dark min-h-screen ">
             <div className="max-w-7xl mx-auto">
@@ -69,23 +91,26 @@ export default function SelectionCard({ plan, isVip }: SelectionCardProps) {
                         </h2>
 
                         <div>
-                            <p className="text-xl">{t("currentPlan")}</p>
+                            {isCurrent && <p className="text-xl">{t("currentPlan")}</p>}
                             <div className="md:flex items-center gap-8">
                                 <p className="text-xl md:text-3xl font-bold text-yellow-400">{plan === "weekly" ? t("weekly") : t("monthly")}</p>
-                                <div className="inline-flex items-center justify-center rounded-full px-4 py-1
+                                {plan === "monthly" && (
+                                    <div className="inline-flex items-center justify-center rounded-full px-4 py-1
                                         bg-linear-to-b from-yellow-200 via-yellow-300 to-yellow-400
                                         border border-yellow-500
                                         shadow-[0_6px_16px_rgba(0,0,0,0.15)]
                                         ring-2 ring-yellow-200/50">
-                                    <span className="font-bold text-yellow-950 dark:text-yellow-300 text-xs md:text-xl">{t("bestValue")}</span>
-                                </div>
+                                        <span className="font-bold text-yellow-950 dark:text-yellow-300 text-xs md:text-xl">{t("bestValue")}</span>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
-                    <div className="">
-                        <p className="text-xs">{t("renewsOn")}</p>
-                        <p className="text-xl">June 2025</p>
-                    </div>
+                    {isCurrent && vip?.endsAt && (
+                        <p className="text-sm text-white/80">
+                            {t("activeUntil", { date: new Date(vip.endsAt).toLocaleDateString(locale, { day: "numeric", month: "long", year: "numeric" }) })}
+                        </p>
+                    )}
 
                 </div>
 
@@ -99,7 +124,7 @@ export default function SelectionCard({ plan, isVip }: SelectionCardProps) {
 
                             {isVip && (
                                 <p className="text-red-500">
-                                    {w("vipBonusPercent", { percent: plan === "weekly" ? 10 : 15 })}
+                                    {w("vipBonusPercent", { percent })}
                                 </p>
                             )}
 
@@ -138,17 +163,21 @@ export default function SelectionCard({ plan, isVip }: SelectionCardProps) {
 
                                         {isVip && (
                                             <p className="text-red-500 font-semibold">
-                                                +{item.vipBonus}
+                                                +{vipBonusOf(item.coins)}
                                             </p>
                                         )}
 
-                                        <p>{w("coinsLower", { count: item.coins + item.bonus + (isVip ? item.vipBonus : 0) })}</p>
+                                        <p>{w("coinsLower", { count: totalOf(item) })}</p>
 
                                         <p className="font-bold">
                                             ${item.price}
                                         </p>
 
-                                        <button className="bg-red-500 hover:bg-red-600 text-white rounded-xl py-2 px-5">
+                                        <button
+                                            type="button"
+                                            onClick={() => openTopUp(item)}
+                                            className="bg-red-500 hover:bg-red-600 text-white rounded-xl py-2 px-5"
+                                        >
                                             {w("tabTopUp")}
                                         </button>
                                     </div>
@@ -188,14 +217,14 @@ export default function SelectionCard({ plan, isVip }: SelectionCardProps) {
                                                 <div className="flex justify-between">
                                                     <span>{w("vipBonus")}</span>
                                                     <span className="text-red-500 font-semibold">
-                                                        +{item.vipBonus}
+                                                        +{vipBonusOf(item.coins)}
                                                     </span>
                                                 </div>
                                             )}
 
                                             <div className="flex justify-between">
                                                 <span>{w("totalCoins")}</span>
-                                                <span className="text-gray-500 dark:text-neutral-400">{w("coinsLower", { count: item.coins + item.bonus + (isVip ? item.vipBonus : 0) })}</span>
+                                                <span className="text-gray-500 dark:text-neutral-400">{w("coinsLower", { count: totalOf(item) })}</span>
                                             </div>
 
                                             <div className="flex justify-between font-bold text-lg mt-3">
@@ -205,7 +234,11 @@ export default function SelectionCard({ plan, isVip }: SelectionCardProps) {
 
                                         </div>
 
-                                        <button className="w-full mt-5 bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl">
+                                        <button
+                                            type="button"
+                                            onClick={() => openTopUp(item)}
+                                            className="w-full mt-5 bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl"
+                                        >
                                             {w("tabTopUp")}
                                         </button>
 
@@ -218,7 +251,6 @@ export default function SelectionCard({ plan, isVip }: SelectionCardProps) {
 
                     {/* RIGHT SIDEBAR */}
                     <div className="lg:col-span-1">
-                        {/* Keep your existing benefits section exactly as it is */}
                         <div className="w-full lg:w-60">
                             <div className="bg-white dark:bg-dark-card rounded-2xl border border-gray-100 dark:border-dark-border overflow-hidden shadow-sm">
 
@@ -232,7 +264,7 @@ export default function SelectionCard({ plan, isVip }: SelectionCardProps) {
                                             height={90}
                                         />
                                         <div className="text-center">
-                                            <p className="text-3xl font-bold text-red-400">2.1x</p>
+                                            <p className="text-3xl font-bold text-red-400">{bestValue.toFixed(1)}x</p>
                                             <p className="text-xs text-gray-500 dark:text-neutral-400">{t("moreValueOn")}</p>
                                             <p className="text-xs text-gray-500 dark:text-neutral-400">{w("tabTopUp")}</p>
                                         </div>
@@ -298,6 +330,8 @@ export default function SelectionCard({ plan, isVip }: SelectionCardProps) {
                     </div>
                 </div>
             </div>
+
+            <TopUpModal pkg={selected} vipPercent={realPercent} onClose={() => setSelected(null)} />
         </div>
     );
 }

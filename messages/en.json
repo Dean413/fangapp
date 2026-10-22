@@ -710,11 +710,17 @@
         "payBonus": "Bonus",
         "payVipBonus": "VIP Bonus",
         "payUsd": "USD",
-        "payConsent": "By clicking \"Proceed to Payment,\" I explicitly authorize the immediate delivery of my digital balance. I acknowledge and agree that all purchases of virtual currency are final, non-refundable, and cannot be canceled once processed.",
+        "payConsent": "By clicking \"Proceed to Payment,\" I agree to the <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy> and explicitly authorize the immediate delivery of my digital balance. I acknowledge that all purchases of virtual currency are final, non-refundable, and cannot be canceled once processed.",
         "payProceed": "Proceed to Payment",
         "payRedirecting": "Redirecting...",
         "payFailed": "Couldn't start the payment. Please try again.",
-        "payClose": "Close"
+        "payClose": "Close",
+        "payDuration": "Duration",
+        "payDays": "{count, plural, one {# day} other {# days}}",
+        "payDailyCoins": "Daily coins",
+        "payFreeUnlocks": "Free unlocks per day",
+        "payTopupBonus": "Top-up bonus",
+        "payConsentVip": "By clicking \"Proceed to Payment,\" I agree to the <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy> and explicitly authorize the immediate activation of my VIP membership. This is a one-time payment that does not renew automatically. I acknowledge that VIP purchases are final, non-refundable, and cannot be canceled once activated."
     },
     "Reviews": {
         "couldntPostReply": "Couldn't post your reply",

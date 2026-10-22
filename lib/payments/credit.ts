@@ -1,8 +1,10 @@
 // lib/payments/credit.ts
-// Turns a paid payment into wallet coins. Safe to call many times for the same payment
-// (webhook retries, double page loads): only the first call credits anything.
+// Turns a paid payment into what the reader bought: wallet coins, or a VIP plan.
+// Safe to call many times for the same payment (webhook retries, double page loads):
+// only the first call does anything.
 import "server-only";
 import { withTransaction } from "@/lib/auth/transaction";
+import { VIP_PLAN_INFO, isVipPlan } from "@/lib/vipRates";
 import { BONUS_EXPIRY_DAYS, VIP_BONUS_EXPIRY_DAYS } from "./packages";
 
 export async function creditPayment(paymentId: number, providerTxn: string | null): Promise<boolean> {
@@ -17,6 +19,25 @@ export async function creditPayment(paymentId: number, providerTxn: string | nul
         const p = rows[0];
         if (!p) return false;
 
+        // ---- A VIP plan ----
+        if (p.product === "vip") {
+            const plan: unknown = p.vip_plan;
+            if (!isVipPlan(plan)) throw new Error(`Payment ${p.id} has no valid VIP plan`);
+            const days = VIP_PLAN_INFO[plan].days;
+
+            // One at a time per reader, then queue after any plan they still have
+            await client.query(`SELECT 1 FROM users WHERE id = $1 FOR UPDATE`, [p.user_id]);
+            await client.query(
+                `INSERT INTO vip_subscriptions (user_id, plan, starts_at, ends_at, source, external_id)
+                 SELECT $1, $2, s.start, s.start + make_interval(days => $3::int), $4, $5
+                 FROM (SELECT GREATEST(now(), COALESCE(MAX(ends_at), now())) AS start
+                       FROM vip_subscriptions WHERE user_id = $1 AND ends_at > now()) s`,
+                [p.user_id, p.vip_plan, days, p.provider, `payment:${p.id}`]
+            );
+            return true;
+        }
+
+        // ---- Coins ----
         async function lot(currency: "coin" | "gem", kind: string, amount: number, source: string, expiresDays: number | null, netPerCoin: string | null) {
             if (amount <= 0) return;
             const { rows: made } = await client.query(

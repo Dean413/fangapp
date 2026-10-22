@@ -710,11 +710,17 @@
         "payBonus": "Bonus",
         "payVipBonus": "VIP Bonusu",
         "payUsd": "USD",
-        "payConsent": "\"Ödemeye Geç\" düğmesine tıklayarak dijital bakiyemin derhal teslim edilmesine açıkça izin veriyorum. Tüm sanal para birimi satın alımlarının kesin olduğunu, iade edilemeyeceğini ve işlendikten sonra iptal edilemeyeceğini kabul ve beyan ederim.",
+        "payConsent": "\"Ödemeye Geç\" düğmesine tıklayarak <terms>Hizmet Şartları</terms>’nı ve <privacy>Gizlilik Politikası</privacy>’nı kabul ediyor ve dijital bakiyemin derhal teslim edilmesine açıkça izin veriyorum. Tüm sanal para birimi satın alımlarının kesin olduğunu, iade edilemeyeceğini ve işlendikten sonra iptal edilemeyeceğini kabul ederim.",
         "payProceed": "Ödemeye Geç",
         "payRedirecting": "Yönlendiriliyor...",
         "payFailed": "Ödeme başlatılamadı. Lütfen tekrar deneyin.",
-        "payClose": "Kapat"
+        "payClose": "Kapat",
+        "payDuration": "Süre",
+        "payDays": "{count, plural, other {# gün}}",
+        "payDailyCoins": "Günlük coin",
+        "payFreeUnlocks": "Günlük ücretsiz kilit açma",
+        "payTopupBonus": "Yükleme bonusu",
+        "payConsentVip": "\"Ödemeye Geç\" düğmesine tıklayarak <terms>Hizmet Şartları</terms>’nı ve <privacy>Gizlilik Politikası</privacy>’nı kabul ediyor ve VIP üyeliğimin derhal etkinleştirilmesine açıkça izin veriyorum. Bu, otomatik olarak yenilenmeyen tek seferlik bir ödemedir. VIP satın alımlarının kesin olduğunu, iade edilemeyeceğini ve etkinleştirildikten sonra iptal edilemeyeceğini kabul ederim."
     },
     "Reviews": {
         "couldntPostReply": "Yanıtın yayınlanamadı",
