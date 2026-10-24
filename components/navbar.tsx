@@ -9,7 +9,6 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import SearchBar from "./search-bar";
 import { useTranslations } from "next-intl";
-import NavBarDropDown from "./nav-dropdown";
 import { useDropDownStore } from "@/lib/store/dropDownStore";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useAuthModals } from "@/lib/store/auth-card-store";
@@ -21,21 +20,26 @@ const GENRES_PATH = "/stories";
 const NOTIFICATIONS_PATH = "/profile/notifications";
 const WALLET_PATH = "/profile/wallet";
 
-// The reader's photo; no photo (or it fails to load): their initial in a circle
-function Avatar({ src, name }: { src?: string | null; name?: string | null }) {
+// The reader's photo; no photo (or it fails to load): their initial in a circle. VIP readers get a crown at the bottom-left.
+function Avatar({ src, name, vip = false }: { src?: string | null; name?: string | null; vip?: boolean }) {
     const [failed, setFailed] = useState(false);
     useEffect(() => setFailed(false), [src]);
     const initial = (name ?? "").trim().charAt(0).toUpperCase() || "R";
-    if (!src || failed) {
-        return (
-            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-linear-to-br from-[#8B0000] to-[#D90404] text-sm font-bold text-white">
-                {initial}
-            </span>
-        );
-    }
     return (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={src} alt="" onError={() => setFailed(true)} className="h-9 w-9 rounded-full object-cover" />
+        <span className="relative inline-flex">
+            {!src || failed ? (
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-linear-to-br from-[#8B0000] to-[#D90404] text-sm font-bold text-white">
+                    {initial}
+                </span>
+            ) : (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={src} alt="" onError={() => setFailed(true)} className="h-9 w-9 rounded-full object-cover" />
+            )}
+            {vip && (
+                <Image src="/fang_pictures/crown.png" alt="" aria-hidden="true" width={16} height={16}
+                    className="pointer-events-none absolute -bottom-1 -left-1 h-4 w-4 object-contain drop-shadow" />
+            )}
+        </span>
     );
 }
 
@@ -53,23 +57,31 @@ function NotificationBell() {
 
 const NavBar = () => {
     const pathname = usePathname();
-
     const [open, setOpen] = useState(false);
-    const [activeCategory, setActiveCategory] = useState<"novels" | "shorties">("novels");
     const [mounted, setMounted] = useState(false);
     const [search, setSearch] = useState("");
     const { resolvedTheme, setTheme } = useTheme();
-    const { isDropDownOpen, closeDropDown, openDropDown, toggleDropDown } = useDropDownStore();
-    // "/" only on the home page; other links also stay active on their sub-pages
-    const isActive = (path: string) =>
-        path === "/" ? pathname === "/" : pathname === path || pathname.startsWith(`${path}/`);
+    const isActive = (path: string) => path === "/" ? pathname === "/" : pathname === path || pathname.startsWith(`${path}/`);
     const user = useAuthStore((s) => s.user);
     const { openSignIn, openSignUp, openForgotPassword, closeAll } = useAuthModals();
     const loading = useAuthStore((s) => s.loading);
     const { logout } = useAuthStore();
     const [logOutloading, setLogOutLoading] = useState(false);
+    const [isVip, setIsVip] = useState(false);
+    const userId = user?.id ?? null;
 
     useEffect(() => { setMounted(true); }, []);
+
+    // VIP readers get the crown on their picture (checked again when the page changes, so it shows right after buying)
+    useEffect(() => {
+        if (!userId) { setIsVip(false); return; }
+        let alive = true;
+        fetch("/api/vip/status", { credentials: "include", cache: "no-store" })
+            .then((res) => (res.ok ? res.json() : null))
+            .then((data) => { if (alive) setIsVip(Boolean((data?.vip ?? data)?.active)); })
+            .catch(() => { });
+        return () => { alive = false; };
+    }, [userId, pathname]);
 
     useEffect(() => {
         if (open) {
@@ -137,9 +149,17 @@ const NavBar = () => {
                 <div className="flex w-[90%] mx-auto items-center justify-between py-3">
                     {/* LEFT: logo + desktop nav */}
                     <div className="flex items-center gap-8">
-                        <div className="dark:invert rounded-xl">
-                            <Image src="/fang_pictures/fang-reader-logo.png" alt="logo" width={40} height={40} className="w-20" />
-                            {/* <Image src="/fang_pictures/fang_logo1.png" alt="logo text" width={110} height={110} className="mt-1 w-15 md:w-30 sm:block" /> */}
+                        <div className="flex items-center">
+                            <Image src="/fanglogo1.svg" alt="logo" width={80} height={80} className="w-10" />
+                            <div
+                                role="img"
+                                aria-label="FANG"
+                                className="-ml-4 w-15 md:w-20 aspect-1873/614 bg-black dark:bg-white"
+                                style={{
+                                    WebkitMask: "url(/fanglogo2.svg) center / contain no-repeat",
+                                    mask: "url(/fanglogo2.svg) center / contain no-repeat",
+                                }}
+                            />
                         </div>
 
                         {/* Desktop nav links */}
@@ -194,7 +214,7 @@ const NavBar = () => {
                                         </Link>
                                         <NotificationBell />
                                         <Link href="/profile" aria-label={t("Profile")} className="rounded-full">
-                                            <Avatar src={user.avatar_url} name={user.username || user.full_name} />
+                                            <Avatar src={user.avatar_url} name={user.username || user.full_name} vip={isVip} />
                                         </Link>
                                     </>
                                 ) : (

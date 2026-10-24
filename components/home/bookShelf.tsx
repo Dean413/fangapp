@@ -1,22 +1,26 @@
 // app/components/home/bookShelf.tsx
-// A sideways-scrolling row of covers: Editor's Picks, Fang Originals and every other Home collection.
-// Shows every book in the collection; 6 fit across on a desktop, the rest scroll into view.
+// A row of covers: Editor's Picks, Fang Originals and every other Home collection.
+// Phones: the first 3 books in a fixed row, no scrolling ("View all" has the rest).
+// Bigger screens: every book in the collection in a sideways-scrolling row (6 fit across on a desktop).
 import Link from "next/link";
 import { Eye } from "lucide-react";
 import type { HomeCollection } from "@/lib/home";
 import { BookPills, Cover, SectionHeader, bookHref, formatCount } from "./bookBits";
 import Imprint from "../imprint";
 
+// How many books phones show
+const PHONE_COUNT = 3;
+
 export default function BookShelf({ collection }: { collection: HomeCollection }) {
     return (
         <section>
             <SectionHeader title={collection.name} href={`/collections/${collection.id}`} />
-            <div className="-mx-1 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth px-1 pb-2 scrollbar-width:none [&::-webkit-scrollbar]:hidden">
-                {collection.books.map((book) => (
+            <div className="grid grid-cols-3 gap-3 sm:-mx-1 sm:flex sm:snap-x sm:snap-mandatory sm:gap-4 sm:overflow-x-auto sm:scroll-smooth sm:px-1 sm:pb-2 sm:[scrollbar-width:none] sm:[&::-webkit-scrollbar]:hidden">
+                {collection.books.map((book, i) => (
                     <Link
                         key={book.id}
                         href={bookHref(book)}
-                        className="group block w-36 shrink-0 snap-start sm:w-40 lg:w-[calc((100%-5rem)/6)]">
+                        className={`group block min-w-0 sm:w-40 sm:shrink-0 sm:snap-start lg:w-[calc((100%-5rem)/6)] ${i >= PHONE_COUNT ? "hidden sm:block" : ""}`}>
                         <div className="relative">
                             <Cover book={book} className="aspect-3/4 w-full" />
                             <Imprint />

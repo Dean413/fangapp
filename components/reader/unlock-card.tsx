@@ -17,16 +17,17 @@ export interface UnlockCardProps {
     dark?: boolean;
     firstLocked?: number | null
     onGoToFirst?: () => void;
+    free?: boolean;
 }
 
 const WALLET_PATH = "/profile/wallet";
 
-export default function UnlockCard({ price, firstLocked, onGoToFirst, signedIn, wallet, unlocking, onUnlock, onSignIn, autoUnlock, autoBusy, onToggleAuto, dark }: UnlockCardProps) {
+export default function UnlockCard({ price, firstLocked, free, onGoToFirst, signedIn, wallet, unlocking, onUnlock, onSignIn, autoUnlock, autoBusy, onToggleAuto, dark }: UnlockCardProps) {
     const coins = wallet?.coins ?? 0;
     const bonus = wallet?.bonusCoins ?? 0;
     const balance = coins + bonus;
     const short = Math.max(price - balance, 0);
-    const enough = signedIn && short === 0;
+    const enough = signedIn && (free || short === 0);
     const t = useTranslations("Reader");
 
     // Ads (2 ads unlock one chapter): set up later
@@ -69,8 +70,9 @@ export default function UnlockCard({ price, firstLocked, onGoToFirst, signedIn, 
                     </div>
 
                     {/* Amount */}
-                    <div className="text-3xl font-extrabold text-gray-900 dark:text-white">{price}</div>
-                    <p className="mt-1 mb-6 text-sm text-gray-500 dark:text-neutral-400">{t("coinsOrBonus")}</p>
+                    {/* Amount */}
+                    <div className="text-3xl font-extrabold text-gray-900 dark:text-white">{free ? t("free") : price}</div>
+                    <p className="mt-1 mb-6 text-sm text-gray-500 dark:text-neutral-400">{free ? t("vipFreeUnlock") : t("coinsOrBonus")}</p>
 
                     {/* Unlock / sign in / top up */}
                     {signedIn && firstLocked ? (

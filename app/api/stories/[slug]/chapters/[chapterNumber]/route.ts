@@ -2,6 +2,7 @@ import { getChapter, getStoryBySlug } from "@/lib/stories";
 import { getCurrentUser } from "@/lib/auth/session";
 import { NextResponse } from "next/server";
 import { translateMsg } from "@/lib/i18n";
+import { getVipStatus } from "@/lib/vip";
 
 export async function GET(
     _: Request,
@@ -39,8 +40,11 @@ export async function GET(
             );
         }
 
+        // A locked chapter that the reader's VIP would open for free (same rule as lib/unlocks.ts)
+        const vipFree = user && chapter.isLocked ? (await getVipStatus(user.id)).freeUnlocksLeft > 0 : false;
+
         return NextResponse.json(
-            { story, chapter },
+            { story, chapter: vipFree ? { ...chapter, vipFree: true } : chapter },
             { status: 200, headers: { "Cache-Control": "no-store" } }
         );
     } catch (error) {

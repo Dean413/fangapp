@@ -40,6 +40,7 @@ export async function POST(request: NextRequest) {
         return reply(200, result.ok && result.charged > 0 ? `Chapter unlocked` : "chapterUnlocked", {
             chapter,
             charged: result.ok ? result.charged : 0,
+            free: result.ok ? result.free : false,
             wallet: result.ok ? result.wallet : undefined,
         });
     } catch (error) {

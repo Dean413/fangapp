@@ -4,6 +4,7 @@
 //  - new chapters of books in their library (switch: "New chapters")
 //  - coin activity from the wallet: coins received, bought, spent, expired (always on)
 //  - bonus coins expiring in the next 24 hours, and today's check-in being ready (switch: "Rewards")
+//  - VIP: started, renewed, renewal stopped, ended (always on)
 //  - replies (for the community, later)
 // Each thing gives at most one notification (unique per kind + ref), so filling in twice never makes duplicates.
 // Notifications older than 90 days are cleared.
@@ -24,7 +25,8 @@ const FIRST_LOOK_BACK_DAYS = 2; // a reader's very first fill-in: only the last 
 const WALLET_PATH = "/profile/wallet";
 
 export type NotificationKind =
-    | "new_chapter" | "coins_added" | "coins_spent" | "coins_expired" | "bonus_expiring" | "checkin_ready" | "reply";
+    | "new_chapter" | "coins_added" | "coins_spent" | "coins_expired" | "bonus_expiring" | "checkin_ready" | "reply"
+    | "vip_started" | "vip_renewed" | "vip_cancelled" | "vip_ended";
 
 export type NotificationItem = {
     id: string;
@@ -47,13 +49,17 @@ export type NotificationItem = {
     day?: number;
     coins?: number;
     claimable?: boolean;
+    // vip_*
+    plan?: "weekly" | "monthly";
+    endsAt?: string;
+    amountCents?: number;
 };
 
 const TAB_SQL: Record<NotificationTab, string> = {
     all: "true",
     unread: "n.read_at IS NULL",
     mentions: "n.kind = 'reply'",
-    transactions: "n.kind IN ('coins_added', 'coins_spent', 'coins_expired')",
+    transactions: "n.kind IN ('coins_added', 'coins_spent', 'coins_expired', 'vip_started', 'vip_renewed')",
 };
 
 // ---------- Filling in ----------
@@ -130,6 +136,52 @@ const BONUS_EXPIRING = `
     FROM soon HAVING COUNT(*) > 0
     ${SKIP_SEEN}`;
 
+// VIP paid periods: the first one of a subscription is "started", later ones are "renewed"
+const VIP_PAID = `
+    ${INSERT}
+    SELECT $1,
+           CASE WHEN EXISTS (SELECT 1 FROM payments o
+                             WHERE o.user_id = p.user_id AND o.provider = p.provider AND o.provider_ref = p.provider_ref
+                               AND o.product = 'vip' AND o.status = 'paid' AND o.id < p.id)
+                THEN 'vip_renewed' ELSE 'vip_started' END,
+           p.id::text,
+           jsonb_build_object('plan', p.vip_plan, 'amountCents', p.price_cents,
+                              'endsAt', (SELECT v.ends_at FROM vip_subscriptions v WHERE v.external_id = 'payment:' || p.id::text)),
+           p.paid_at
+    FROM payments p
+    WHERE p.user_id = $1 AND p.product = 'vip' AND p.status = 'paid' AND p.paid_at > $2
+    ${SKIP_SEEN}`;
+
+// The subscription stopped renewing (the reader cancelled, or the payment provider stopped it)
+const VIP_STOPPED = `
+    ${INSERT}
+    SELECT $1, 'vip_cancelled', b.id::text,
+           jsonb_build_object('plan', b.plan, 'endsAt', (SELECT MAX(v.ends_at) FROM vip_subscriptions v WHERE v.user_id = b.user_id)),
+           b.cancelled_at
+    FROM vip_billing b
+    WHERE b.user_id = $1 AND b.status IN ('cancelled', 'ended') AND b.cancelled_at > $2
+    ${SKIP_SEEN}`;
+
+// VIP ran out (nothing after it)
+const VIP_ENDED = `
+    ${INSERT}
+    SELECT $1, 'vip_ended', (extract(epoch FROM v.ends_at))::bigint::text, jsonb_build_object('plan', v.plan), v.ends_at
+    FROM vip_subscriptions v
+    WHERE v.user_id = $1 AND v.ends_at <= now() AND v.ends_at > $2
+      AND NOT EXISTS (SELECT 1 FROM vip_subscriptions n WHERE n.user_id = v.user_id AND n.ends_at > v.ends_at)
+    ${SKIP_SEEN}`;
+
+// VIP notifications get their own try/catch, so a problem here can never stop the other notifications
+async function syncVip(userId: string, cutoff: Date) {
+    try {
+        await dbPool.query(VIP_PAID, [userId, cutoff]);
+        await dbPool.query(VIP_STOPPED, [userId, cutoff]);
+        await dbPool.query(VIP_ENDED, [userId, cutoff]);
+    } catch (error) {
+        console.error("VIP notification sync failed:", error);
+    }
+}
+
 async function switches(userId: string) {
     const { rows } = await dbPool.query(
         `SELECT notify_new_chapters, notify_rewards FROM reader_settings WHERE user_id = $1`,
@@ -173,6 +225,7 @@ export async function syncNotifications(userId: string) {
             await dbPool.query(BONUS_EXPIRING, [userId]);
             await checkinReady(userId);
         }
+        await syncVip(userId, cutoff);
     } catch (error) {
         console.error("Notification sync failed:", error);
     }
@@ -185,7 +238,8 @@ function describeCoins(reason: string, refId: string | null): string {
         case "signup_bonus": return "Sign-up bonus";
         case "daily_checkin": return refId ? `Daily check-in · Day ${refId}` : "Daily check-in";
         case "reading_time": return refId ? `Reading reward · ${refId} minutes` : "Reading reward";
-        case "purchase": return "Coins top up";
+        case "purchase":
+        case "topup": return "Coins top up";
         case "unlock": return "Chapter unlock";
         case "vip": return "VIP subscription";
         case "expired":
@@ -225,6 +279,17 @@ function toItem(r: any, checkinRef: string | null): NotificationItem {
                 refId: d.refId ?? null,
                 code: r.ref,
                 href: `/profile/transaction-history/${r.ref}`,
+            };
+        case "vip_started":
+        case "vip_renewed":
+        case "vip_cancelled":
+        case "vip_ended":
+            return {
+                ...base,
+                plan: d.plan === "monthly" ? "monthly" : "weekly",
+                endsAt: d.endsAt ? new Date(d.endsAt).toISOString() : undefined,
+                amountCents: d.amountCents != null ? Number(d.amountCents) : undefined,
+                href: WALLET_PATH, // change to your VIP page path if it is different
             };
         case "bonus_expiring":
             return { ...base, amount: Number(d.amount) || 0, expiresAt: d.expiresAt ? new Date(d.expiresAt).toISOString() : undefined, href: WALLET_PATH };

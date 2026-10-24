@@ -14,7 +14,7 @@ import { coinDescription } from "@/lib/coinLabels";
 // Translators for the Notifications and Coins messages
 type T = (key: string, values?: Record<string, string | number>) => string;
 
-type Kind = "new_chapter" | "coins_added" | "coins_spent" | "coins_expired" | "bonus_expiring" | "checkin_ready" | "reply";
+type Kind = "new_chapter" | "coins_added" | "coins_spent" | "coins_expired" | "bonus_expiring" | "checkin_ready" | "reply" | "vip_started" | "vip_renewed" | "vip_cancelled" | "vip_ended";
 
 type Notification = {
     id: string;
@@ -34,6 +34,9 @@ type Notification = {
     day?: number;
     coins?: number;
     claimable?: boolean;
+    plan?: "weekly" | "monthly";
+    endsAt?: string;
+    amountCents?: number;
 };
 
 const TAB_PARAM: Record<string, string> = { All: "all", Unread: "unread", Mentions: "mentions", Transactions: "transactions" };
@@ -214,6 +217,28 @@ function cardParts(n: Notification, now: number, t: T, ct: T): CardParts {
                     </Link>
                 ) : undefined,
             };
+
+        case "vip_started":
+        case "vip_renewed":
+        case "vip_cancelled":
+        case "vip_ended": {
+            const planName = n.plan === "monthly" ? t("planMonthly") : t("planWeekly");
+            const titleKey = n.kind === "vip_started" ? "vipStarted" : n.kind === "vip_renewed" ? "vipRenewed" : n.kind === "vip_cancelled" ? "vipCancelled" : "vipEnded";
+            const until = n.endsAt
+                ? new Date(n.endsAt).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })
+                : "";
+            const live = n.kind === "vip_started" || n.kind === "vip_renewed";
+            return {
+                icon: (
+                    <div className={`${live ? "bg-yellow-100 dark:bg-yellow-500/15" : "bg-gray-100 dark:bg-dark-raised"} p-3 rounded-xl`}>
+                        <FaCrown size={20} color={live ? "#c9a227" : "gray"} />
+                    </div>
+                ),
+                title: rich(titleKey, { plan: planName, b }),
+                subtitle: n.kind === "vip_ended" || !until ? time : `${time} • ${t("vipUntil", { date: until })}`,
+                wholeCardLink: Boolean(n.href),
+            };
+        }
 
         default:
             return {

@@ -5,6 +5,7 @@ import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import ToastHost from "@/components/toast";
 import { getLocale, getTranslations } from "next-intl/server";
+import ProtectContent from "@/components/protectContent";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -27,6 +28,7 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
   return (
     <html suppressHydrationWarning lang={locale} className={poppins.className}>
       <body className="min-h-full flex flex-col">
+        <ProtectContent />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

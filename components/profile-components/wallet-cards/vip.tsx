@@ -25,6 +25,9 @@ export default function VipPlans() {
     const [checkoutPlan, setCheckoutPlan] = useState<VipPlanId | null>(null);
     const user = useAuthStore((s) => s.user);
     const [vip, setVip] = useState<VipState | null>(null);
+    const [recurring, setRecurring] = useState(false);
+    const [confirming, setConfirming] = useState(false);
+    const [cancelling, setCancelling] = useState(false);
     const t = useTranslations("Vip");
     const w = useTranslations("Wallet");
     const locale = useLocale();
@@ -35,7 +38,18 @@ export default function VipPlans() {
             .then((res) => (res.ok ? res.json() : null))
             .then((body) => setVip(body?.vip ?? body))
             .catch(() => { });
+
+        // Will it renew by itself?
+        fetch("/api/vip/subscription", { credentials: "include", cache: "no-store" })
+            .then((res) => (res.ok ? res.json() : null))
+            .then((body) => setRecurring(!!body?.recurring))
+            .catch(() => { });
     }, []);
+
+    const hasVip = !!vip?.active;
+    const endsOn = vip?.endsAt
+        ? new Date(vip.endsAt).toLocaleDateString(locale, { day: "numeric", month: "long", year: "numeric" })
+        : "";
 
     function subscribe(plan: VipPlanId) {
         if (hasVip) return;
@@ -45,10 +59,25 @@ export default function VipPlans() {
         }
         setCheckoutPlan(plan);
     }
-    const hasVip = !!vip?.active;
+
+    // Stops the renewal. VIP stays until the end of the period they already paid for.
+    async function cancelRenewal() {
+        if (cancelling) return;
+        setCancelling(true);
+        try {
+            const res = await fetch("/api/vip/subscription", { method: "POST", credentials: "include" });
+            if (!res.ok) throw new Error("cancel failed");
+            setRecurring(false);
+            setConfirming(false);
+            toast.success(t("renewalCancelled"));
+        } catch {
+            toast.error(t("cancelFailed"));
+        }
+        setCancelling(false);
+    }
+
     return (
         <div className="flex flex-col gap-6">
-            {/* Active VIP: plan, end date and today's free unlocks */}
             {/* Active VIP: plan, end date and today's free unlocks */}
             {vip?.active && vip.endsAt && (
                 <div className="max-w-5xl mx-auto w-full bg-linear-to-r from-black to-gray-900 dark:bg-none dark:bg-dark-card text-white rounded-2xl px-6 py-1 md:flex items-center justify-between">
@@ -82,11 +111,22 @@ export default function VipPlans() {
                     </div>
                     <div className="py-3 md:py-0 md:text-right">
                         <p className="text-sm text-white/80">
-                            {t("activeUntil", { date: new Date(vip.endsAt).toLocaleDateString(locale, { day: "numeric", month: "long", year: "numeric" }) })}
+                            {recurring ? t("renewsOn", { date: endsOn }) : t("activeUntil", { date: endsOn })}
                         </p>
                         <p className="mt-1 text-sm text-white/80">
                             {t.rich("freeUnlocks", { left: vip.freeUnlocksLeft, total: vip.freeUnlocksPerDay, b: (chunks) => <span className="font-bold text-white">{chunks}</span> })}
                         </p>
+                        {recurring && (
+                            confirming ? (
+                                <div className="mt-2 flex flex-wrap items-center gap-2 text-sm md:justify-end">
+                                    <span className="text-white/80">{t("cancelSure", { date: endsOn })}</span>
+                                    <button type="button" onClick={cancelRenewal} disabled={cancelling} className="rounded-lg bg-red-600 px-3 py-1 font-semibold disabled:opacity-50">{t("cancelYes")}</button>
+                                    <button type="button" onClick={() => setConfirming(false)} disabled={cancelling} className="rounded-lg border border-white/30 px-3 py-1 disabled:opacity-50">{t("cancelNo")}</button>
+                                </div>
+                            ) : (
+                                <button type="button" onClick={() => setConfirming(true)} className="mt-2 text-sm text-white/60 underline hover:text-white">{t("cancelRenewal")}</button>
+                            )
+                        )}
                     </div>
                 </div>
             )}

@@ -1,10 +1,17 @@
 // app/api/webhooks/stripe/route.ts
-// Stripe tells us a payment went through. We check the signature, then the amount, then credit once.
+// Stripe tells us what happened: a coin payment went through, a VIP subscription charged (first time or renewal),
+// or a subscription was cancelled. We check the signature, then the amount, then credit once.
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { dbPool } from "@/lib/db";
 import { PAYMENT_CONFIG } from "@/lib/payments/config";
 import { creditPayment } from "@/lib/payments/credit";
+import {
+    creditVipPeriod,
+    linkStripeSubscription,
+    linkStripeSubscriptionById,
+    setBillingStatus,
+} from "@/lib/payments/subscription";
 
 function validSignature(raw: string, header: string | null, secret: string): boolean {
     if (!header || !secret) return false;
@@ -16,6 +23,8 @@ function validSignature(raw: string, header: string | null, secret: string): boo
     const expected = crypto.createHmac("sha256", secret).update(`${t}.${raw}`).digest("hex");
     return signatures.some((sig) => sig.length === expected.length && crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(expected)));
 }
+
+const ok = () => NextResponse.json({ received: true });
 
 export async function POST(request: NextRequest) {
     const raw = await request.text();
@@ -30,30 +39,73 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ message: "Bad request" }, { status: 400 });
     }
 
-    const type = event?.type;
-    if (type !== "checkout.session.completed" && type !== "checkout.session.async_payment_succeeded") {
-        return NextResponse.json({ received: true });
-    }
-
-    const session = event.data?.object;
-    if (!session?.id || session.payment_status !== "paid") return NextResponse.json({ received: true });
+    const type: string = event?.type;
+    const obj = event.data?.object;
+    if (!obj) return ok();
 
     try {
-        const { rows } = await dbPool.query(
-            `SELECT id, price_cents, status FROM payments WHERE provider = 'stripe' AND provider_ref = $1`,
-            [session.id]
-        );
-        const p = rows[0];
-        if (!p) return NextResponse.json({ received: true });
+        // ---- Checkout finished ----
+        if (type === "checkout.session.completed" || type === "checkout.session.async_payment_succeeded") {
+            // A VIP subscription: just remember which subscription it is. The money arrives as an invoice below.
+            if (obj.mode === "subscription") {
+                await linkStripeSubscription(obj.id, obj.subscription);
+                return ok();
+            }
 
-        // What was actually paid must match what we asked for
-        if (session.amount_total !== p.price_cents || String(session.currency).toLowerCase() !== "usd") {
-            console.error("Stripe amount mismatch for payment", p.id);
-            return NextResponse.json({ received: true });
+            // A coin payment
+            if (!obj.id || obj.payment_status !== "paid") return ok();
+            const { rows } = await dbPool.query(
+                `SELECT id, price_cents, status FROM payments WHERE provider = 'stripe' AND provider_ref = $1`,
+                [obj.id]
+            );
+            const p = rows[0];
+            if (!p) return ok();
+
+            // What was actually paid must match what we asked for
+            if (obj.amount_total !== p.price_cents || String(obj.currency).toLowerCase() !== "usd") {
+                console.error("Stripe amount mismatch for payment", p.id);
+                return ok();
+            }
+            await creditPayment(p.id, typeof obj.payment_intent === "string" ? obj.payment_intent : null);
+            return ok();
         }
 
-        await creditPayment(p.id, typeof session.payment_intent === "string" ? session.payment_intent : null);
-        return NextResponse.json({ received: true });
+        // ---- A VIP charge went through (first payment and every renewal) ----
+        if (type === "invoice.paid") {
+            const subscriptionId: string | null =
+                typeof obj.subscription === "string"
+                    ? obj.subscription
+                    : obj.parent?.subscription_details?.subscription ?? null;
+            if (!subscriptionId || obj.status !== "paid") return ok();
+
+            await linkStripeSubscriptionById(subscriptionId);
+            await creditVipPeriod({
+                provider: "stripe",
+                subscriptionId,
+                txnId: obj.id,
+                amountCents: obj.amount_paid,
+                currency: obj.currency,
+            });
+            return ok();
+        }
+
+        // ---- A renewal failed: nothing is added, VIP simply runs out. Stripe retries by itself. ----
+        if (type === "invoice.payment_failed") {
+            console.warn("Stripe renewal payment failed", obj.id);
+            return ok();
+        }
+
+        // ---- Reader (or we) cancelled ----
+        if (type === "customer.subscription.updated" && obj.cancel_at_period_end === true) {
+            await setBillingStatus("stripe", obj.id, "cancelled");
+            return ok();
+        }
+        if (type === "customer.subscription.deleted") {
+            await setBillingStatus("stripe", obj.id, "ended");
+            return ok();
+        }
+
+        return ok();
     } catch (error) {
         console.error("Stripe webhook error:", error);
         return NextResponse.json({ message: "Try again" }, { status: 500 }); // Stripe will retry

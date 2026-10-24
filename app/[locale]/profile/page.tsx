@@ -10,6 +10,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { toast } from "@/lib/store/toastStore";
 import { FaPen } from "react-icons/fa";
 import { useLocale, useTranslations } from "next-intl";
+import Image from "next/image";
 
 type Genre = { id: string; name: string };
 
@@ -20,7 +21,7 @@ const joinedDate = (iso: string | null | undefined, locale: string) =>
 // Works with whatever the cover picker gives (an image data URL or a blob: URL).
 const shrinkImage = (src: string, maxWidth = 1600): Promise<string> =>
     new Promise((resolve, reject) => {
-        const img = new Image();
+        const img = new window.Image();
         img.onload = () => {
             const scale = Math.min(1, maxWidth / img.naturalWidth);
             const width = Math.max(1, Math.round(img.naturalWidth * scale));
@@ -51,7 +52,27 @@ const ProfilePage = () => {
     const photoBusy = useRef(false);
     const coverBusy = useRef(false);
     const [genres, setGenres] = useState<Genre[]>([]);
-
+    // The reader's VIP plan, for the crown next to their name
+    const signedIn = !!user;
+    const [vipPlan, setVipPlan] = useState<"weekly" | "monthly" | null>(null);
+    useEffect(() => {
+        if (!signedIn) {
+            setVipPlan(null);
+            return;
+        }
+        let alive = true;
+        fetch("/api/vip/status", { credentials: "include", cache: "no-store" })
+            .then((res) => (res.ok ? res.json() : null))
+            .then((body) => {
+                if (!alive) return;
+                const s = body?.vip ?? body;
+                setVipPlan(s?.active && (s.plan === "weekly" || s.plan === "monthly") ? s.plan : null);
+            })
+            .catch(() => { });
+        return () => {
+            alive = false;
+        };
+    }, [signedIn]);
     // Genre names for the reader's saved genre IDs
     useEffect(() => {
         if (!user) return;
@@ -179,11 +200,11 @@ const ProfilePage = () => {
                 <div className="w-[92%] mx-auto">
                     <div className="flex items-center justify-between gap-3">
                         <div className="flex items-center gap-2">
-                            <h1 className="text-lg font-semibold">
-                                {displayName}
-                            </h1>
+                            <h1 className="text-lg font-semibold">{displayName}</h1>
+                            {vipPlan && (
+                                <Image src={`/fang_pictures/crown.png`} width={30} height={24} alt="" className="h-6 w-auto -translate-y-1" />
+                            )}
                         </div>
-
                         <button type="button" onClick={() => setEditOpen(true)} className="bg-red-700 text-white text-xs md:text-sm rounded-full py-1 md:py-2 px-2 md:px-4 flex items-center gap-2 ">
                             <FaPen size={12} />
                             {t("editProfile")}

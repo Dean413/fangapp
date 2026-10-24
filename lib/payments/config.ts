@@ -17,4 +17,15 @@ export const PAYMENT_CONFIG = {
     paypalClientId: process.env.PAYPAL_CLIENT_ID || "",
     paypalSecret: process.env.PAYPAL_SECRET || "",
     paypalLive: false,
+
+
+    stripePrices: {
+        weekly: process.env.STRIPE_PRICE_WEEKLY || "",
+        monthly: process.env.STRIPE_PRICE_MONTHLY || "",
+    },
+    paypalPlans: {
+        weekly: process.env.PAYPAL_PLAN_WEEKLY || "",
+        monthly: process.env.PAYPAL_PLAN_MONTHLY || "",
+    },
+    paypalWebhookId: process.env.PAYPAL_WEBHOOK_ID || "",
 };

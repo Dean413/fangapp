@@ -6,11 +6,11 @@ export default function Imprint({ size = "md" }: { size?: "sm" | "md" | "lg" }) 
     return (
         <div className={`pointer-events-none absolute top-1.5 right-1.5 md:top-2 md:right-2 z-10 ${box}`}>
             <Image
-                src="/fang_pictures/imprint.png"
+                src="/fang_pictures/fanglogo1.svg"
                 alt="Fang imprint"
                 fill
                 sizes="56px"
-                className="object-contain drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]"
+                className="object-contain drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)] opacity-50"
             />
         </div>
     );

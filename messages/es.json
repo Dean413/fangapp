@@ -578,7 +578,9 @@
         "defaultFont": "Predeterminada",
         "textSize": "Tamaño del texto",
         "currentSize": "Tamaño actual",
-        "reportBook": "Denunciar libro"
+        "reportBook": "Denunciar libro",
+        "free": "Gratis",
+        "vipFreeUnlock": "Desbloqueo gratis VIP"
     },
     "Report": {
         "maxFiles": "Puedes añadir hasta {max} archivos",
@@ -720,7 +722,7 @@
         "payDailyCoins": "Monedas diarias",
         "payFreeUnlocks": "Desbloqueos gratis por día",
         "payTopupBonus": "Bono de recarga",
-        "payConsentVip": "Al hacer clic en \"Proceder al pago\", acepto los <terms>Términos del servicio</terms> y la <privacy>Política de privacidad</privacy> y autorizo expresamente la activación inmediata de mi membresía VIP. Es un pago único que no se renueva automáticamente. Reconozco que las compras VIP son definitivas, no reembolsables y no pueden cancelarse una vez activadas."
+        "payConsentVip": "Al hacer clic en \"Proceder al pago\", acepto los <terms>Términos del servicio</terms> y la <privacy>Política de privacidad</privacy> y autorizo expresamente la activación inmediata de mi membresía VIP. Mi membresía se renueva automáticamente y se me cobrará el mismo importe en cada periodo hasta que la cancele. Puedo cancelar la renovación automática en cualquier momento y conservar el VIP hasta el final del periodo ya pagado. Los pagos ya realizados no son reembolsables."
     },
     "Reviews": {
         "couldntPostReply": "No pudimos publicar tu respuesta",
@@ -876,7 +878,14 @@
         "checkinReady": "Tu registro del <b>día {day}</b> está listo",
         "bonusCoins": "+{count} monedas de bonificación",
         "claim": "Reclamar",
-        "newReply": "Nueva respuesta"
+        "newReply": "Nueva respuesta",
+        "planMonthly": "Mensual",
+        "planWeekly": "Semanal",
+        "vipUntil": "VIP hasta el {date}",
+        "vipStarted": "Tu <b>VIP {plan}</b> ya está activo",
+        "vipRenewed": "Tu <b>VIP {plan}</b> se ha renovado",
+        "vipCancelled": "La renovación automática de tu <b>VIP {plan}</b> está desactivada",
+        "vipEnded": "Tu <b>VIP {plan}</b> ha finalizado"
     },
     "Transactions": {
         "loadFailed": "No pudimos cargar tus transacciones",
@@ -997,10 +1006,16 @@
         "bestValue": "Mejor valor",
         "save": "Ahorra un {percent}% frente a la facturación semanal",
         "currentPlan": "Plan actual",
-        "renewsOn": "Se renueva el",
+        "renewsOn": "Se renueva el {date}",
         "moreValueOn": "más valor el",
         "weeklyBenefits": "Ventajas del VIP semanal",
-        "monthlyBenefits": "Ventajas del VIP mensual"
+        "monthlyBenefits": "Ventajas del VIP mensual",
+        "renewalCancelled": "Renovación automática cancelada",
+        "cancelFailed": "No se pudo cancelar la renovación automática. Inténtalo de nuevo.",
+        "cancelSure": "¿Cancelar la renovación automática? Conservarás el VIP hasta el {date}.",
+        "cancelYes": "Sí, cancelar",
+        "cancelNo": "Mantener",
+        "cancelRenewal": "Cancelar renovación automática"
     },
     "Stats": {
         "title": "Estadísticas de lectura",
@@ -1013,7 +1028,9 @@
         "streak": "Racha de lectura",
         "days": "días",
         "mostActiveDay": "Día más activo",
-        "avgTime": "Tiempo medio de lectura: {time}"
+        "avgTime": "Tiempo medio de lectura: {time}",
+        "loadFailed": "No se pudieron cargar tus estadísticas de lectura.",
+        "noData": "Aún no hay datos de lectura"
     },
     "Settings": {
         "set": "Establecer",

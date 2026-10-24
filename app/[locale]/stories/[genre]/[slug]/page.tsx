@@ -13,6 +13,7 @@ import { FaLock } from "react-icons/fa6";
 import { useLibraryStore } from "@/lib/store/library-store";
 import { useAuthStore } from "@/lib/store/authStore";
 import BookReviews, { type ReviewSummary } from "@/components/reviews/bookReview";
+import Imprint from "@/components/imprint";
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
 
@@ -43,13 +44,20 @@ interface ChapterRow {
 
 const titleCase = (s?: string) => (s ? s.charAt(0).toUpperCase() + s.slice(1).toLowerCase() : "");
 
+// The site logo in the middle of a loading cover
+function HeroLogo() {
+    return <Image src="/fanglogo1.svg" alt="" aria-hidden="true" width={64} height={64} className="w-1/3 max-w-16 h-auto opacity-40" />;
+}
+
 // Cover with a placeholder while it loads and the default cover if it fails
 function Cover({ src, alt }: { src?: string; alt: string }) {
     const [failed, setFailed] = useState(false);
     useEffect(() => setFailed(false), [src]);
     return (
         <div className="relative w-32 md:w-44 aspect-3/4 shrink-0 overflow-hidden rounded-lg shadow-xl">
-            <div className="absolute inset-0 animate-pulse bg-white/10" />
+            <div className="absolute inset-0 flex items-center justify-center animate-pulse bg-white/10">
+                <HeroLogo />
+            </div>
             <Image
                 src={!src || failed ? FALLBACK_COVER : src}
                 alt={alt}
@@ -59,6 +67,7 @@ function Cover({ src, alt }: { src?: string; alt: string }) {
                 onError={() => setFailed(true)}
                 className="object-cover"
             />
+            <Imprint />
         </div>
     );
 }
@@ -66,7 +75,9 @@ function Cover({ src, alt }: { src?: string; alt: string }) {
 function HeroSkeleton() {
     return (
         <div className="mt-5 md:mt-6 flex items-start gap-5 md:gap-10">
-            <div className="w-32 md:w-44 aspect-3/4 shrink-0 rounded-lg animate-pulse bg-white/10" />
+            <div className="flex w-32 md:w-44 aspect-3/4 shrink-0 items-center justify-center rounded-lg animate-pulse bg-white/10">
+                <HeroLogo />
+            </div>
             <div className="min-w-0 flex-1 space-y-3 pt-1">
                 <div className="h-7 w-2/3 rounded animate-pulse bg-white/10" />
                 <div className="h-4 w-1/3 rounded animate-pulse bg-white/10" />
@@ -213,6 +224,36 @@ export default function Page() {
         }
     };
 
+    // Tags and buttons: beside the cover on bigger screens, full width under it on phones
+    const pillsEl = pills.length > 0 && (
+        <div className="mt-4 flex flex-wrap gap-2">
+            {pills.map((p) => (
+                <span key={p} className="max-w-full truncate rounded-full bg-white/30 px-2.5 py-0.5 text-[11px] md:text-xs text-white">
+                    {p}
+                </span>
+            ))}
+        </div>
+    );
+    const actionsEl = (
+        <div className="mt-6 md:mt-8 flex gap-3">
+            <Link
+                href={`${bookPath}/reader?chapter=${startChapter}`}
+                className="flex-1 md:flex-none rounded-md bg-red-600 px-6 md:px-7 py-2 text-center text-[11px] md:text-xs font-semibold text-white hover:bg-red-700">
+                {readLabel}
+            </Link>
+            <button
+                type="button"
+                onClick={handleLibrary}
+                disabled={savingBook}
+                className={`flex-1 md:flex-none rounded-md border px-5 md:px-6 py-2 text-[11px] md:text-xs font-semibold disabled:opacity-60 ${saved
+                    ? "border-red-600 bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500/15"
+                    : "border-gray-200 dark:border-dark-border bg-white dark:bg-dark-card text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-raised"
+                    }`}>
+                {saved ? t("inLibrary") : t("addToLibrary")}
+            </button>
+        </div>
+    );
+
     return (
         <div className="bg-white dark:bg-dark">
             {/* HERO */}
@@ -248,59 +289,46 @@ export default function Page() {
                     {loading ? (
                         <HeroSkeleton />
                     ) : book ? (
-                        <div className="mt-5 md:mt-6 flex items-start gap-5 md:gap-10">
-                            <Cover src={book.image} alt={book.title} />
+                        <>
+                            <div className="mt-5 md:mt-6 flex items-start gap-5 md:gap-10">
+                                <Cover src={book.image} alt={book.title} />
 
-                            <div className="min-w-0 pt-1 md:pt-2">
-                                <h1 className="text-xl md:text-[26px] font-bold text-white leading-tight">{book.title}</h1>
+                                <div className="min-w-0 pt-1 md:pt-2">
+                                    <h1 className="line-clamp-2 text-lg md:text-[26px] font-bold text-white leading-tight">{book.title}</h1>
 
-                                <div className="mt-1 text-sm md:text-[15px] text-white/50">
-                                    {book.author && (
-                                        <p>{t.rich("writtenBy", { author: book.author, name: (chunks) => <span className="text-red-600">{chunks}</span> })}</p>)}
-                                    {book.status && <><span className="mx-1.5">•</span>{completed ? b("completed") : book.status.toLowerCase() === "ongoing" ? b("ongoing") : titleCase(book.status)}</>}
-                                </div>
-
-                                <div className="mt-2.5 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-sm md:text-[15px] text-white/85">
-                                    <span>👁️ {t("views", { views: book.views ?? 0 })}</span>
-                                    <span>•</span>
-                                    <span>📚 {t("chapters", { count: chapterCount })}</span>
-                                    {ratingText && (
-                                        <>
-                                            <span>•</span>
-                                            <span>⭐ {t("rating", { rating: ratingText })}</span>
-                                        </>
-                                    )}
-                                </div>
-
-                                {pills.length > 0 && (
-                                    <div className="mt-4 flex flex-wrap gap-2">
-                                        {pills.map((p) => (
-                                            <span key={p} className="rounded-full bg-white/30 px-2.5 py-0.5 text-[11px] md:text-xs text-white">
-                                                {p}
-                                            </span>
-                                        ))}
+                                    <div className="mt-1 flex flex-wrap items-center gap-x-1.5 text-xs md:text-[15px] text-white/50">
+                                        {book.author && (
+                                            <p>{t.rich("writtenBy", { author: book.author, name: (chunks) => <span className="text-red-600">{chunks}</span> })}</p>)}
+                                        {book.status && <><span>•</span><span>{completed ? b("completed") : book.status.toLowerCase() === "ongoing" ? b("ongoing") : titleCase(book.status)}</span></>}
                                     </div>
-                                )}
 
-                                <div className="mt-6 md:mt-8 flex flex-wrap gap-3">
-                                    <Link
-                                        href={`${bookPath}/reader?chapter=${startChapter}`}
-                                        className="rounded-md bg-red-600 px-6 md:px-7 py-2 text-[11px] md:text-xs font-semibold text-white hover:bg-red-700">
-                                        {readLabel}
-                                    </Link>
-                                    <button
-                                        type="button"
-                                        onClick={handleLibrary}
-                                        disabled={savingBook}
-                                        className={`rounded-md border px-5 md:px-6 py-2 text-[11px] md:text-xs font-semibold disabled:opacity-60 ${saved
-                                            ? "border-red-600 bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500/15"
-                                            : "border-gray-200 dark:border-dark-border bg-white dark:bg-dark-card text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-raised"
-                                            }`}>
-                                        {saved ? t("inLibrary") : t("addToLibrary")}
-                                    </button>
+                                    {/* Phones: one stat per line, so the text stays no taller than the cover */}
+                                    <div className="mt-2 flex flex-col items-start gap-y-0.5 text-xs text-white/85 md:mt-2.5 md:flex-row md:flex-wrap md:items-center md:gap-x-2.5 md:gap-y-1 md:text-[15px]">
+                                        <span>👁️ {t("views", { views: book.views ?? 0 })}</span>
+                                        <span className="hidden md:inline">•</span>
+                                        <span>📚 {t("chapters", { count: chapterCount })}</span>
+                                        {ratingText && (
+                                            <>
+                                                <span className="hidden md:inline">•</span>
+                                                <span>⭐ {t("rating", { rating: ratingText })}</span>
+                                            </>
+                                        )}
+                                    </div>
+
+                                    {/* Bigger screens: tags and buttons beside the cover (phones: under it, below) */}
+                                    <div className="hidden md:block">
+                                        {pillsEl}
+                                        {actionsEl}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+
+                            {/* Phones: tags and buttons full width under the cover */}
+                            <div className="md:hidden">
+                                {pillsEl}
+                                {actionsEl}
+                            </div>
+                        </>
                     ) : (
                         <p className="mt-6 text-white/80">{t("notFound")}</p>
                     )}

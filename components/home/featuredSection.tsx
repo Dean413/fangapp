@@ -9,6 +9,8 @@ const ROTATE_EVERY = 6000;
 // Each new book fades in
 const FADE_CSS = "@keyframes fangFeaturedFade { from { opacity: 0 } to { opacity: 1 } }";
 const GRID_SIZE = 8;
+// Phones scroll through this many books; bigger screens show all of GRID_SIZE
+const PHONE_COUNT = 6;
 
 function FeaturedCard({ books }: { books: HomeBook[] }) {
     const [index, setIndex] = useState(0);
@@ -84,10 +86,10 @@ export default function FeaturedSection({ collection }: { collection: HomeCollec
                 <div className="lg:w-[32%] lg:shrink-0">
                     <FeaturedCard books={collection.books} />
                 </div>
-                <div className="grid flex-1 grid-cols-2 gap-x-4 gap-y-6 sm:grid-cols-3 lg:grid-cols-4">
+                {/* Phones: a sideways-scrolling row of the first 6 books; bigger screens: the grid */}
+                <div className="flex min-w-0 flex-1 snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-3 sm:gap-y-6 sm:overflow-visible sm:pb-0 lg:grid-cols-4">
                     {grid.map((book, i) => (
-                        // Phones show 6 (3 rows of 2), bigger screens all 8
-                        <GridCard key={book.id} book={book} className={i >= 6 ? "hidden sm:block" : ""} />
+                        <GridCard key={book.id} book={book} className={`w-32 shrink-0 snap-start sm:w-auto sm:shrink ${i >= PHONE_COUNT ? "hidden sm:block" : ""}`} />
                     ))}
                 </div>
             </div>

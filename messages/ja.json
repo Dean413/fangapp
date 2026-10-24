@@ -578,7 +578,9 @@
         "defaultFont": "デフォルト",
         "textSize": "文字サイズ",
         "currentSize": "現在のサイズ",
-        "reportBook": "作品を報告"
+        "reportBook": "作品を報告",
+        "free": "無料",
+        "vipFreeUnlock": "VIP無料解放"
     },
     "Report": {
         "maxFiles": "ファイルは最大{max}個まで追加できます",
@@ -720,7 +722,7 @@
         "payDailyCoins": "毎日のコイン",
         "payFreeUnlocks": "1日あたりの無料解放数",
         "payTopupBonus": "チャージボーナス",
-        "payConsentVip": "「お支払いへ進む」をクリックすることで、<terms>利用規約</terms>および<privacy>プライバシーポリシー</privacy>に同意し、VIPメンバーシップの即時有効化に明示的に同意します。これは1回限りのお支払いで、自動更新はされません。VIPの購入は最終的なものであり、返金不可で、有効化後のキャンセルはできないことを承認します。"
+        "payConsentVip": "「お支払いへ進む」をクリックすることで、<terms>利用規約</terms>および<privacy>プライバシーポリシー</privacy>に同意し、VIPメンバーシップの即時有効化に明示的に同意します。メンバーシップは自動的に更新され、キャンセルするまで各期間ごとに同額が請求されます。自動更新はいつでもキャンセルでき、支払い済みの期間が終了するまでVIPをご利用いただけます。お支払い済みの料金は返金されません。"
     },
     "Reviews": {
         "couldntPostReply": "返信を投稿できませんでした",
@@ -876,7 +878,14 @@
         "checkinReady": "<b>{day}日目</b>のチェックインができます",
         "bonusCoins": "+{count}ボーナスコイン",
         "claim": "受け取る",
-        "newReply": "新しい返信"
+        "newReply": "新しい返信",
+        "planMonthly": "月間",
+        "planWeekly": "週間",
+        "vipUntil": "VIP期限：{date}",
+        "vipStarted": "<b>{plan}VIP</b>が有効になりました",
+        "vipRenewed": "<b>{plan}VIP</b>が更新されました",
+        "vipCancelled": "<b>{plan}VIP</b>の自動更新がオフになりました",
+        "vipEnded": "<b>{plan}VIP</b>が終了しました"
     },
     "Transactions": {
         "loadFailed": "取引を読み込めませんでした",
@@ -997,10 +1006,16 @@
         "bestValue": "いちばんお得",
         "save": "週払いより{percent}%お得",
         "currentPlan": "現在のプラン",
-        "renewsOn": "更新日",
+        "renewsOn": "{date}に更新",
         "moreValueOn": "お得度",
         "weeklyBenefits": "ウィークリーVIPの特典",
-        "monthlyBenefits": "マンスリーVIPの特典"
+        "monthlyBenefits": "マンスリーVIPの特典",
+        "renewalCancelled": "自動更新をキャンセルしました",
+        "cancelFailed": "自動更新をキャンセルできませんでした。もう一度お試しください。",
+        "cancelSure": "自動更新をキャンセルしますか？{date}までVIPをご利用いただけます。",
+        "cancelYes": "はい、キャンセルします",
+        "cancelNo": "続ける",
+        "cancelRenewal": "自動更新をキャンセル"
     },
     "Stats": {
         "title": "読書の統計",
@@ -1013,7 +1028,9 @@
         "streak": "連続読書",
         "days": "日",
         "mostActiveDay": "最もよく読む曜日",
-        "avgTime": "平均閲覧時間 {time}"
+        "avgTime": "平均閲覧時間 {time}",
+        "loadFailed": "読書統計を読み込めませんでした。",
+        "noData": "まだ読書データがありません"
     },
     "Settings": {
         "set": "設定",

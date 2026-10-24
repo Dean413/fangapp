@@ -277,7 +277,7 @@ export default function ReaderPage() {
                     ? list.map((c: any) => (c.chapter_number === number ? { ...c, isLocked: false } : c))
                     : list);
             }
-            if (body.charged > 0) toast.success(body.message || t("unlocked"));
+            if (body.charged > 0 || body.free) toast.success(body.message || t("unlocked"));
         } catch {
             toast.error(c("networkError"));
         } finally {
@@ -320,7 +320,7 @@ export default function ReaderPage() {
     useEffect(() => {
         if (!lockedChapter || !lockedChapter.autoUnlock || !signedIn || lockedChapter.firstLocked) return;
         if (autoTried.current === String(lockedChapter.id)) return;
-        if (balance < Number(lockedChapter.price || 0)) return;
+        if (balance < Number(lockedChapter.price || 0) && !lockedChapter.vipFree) return;
         autoTried.current = String(lockedChapter.id);
         unlockNow(true);
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -456,7 +456,7 @@ export default function ReaderPage() {
                         <div className={`flex-1 border-t ${theme.line}`} />
                         <div className="px-4">
                             <Image
-                                src="/fang_pictures/fang_logo2.png"
+                                src="/fang_pictures/fanglogo1.svg"
                                 alt="logo"
                                 width={30}
                                 height={30}
@@ -487,7 +487,6 @@ export default function ReaderPage() {
                                 <ChapterContent
                                     content={data.chapter.content}
                                     locked={data.chapter.isLocked}
-
                                     unlock={{
                                         price: Number(data.chapter.price) || 0,
                                         signedIn,
@@ -498,6 +497,7 @@ export default function ReaderPage() {
                                         autoUnlock: Boolean(data.chapter.autoUnlock),
                                         autoBusy,
                                         onToggleAuto: toggleAuto,
+                                        free: Boolean(data.chapter.vipFree) && !data.chapter.firstLocked,
                                         dark: popupsDark,
                                         firstLocked: data.chapter.firstLocked ?? null,
                                         onGoToFirst: () => data.chapter.firstLocked && router.replace(`?chapter=${data.chapter.firstLocked}`),

@@ -1,45 +1,20 @@
 "use client";
 
 // app/components/home/trendingSection.tsx
-// Top Trending: a big card on the left that takes turns showing every book in the collection
-// (a new one every 6 seconds; pauses while the pointer is on it), and the next three as numbered rows on the right
-import { useEffect, useState } from "react";
+// Top Trending: a big card on the left with the #1 book, and the next three as numbered rows on the right.
+// On phones only three books show (#1, #2, #3); "View all" has the rest.
 import Link from "next/link";
 import type { HomeBook, HomeCollection } from "@/lib/home";
 import { BookPills, Cover, SectionHeader, bookHref, formatCount } from "./bookBits";
 import { useTranslations } from "next-intl";
 
-const ROTATE_EVERY = 6000;
-// Each new book fades in
-const FADE_CSS = "@keyframes fangTrendingFade { from { opacity: 0 } to { opacity: 1 } }";
-
-function RotatingCard({ books }: { books: HomeBook[] }) {
-    const [index, setIndex] = useState(0);
-    const [paused, setPaused] = useState(false);
-
-    useEffect(() => {
-        if (paused || books.length < 2) return;
-        // People who asked their device for less motion get no automatic turns
-        if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
-        const timer = setInterval(() => setIndex((i) => (i + 1) % books.length), ROTATE_EVERY);
-        return () => clearInterval(timer);
-    }, [paused, books.length]);
-
-    const book = books[index % books.length];
-    if (!book) return null;
-
+function TopCard({ book }: { book: HomeBook }) {
     return (
-        <div
-            className="flex h-full flex-col rounded-xl bg-white p-5 shadow-sm dark:bg-dark-card dark:shadow-none"
-            onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}>
-            <style>{FADE_CSS}</style>
-            {/* key = the book: each turn fades in */}
-            <Link key={book.id} href={bookHref(book)} className="group flex flex-1 flex-col animate-[fangTrendingFade_500ms_ease-out]">
+        <div className="flex h-full flex-col rounded-xl bg-white p-5 shadow-sm dark:bg-dark-card dark:shadow-none">
+            <Link href={bookHref(book)} className="group flex flex-1 flex-col">
                 <Cover book={book} imprint="lg" className="mx-auto aspect-3/4 w-full max-w-50" />
-                {/* The book's place in Trending: #1, #2, #3… as the card turns */}
                 <p className="mt-5 text-[10px] font-bold uppercase tracking-wide text-red-600 dark:text-red-400">
-                    #{(index % books.length) + 1} This Week
+                    #1 This Week
                 </p>
                 <h3 className="mt-1 line-clamp-2 text-lg font-bold text-gray-900 dark:text-white">{book.title}</h3>
                 <p className="text-xs text-gray-500 dark:text-neutral-400">by {book.author}</p>
@@ -63,28 +38,27 @@ export default function TrendingSection({ collection }: { collection: HomeCollec
             <SectionHeader title={collection.name} href={`/collections/${collection.id}`} />
             {/* Both columns stretch to the same height, so neither side leaves empty space below */}
             <div className="grid grid-cols-[minmax(0,1fr)] items-stretch gap-4 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
-                {/* Every book in turn */}
-                <RotatingCard books={collection.books} />
+                <TopCard book={top} />
 
-                {/* #2 to #4: the rows share the column's height evenly */}
+                {/* #2 to #4: the rows share the column's height evenly (phones: #2 and #3 only) */}
                 <div className="flex h-full flex-col gap-4">
                     {others.map((book, i) => (
                         <Link
                             key={book.id}
                             href={bookHref(book)}
-                            className="group flex flex-1 items-center gap-3 sm:gap-4 rounded-xl bg-white p-3 sm:p-4 shadow-sm dark:bg-dark-card dark:shadow-none"
+                            className={`group ${i >= 2 ? "hidden sm:flex" : "flex"} flex-1 items-center gap-3 sm:gap-4 rounded-xl bg-white p-3 sm:p-4 shadow-sm dark:bg-dark-card dark:shadow-none`}
                         >
                             <span
-                                className={`w-8 sm:w-10 shrink-0 text-center text-2xl sm:text-3xl font-extrabold ${i === 0 ? "text-red-600 dark:text-red-500" : "text-gray-300 dark:text-neutral-600"
+                                className={`w-6 sm:w-10 shrink-0 text-center text-lg sm:text-3xl font-extrabold ${i === 0 ? "text-red-600 dark:text-red-500" : "text-gray-300 dark:text-neutral-600"
                                     }`}
                             >
                                 {String(i + 2).padStart(2, "0")}
                             </span>
-                            <Cover book={book} imprint="sm" className="aspect-3/4 w-14 sm:w-16 shrink-0" />
+                            <Cover book={book} imprint="sm" className="aspect-3/4 w-16 shrink-0" />
                             <div className="min-w-0 flex-1">
                                 <h4 className="line-clamp-1 text-sm font-semibold text-gray-900 dark:text-white">{book.title}</h4>
                                 <p className="text-xs text-gray-500 dark:text-neutral-400">by {book.author}</p>
-                                {book.blurb && <p className="mt-1.5 line-clamp-2 text-xs text-gray-600 dark:text-neutral-300">{book.blurb}</p>}
+                                {book.blurb && <p className="mt-1.5 max-sm:hidden line-clamp-2 text-xs text-gray-600 dark:text-neutral-300">{book.blurb}</p>}
                                 <div className="mt-2">
                                     <BookPills book={book} />
                                 </div>

@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 
 export default function TocSheet({ chapters, currentChapter, onClose }: any) {
     const router = useRouter();
+    const r = useTranslations("Reader");
     const t = useTranslations("Book");
     const handleClick = (ch: any) => {
         if (ch.isLocked) return;
@@ -25,7 +26,7 @@ export default function TocSheet({ chapters, currentChapter, onClose }: any) {
 
                 <div className="flex flex-col gap-2 max-h-100 overflow-y-auto no-scrollbar">
                     {chapters?.map((ch: any) => (
-                        <button disabled={ch.isLocked} key={ch.chapter_number} onClick={() => { router.replace(`?chapter=${ch.chapter_number}`); onClose(); }}
+                        <button key={ch.chapter_number} onClick={() => { router.replace(`?chapter=${ch.chapter_number}`); onClose(); }}
                             className={`text-left px-3 flex ${ch.isLocked ? "opacity-70" : "opacity-100"}  items-center gap-3 py-2 rounded hover:bg-gray-100 dark:hover:bg-dark-raised ${Number(currentChapter) === ch.chapter_number
                                 ? "bg-gray-200 dark:bg-neutral-800 font-bold" : ""}`}>
 
@@ -33,7 +34,9 @@ export default function TocSheet({ chapters, currentChapter, onClose }: any) {
                                 <FaLock className="text-gray-500 dark:text-neutral-400 text-sm" />
                             )}
 
-                            {t("chapterTitled", { chapter: ch.chapter_number, title: ch.title })}
+                            {ch.title?.trim()
+                                ? t("chapterTitled", { chapter: ch.chapter_number, title: ch.title.trim() })
+                                : r("chapterN", { chapter: ch.chapter_number })}
                         </button>
                     ))}
                 </div>

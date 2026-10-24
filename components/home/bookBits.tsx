@@ -46,40 +46,62 @@ export function SectionHeader({ title, href }: { title: string; href?: string })
     );
 }
 
-// Primary genre in red, then the book's first tags in grey
+// Primary genre in red, then the book's first tags in grey. Long names are cut with "…".
 export function BookPills({ book, max = 2 }: { book: HomeBook; max?: number }) {
     const tags = book.tags.slice(0, book.genre ? max - 1 : max);
     return (
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex min-w-0 flex-wrap gap-1.5">
             {book.genre && (
-                <span className="rounded-full bg-red-50 px-2 py-0.5 text-[10px] font-medium text-red-600 dark:bg-red-500/15 dark:text-red-400">
+                <span className="max-w-full truncate rounded-full bg-red-50 px-2 py-0.5 text-[10px] font-medium text-red-600 dark:bg-red-500/15 dark:text-red-400">
                     {book.genre}
                 </span>
             )}
             {tags.map((t) => (
-                <span key={t} className="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] text-gray-700 dark:bg-transparent dark:border dark:border-neutral-600 dark:text-neutral-200">
+                <span key={t} className="max-w-full truncate rounded-full bg-gray-100 px-2 py-0.5 text-[10px] text-gray-700 dark:bg-transparent dark:border dark:border-neutral-600 dark:text-neutral-200">
                     {t}
                 </span>
             ))}
         </div>
     );
 }
-
 // Diagonal ribbons in the cover's top-left corner: red "Exclusive", green "Completed" (sit on the cover image, so same in both themes)
+// Corner ribbons across the cover's top-left corner, drawn as one SVG so each text
+// sits exactly in the middle of its band (1 unit = 1px).
+const RIBBON_OFFSETS = [22, 31.5]; // distance of each band's centre from the corner
+
 export function CoverRibbons({ book }: { book: HomeBook }) {
     const t = useTranslations("Books");
     const ribbons = [
-        book.exclusive && { label: t("exclusive"), color: "bg-red-600" },
-        book.completed ? { label: t("completed"), color: "bg-green-600" } : { label: t("ongoing"), color: "bg-purple-600" },
-    ].filter(Boolean) as { label: string; color: string }[];
-    return ribbons.map((r, i) => (
-        <span
-            key={r.label}
-            className={`absolute -left-8 w-28 -rotate-45 py-0.5 text-center text-[7px] font-bold uppercase tracking-wide text-white shadow ${r.color}`}
-            style={{ top: 10 + i * 19 }}>
-            {r.label}
-        </span>
-    ));
+        book.exclusive && { label: t("exclusive"), fill: "fill-red-600" },
+        book.completed ? { label: t("completed"), fill: "fill-green-600" } : { label: t("ongoing"), fill: "fill-red-600" },
+    ].filter(Boolean) as { label: string; fill: string }[];
+
+    return (
+        <svg
+            viewBox="0 0 80 80"
+            aria-hidden="true"
+            className="absolute top-0 left-0 z-10 aspect-square w-[62%] h-auto pointer-events-none drop-shadow-sm sm:w-20">
+            {ribbons.map((r, i) => {
+                const o = RIBBON_OFFSETS[i];
+                return (
+                    <g key={r.label} transform={`rotate(-45 ${o} ${o})`}>
+                        <rect x={o - 56} y={o - 6.75} width={112} height={13.5} className={r.fill} />
+                        <text
+                            x={o + 0.1}
+                            y={o}
+                            dy="0.35em"
+                            textAnchor="middle"
+                            fill="white"
+                            fontSize={7}
+                            fontWeight={700}
+                            letterSpacing={0.2}>
+                            {r.label.toLocaleUpperCase()}
+                        </text>
+                    </g>
+                );
+            })}
+        </svg>
+    );
 }
 
 // Average review rating, e.g. "★ 4.5" (nothing when the book has no reviews yet)

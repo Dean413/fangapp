@@ -5,6 +5,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { dbPool } from "@/lib/db";
 import { PAYMENT_CONFIG } from "@/lib/payments/config";
 import { creditPayment } from "@/lib/payments/credit";
+import { stripeGet } from "@/lib/payments/stripe";
+import { creditVipPeriod, linkStripeSubscription } from "@/lib/payments/subscription";
 
 // Where readers land after paying (change to your wallet page)
 const WALLET_PATH = "/profile/wallet";
@@ -17,6 +19,38 @@ export async function GET(request: NextRequest) {
     if (!/^cs_[A-Za-z0-9_]{10,200}$/.test(sessionId)) return back("failed");
 
     try {
+        // ---- A VIP subscription? ----
+        const { rows: billingRows } = await dbPool.query(
+            `SELECT id FROM vip_billing WHERE provider = 'stripe' AND provider_ref = $1`,
+            [sessionId]
+        );
+        const billing = billingRows[0];
+        if (billing) {
+            const { ok, data: session } = await stripeGet(`/v1/checkout/sessions/${encodeURIComponent(sessionId)}`);
+            if (!ok) return back("failed");
+            if (session.client_reference_id !== String(billing.id)) return back("failed");
+            if (session.status !== "complete") return back("cancelled");
+
+            const subscriptionId = typeof session.subscription === "string" ? session.subscription : null;
+            if (!subscriptionId) return back("failed");
+            await linkStripeSubscription(sessionId, subscriptionId);
+
+            // The first invoice: credited here (or by the webhook, whichever is first, never twice)
+            const sub = await stripeGet(`/v1/subscriptions/${encodeURIComponent(subscriptionId)}?expand[]=latest_invoice`);
+            const invoice = sub.data?.latest_invoice;
+            if (sub.ok && invoice?.status === "paid") {
+                await creditVipPeriod({
+                    provider: "stripe",
+                    subscriptionId,
+                    txnId: invoice.id,
+                    amountCents: invoice.amount_paid,
+                    currency: invoice.currency,
+                });
+            }
+            return back("success");
+        }
+
+        // ---- A coin payment ----
         const { rows } = await dbPool.query(
             `SELECT id, price_cents, status FROM payments WHERE provider = 'stripe' AND provider_ref = $1`,
             [sessionId]
@@ -26,13 +60,8 @@ export async function GET(request: NextRequest) {
         if (p.status === "paid") return back("success"); // already credited (webhook or page reload)
 
         // Ask Stripe, never trust the address bar
-        const res = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}`, {
-            headers: { Authorization: `Bearer ${PAYMENT_CONFIG.stripeSecretKey}` },
-            cache: "no-store",
-        });
-        const session = await res.json();
-        if (!res.ok) return back("failed");
-
+        const { ok, data: session } = await stripeGet(`/v1/checkout/sessions/${encodeURIComponent(sessionId)}`);
+        if (!ok) return back("failed");
         if (session.payment_status !== "paid") return back("cancelled");
 
         const matches =

@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 // Loading placeholders (light + dark)
 const BONE = "animate-pulse rounded bg-gray-200 dark:bg-dark-raised";
 
@@ -5,9 +7,29 @@ export function Bone({ className = "" }: { className?: string }) {
     return <div className={`${BONE} ${className}`} />;
 }
 
+// The site logo in the middle of a loading book cover
+function SkeletonLogo() {
+    return (
+        <Image src="/fanglogo1.svg" alt="" aria-hidden="true" width={64} height={64} className="w-1/3 max-w-16 h-auto opacity-40" />
+    );
+}
+
+// A loading book cover: grey pulsing block with the site logo in the middle
+export function CoverBone({ className = "" }: { className?: string }) {
+    return (
+        <div className={`${BONE} relative flex items-center justify-center ${className}`}>
+            <SkeletonLogo />
+        </div>
+    );
+}
+
 // Sits behind a cover image (fill) until the image loads over it
 export function CoverPlaceholder() {
-    return <div className="absolute inset-0 animate-pulse bg-gray-200 dark:bg-dark-raised" />;
+    return (
+        <div className="absolute inset-0 flex items-center justify-center animate-pulse bg-gray-200 dark:bg-dark-raised">
+            <SkeletonLogo />
+        </div>
+    );
 }
 
 // Book page header: cover + title, author, tags, stats, buttons
@@ -66,7 +88,7 @@ export function BookGridSkeleton({ count = 7 }: { count?: number }) {
         <div className="flex gap-3 sm:gap-4 overflow-hidden pb-2">
             {Array.from({ length: count }, (_, i) => (
                 <div key={i} className="flex-none w-[calc(100%/3-18px)] md:w-[calc(100%/5-12px)] lg:w-[calc(100%/7-14px)]">
-                    <Bone className="w-full aspect-3/4 rounded-xl" />
+                    <CoverBone className="w-full aspect-3/4 rounded-xl" />
                     <div className="pt-2 sm:p-3 space-y-2">
                         <Bone className="h-3 w-4/5" />
                         <Bone className="h-3 w-1/2" />

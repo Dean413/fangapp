@@ -1,30 +1,14 @@
 "use client";
 
 // app/components/home/youMayLikeSection.tsx
-// The "You May Like" Home collection (from the admin's curation): 9 books as small cards in a 3 x 3 grid,
-// with Hot (most viewed), Leading (best rated) and New (newest) tabs over the collection's books.
-import { useMemo, useState } from "react";
+// The "You May Like" Home collection (from the admin's curation): the first 9 books, in the admin's order,
+// as small cards in a 3 x 3 grid, with a "View all" link like the other sections.
 import Link from "next/link";
 import type { HomeBook, HomeCollection } from "@/lib/home";
-import { bookHref } from "./bookBits";
-import { useTranslations } from "next-intl";
-
-type Sort = "hot" | "leading" | "new";
+import { SectionHeader, bookHref } from "./bookBits";
 
 const SHOWN = 9;
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
-// Labels: Books.sort_<value>
-const TABS: Sort[] = ["hot", "leading", "new"];
-
-const time = (b: HomeBook) => (b.createdAt ? new Date(b.createdAt).getTime() : 0);
-
-function sortBooks(books: HomeBook[], sort: Sort) {
-    const list = [...books];
-    if (sort === "hot") list.sort((a, b) => b.views - a.views);
-    if (sort === "leading") list.sort((a, b) => (b.rating ?? -1) - (a.rating ?? -1) || b.views - a.views);
-    if (sort === "new") list.sort((a, b) => time(b) - time(a));
-    return list.slice(0, SHOWN);
-}
 
 function BookCard({ book }: { book: HomeBook }) {
     return (
@@ -63,33 +47,11 @@ function BookCard({ book }: { book: HomeBook }) {
 }
 
 export default function YouMayLikeSection({ collection }: { collection: HomeCollection }) {
-    const [tab, setTab] = useState<Sort>("hot");
-    const t = useTranslations("Books");
-    const books = useMemo(() => sortBooks(collection.books, tab), [collection.books, tab]);
+    const books = collection.books.slice(0, SHOWN);
 
     return (
         <section>
-            <div className="mb-5 flex items-start justify-between gap-4">
-                <div>
-                    <h2 className="text-lg font-bold text-gray-900 dark:text-white">{collection.name}</h2>
-                    <span className="mt-1 block h-0.5 w-8 rounded bg-red-600 dark:bg-red-500" />
-                </div>
-                <div role="tablist" aria-label={t("sort")} className="flex items-center gap-5 md:gap-8 text-xs md:text-sm">
-                    {TABS.map((value) => (
-                        <button
-                            key={value}
-                            type="button"
-                            role="tab"
-                            aria-selected={tab === value}
-                            onClick={() => setTab(value)}
-                            className={`border-b-2 pb-1 transition ${tab === value
-                                ? "border-red-600 font-medium text-red-600"
-                                : "border-transparent text-gray-500 hover:text-gray-900 dark:text-neutral-400 dark:hover:text-white"}`}>
-                            {t(`sort_${value}`)}
-                        </button>
-                    ))}
-                </div>
-            </div>
+            <SectionHeader title={collection.name} href={`/collections/${collection.id}`} />
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
                 {books.map((b) => <BookCard key={b.id} book={b} />)}

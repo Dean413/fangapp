@@ -578,7 +578,9 @@
         "defaultFont": "Varsayılan",
         "textSize": "Metin boyutu",
         "currentSize": "Geçerli boyut",
-        "reportBook": "Kitabı şikayet et"
+        "reportBook": "Kitabı şikayet et",
+        "free": "Ücretsiz",
+        "vipFreeUnlock": "VIP ücretsiz kilit açma"
     },
     "Report": {
         "maxFiles": "En fazla {max} dosya ekleyebilirsin",
@@ -720,7 +722,7 @@
         "payDailyCoins": "Günlük coin",
         "payFreeUnlocks": "Günlük ücretsiz kilit açma",
         "payTopupBonus": "Yükleme bonusu",
-        "payConsentVip": "\"Ödemeye Geç\" düğmesine tıklayarak <terms>Hizmet Şartları</terms>’nı ve <privacy>Gizlilik Politikası</privacy>’nı kabul ediyor ve VIP üyeliğimin derhal etkinleştirilmesine açıkça izin veriyorum. Bu, otomatik olarak yenilenmeyen tek seferlik bir ödemedir. VIP satın alımlarının kesin olduğunu, iade edilemeyeceğini ve etkinleştirildikten sonra iptal edilemeyeceğini kabul ederim."
+        "payConsentVip": "\"Ödemeye Geç\" düğmesine tıklayarak <terms>Hizmet Şartları</terms>’nı ve <privacy>Gizlilik Politikası</privacy>’nı kabul ediyor ve VIP üyeliğimin derhal etkinleştirilmesine açıkça izin veriyorum. Üyeliğim otomatik olarak yenilenir ve iptal edene kadar her dönem aynı tutar tahsil edilir. Otomatik yenilemeyi istediğim zaman iptal edebilir ve VIP’yi ödemesi yapılmış dönemin sonuna kadar kullanmaya devam edebilirim. Yapılmış ödemeler iade edilmez."
     },
     "Reviews": {
         "couldntPostReply": "Yanıtın yayınlanamadı",
@@ -876,7 +878,14 @@
         "checkinReady": "<b>{day}. gün</b> girişin hazır",
         "bonusCoins": "+{count} bonus jeton",
         "claim": "Al",
-        "newReply": "Yeni yanıt"
+        "newReply": "Yeni yanıt",
+        "planMonthly": "Aylık",
+        "planWeekly": "Haftalık",
+        "vipUntil": "VIP bitişi: {date}",
+        "vipStarted": "<b>{plan} VIP</b> üyeliğin artık aktif",
+        "vipRenewed": "<b>{plan} VIP</b> üyeliğin yenilendi",
+        "vipCancelled": "<b>{plan} VIP</b> üyeliğinin otomatik yenilemesi kapatıldı",
+        "vipEnded": "<b>{plan} VIP</b> üyeliğin sona erdi"
     },
     "Transactions": {
         "loadFailed": "İşlemlerin yüklenemedi",
@@ -997,10 +1006,16 @@
         "bestValue": "En avantajlı",
         "save": "Haftalık ödemeye göre %{percent} tasarruf et",
         "currentPlan": "Geçerli plan",
-        "renewsOn": "Yenilenme tarihi:",
+        "renewsOn": "{date} tarihinde yenilenir",
         "moreValueOn": "daha avantajlı:",
         "weeklyBenefits": "Haftalık VIP avantajları",
-        "monthlyBenefits": "Aylık VIP avantajları"
+        "monthlyBenefits": "Aylık VIP avantajları",
+        "renewalCancelled": "Otomatik yenileme iptal edildi",
+        "cancelFailed": "Otomatik yenileme iptal edilemedi. Lütfen tekrar deneyin.",
+        "cancelSure": "Otomatik yenileme iptal edilsin mi? VIP {date} tarihine kadar devam eder.",
+        "cancelYes": "Evet, iptal et",
+        "cancelNo": "Devam et",
+        "cancelRenewal": "Otomatik yenilemeyi iptal et"
     },
     "Stats": {
         "title": "Okuma istatistikleri",
@@ -1013,7 +1028,9 @@
         "streak": "Okuma serisi",
         "days": "gün",
         "mostActiveDay": "En aktif gün",
-        "avgTime": "Ortalama okuma süresi: {time}"
+        "avgTime": "Ortalama okuma süresi: {time}",
+        "loadFailed": "Okuma istatistiklerin yüklenemedi.",
+        "noData": "Henüz okuma verisi yok"
     },
     "Settings": {
         "set": "Belirle",

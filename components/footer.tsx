@@ -12,23 +12,17 @@ const Footer = () => {
 
                 {/* Brand Section — full width on mobile */}
                 <div className="col-span-2 sm:col-span-3 md:col-span-1 flex flex-col items-center md:items-start text-center md:text-left">
-                    <div className="text-3xl font-bold uppercase tracking-widest flex items-center gap-3">
-                        <Image
-                            src="/fang_pictures/landinglogo.png"
-                            width={220}
-                            height={220}
-                            alt="landing logo"
-                            className="w-8 md:w-10 md:h-10 object-contain"
+                    <div className="flex items-center">
+                        <Image src="/fanglogo1.svg" alt="logo" width={80} height={80} className="w-10" />
+                        <div
+                            role="img"
+                            aria-label="FANG"
+                            className="-ml-4 w-15 md:w-20 aspect-1873/614 bg-white"
+                            style={{
+                                WebkitMask: "url(/fanglogo2.svg) center / contain no-repeat",
+                                mask: "url(/fanglogo2.svg) center / contain no-repeat",
+                            }}
                         />
-
-                        <Image
-                            src="/fang_pictures/landinglogo2.png"
-                            width={200}
-                            height={200}
-                            alt={t("tagline")}
-                            className="w-20 md:w-20 object-contain"
-                        />
-
                     </div>
                     <p className="mt-2 text-[#A3A3A3]">{t("tagline")}</p>
                     <div className="mt-4 flex flex-col items-center md:items-start gap-3 text-gray-300">
