@@ -25,6 +25,7 @@ import { FaFacebookF, FaFile, FaShieldHalved, FaUserPen, FaUserShield } from "re
 import { FiLifeBuoy, FiLink } from "react-icons/fi";
 import { FaInfoCircle, FaQuestionCircle } from "react-icons/fa";
 import { useLocale, useTranslations } from "next-intl";
+import AutoRenewRow from "@/components/profile-components/settings/auto-renew-row";
 
 type T = (key: string, values?: Record<string, string | number>) => string;
 
@@ -267,6 +268,7 @@ export default function SettingsPage() {
                     description={t("notificationsText")}
                     action={<button type="button" onClick={() => setDialog("notifications")} disabled={!s} className={actionClass}>{t("configure")}</button>}
                 />
+                <AutoRenewRow />
             </SettingsSection>
 
             <SettingsSection title={t("help")} icon={<FaInfoCircle size={20} className="text-red-500" />}>
@@ -291,6 +293,8 @@ export default function SettingsPage() {
                         title={t("about")}
                         link="/about"
                     />
+
+
                 </div>
             </SettingsSection>
             <p className="text-center text-gray-500 dark:text-neutral-400">{t("version", { version: "2.4.1", year: 2026 })}</p>
@@ -313,3 +317,5 @@ export default function SettingsPage() {
         </div>
     );
 }
+
+

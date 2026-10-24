@@ -21,6 +21,7 @@ interface Book {
     id?: string | number;
     title: string;
     author: string;
+    authorSlug?: string | null;   // the author's page address (null = no author page)
     views?: string;
     genre: string;
     genreSlug: string;
@@ -298,7 +299,11 @@ export default function Page() {
 
                                     <div className="mt-1 flex flex-wrap items-center gap-x-1.5 text-xs md:text-[15px] text-white/50">
                                         {book.author && (
-                                            <p>{t.rich("writtenBy", { author: book.author, name: (chunks) => <span className="text-red-600">{chunks}</span> })}</p>)}
+                                            <p>{t.rich("writtenBy", {
+                                                author: book.author, name: (chunks) => book.authorSlug
+                                                    ? <Link href={`/authors/${book.authorSlug}`} className="text-red-600 hover:underline">{chunks}</Link>
+                                                    : <span className="text-red-600">{chunks}</span>
+                                            })}</p>)}
                                         {book.status && <><span>•</span><span>{completed ? b("completed") : book.status.toLowerCase() === "ongoing" ? b("ongoing") : titleCase(book.status)}</span></>}
                                     </div>
 

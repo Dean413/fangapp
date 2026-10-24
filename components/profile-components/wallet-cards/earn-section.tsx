@@ -31,14 +31,14 @@ const EarnSection = () => {
 
                     <DailyCheckIn />
 
-                    <SectionTitle title={
+                    {/* <SectionTitle title={
                         <div className="flex gap-2 items-center mb-4">
                             <Target color="red" />
                             <p>{t("engagementRewards")}</p>
                         </div>
-                    } />
-                    <div className="space-y-3">
-                        <EngagementItem
+                    } /> */}
+                    <div className="space-y-3 mt-5">
+                        {/* <EngagementItem
                             icon={
                                 <div className="bg-red-200 dark:bg-red-500/25 p-3 rounded-lg">
                                     <FaVideo size={30} color="red" />
@@ -50,7 +50,7 @@ const EarnSection = () => {
                             progress={18}
                             showProgress
 
-                        />
+                        /> */}
 
                         <EngagementItem
                             icon={
@@ -68,7 +68,7 @@ const EarnSection = () => {
 
 
                         />
-                        <EngagementItem
+                        {/* <EngagementItem
                             icon={
                                 <div className="bg-red-200 dark:bg-red-500/25 p-3 rounded-lg">
                                     <FaBookOpen size={30} color="red" />
@@ -79,10 +79,10 @@ const EarnSection = () => {
                             progress={1}
                             target={3}
                             showProgress
-                        />
+                        /> */}
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-4">
+                    {/* <div className="grid md:grid-cols-3 gap-4">
                         <div className="md:col-span-2 space-y-3">
                             <SectionTitle title={
                                 <div className="flex items-center gap-2">
@@ -148,7 +148,7 @@ const EarnSection = () => {
                             <p className="text-sm text-gray-600 dark:text-neutral-300">{t("coinsTitle")}</p>
                             <button className="mt-4 bg-orange-400 text-white px-4 py-2 rounded-full">{t("getStarted")}</button>
                         </div>
-                    </div>
+                    </div> */}
                 </>
             )}
 

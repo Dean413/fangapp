@@ -114,3 +114,12 @@ export async function setBillingStatus(provider: Provider, subscriptionId: strin
         [provider, subscriptionId, status]
     );
 }
+
+// Renewal switched back on while the paid period is still running
+export async function resumeBilling(provider: Provider, subscriptionId: string): Promise<void> {
+    await dbPool.query(
+        `UPDATE vip_billing SET status = 'active', cancelled_at = NULL
+         WHERE provider = $1 AND provider_subscription_id = $2 AND status = 'cancelled'`,
+        [provider, subscriptionId]
+    );
+}

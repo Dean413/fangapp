@@ -9,15 +9,13 @@ type Genre = { id: string; name: string };
 type GenrePickerProps = {
     selected: string[];                     // genre IDs
     onChange: (ids: string[]) => void;
-    bio: string;
-    setBio: (value: string) => void;
 };
 
 // Readers can pick up to this many favourite genres
 const MAX_GENRES = 10;
 
 // The genre list comes from the admin's Primary Genre list (/api/genres), so it's always the same as the books' genres
-export default function GenrePicker({ selected, onChange, bio, setBio }: GenrePickerProps) {
+export default function GenrePicker({ selected, onChange }: GenrePickerProps) {
     const [genres, setGenres] = useState<Genre[] | null>(null);
     const t = useTranslations("Auth");
 
@@ -61,7 +59,6 @@ export default function GenrePicker({ selected, onChange, bio, setBio }: GenrePi
                     );
                 })}
 
-            <BioField label={t("aboutYou")} value={bio} onChange={setBio} />
         </div>
     );
 }

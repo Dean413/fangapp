@@ -4,6 +4,8 @@ import { CoverImagePicker } from "@/components/cover-photo";
 import { ProfileImagePicker } from "@/components/imagePicker";
 import { ReadingStats } from "@/components/stat-cards/reading-stats";
 import EditProfileCard from "@/components/editProfileCard";
+import EditGenresCard from "@/components/profile-components/editGenreCard";
+import { Link } from "@/i18n/routing";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useAuthModals } from "@/lib/store/auth-card-store";
 import React, { useEffect, useRef, useState } from "react";
@@ -13,6 +15,7 @@ import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 
 type Genre = { id: string; name: string };
+type FollowedAuthor = { slug: string; penName: string; image: string | null };
 
 const joinedDate = (iso: string | null | undefined, locale: string) =>
     iso ? new Date(iso).toLocaleDateString(locale, { month: "long", year: "numeric" }) : "";
@@ -48,6 +51,11 @@ const ProfilePage = () => {
     // The cover being uploaded, shown straight away until the saved one comes back
     const [coverPreview, setCoverPreview] = useState<string | null>(null);
     const [editOpen, setEditOpen] = useState(false);
+    const [genresOpen, setGenresOpen] = useState(false);
+    // Completed books (from the reading stats) and the authors the reader follows
+    const [bookReads, setBookReads] = useState(0);
+    const [followed, setFollowed] = useState<FollowedAuthor[]>([]);
+    const [followedTotal, setFollowedTotal] = useState(0);
     // One photo upload at a time
     const photoBusy = useRef(false);
     const coverBusy = useRef(false);
@@ -83,6 +91,27 @@ const ProfilePage = () => {
             .catch(() => { if (!cancelled) setGenres([]); });
         return () => { cancelled = true; };
     }, [user]);
+
+    // Authors the reader follows
+    useEffect(() => {
+        if (!signedIn) {
+            setFollowed([]);
+            setFollowedTotal(0);
+            return;
+        }
+        let alive = true;
+        fetch("/api/authors/following", { credentials: "include", cache: "no-store" })
+            .then((res) => (res.ok ? res.json() : null))
+            .then((body) => {
+                if (!alive || !body) return;
+                setFollowed(Array.isArray(body.authors) ? body.authors : []);
+                setFollowedTotal(Number(body.total) || 0);
+            })
+            .catch(() => { });
+        return () => {
+            alive = false;
+        };
+    }, [signedIn]);
 
     // A new photo from the picker is saved straight away
     const changePhoto = async (value: string | null) => {
@@ -221,15 +250,15 @@ const ProfilePage = () => {
                         {user.bio || <span className="text-gray-400 dark:text-neutral-500">{t("noBio")}</span>}
                     </p>
 
-                    {/* STATS (reading and following aren't recorded yet, so these start at 0) */}
+                    {/* STATS */}
                     <div className="w-full md:w-[40%] flex justify-between mt-6 text-center">
                         <div>
-                            <p className="font-bold text-lg">0</p>
+                            <p className="font-bold text-lg">{bookReads.toLocaleString(locale)}</p>
                             <p className="text-gray-500 dark:text-neutral-400 text-sm">{t("bookReads")}</p>
                         </div>
 
                         <div>
-                            <p className="font-bold text-lg">0</p>
+                            <p className="font-bold text-lg">{followedTotal.toLocaleString(locale)}</p>
                             <p className="text-gray-500 dark:text-neutral-400 text-sm">{t("following")}</p>
                         </div>
 
@@ -245,14 +274,39 @@ const ProfilePage = () => {
                         <h1 className="font-semibold">{t("authorsIFollow")}</h1>
                     </div>
 
-                    <p className="text-sm text-gray-400 dark:text-neutral-500">{t("noAuthors")}</p>
+                    {followed.length > 0 ? (
+                        <div className="flex flex-wrap gap-3">
+                            <div className="flex flex-wrap gap-x-6 gap-y-5">
+                                {followed.map((a) => (
+                                    <Link
+                                        key={a.slug}
+                                        href={`/authors/${a.slug}`}
+                                        className="group flex w-24 flex-col items-center gap-2 text-center">
+                                        {a.image ? (
+                                            // eslint-disable-next-line @next/next/no-img-element
+                                            <img src={a.image} alt="" className="h-24 w-24 rounded-full object-cover" />
+                                        ) : (
+                                            <span className="flex h-24 w-24 items-center justify-center rounded-full bg-red-500 text-3xl font-semibold text-white">
+                                                {a.penName.charAt(0).toUpperCase()}
+                                            </span>
+                                        )}
+                                        <span className="w-full truncate text-sm text-gray-500 dark:text-neutral-400 group-hover:text-red-500">
+                                            {a.penName}
+                                        </span>
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    ) : (
+                        <p className="text-sm text-gray-400 dark:text-neutral-500">{t("noAuthors")}</p>
+                    )}
                 </div>
 
                 {/* GENRES */}
                 <div className="flex-1 w-[95%] mx-auto border border-gray-300 dark:border-transparent dark:bg-dark-card p-6 rounded-2xl">
                     <div className="flex justify-between items-center mb-3">
                         <h1 className="font-semibold">{t("favoriteGenres")}</h1>
-                        <button type="button" onClick={() => setEditOpen(true)} className="text-red-500 text-sm">{t("edit")}</button>
+                        <button type="button" onClick={() => setGenresOpen(true)} className="text-red-500 text-sm">{t("edit")}</button>
                     </div>
 
                     <div className="flex flex-wrap gap-3">
@@ -271,10 +325,11 @@ const ProfilePage = () => {
 
             {/*Reading stats */}
             <div className="w-[95%] mx-auto">
-                <ReadingStats />
+                <ReadingStats onTotal={setBookReads} />
             </div>
 
             <EditProfileCard open={editOpen} onClose={() => setEditOpen(false)} />
+            <EditGenresCard open={genresOpen} onClose={() => setGenresOpen(false)} />
 
         </div>
     );

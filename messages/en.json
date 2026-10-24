@@ -652,9 +652,9 @@
         "gems": "gems",
         "plusTopUp": "+ Top Up",
         "history": "History",
-        "baseCoins": "Base Coins",
-        "baseBonus": "Base Bonus",
-        "vipBonusPercent": "VIP Bonus (+{percent}%)",
+        "baseCoins": "Coins",
+        "baseBonus": "Bonus",
+        "vipBonusPercent": "Vip Bonus",
         "totalCoins": "Total Coins",
         "price": "Price",
         "popular": "POPULAR",
@@ -662,7 +662,7 @@
         "coinsCount": "{count} Coins",
         "coinsLower": "{count} coins",
         "plusBonus": "+{count} Bonus",
-        "plusVipBonus": "+{count} VIP Bonus",
+        "plusVipBonus": "+{count} Bonus",
         "totalCount": "Total {count} Coins",
         "currentBalance": "Current Balance",
         "coinsUnit": "coins",
@@ -968,7 +968,12 @@
         "updated": "Profile updated",
         "editProfileText": "Update how other readers see you",
         "changePhoto": "Change Photo",
-        "saveChanges": "Save Changes"
+        "saveChanges": "Save Changes",
+        "editGenres": "Edit Favorite Genres",
+        "editGenresHint": "Pick the genres you love to get better recommendations",
+        "genresSaved": "Genres updated",
+        "couldntSaveGenres": "Couldn't save your genres",
+        "saving": "Saving..."
     },
     "LiveChat": {
         "topic_account": "Account & Login Issues",
@@ -1015,7 +1020,12 @@
         "cancelSure": "Cancel auto-renewal? You'll keep VIP until {date}.",
         "cancelYes": "Yes, cancel",
         "cancelNo": "Keep it",
-        "cancelRenewal": "Cancel auto-renewal"
+        "cancelRenewal": "Cancel auto-renewal",
+        "autoRenewal": "VIP Auto-Renewal",
+        "autoRenewalHint": "Your VIP renews automatically on {date}. Turn this off to stop future charges.",
+        "autoRenewalOffHint": "Turn on/off your subscriptions",
+        "renewalResumed": "Auto-renewal turned back on",
+        "subscriptionModeText": "Turn on/off your subscriptions"
     },
     "Stats": {
         "title": "Reading Stats",
@@ -1157,6 +1167,14 @@
         "followers": "{count, number} followers",
         "follow": "Follow",
         "onlineNow": "Online Now"
+    },
+    "Author": {
+        "verified": "Verified Author",
+        "followers": "Followers",
+        "follow": "Follow",
+        "following": "Following",
+        "followFailed": "Couldn't update follow. Please try again.",
+        "ratingOutOf": "{rating} / 5"
     },
     "Meta": {
         "description": "A reading website for everyone"

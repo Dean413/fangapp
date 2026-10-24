@@ -968,7 +968,12 @@
         "updated": "Profil mis à jour",
         "editProfileText": "Modifiez la façon dont les autres lecteurs vous voient",
         "changePhoto": "Changer de photo",
-        "saveChanges": "Enregistrer les modifications"
+        "saveChanges": "Enregistrer les modifications",
+        "editGenres": "Modifier les genres préférés",
+        "editGenresHint": "Choisissez vos genres préférés pour de meilleures recommandations",
+        "genresSaved": "Genres mis à jour",
+        "couldntSaveGenres": "Impossible d’enregistrer vos genres",
+        "saving": "Enregistrement..."
     },
     "LiveChat": {
         "topic_account": "Compte et connexion",
@@ -1015,7 +1020,12 @@
         "cancelSure": "Annuler le renouvellement automatique ? Vous conserverez le VIP jusqu’au {date}.",
         "cancelYes": "Oui, annuler",
         "cancelNo": "Conserver",
-        "cancelRenewal": "Annuler le renouvellement automatique"
+        "cancelRenewal": "Annuler le renouvellement automatique",
+        "autoRenewal": "Renouvellement automatique VIP",
+        "autoRenewalHint": "Votre VIP se renouvelle automatiquement le {date}. Désactivez cette option pour arrêter les prochains prélèvements.",
+        "autoRenewalOffHint": "Activez ou désactivez vos abonnements",
+        "renewalResumed": "Renouvellement automatique réactivé",
+        "subscriptionModeText": "Activez ou désactivez vos abonnements"
     },
     "Stats": {
         "title": "Statistiques de lecture",
@@ -1157,6 +1167,14 @@
         "followers": "{count, number} abonnés",
         "follow": "Suivre",
         "onlineNow": "En ligne"
+    },
+    "Author": {
+        "verified": "Auteur vérifié",
+        "followers": "Abonnés",
+        "follow": "Suivre",
+        "following": "Abonné",
+        "followFailed": "Impossible de mettre à jour l’abonnement. Veuillez réessayer.",
+        "ratingOutOf": "{rating} / 5"
     },
     "Meta": {
         "description": "Un site de lecture pour tout le monde"

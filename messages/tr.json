@@ -968,7 +968,12 @@
         "updated": "Profil güncellendi",
         "editProfileText": "Diğer okurların seni nasıl gördüğünü güncelle",
         "changePhoto": "Fotoğrafı değiştir",
-        "saveChanges": "Değişiklikleri kaydet"
+        "saveChanges": "Değişiklikleri kaydet",
+        "editGenres": "Favori Türleri Düzenle",
+        "editGenresHint": "Daha iyi öneriler almak için sevdiğin türleri seç",
+        "genresSaved": "Türler güncellendi",
+        "couldntSaveGenres": "Türlerin kaydedilemedi",
+        "saving": "Kaydediliyor..."
     },
     "LiveChat": {
         "topic_account": "Hesap ve giriş sorunları",
@@ -1015,7 +1020,12 @@
         "cancelSure": "Otomatik yenileme iptal edilsin mi? VIP {date} tarihine kadar devam eder.",
         "cancelYes": "Evet, iptal et",
         "cancelNo": "Devam et",
-        "cancelRenewal": "Otomatik yenilemeyi iptal et"
+        "cancelRenewal": "Otomatik yenilemeyi iptal et",
+        "autoRenewal": "VIP Otomatik Yenileme",
+        "autoRenewalHint": "VIP üyeliğin {date} tarihinde otomatik olarak yenilenir. Gelecekteki ödemeleri durdurmak için kapat.",
+        "autoRenewalOffHint": "Aboneliklerini aç veya kapat",
+        "renewalResumed": "Otomatik yenileme tekrar açıldı",
+        "subscriptionModeText": "Aboneliklerini aç veya kapat"
     },
     "Stats": {
         "title": "Okuma istatistikleri",
@@ -1157,6 +1167,14 @@
         "followers": "{count} takipçi",
         "follow": "Takip et",
         "onlineNow": "Şu an çevrimiçi"
+    },
+    "Author": {
+        "verified": "Onaylı Yazar",
+        "followers": "Takipçi",
+        "follow": "Takip Et",
+        "following": "Takip Ediliyor",
+        "followFailed": "Takip güncellenemedi. Lütfen tekrar deneyin.",
+        "ratingOutOf": "{rating} / 5"
     },
     "Meta": {
         "description": "Herkes için bir okuma sitesi"

@@ -116,17 +116,7 @@ export default function VipPlans() {
                         <p className="mt-1 text-sm text-white/80">
                             {t.rich("freeUnlocks", { left: vip.freeUnlocksLeft, total: vip.freeUnlocksPerDay, b: (chunks) => <span className="font-bold text-white">{chunks}</span> })}
                         </p>
-                        {recurring && (
-                            confirming ? (
-                                <div className="mt-2 flex flex-wrap items-center gap-2 text-sm md:justify-end">
-                                    <span className="text-white/80">{t("cancelSure", { date: endsOn })}</span>
-                                    <button type="button" onClick={cancelRenewal} disabled={cancelling} className="rounded-lg bg-red-600 px-3 py-1 font-semibold disabled:opacity-50">{t("cancelYes")}</button>
-                                    <button type="button" onClick={() => setConfirming(false)} disabled={cancelling} className="rounded-lg border border-white/30 px-3 py-1 disabled:opacity-50">{t("cancelNo")}</button>
-                                </div>
-                            ) : (
-                                <button type="button" onClick={() => setConfirming(true)} className="mt-2 text-sm text-white/60 underline hover:text-white">{t("cancelRenewal")}</button>
-                            )
-                        )}
+
                     </div>
                 </div>
             )}

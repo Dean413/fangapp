@@ -1,11 +1,26 @@
 // lib/readingStats.ts
 // The numbers on the reader's profile: books read over time, books by genre, reading streak, most active day.
-//  - A "book read" is a book the reader opened and read at least one chapter of (reading_progress),
+//  - A "book read" is a completed book whose last published chapter the reader has reached (reading_progress),
 //    counted in the month (or day) they last read it.
 //  - Reading time per day is recorded from the same server-measured "still reading" signal that pays reading rewards,
 //    so the browser can never inflate it. Days are the reader's own days (users.timezone).
 import "server-only";
 import { dbPool } from "@/lib/db";
+
+// Last published chapter number of the book (same numbering the library uses)
+const LAST_CHAPTER = `
+    JOIN LATERAL (
+        SELECT COALESCE(MAX(n), 0)::int AS last_number
+        FROM (
+            SELECT COALESCE(c.chapter_number,
+                            ROW_NUMBER() OVER (ORDER BY COALESCE(c.published_at, c.created_at), c.created_at, c.id))::int AS n
+            FROM chapters c WHERE c.story_id = s.id AND c.status = 'published'
+        ) numbered
+    ) ch ON true
+`;
+
+// A completed book whose last published chapter the reader has reached
+const BOOK_FINISHED = `lower(COALESCE(s.story_status, '')) = 'completed' AND ch.last_number > 0 AND rp.max_chapter >= ch.last_number`;
 
 export type StatsRange = "year" | "month" | "lastYear";
 
@@ -115,7 +130,8 @@ export async function getReadingStats(userId: string, range: StatsRange): Promis
                     COUNT(*)::int AS n
              FROM reading_progress rp
              JOIN stories s ON s.id = rp.story_id
-             WHERE rp.user_id = $1 AND rp.max_chapter >= 1 AND s.is_deleted = false
+             ${LAST_CHAPTER}
+             WHERE rp.user_id = $1 AND ${BOOK_FINISHED} AND s.is_deleted = false
                AND ($5::text IS NULL OR $5 = ANY(s.tenants))
                AND (rp.last_read_at AT TIME ZONE $2)::date BETWEEN $3::date AND $4::date
              GROUP BY 1, 2`,
@@ -125,7 +141,8 @@ export async function getReadingStats(userId: string, range: StatsRange): Promis
             `SELECT COUNT(*)::int AS n
              FROM reading_progress rp
              JOIN stories s ON s.id = rp.story_id
-             WHERE rp.user_id = $1 AND rp.max_chapter >= 1 AND s.is_deleted = false
+             ${LAST_CHAPTER}
+             WHERE rp.user_id = $1 AND ${BOOK_FINISHED} AND s.is_deleted = false
                AND ($2::text IS NULL OR $2 = ANY(s.tenants))`,
             [userId, STORY_TENANT]
         ),

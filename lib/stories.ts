@@ -65,6 +65,7 @@ const STORY_COLUMNS = `
     COALESCE(s.slug, s.book_id, s.id::text) AS slug,
     s.title,
     CASE WHEN ${PLATFORM_OWNER} THEN '' ELSE p.name END AS author,
+    CASE WHEN ${PLATFORM_OWNER} THEN NULL ELSE p.pen_slug END AS author_slug,
     COALESCE(s.genre, '') AS genre,
     s.image,
     s.story_status,
@@ -85,7 +86,8 @@ const STORY_FROM = `
     FROM stories s
     LEFT JOIN users su ON su.id = s.user_id
     LEFT JOIN LATERAL (
-        SELECT COALESCE(NULLIF(trim(pen_name), ''), NULLIF(trim(full_name), ''), 'Unknown') AS name
+        SELECT COALESCE(NULLIF(trim(pen_name), ''), NULLIF(trim(full_name), ''), 'Unknown') AS name,
+        CASE WHEN NULLIF(trim(pen_name), '') IS NULL THEN NULL ELSE fang_slugify(pen_name) END AS pen_slug
         FROM user_profiles WHERE user_id = s.user_id ORDER BY created_at DESC LIMIT 1
     ) p ON true
 `;
@@ -113,6 +115,7 @@ function toCard(row: any) {
         slug: row.slug,
         title: row.title,
         author: row.author ?? "Unknown",
+        authorSlug: row.author_slug ?? null,
         genre,
         genreSlug: genreSlug(genre) || "all",
         image: row.image || FALLBACK_COVER,

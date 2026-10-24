@@ -968,7 +968,12 @@
         "updated": "プロフィールを更新しました",
         "editProfileText": "他の読者からの見え方を更新します",
         "changePhoto": "写真を変更",
-        "saveChanges": "変更を保存"
+        "saveChanges": "変更を保存",
+        "editGenres": "お気に入りジャンルを編集",
+        "editGenresHint": "好きなジャンルを選ぶと、おすすめがより的確になります",
+        "genresSaved": "ジャンルを更新しました",
+        "couldntSaveGenres": "ジャンルを保存できませんでした",
+        "saving": "保存中..."
     },
     "LiveChat": {
         "topic_account": "アカウントとログインの問題",
@@ -1015,7 +1020,12 @@
         "cancelSure": "自動更新をキャンセルしますか？{date}までVIPをご利用いただけます。",
         "cancelYes": "はい、キャンセルします",
         "cancelNo": "続ける",
-        "cancelRenewal": "自動更新をキャンセル"
+        "cancelRenewal": "自動更新をキャンセル",
+        "autoRenewal": "VIP自動更新",
+        "autoRenewalHint": "VIPは{date}に自動更新されます。今後の請求を停止するにはオフにしてください。",
+        "autoRenewalOffHint": "サブスクリプションのオン/オフを切り替えます",
+        "renewalResumed": "自動更新を再開しました",
+        "subscriptionModeText": "サブスクリプションのオン/オフを切り替えます"
     },
     "Stats": {
         "title": "読書の統計",
@@ -1157,6 +1167,14 @@
         "followers": "フォロワー{count, number}人",
         "follow": "フォロー",
         "onlineNow": "オンライン中"
+    },
+    "Author": {
+        "verified": "認証済み作家",
+        "followers": "フォロワー",
+        "follow": "フォロー",
+        "following": "フォロー中",
+        "followFailed": "フォローを更新できませんでした。もう一度お試しください。",
+        "ratingOutOf": "{rating} / 5"
     },
     "Meta": {
         "description": "みんなのための読書サイト"

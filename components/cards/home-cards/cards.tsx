@@ -47,7 +47,7 @@ function CornerRibbons({ label, status }: { label?: string; status?: string }) {
         label ? { text: label, fill: "fill-red-700" } : null,
         String(status ?? "").toUpperCase() === "COMPLETED"
             ? { text: t("completed"), fill: "fill-green-800" }
-            : { text: t("ongoing"), fill: "fill-purple-600" },
+            : { text: t("ongoing"), fill: "fill-red-600" },
     ].filter(Boolean) as { text: string; fill: string }[];
 
     if (ribbons.length === 0) return null;

@@ -276,7 +276,7 @@ export default function NotificationsPage() {
     const t = useTranslations("Notifications");
     const ct = useTranslations("Coins");
     const c = useTranslations("Common");
-    const [active, setActive] = useState("Unread");
+    const [active, setActive] = useState("All");
     const [items, setItems] = useState<Notification[]>([]);
     const [hasMore, setHasMore] = useState(false);
     const [loading, setLoading] = useState(true);

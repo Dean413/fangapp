@@ -968,7 +968,12 @@
         "updated": "Profil zaktualizowany",
         "editProfileText": "Zmień to, jak widzą Cię inni czytelnicy",
         "changePhoto": "Zmień zdjęcie",
-        "saveChanges": "Zapisz zmiany"
+        "saveChanges": "Zapisz zmiany",
+        "editGenres": "Edytuj ulubione gatunki",
+        "editGenresHint": "Wybierz ulubione gatunki, aby otrzymywać lepsze rekomendacje",
+        "genresSaved": "Gatunki zaktualizowane",
+        "couldntSaveGenres": "Nie udało się zapisać gatunków",
+        "saving": "Zapisywanie..."
     },
     "LiveChat": {
         "topic_account": "Problemy z kontem i logowaniem",
@@ -1015,7 +1020,12 @@
         "cancelSure": "Anulować automatyczne odnawianie? VIP pozostanie aktywny do {date}.",
         "cancelYes": "Tak, anuluj",
         "cancelNo": "Zostaw",
-        "cancelRenewal": "Anuluj automatyczne odnawianie"
+        "cancelRenewal": "Anuluj automatyczne odnawianie",
+        "autoRenewal": "Automatyczne odnawianie VIP",
+        "autoRenewalHint": "Twój VIP odnowi się automatycznie {date}. Wyłącz, aby zatrzymać przyszłe płatności.",
+        "autoRenewalOffHint": "Włącz lub wyłącz swoje subskrypcje",
+        "renewalResumed": "Automatyczne odnawianie ponownie włączone",
+        "subscriptionModeText": "Włącz lub wyłącz swoje subskrypcje"
     },
     "Stats": {
         "title": "Statystyki czytania",
@@ -1157,6 +1167,14 @@
         "followers": "{count, plural, one {# obserwujący} few {# obserwujących} many {# obserwujących} other {# obserwującego}}",
         "follow": "Obserwuj",
         "onlineNow": "Teraz online"
+    },
+    "Author": {
+        "verified": "Zweryfikowany autor",
+        "followers": "Obserwujący",
+        "follow": "Obserwuj",
+        "following": "Obserwujesz",
+        "followFailed": "Nie udało się zaktualizować obserwowania. Spróbuj ponownie.",
+        "ratingOutOf": "{rating} / 5"
     },
     "Meta": {
         "description": "Strona do czytania dla wszystkich"

@@ -65,7 +65,12 @@ export async function POST(request: NextRequest) {
             return ok();
         }
         // ---- Stopped by PayPal (failed payments) or ran out ----
-        if (type === "BILLING.SUBSCRIPTION.SUSPENDED" || type === "BILLING.SUBSCRIPTION.EXPIRED") {
+        // Suspended = renewal switched off (VIP runs to the end of the paid period, can be resumed)
+        if (type === "BILLING.SUBSCRIPTION.SUSPENDED") {
+            await setBillingStatus("paypal", resource.id, "cancelled");
+            return ok();
+        }
+        if (type === "BILLING.SUBSCRIPTION.EXPIRED") {
             await setBillingStatus("paypal", resource.id, "ended");
             return ok();
         }

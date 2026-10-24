@@ -968,7 +968,12 @@
         "updated": "Profil aktualisiert",
         "editProfileText": "Ändere, wie andere Leser dich sehen",
         "changePhoto": "Foto ändern",
-        "saveChanges": "Änderungen speichern"
+        "saveChanges": "Änderungen speichern",
+        "editGenres": "Lieblingsgenres bearbeiten",
+        "editGenresHint": "Wähle deine Lieblingsgenres für bessere Empfehlungen",
+        "genresSaved": "Genres aktualisiert",
+        "couldntSaveGenres": "Deine Genres konnten nicht gespeichert werden",
+        "saving": "Wird gespeichert..."
     },
     "LiveChat": {
         "topic_account": "Konto- und Anmeldeprobleme",
@@ -1015,7 +1020,12 @@
         "cancelSure": "Automatische Verlängerung kündigen? Du behältst VIP bis zum {date}.",
         "cancelYes": "Ja, kündigen",
         "cancelNo": "Behalten",
-        "cancelRenewal": "Automatische Verlängerung kündigen"
+        "cancelRenewal": "Automatische Verlängerung kündigen",
+        "autoRenewal": "Automatische VIP-Verlängerung",
+        "autoRenewalHint": "Dein VIP verlängert sich automatisch am {date}. Deaktiviere dies, um künftige Abbuchungen zu stoppen.",
+        "autoRenewalOffHint": "Aktiviere oder deaktiviere deine Abonnements",
+        "renewalResumed": "Automatische Verlängerung wieder aktiviert",
+        "subscriptionModeText": "Aktiviere oder deaktiviere deine Abonnements"
     },
     "Stats": {
         "title": "Lesestatistik",
@@ -1157,6 +1167,14 @@
         "followers": "{count, plural, one {# Follower} other {# Follower}}",
         "follow": "Folgen",
         "onlineNow": "Jetzt online"
+    },
+    "Author": {
+        "verified": "Verifizierter Autor",
+        "followers": "Follower",
+        "follow": "Folgen",
+        "following": "Folge ich",
+        "followFailed": "Folgen konnte nicht aktualisiert werden. Bitte versuche es erneut.",
+        "ratingOutOf": "{rating} / 5"
     },
     "Meta": {
         "description": "Eine Leseseite für alle"
