@@ -478,7 +478,8 @@
         "showLess": "閉じる",
         "showMore": "もっと見る",
         "youMayLike": "こちらもおすすめ",
-        "readerReviews": "読者レビュー"
+        "readerReviews": "読者レビュー",
+        "reportBook": "作品を報告"
     },
     "Rankings": {
         "daily": "デイリー",
@@ -941,7 +942,26 @@
         "helpSubject": "取引{id}についてのお問い合わせ",
         "contactSupport": "サポートに連絡",
         "bonusInfo": "✨ ボーナスコインは獲得から2日で失効します。なくなる前にチャプターのロック解除にご利用ください。",
-        "coinsInfo": "✨ コインはすぐにアカウントに追加されます。チャプターのロック解除やプレミアム機能にご利用いただけます。"
+        "coinsInfo": "✨ コインはすぐにアカウントに追加されます。チャプターのロック解除やプレミアム機能にご利用いただけます。",
+        "filter_topup": "チャージ",
+        "empty_topup": "チャージ履歴はありません。",
+        "empty_filtered": "条件に一致する取引はありません。",
+        "range_all": "全期間",
+        "range_today": "今日",
+        "range_7d": "過去7日間",
+        "range_30d": "過去30日間",
+        "range_year": "今年",
+        "range_custom": "期間を指定",
+        "rangeFrom": "開始日",
+        "rangeTo": "終了日",
+        "clearFilters": "フィルターをクリア",
+        "typeVip": "VIP",
+        "vipWeekly": "週間VIPプラン",
+        "vipMonthly": "月間VIPプラン",
+        "amountPaid": "お支払い金額",
+        "vipInfo": "✨ VIPはキャンセルするまで期間ごとに自動更新されます。自動更新は設定からいつでもオフにでき、支払い済みの期間が終了するまでVIPをご利用いただけます。",
+        "filter_vip": "VIP",
+        "empty_vip": "VIPの取引はありません。"
     },
     "Profile": {
         "couldntSavePhoto": "写真を保存できませんでした",

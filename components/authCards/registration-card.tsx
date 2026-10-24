@@ -13,6 +13,7 @@ import { ProfileImagePicker } from "../imagePicker";
 import GenrePicker from "../genreSelectionCard";
 import SuccessCard from "../success-card";
 import { useTranslations } from "next-intl";
+import BioField from "../text-area";
 
 type AuthCardProps = {
     open: boolean;
@@ -173,7 +174,8 @@ const RegistrationCard = ({ open, onClose, onOpenSignIn }: AuthCardProps) => {
                                     <ProfileImagePicker image={Auth.image} setImage={Auth.setImage} name={Auth.fullName || Auth.userName} uploadIcon={t("uploadPhoto")} pictureHeader={t("profilePhoto")} />
                                     <Input label={t("username")} placeholder={t("usernamePlaceholder")} value={Auth.userName} onChange={Auth.setUserName} />
                                     <h1 className="text-sm sm:text-base font-semibold text-gray-700 dark:text-neutral-300">{t("favouriteGenres")}</h1>
-                                    <GenrePicker selected={Auth.selectedGenres} onChange={Auth.setSelectedGenres} bio={Auth.bio} setBio={Auth.setBio} />
+                                    <GenrePicker selected={Auth.selectedGenres} onChange={Auth.setSelectedGenres} />
+                                    <BioField label={t("aboutYou")} value={Auth.bio} onChange={Auth.setBio} />
                                     <Button onClick={Auth.finalStep} disabled={Auth.savingProfile} loading={Auth.savingProfile} loadingText={c("saving")} label={c("continue")} />
                                 </div>
                             )}

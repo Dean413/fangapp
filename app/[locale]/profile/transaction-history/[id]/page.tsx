@@ -13,18 +13,22 @@ type Transaction = {
     id: string;
     at: string;
     type: string;
-    category: "topup" | "bonus" | "reward" | "spent" | "expired";
+    category: "topup" | "vip" | "bonus" | "reward" | "spent" | "expired";
     description: string;
     amount: number;
+    amountCents: number | null;
     coinKind: "coins" | "bonus coins";
     balance: number;
     expiresAt: string | null;
     reason: string;
     refId: string | null;
+    provider: "stripe" | "paypal" | null;
+    providerTxn: string | null;
 };
 
 const BADGE: Record<Transaction["category"], string> = {
     topup: "bg-pink-100 dark:bg-pink-500/15 text-pink-500",
+    vip: "bg-yellow-100 dark:bg-yellow-500/15 text-yellow-600",
     bonus: "bg-orange-100 dark:bg-orange-500/15 text-orange-500",
     reward: "bg-green-100 dark:bg-green-500/15 text-green-600",
     spent: "bg-red-100 dark:bg-red-500/15 text-red-500",
@@ -33,7 +37,9 @@ const BADGE: Record<Transaction["category"], string> = {
 
 const formatDate = (iso: string, locale: string) => new Date(iso).toLocaleDateString(locale, { day: "numeric", month: "short", year: "numeric" });
 const formatTime = (iso: string, locale: string) => new Date(iso).toLocaleTimeString(locale, { hour: "numeric", minute: "2-digit" });
-const displayId = (id: string) => `#${id}`;
+const formatMoney = (cents: number, locale: string) => new Intl.NumberFormat(locale, { style: "currency", currency: "USD" }).format(cents / 100);
+// Our own codes show with a #; a payment provider's id shows as it is
+const displayId = (id: string) => (id.startsWith("TXN") ? `#${id}` : id);
 
 export default function TransactionDetails() {
     const router = useRouter();
@@ -92,9 +98,12 @@ export default function TransactionDetails() {
     const previousBalance = transaction.balance - transaction.amount;
     const added = transaction.amount > 0;
     const unit = transaction.coinKind === "coins" ? t("unitCoinsTitle") : t("unitBonusCoinsTitle");
-    const description = transaction.reason === "expired"
-        ? t("expiredEntry", { source: coinDescription(ct, transaction.reason, transaction.refId) })
-        : coinDescription(ct, transaction.reason, transaction.refId, transaction.description);
+    const isVip = transaction.category === "vip";
+    const description = isVip
+        ? (transaction.refId === "monthly" ? t("vipMonthly") : t("vipWeekly"))
+        : transaction.reason === "expired"
+            ? t("expiredEntry", { source: coinDescription(ct, transaction.reason, transaction.refId) })
+            : coinDescription(ct, transaction.reason, transaction.refId, transaction.description);
 
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-dark p-6">
@@ -110,14 +119,14 @@ export default function TransactionDetails() {
                 <p className="text-gray-500 dark:text-neutral-400 text-sm mt-1">{t("detailsSubtitle")}</p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl">
+            <div className="max-w-5xl space-y-5 lg:w-1/2">
 
-                {/* Left Card */}
+                {/* Card */}
                 <div className="bg-white dark:bg-dark-card rounded-2xl border border-gray-200 dark:border-dark-border p-6 space-y-5">
                     {/* Type Badge & Date */}
                     <div className="flex items-start justify-between">
                         <span className={`${BADGE[transaction.category]} text-xs font-semibold px-3 py-1 rounded-full`}>
-                            {coinType(ct, transaction.reason, transaction.amount)}
+                            {isVip ? t("typeVip") : coinType(ct, transaction.reason, transaction.amount)}
                         </span>
                         <div className="text-right text-xs text-gray-400 dark:text-neutral-500">
                             <p>{formatDate(transaction.at, locale)}</p>
@@ -128,7 +137,7 @@ export default function TransactionDetails() {
                     {/* Icon & Title */}
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-neutral-800 flex items-center justify-center text-lg">
-                            🪙
+                            {isVip ? "👑" : "🪙"}
                         </div>
                         <div>
                             <h2 className="font-bold text-gray-900 dark:text-white text-base">{description}</h2>
@@ -154,14 +163,21 @@ export default function TransactionDetails() {
                     <div className="space-y-3 text-sm">
                         <div className="flex justify-between">
                             <span className="text-gray-500 dark:text-neutral-400">{t("type")}</span>
-                            <span className="text-gray-800 dark:text-neutral-100 font-medium">{unit}</span>
+                            <span className="text-gray-800 dark:text-neutral-100 font-medium">{isVip ? t("typeVip") : unit}</span>
                         </div>
-                        <div className="flex justify-between">
-                            <span className="text-gray-500 dark:text-neutral-400">{added ? t("coinsReceived") : transaction.category === "expired" ? t("coinsExpired") : t("coinsSpent")}</span>
-                            <span className={`${added ? "text-green-500" : "text-red-500"} font-medium`}>
-                                {added ? "+" : "−"}{Math.abs(transaction.amount).toLocaleString()} {unit}
-                            </span>
-                        </div>
+                        {isVip && transaction.amountCents != null ? (
+                            <div className="flex justify-between">
+                                <span className="text-gray-500 dark:text-neutral-400">{t("amountPaid")}</span>
+                                <span className="text-gray-800 dark:text-neutral-100 font-medium">{formatMoney(transaction.amountCents, locale)}</span>
+                            </div>
+                        ) : (
+                            <div className="flex justify-between">
+                                <span className="text-gray-500 dark:text-neutral-400">{added ? t("coinsReceived") : transaction.category === "expired" ? t("coinsExpired") : t("coinsSpent")}</span>
+                                <span className={`${added ? "text-green-500" : "text-red-500"} font-medium`}>
+                                    {added ? "+" : "−"}{Math.abs(transaction.amount).toLocaleString()} {unit}
+                                </span>
+                            </div>
+                        )}
                         {transaction.expiresAt && (
                             <div className="flex justify-between">
                                 <span className="text-gray-500 dark:text-neutral-400">{new Date(transaction.expiresAt) > new Date() ? t("expires") : t("expired")}</span>
@@ -172,17 +188,19 @@ export default function TransactionDetails() {
                         )}
                     </div>
 
-                    {/* Balance */}
-                    <div className="space-y-2 text-sm">
-                        <div className="flex justify-between">
-                            <span className="text-gray-500 dark:text-neutral-400">{t("previousBalance")}</span>
-                            <span className="text-gray-800 dark:text-neutral-100 font-medium">{t("coinsAmount", { amount: previousBalance.toLocaleString() })}</span>
+                    {/* Balance (VIP charges move no coins) */}
+                    {!isVip && (
+                        <div className="space-y-2 text-sm">
+                            <div className="flex justify-between">
+                                <span className="text-gray-500 dark:text-neutral-400">{t("previousBalance")}</span>
+                                <span className="text-gray-800 dark:text-neutral-100 font-medium">{t("coinsAmount", { amount: previousBalance.toLocaleString() })}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-gray-500 dark:text-neutral-400">{t("newBalance")}</span>
+                                <span className="text-gray-800 dark:text-neutral-100 font-medium">{t("coinsAmount", { amount: transaction.balance.toLocaleString() })}</span>
+                            </div>
                         </div>
-                        <div className="flex justify-between">
-                            <span className="text-gray-500 dark:text-neutral-400">{t("newBalance")}</span>
-                            <span className="text-gray-800 dark:text-neutral-100 font-medium">{t("coinsAmount", { amount: transaction.balance.toLocaleString() })}</span>
-                        </div>
-                    </div>
+                    )}
 
                     <hr className="border-gray-100 dark:border-dark-border" />
 
@@ -203,16 +221,15 @@ export default function TransactionDetails() {
                     </div>
                 </div>
 
-                {/* Right Column */}
-                <div className="space-y-5">
-                    {/* Info Banner */}
-                    <div className="bg-linear-to-r from-blue-500 to-purple-500 rounded-2xl p-4">
-                        <p className="text-white text-xs">
-                            {transaction.coinKind === "bonus coins"
+                {/* Info Banner */}
+                <div className="bg-linear-to-r from-blue-500 to-purple-500 rounded-2xl p-4">
+                    <p className="text-white text-xs">
+                        {isVip
+                            ? t("vipInfo")
+                            : transaction.coinKind === "bonus coins"
                                 ? t("bonusInfo")
                                 : t("coinsInfo")}
-                        </p>
-                    </div>
+                    </p>
                 </div>
             </div>
         </div>

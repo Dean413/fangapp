@@ -54,7 +54,7 @@ export default function TrendingSection({ collection }: { collection: HomeCollec
                             >
                                 {String(i + 2).padStart(2, "0")}
                             </span>
-                            <Cover book={book} imprint="sm" className="aspect-3/4 w-16 shrink-0" />
+                            <Cover book={book} ribbons={false} imprint="sm" className="aspect-3/4 w-16 shrink-0" />
                             <div className="min-w-0 flex-1">
                                 <h4 className="line-clamp-1 text-sm font-semibold text-gray-900 dark:text-white">{book.title}</h4>
                                 <p className="text-xs text-gray-500 dark:text-neutral-400">by {book.author}</p>

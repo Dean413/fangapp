@@ -103,7 +103,7 @@ export default function VipPlans() {
                                         border border-yellow-500
                                         shadow-[0_6px_16px_rgba(0,0,0,0.15)]
                                         ring-2 ring-yellow-200/50">
-                                        <span className="font-bold text-yellow-950 dark:text-yellow-300 text-xs md:text-xl">{t("bestValue")}</span>
+                                        <span className="font-bold text-yellow-950 text-xs md:text-xl">{t("bestValue")}</span>
                                     </div>
                                 )}
                             </div>

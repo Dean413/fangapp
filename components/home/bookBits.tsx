@@ -115,14 +115,15 @@ export function Rating({ book, className = "" }: { book: HomeBook; className?: s
 }
 
 // The cover with its ribbons (top left) and the imprint logo (top right)
-export function Cover({ book, className, imprint = "md" }: { book: HomeBook; className: string; imprint?: "sm" | "md" | "lg" }) {
+// The cover with its ribbons (top left) and the imprint logo (top right)
+export function Cover({ book, className, imprint = "md", ribbons = true }: { book: HomeBook; className: string; imprint?: "sm" | "md" | "lg"; ribbons?: boolean }) {
     return (
         <div className={`relative overflow-hidden rounded-md bg-gray-200 shadow-sm dark:bg-dark-raised dark:shadow-none ${className}`}>
             {book.image && (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={book.image} alt={book.title} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
             )}
-            <CoverRibbons book={book} />
+            {ribbons && <CoverRibbons book={book} />}
             <Imprint size={imprint} />
         </div>
     );

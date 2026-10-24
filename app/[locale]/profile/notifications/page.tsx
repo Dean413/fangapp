@@ -133,7 +133,7 @@ function cardParts(n: Notification, now: number, t: T, ct: T): CardParts {
                     title: <strong>{t("purchased", { count: amount })}</strong>,
                     subtitle: `#${n.code}`,
                     action: <span className="font-semibold text-green-600"> +{amount} 🪙</span>,
-                    wholeCardLink: true,
+                    // wholeCardLink: true,
                 };
             }
             return {
@@ -144,7 +144,7 @@ function cardParts(n: Notification, now: number, t: T, ct: T): CardParts {
                 ),
                 title: rich("received", { count: amount, b }),
                 subtitle: `${time} • ${description}`,
-                wholeCardLink: true,
+                // wholeCardLink: true,
             };
 
         case "coins_spent":
@@ -158,7 +158,7 @@ function cardParts(n: Notification, now: number, t: T, ct: T): CardParts {
                     title: t("vipSubscription"),
                     subtitle: time,
                     action: <Spent amount={amount} />,
-                    wholeCardLink: true,
+                    // wholeCardLink: true,
                 };
             }
             return {
@@ -170,7 +170,7 @@ function cardParts(n: Notification, now: number, t: T, ct: T): CardParts {
                 title: n.reason === "unlock" ? t("chapterUnlocked") : description,
                 subtitle: time,
                 action: <Spent amount={amount} />,
-                wholeCardLink: true,
+                // wholeCardLink: true,
             };
 
         case "coins_expired":
@@ -183,7 +183,7 @@ function cardParts(n: Notification, now: number, t: T, ct: T): CardParts {
                 title: rich("bonusExpired", { count: Math.abs(amount), b }),
                 subtitle: `${time} • ${description}`,
                 action: <Spent amount={amount} />,
-                wholeCardLink: true,
+                // wholeCardLink: true,
             };
 
         case "bonus_expiring":
@@ -236,7 +236,7 @@ function cardParts(n: Notification, now: number, t: T, ct: T): CardParts {
                 ),
                 title: rich(titleKey, { plan: planName, b }),
                 subtitle: n.kind === "vip_ended" || !until ? time : `${time} • ${t("vipUntil", { date: until })}`,
-                wholeCardLink: Boolean(n.href),
+                // wholeCardLink: Boolean(n.href),
             };
         }
 

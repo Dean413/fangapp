@@ -478,7 +478,8 @@
         "showLess": "Daha az göster",
         "showMore": "Daha fazla göster",
         "youMayLike": "Bunlar da hoşuna gidebilir",
-        "readerReviews": "Okur değerlendirmeleri"
+        "readerReviews": "Okur değerlendirmeleri",
+        "reportBook": "Kitabı şikayet et"
     },
     "Rankings": {
         "daily": "Günlük",
@@ -941,7 +942,26 @@
         "helpSubject": "{id} işlemi için yardım",
         "contactSupport": "Destekle iletişime geç",
         "bonusInfo": "✨ Bonus jetonların süresi aldıktan 2 gün sonra dolar. Bitmeden önce bölümlerin kilidini açmak için kullan.",
-        "coinsInfo": "✨ Jetonlar hesabına anında eklenir. Bölümlerin kilidini açmak ve premium özellikleri kullanmak için kullanabilirsin."
+        "coinsInfo": "✨ Jetonlar hesabına anında eklenir. Bölümlerin kilidini açmak ve premium özellikleri kullanmak için kullanabilirsin.",
+        "filter_topup": "Yüklemeler",
+        "empty_topup": "Yükleme yok.",
+        "empty_filtered": "Filtrelerinle eşleşen işlem yok.",
+        "range_all": "Tüm zamanlar",
+        "range_today": "Bugün",
+        "range_7d": "Son 7 gün",
+        "range_30d": "Son 30 gün",
+        "range_year": "Bu yıl",
+        "range_custom": "Özel aralık",
+        "rangeFrom": "Başlangıç",
+        "rangeTo": "Bitiş",
+        "clearFilters": "Filtreleri temizle",
+        "typeVip": "VIP",
+        "vipWeekly": "Haftalık VIP planı",
+        "vipMonthly": "Aylık VIP planı",
+        "amountPaid": "Ödenen Tutar",
+        "vipInfo": "✨ VIP üyeliğin iptal edene kadar her dönem otomatik olarak yenilenir. Otomatik yenilemeyi Ayarlar’dan istediğin zaman kapatabilir ve VIP’yi ödenmiş dönemin sonuna kadar kullanabilirsin.",
+        "filter_vip": "VIP",
+        "empty_vip": "VIP işlemi yok."
     },
     "Profile": {
         "couldntSavePhoto": "Fotoğrafın kaydedilemedi",

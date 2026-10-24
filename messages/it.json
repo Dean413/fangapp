@@ -478,7 +478,8 @@
         "showLess": "Mostra meno",
         "showMore": "Mostra di più",
         "youMayLike": "Potrebbe piacerti",
-        "readerReviews": "Recensioni dei lettori"
+        "readerReviews": "Recensioni dei lettori",
+        "reportBook": "Segnala il libro"
     },
     "Rankings": {
         "daily": "Giornaliera",
@@ -941,7 +942,26 @@
         "helpSubject": "Aiuto con la transazione {id}",
         "contactSupport": "Contatta l'assistenza",
         "bonusInfo": "✨ Le monete bonus scadono 2 giorni dopo averle ricevute. Usale per sbloccare i capitoli prima che finiscano.",
-        "coinsInfo": "✨ Le monete vengono aggiunte subito al tuo account. Puoi usarle per sbloccare i capitoli e usufruire delle funzioni premium."
+        "coinsInfo": "✨ Le monete vengono aggiunte subito al tuo account. Puoi usarle per sbloccare i capitoli e usufruire delle funzioni premium.",
+        "filter_topup": "Ricariche",
+        "empty_topup": "Nessuna ricarica.",
+        "empty_filtered": "Nessuna transazione corrisponde ai filtri.",
+        "range_all": "Sempre",
+        "range_today": "Oggi",
+        "range_7d": "Ultimi 7 giorni",
+        "range_30d": "Ultimi 30 giorni",
+        "range_year": "Quest’anno",
+        "range_custom": "Intervallo personalizzato",
+        "rangeFrom": "Dal",
+        "rangeTo": "Al",
+        "clearFilters": "Cancella filtri",
+        "typeVip": "VIP",
+        "vipWeekly": "Piano VIP settimanale",
+        "vipMonthly": "Piano VIP mensile",
+        "amountPaid": "Importo pagato",
+        "vipInfo": "✨ Il tuo VIP si rinnova automaticamente a ogni periodo finché non lo annulli. Puoi disattivare il rinnovo automatico in qualsiasi momento nelle Impostazioni e mantenere il VIP fino alla fine del periodo pagato.",
+        "filter_vip": "VIP",
+        "empty_vip": "Nessuna transazione VIP."
     },
     "Profile": {
         "couldntSavePhoto": "Impossibile salvare la foto",

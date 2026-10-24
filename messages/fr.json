@@ -478,7 +478,8 @@
         "showLess": "Voir moins",
         "showMore": "Voir plus",
         "youMayLike": "Vous aimerez peut-être",
-        "readerReviews": "Avis des lecteurs"
+        "readerReviews": "Avis des lecteurs",
+        "reportBook": "Signaler le livre"
     },
     "Rankings": {
         "daily": "Quotidien",
@@ -941,7 +942,26 @@
         "helpSubject": "Aide pour la transaction {id}",
         "contactSupport": "Contacter l’assistance",
         "bonusInfo": "✨ Les pièces bonus expirent 2 jours après leur obtention. Utilisez-les pour débloquer des chapitres avant qu’elles n’expirent.",
-        "coinsInfo": "✨ Les pièces sont créditées instantanément sur votre compte. Utilisez-les pour débloquer des chapitres et profiter des fonctionnalités premium."
+        "coinsInfo": "✨ Les pièces sont créditées instantanément sur votre compte. Utilisez-les pour débloquer des chapitres et profiter des fonctionnalités premium.",
+        "filter_topup": "Recharges",
+        "empty_topup": "Aucune recharge.",
+        "empty_filtered": "Aucune transaction ne correspond à vos filtres.",
+        "range_all": "Toute la période",
+        "range_today": "Aujourd’hui",
+        "range_7d": "7 derniers jours",
+        "range_30d": "30 derniers jours",
+        "range_year": "Cette année",
+        "range_custom": "Période personnalisée",
+        "rangeFrom": "Du",
+        "rangeTo": "Au",
+        "clearFilters": "Effacer les filtres",
+        "typeVip": "VIP",
+        "vipWeekly": "Forfait VIP hebdomadaire",
+        "vipMonthly": "Forfait VIP mensuel",
+        "amountPaid": "Montant payé",
+        "vipInfo": "✨ Votre VIP se renouvelle automatiquement à chaque période jusqu’à ce que vous l’annuliez. Vous pouvez désactiver le renouvellement automatique à tout moment dans les Paramètres et conserver le VIP jusqu’à la fin de la période payée.",
+        "filter_vip": "VIP",
+        "empty_vip": "Aucune transaction VIP."
     },
     "Profile": {
         "couldntSavePhoto": "Impossible d’enregistrer votre photo",

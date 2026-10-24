@@ -14,6 +14,8 @@ import { useLibraryStore } from "@/lib/store/library-store";
 import { useAuthStore } from "@/lib/store/authStore";
 import BookReviews, { type ReviewSummary } from "@/components/reviews/bookReview";
 import Imprint from "@/components/imprint";
+import { Flag } from "lucide-react";
+import ReportBookDialog from "@/components/book-controls/report-book";
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
 
@@ -121,6 +123,7 @@ export default function Page() {
     const bookKey = book?.slug ?? "";
     const saved = useLibraryStore((s) => Boolean(bookKey) && s.saved.some((b) => b.id === bookKey || b.storyId === String(book?.id ?? "")));
     const [savingBook, setSavingBook] = useState(false);
+    const [reportOpen, setReportOpen] = useState(false);
     const [lastChapter, setLastChapter] = useState<number | null>(null);
     // Average rating and number of reviews, from the Reader Reviews section
     const [reviewSummary, setReviewSummary] = useState<ReviewSummary | null>(null);
@@ -251,6 +254,15 @@ export default function Page() {
                     : "border-gray-200 dark:border-dark-border bg-white dark:bg-dark-card text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-raised"
                     }`}>
                 {saved ? t("inLibrary") : t("addToLibrary")}
+            </button>
+
+            <button
+                type="button"
+                onClick={() => setReportOpen(true)}
+                aria-label={t("reportBook")}
+                title={t("reportBook")}
+                className="flex shrink-0 items-center justify-center rounded-md border border-gray-200 dark:border-dark-border bg-white dark:bg-dark-card px-3 text-gray-600 dark:text-neutral-300 hover:bg-gray-100 dark:hover:bg-dark-raised hover:text-red-600">
+                <Flag size={14} />
             </button>
         </div>
     );
@@ -414,7 +426,15 @@ export default function Page() {
                     </section>
                 )}
             </div>
+            {book && (
+                <ReportBookDialog
+                    open={reportOpen}
+                    onClose={() => setReportOpen(false)}
+                    book={{ slug: book.slug, title: book.title, author: book.author, image: book.image }}
+                />
+            )}
             <Footer />
+
         </div>
     );
 }

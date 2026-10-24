@@ -1,6 +1,5 @@
 "use client";
 
-import { Filter, ChevronDown } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -8,18 +7,19 @@ import { toast } from "@/lib/store/toastStore";
 import { useWalletStore } from "@/lib/store/wallet-action-store";
 import { useLocale, useTranslations } from "next-intl";
 import { coinDescription, coinType } from "@/lib/coinLabels";
+import TransactionFilters, { EMPTY_RANGE, type DateRange, type TxFilter } from "@/components/profile-components/transactionFilter";
 
 // The wallet page (Top Up opens its Top Up tab)
 const WALLET_PATH = "/profile/wallet";
 
-type TxFilter = "all" | "earned" | "spent" | "expired";
 type Transaction = {
     id: string;
     at: string;
     type: string;
-    category: "topup" | "bonus" | "reward" | "spent" | "expired";
+    category: "topup" | "vip" | "bonus" | "reward" | "spent" | "expired";
     description: string;
     amount: number;
+    amountCents: number | null;
     coinKind: "coins" | "bonus coins";
     balance: number;
     expiresAt: string | null;
@@ -27,11 +27,9 @@ type Transaction = {
     refId: string | null;
 };
 
-// Labels: Transactions.filter_<key>
-const FILTERS: TxFilter[] = ["all", "earned", "spent", "expired"];
-
 const DOT: Record<Transaction["category"], string> = {
     topup: "bg-pink-500",
+    vip: "bg-yellow-500",
     bonus: "bg-orange-400",
     reward: "bg-green-500",
     spent: "bg-red-500",
@@ -40,6 +38,7 @@ const DOT: Record<Transaction["category"], string> = {
 
 const formatDate = (iso: string, locale: string) => new Date(iso).toLocaleDateString(locale, { day: "numeric", month: "short", year: "numeric" });
 const formatTime = (iso: string, locale: string) => new Date(iso).toLocaleTimeString(locale, { hour: "numeric", minute: "2-digit" });
+const formatMoney = (cents: number, locale: string) => new Intl.NumberFormat(locale, { style: "currency", currency: "USD" }).format(cents / 100);
 const formatAmount = (n: number) => `${n > 0 ? "+" : "−"}${Math.abs(n).toLocaleString()}`;
 
 export default function TransactionHistory() {
@@ -50,15 +49,24 @@ export default function TransactionHistory() {
     const locale = useLocale()
 
     const [filter, setFilter] = useState<TxFilter>("all");
-    const [filterOpen, setFilterOpen] = useState(false);
+    const [range, setRange] = useState<DateRange>(EMPTY_RANGE);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [hasMore, setHasMore] = useState(false);
     const [loading, setLoading] = useState(true);
     const [loadingMore, setLoadingMore] = useState(false);
     const busy = useRef(false);
 
-    const load = useCallback(async (which: TxFilter, before?: string) => {
-        const res = await fetch(`/api/wallet/transactions?filter=${which}${before ? `&before=${encodeURIComponent(before)}` : ""}`, {
+    // Changes with every filter, so an answer for older filters is never shown
+    const latest = useRef("");
+    const key = `${filter}|${range.from}|${range.to}`;
+    latest.current = key;
+
+    const load = useCallback(async (which: TxFilter, when: DateRange, before?: string) => {
+        const qs = new URLSearchParams({ filter: which });
+        if (when.from) qs.set("from", when.from);
+        if (when.to) qs.set("to", when.to);
+        if (before) qs.set("before", before);
+        const res = await fetch(`/api/wallet/transactions?${qs.toString()}`, {
             credentials: "include",
             cache: "no-store",
         });
@@ -67,11 +75,13 @@ export default function TransactionHistory() {
         return data as { transactions: Transaction[]; hasMore: boolean };
     }, [t]);
 
-    // First page (again when the filter changes)
+    // First page (again when the type or the dates change)
     useEffect(() => {
+        // A custom range waits until both days are picked
+        if (range.preset === "custom" && (!range.from || !range.to)) return;
         let cancelled = false;
         setLoading(true);
-        load(filter)
+        load(filter, range)
             .then((data) => {
                 if (cancelled) return;
                 setTransactions(data.transactions);
@@ -80,14 +90,17 @@ export default function TransactionHistory() {
             .catch((err) => { if (!cancelled) toast.error(err.message); })
             .finally(() => { if (!cancelled) setLoading(false); });
         return () => { cancelled = true; };
-    }, [filter, load]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [filter, range.from, range.to, range.preset, load]);
 
     const loadMore = async () => {
         if (busy.current || !hasMore || transactions.length === 0) return;
         busy.current = true;
         setLoadingMore(true);
+        const asked = key;
         try {
-            const data = await load(filter, transactions[transactions.length - 1].id);
+            const data = await load(filter, range, transactions[transactions.length - 1].id);
+            if (latest.current !== asked) return;
             setTransactions((prev) => [...prev, ...data.transactions]);
             setHasMore(data.hasMore);
         } catch (err) {
@@ -116,28 +129,7 @@ export default function TransactionHistory() {
                     </p>
                 </div>
 
-                <div className="relative">
-                    <button type="button" onClick={() => setFilterOpen((o) => !o)} className="flex items-center gap-2 border rounded-xl px-4 py-2 text-gray-700 dark:text-neutral-200 hover:bg-gray-50 dark:hover:bg-dark-card">
-                        <Filter size={16} />
-                        {filter === "all" ? t("filter") : t(`filter_${filter}`)}
-                        <ChevronDown size={14} />
-                    </button>
-
-                    {filterOpen && (
-                        <div className="absolute right-0 mt-2 w-40 rounded-xl border bg-white dark:bg-dark-card dark:border-dark-border shadow-lg z-10 overflow-hidden">
-                            {FILTERS.map((key) => (
-                                <button
-                                    key={key}
-                                    type="button"
-                                    onClick={() => { setFilter(key); setFilterOpen(false); }}
-                                    className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-neutral-800 ${filter === key ? "font-semibold text-red-600" : "text-gray-700 dark:text-neutral-200"}`}
-                                >
-                                    {t(`filter_${key}`)}
-                                </button>
-                            ))}
-                        </div>
-                    )}
-                </div>
+                <TransactionFilters type={filter} onType={setFilter} range={range} onRange={setRange} />
             </div>
 
             {/* Table */}
@@ -149,7 +141,7 @@ export default function TransactionHistory() {
                         ))}
                     </div>
                 ) : transactions.length === 0 ? (
-                    filter === "all" ? (
+                    filter === "all" && range.preset === "all" ? (
                         <div className="flex flex-col items-center justify-center h-[70vh] gap-4">
                             <Image
                                 src="/fang_pictures/transaction-history.png"
@@ -165,7 +157,7 @@ export default function TransactionHistory() {
                             </button>
                         </div>
                     ) : (
-                        <p className="text-center text-gray-500 dark:text-neutral-400 py-20">{t(`empty_${filter}`)}</p>
+                        <p className="text-center text-gray-500 dark:text-neutral-400 py-20">{filter === "all" ? t("empty_filtered") : t(`empty_${filter}`)}</p>
                     )
                 ) : (
                     <table className="w-full min-w-225">
@@ -199,12 +191,12 @@ export default function TransactionHistory() {
                                             <span
                                                 className={`w-2.5 h-2.5 rounded-full ${DOT[item.category]}`}
                                             />
-                                            <span>{coinType(ct, item.reason, item.amount)}</span>
+                                            <span>{item.category === "vip" ? t("typeVip") : coinType(ct, item.reason, item.amount)}</span>
                                         </div>
                                     </td>
 
                                     <td className="py-5 text-gray-700 dark:text-neutral-200">
-                                        {item.reason === "expired" ? t("expiredEntry", { source: coinDescription(ct, item.reason, item.refId) }) : coinDescription(ct, item.reason, item.refId, item.description)}
+                                        {item.category === "vip" ? (item.refId === "monthly" ? t("vipMonthly") : t("vipWeekly")) : item.reason === "expired" ? t("expiredEntry", { source: coinDescription(ct, item.reason, item.refId) }) : coinDescription(ct, item.reason, item.refId, item.description)}
                                         {item.expiresAt && (
                                             <div className="text-xs text-gray-400 dark:text-neutral-500">
                                                 {t(new Date(item.expiresAt) > new Date() ? "expiresOn" : "expiredOn", { date: `${formatDate(item.expiresAt, locale)}, ${formatTime(item.expiresAt, locale)}` })}
@@ -213,13 +205,13 @@ export default function TransactionHistory() {
                                     </td>
 
                                     <td
-                                        className={`py-5 font-semibold ${item.amount > 0 ? "text-green-500" : item.category === "expired" ? "text-gray-400 dark:text-neutral-500" : "text-red-500"}`}
+                                        className={`py-5 font-semibold ${item.category === "vip" ? "text-gray-800 dark:text-neutral-100" : item.amount > 0 ? "text-green-500" : item.category === "expired" ? "text-gray-400 dark:text-neutral-500" : "text-red-500"}`}
                                     >
-                                        {formatAmount(item.amount)} {item.coinKind === "coins" ? t("unitCoins") : t("unitBonusCoins")}
+                                        {item.category === "vip" && item.amountCents != null ? formatMoney(item.amountCents, locale) : `${formatAmount(item.amount)} ${item.coinKind === "coins" ? t("unitCoins") : t("unitBonusCoins")}`}
                                     </td>
 
                                     <td className="py-5 text-gray-800 dark:text-neutral-100">
-                                        {item.balance.toLocaleString()}
+                                        {item.category === "vip" ? "—" : item.balance.toLocaleString()}
                                     </td>
                                 </tr>
                             ))}

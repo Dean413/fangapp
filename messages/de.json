@@ -478,7 +478,8 @@
         "showLess": "Weniger anzeigen",
         "showMore": "Mehr anzeigen",
         "youMayLike": "Das könnte dir auch gefallen",
-        "readerReviews": "Leserrezensionen"
+        "readerReviews": "Leserrezensionen",
+        "reportBook": "Buch melden"
     },
     "Rankings": {
         "daily": "Täglich",
@@ -941,7 +942,26 @@
         "helpSubject": "Hilfe zur Transaktion {id}",
         "contactSupport": "Support kontaktieren",
         "bonusInfo": "✨ Bonus-Münzen verfallen 2 Tage nach Erhalt. Nutze sie, um Kapitel freizuschalten, bevor sie ablaufen.",
-        "coinsInfo": "✨ Münzen werden sofort deinem Konto gutgeschrieben. Du kannst damit Kapitel freischalten und Premium-Funktionen nutzen."
+        "coinsInfo": "✨ Münzen werden sofort deinem Konto gutgeschrieben. Du kannst damit Kapitel freischalten und Premium-Funktionen nutzen.",
+        "filter_topup": "Aufladungen",
+        "empty_topup": "Keine Aufladungen.",
+        "empty_filtered": "Keine Transaktionen entsprechen deinen Filtern.",
+        "range_all": "Gesamter Zeitraum",
+        "range_today": "Heute",
+        "range_7d": "Letzte 7 Tage",
+        "range_30d": "Letzte 30 Tage",
+        "range_year": "Dieses Jahr",
+        "range_custom": "Benutzerdefiniert",
+        "rangeFrom": "Von",
+        "rangeTo": "Bis",
+        "clearFilters": "Filter zurücksetzen",
+        "typeVip": "VIP",
+        "vipWeekly": "Wöchentlicher VIP-Plan",
+        "vipMonthly": "Monatlicher VIP-Plan",
+        "amountPaid": "Bezahlter Betrag",
+        "vipInfo": "✨ Dein VIP verlängert sich in jedem Zeitraum automatisch, bis du kündigst. Du kannst die automatische Verlängerung jederzeit in den Einstellungen deaktivieren und behältst VIP bis zum Ende des bezahlten Zeitraums.",
+        "filter_vip": "VIP",
+        "empty_vip": "Keine VIP-Transaktionen."
     },
     "Profile": {
         "couldntSavePhoto": "Dein Foto konnte nicht gespeichert werden",

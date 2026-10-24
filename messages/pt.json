@@ -478,7 +478,8 @@
         "showLess": "Mostrar menos",
         "showMore": "Mostrar mais",
         "youMayLike": "Você também pode gostar",
-        "readerReviews": "Avaliações dos leitores"
+        "readerReviews": "Avaliações dos leitores",
+        "reportBook": "Denunciar livro"
     },
     "Rankings": {
         "daily": "Diário",
@@ -941,7 +942,26 @@
         "helpSubject": "Ajuda com a transação {id}",
         "contactSupport": "Falar com o suporte",
         "bonusInfo": "✨ As moedas bônus expiram 2 dias depois de você recebê-las. Use-as para desbloquear capítulos antes que acabem.",
-        "coinsInfo": "✨ As moedas são adicionadas à sua conta na hora. Você pode usá-las para desbloquear capítulos e aproveitar recursos premium."
+        "coinsInfo": "✨ As moedas são adicionadas à sua conta na hora. Você pode usá-las para desbloquear capítulos e aproveitar recursos premium.",
+        "filter_topup": "Recargas",
+        "empty_topup": "Nenhuma recarga.",
+        "empty_filtered": "Nenhuma transação corresponde aos seus filtros.",
+        "range_all": "Todo o período",
+        "range_today": "Hoje",
+        "range_7d": "Últimos 7 dias",
+        "range_30d": "Últimos 30 dias",
+        "range_year": "Este ano",
+        "range_custom": "Período personalizado",
+        "rangeFrom": "De",
+        "rangeTo": "Até",
+        "clearFilters": "Limpar filtros",
+        "typeVip": "VIP",
+        "vipWeekly": "Plano VIP semanal",
+        "vipMonthly": "Plano VIP mensal",
+        "amountPaid": "Valor pago",
+        "vipInfo": "✨ Seu VIP é renovado automaticamente a cada período até você cancelar. Você pode desativar a renovação automática a qualquer momento nas Configurações e manter o VIP até o fim do período pago.",
+        "filter_vip": "VIP",
+        "empty_vip": "Nenhuma transação VIP."
     },
     "Profile": {
         "couldntSavePhoto": "Não foi possível salvar sua foto",

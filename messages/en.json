@@ -478,7 +478,8 @@
         "showLess": "Show Less",
         "showMore": "Show More",
         "youMayLike": "You May Like",
-        "readerReviews": "Reader Reviews"
+        "readerReviews": "Reader Reviews",
+        "reportBook": "Report Book"
     },
     "Rankings": {
         "daily": "Daily",
@@ -941,7 +942,26 @@
         "helpSubject": "Help with transaction {id}",
         "contactSupport": "Contact Support",
         "bonusInfo": "✨ Bonus coins expire 2 days after you get them. Use them to unlock chapters before they run out.",
-        "coinsInfo": "✨ Coins are added to your account instantly. You can use them to unlock chapters and enjoy premium features."
+        "coinsInfo": "✨ Coins are added to your account instantly. You can use them to unlock chapters and enjoy premium features.",
+        "filter_topup": "Top-ups",
+        "empty_topup": "No top-ups.",
+        "empty_filtered": "No transactions match your filters.",
+        "range_all": "All time",
+        "range_today": "Today",
+        "range_7d": "Last 7 days",
+        "range_30d": "Last 30 days",
+        "range_year": "This year",
+        "range_custom": "Custom range",
+        "rangeFrom": "From",
+        "rangeTo": "To",
+        "clearFilters": "Clear filters",
+        "typeVip": "VIP",
+        "vipWeekly": "Weekly VIP plan",
+        "vipMonthly": "Monthly VIP plan",
+        "amountPaid": "Amount Paid",
+        "vipInfo": "✨ Your VIP renews automatically each period until you cancel. You can turn off auto-renewal anytime in Settings and keep VIP until the end of the paid period.",
+        "filter_vip": "VIP",
+        "empty_vip": "No VIP transactions."
     },
     "Profile": {
         "couldntSavePhoto": "Couldn't save your photo",
