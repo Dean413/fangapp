@@ -451,7 +451,9 @@
         "reads": "Odczyty",
         "recommended": "Polecane",
         "progress": "Rozdz. {chapter} / {total} · {percent}%",
-        "chapterN": "Rozdział {chapter}"
+        "chapterN": "Rozdział {chapter}",
+        "byAuthor": "{author}",
+        "viewsCount": "{views} wyświetleń"
     },
     "Stories": {
         "genres": "Gatunki",

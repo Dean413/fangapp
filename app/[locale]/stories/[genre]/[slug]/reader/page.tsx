@@ -23,6 +23,7 @@ import { fetchYouMayLike } from "@/lib/fetchYouMayLike";
 import { languageForLocale } from "@/lib/language";
 import { BookGrid, SectionHeader } from "@/hooks/bookData";
 import { toast } from "@/lib/store/toastStore";
+import ViewTracker from "@/components/book-controls/view-tracker";
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
 // The reader's own display choices (theme, font, size), kept in this browser
@@ -397,6 +398,7 @@ export default function ReaderPage() {
 
     return (
         <>
+            <ViewTracker slug={String(data?.story?.slug || slug)} />
             <div className="min-h-screen flex flex-col items-center transition-all duration-300 dark:bg-dark">
                 {/* BREADCRUMB: Home / Genre / Book / Chapter */}
                 <nav aria-label={t("breadcrumb")} className="w-full md:w-[90%] mx-auto px-4 md:px-2 pt-6 md:pt-8 text-sm md:text-base">

@@ -46,24 +46,9 @@ export function SectionHeader({ title, href }: { title: string; href?: string })
     );
 }
 
-// Primary genre in red, then the book's first tags in grey. Long names are cut with "…".
-export function BookPills({ book, max = 2 }: { book: HomeBook; max?: number }) {
-    const tags = book.tags.slice(0, book.genre ? max - 1 : max);
-    return (
-        <div className="flex min-w-0 flex-wrap gap-1.5">
-            {book.genre && (
-                <span className="max-w-full truncate rounded-full bg-red-50 px-2 py-0.5 text-[10px] font-medium text-red-600 dark:bg-red-500/15 dark:text-red-400">
-                    {book.genre}
-                </span>
-            )}
-            {tags.map((t) => (
-                <span key={t} className="max-w-full truncate rounded-full bg-gray-100 px-2 py-0.5 text-[10px] text-gray-700 dark:bg-transparent dark:border dark:border-neutral-600 dark:text-neutral-200">
-                    {t}
-                </span>
-            ))}
-        </div>
-    );
-}
+// Genre / tag pills: a client component (it shows the names in the site language), so it lives in its own file
+export { BookPills, OptionName } from "./bookPill";
+
 // Diagonal ribbons in the cover's top-left corner: red "Exclusive", green "Completed" (sit on the cover image, so same in both themes)
 // Corner ribbons across the cover's top-left corner, drawn as one SVG so each text
 // sits exactly in the middle of its band (1 unit = 1px).
@@ -114,7 +99,6 @@ export function Rating({ book, className = "" }: { book: HomeBook; className?: s
     );
 }
 
-// The cover with its ribbons (top left) and the imprint logo (top right)
 // The cover with its ribbons (top left) and the imprint logo (top right)
 export function Cover({ book, className, imprint = "md", ribbons = true }: { book: HomeBook; className: string; imprint?: "sm" | "md" | "lg"; ribbons?: boolean }) {
     return (

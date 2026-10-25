@@ -451,7 +451,9 @@
         "reads": "閲覧数",
         "recommended": "おすすめ",
         "progress": "第{chapter}話 / 全{total}話 · {percent}%",
-        "chapterN": "第{chapter}話"
+        "chapterN": "第{chapter}話",
+        "byAuthor": "{author} 著",
+        "viewsCount": "{views}閲覧"
     },
     "Stories": {
         "genres": "ジャンル",

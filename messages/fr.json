@@ -451,7 +451,9 @@
         "reads": "Lectures",
         "recommended": "Recommandés",
         "progress": "Ch. {chapter} / {total} · {percent} %",
-        "chapterN": "Chapitre {chapter}"
+        "chapterN": "Chapitre {chapter}",
+        "byAuthor": "par {author}",
+        "viewsCount": "{views} vues"
     },
     "Stories": {
         "genres": "Genres",

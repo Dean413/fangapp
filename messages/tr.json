@@ -451,7 +451,9 @@
         "reads": "Okunma",
         "recommended": "Önerilen",
         "progress": "Böl. {chapter} / {total} · %{percent}",
-        "chapterN": "Bölüm {chapter}"
+        "chapterN": "Bölüm {chapter}",
+        "byAuthor": "{author}",
+        "viewsCount": "{views} görüntülenme"
     },
     "Stories": {
         "genres": "Türler",

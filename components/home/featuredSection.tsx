@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Eye } from "lucide-react";
 import type { HomeBook, HomeCollection } from "@/lib/home";
-import { BookPills, Cover, Rating, SectionHeader, bookHref, formatCount } from "./bookBits";
+import { useTranslations } from "next-intl";
+import { BookPills, Cover, OptionName, Rating, SectionHeader, bookHref, formatCount } from "./bookBits";
 
 const ROTATE_EVERY = 6000;
 // Each new book fades in
@@ -13,6 +14,7 @@ const GRID_SIZE = 8;
 const PHONE_COUNT = 6;
 
 function FeaturedCard({ books }: { books: HomeBook[] }) {
+    const t = useTranslations("Books");
     const [index, setIndex] = useState(0);
     const [paused, setPaused] = useState(false);
 
@@ -42,7 +44,7 @@ function FeaturedCard({ books }: { books: HomeBook[] }) {
                 </div>
                 <h3 className="mt-4 line-clamp-2 text-lg font-bold text-gray-900 dark:text-white">{book.title}</h3>
                 <p className="mt-1 flex items-center gap-3 text-xs text-gray-500 dark:text-neutral-400">
-                    <span className="truncate">by {book.author}</span>
+                    <span className="truncate">{t("byAuthor", { author: book.author })}</span>
                     <Rating book={book} className="shrink-0" />
                 </p>
                 {book.blurb && (
@@ -57,6 +59,7 @@ function FeaturedCard({ books }: { books: HomeBook[] }) {
 }
 
 function GridCard({ book, className = "" }: { book: HomeBook; className?: string }) {
+    const t = useTranslations("Books");
     return (
         <Link href={bookHref(book)} className={`group block min-w-0 ${className}`}>
             <Cover book={book} imprint="sm" className="aspect-3/4 w-full" />
@@ -65,12 +68,12 @@ function GridCard({ book, className = "" }: { book: HomeBook; className?: string
                 <span className="truncate text-xs text-gray-500 dark:text-neutral-400">{book.author}</span>
                 {book.genre && (
                     <span className="shrink-0 truncate max-w-[55%] rounded-full border border-red-500 px-2 py-0.5 text-[10px] font-medium text-red-600 dark:text-red-400">
-                        {book.genre}
+                        <OptionName name={book.genre} />
                     </span>
                 )}
             </div>
             <p className="mt-1.5 flex items-center gap-3 text-[11px] text-gray-500 dark:text-neutral-400">
-                <span className="inline-flex items-center gap-1"><Eye size={12} /> {formatCount(book.views)} views</span>
+                <span className="inline-flex items-center gap-1"><Eye size={12} /> {t("viewsCount", { views: formatCount(book.views) })}</span>
                 <Rating book={book} />
             </p>
         </Link>

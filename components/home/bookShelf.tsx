@@ -4,6 +4,7 @@
 // Bigger screens: every book in the collection in a sideways-scrolling row (6 fit across on a desktop).
 import Link from "next/link";
 import { Eye } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { HomeCollection } from "@/lib/home";
 import { BookPills, Cover, SectionHeader, bookHref, formatCount } from "./bookBits";
 import Imprint from "../imprint";
@@ -12,6 +13,7 @@ import Imprint from "../imprint";
 const PHONE_COUNT = 3;
 
 export default function BookShelf({ collection }: { collection: HomeCollection }) {
+    const t = useTranslations("Books");
     return (
         <section>
             <SectionHeader title={collection.name} href={`/collections/${collection.id}`} />
@@ -31,7 +33,7 @@ export default function BookShelf({ collection }: { collection: HomeCollection }
                             <BookPills book={book} />
                         </div>
                         <p className="mt-1.5 flex items-center gap-1 text-[11px] text-gray-500 dark:text-neutral-400">
-                            <Eye size={12} /> {formatCount(book.views)} views
+                            <Eye size={12} /> {t("viewsCount", { views: formatCount(book.views) })}
                         </p>
                     </Link>
                 ))}

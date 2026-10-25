@@ -16,6 +16,7 @@ import BookReviews, { type ReviewSummary } from "@/components/reviews/bookReview
 import Imprint from "@/components/imprint";
 import { Flag } from "lucide-react";
 import ReportBookDialog from "@/components/book-controls/report-book";
+import { useOptionNames } from "@/hooks/useOptionName";
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
 
@@ -103,6 +104,8 @@ export default function Page() {
     const router = useRouter();
     const t = useTranslations("Book");
     const b = useTranslations("Books");
+    // Genre and tag names in the site's language (the saved name when there is no translation)
+    const tr = useOptionNames();
     const [book, setBook] = useState<Book | null>(null);
     const [chapters, setChapters] = useState<ChapterRow[]>([]);
     const [loading, setLoading] = useState(true);
@@ -233,7 +236,7 @@ export default function Page() {
         <div className="mt-4 flex flex-wrap gap-2">
             {pills.map((p) => (
                 <span key={p} className="max-w-full truncate rounded-full bg-white/30 px-2.5 py-0.5 text-[11px] md:text-xs text-white">
-                    {p}
+                    {tr(p)}
                 </span>
             ))}
         </div>
@@ -290,7 +293,7 @@ export default function Page() {
                     <nav className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] md:text-[11px] text-white/80">
                         <Link href="/" className="hover:text-white">{t("home")}</Link>
                         <span>/</span>
-                        <span>{book?.genre || safeGenre}</span>
+                        <span>{book?.genre ? tr(book.genre) : safeGenre}</span>
                         <span>/</span>
                         {loading ? (
                             <span className="h-3 w-28 rounded animate-pulse bg-white/10" />

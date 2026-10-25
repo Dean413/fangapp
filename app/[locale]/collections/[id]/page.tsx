@@ -6,7 +6,8 @@ import { Eye } from "lucide-react";
 import Footer from "@/components/footer";
 import { getHomeCollection } from "@/lib/home";
 import { getTranslations } from "next-intl/server";
-import { BookPills, Cover, Rating, bookHref, formatCount } from "@/components/home/bookBits";
+import { Cover, Rating, bookHref, formatCount } from "@/components/home/bookBits";
+import { BookPills } from "@/components/home/bookPill";
 
 // Always the admin's latest list
 export const dynamic = "force-dynamic";

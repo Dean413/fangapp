@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { CoverPlaceholder } from "@/components/skeleton";
 import { useTranslations } from "next-intl";
+import { useOptionNames } from "@/hooks/useOptionName";
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
 
@@ -47,7 +48,7 @@ function CornerRibbons({ label, status }: { label?: string; status?: string }) {
         label ? { text: label, fill: "fill-red-700" } : null,
         String(status ?? "").toUpperCase() === "COMPLETED"
             ? { text: t("completed"), fill: "fill-green-800" }
-            : { text: t("ongoing"), fill: "fill-red-600" },
+            : { text: t("ongoing"), fill: "fill-purple-600" },
     ].filter(Boolean) as { text: string; fill: string }[];
 
     if (ribbons.length === 0) return null;
@@ -83,6 +84,8 @@ function CornerRibbons({ label, status }: { label?: string; status?: string }) {
 export const BookCard = (props: cardProps) => {
     const { title, status, author, views, image, label, tags, genre } = props;
     const tag = tags?.find((t) => t && t.toLowerCase() !== genre?.toLowerCase());
+    const tr = useOptionNames();
+    const b = useTranslations("Books");
 
     return (
         <div className="rounded-xl overflow-hidden">
@@ -105,19 +108,19 @@ export const BookCard = (props: cardProps) => {
                     <div className="flex min-w-0 flex-wrap gap-1">
                         {genre && (
                             <span className="text-[9px] sm:text-[10px] font-medium bg-pink-50 dark:bg-pink-500/15 text-pink-700 dark:text-pink-300 border border-pink-200 dark:border-pink-500/30 max-w-full truncate px-1.5 py-0.5 rounded">
-                                {genre}
+                                {tr(genre)}
                             </span>
                         )}
                         {tag && (
                             <span className="text-[9px] sm:text-[10px] bg-gray-100 dark:bg-transparent dark:border dark:border-neutral-600 text-gray-600 dark:text-neutral-200 max-w-full truncate px-1.5 py-0.5 rounded">
-                                {tag}
+                                {tr(tag)}
                             </span>
                         )}
                     </div>
                 )}
 
                 {views && (
-                    <p className="text-[10px] sm:text-xs text-gray-400 dark:text-neutral-500">{views} views</p>
+                    <p className="text-[10px] sm:text-xs text-gray-400 dark:text-neutral-500">{b("viewsCount", { views })}</p>
                 )}
             </div>
         </div>
@@ -127,6 +130,7 @@ export const BookCard = (props: cardProps) => {
 export const Trending = (trending: cardProps) => {
     const { image, title, tags, author, rank, views, summary } = trending;
     const t = useTranslations("Books");
+    const tr = useOptionNames();
     return (
         <div className="flex gap-3 justify-between sm:gap-4 bg-white dark:bg-dark-card p-3 sm:p-4 rounded-2xl shadow-md">
             <h1 className={`text-2xl sm:text-3xl ${rank === "02" ? "text-red-500" : "text-gray-400 dark:text-neutral-500"} font-bold flex items-center shrink-0`}>
@@ -141,11 +145,11 @@ export const Trending = (trending: cardProps) => {
                     {title}
                 </h3>
                 <p className="text-gray-400 dark:text-neutral-500 text-xs sm:text-sm min-[450px]:block hidden">{summary}</p>
-                <p className="text-xs sm:text-sm text-gray-500 dark:text-neutral-400 mt-1">by {author}</p>
+                <p className="text-xs sm:text-sm text-gray-500 dark:text-neutral-400 mt-1">{t("byAuthor", { author })}</p>
                 <div className="flex min-w-0 gap-1.5 flex-wrap mt-2">
                     {tags?.map((g, index) => (
                         <span key={index} className={`text-[9px] sm:text-[10px] ${index === 0 ? "bg-red-100 dark:bg-red-500/15 text-red-500 dark:text-red-400 font-semibold" : "bg-gray-100 dark:bg-transparent dark:border dark:border-neutral-600 text-gray-800 dark:text-neutral-200"} max-w-full truncate px-1.5 py-0.5 rounded`}>
-                            {g}
+                            {tr(g)}
                         </span>
                     ))}
                 </div>
@@ -163,6 +167,7 @@ export const Trending = (trending: cardProps) => {
 
 export const Explore = (explore: cardProps) => {
     const { image, title, tags, author } = explore;
+    const tr = useOptionNames();
     return (
         <div className="md:flex gap-8 sm:gap-4 p-3 sm:p-4 rounded-2xl">
             <div className="w-28 aspect-3/4 relative shrink-0 overflow-hidden rounded-lg">
@@ -177,7 +182,7 @@ export const Explore = (explore: cardProps) => {
                 <div className="md:flex min-w-0 flex-wrap gap-1 mt-2">
                     {tags?.slice(0, 1).map((g, index) => (
                         <span key={index} className={`text-[9px] sm:text-[10px] ${index === 0 ? "bg-red-100 dark:bg-red-500/15 text-red-500 dark:text-red-400 font-semibold" : "bg-gray-100 dark:bg-transparent dark:border dark:border-neutral-600 text-gray-800 dark:text-neutral-200"} max-w-full truncate px-1.5 py-0.5 rounded`}>
-                            {g}
+                            {tr(g)}
                         </span>
                     ))}
                 </div>
@@ -185,7 +190,7 @@ export const Explore = (explore: cardProps) => {
                     <div className="flex min-w-0 flex-wrap gap-1 mt-2">
                         {tags.map((t, index) => (
                             <span key={index} className="text-[9px] sm:text-[10px] bg-gray-100 dark:bg-transparent dark:border dark:border-neutral-600 text-gray-600 dark:text-neutral-200 max-w-full truncate px-1.5 py-0.5 rounded">
-                                {t}
+                                {tr(t)}
                             </span>
                         ))}
                     </div>

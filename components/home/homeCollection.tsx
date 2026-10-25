@@ -33,7 +33,7 @@ export default async function HomeCollections({ tenant, language, platform }: Pr
                             : <BookShelf key={c.id} collection={c} />,
             ])}
 
-            <RecommendedShelf key="recommended" tenant={tenant} language={language} />
+            {/* <RecommendedShelf key="recommended" tenant={tenant} language={language} /> */}
         </div>
     );
 }

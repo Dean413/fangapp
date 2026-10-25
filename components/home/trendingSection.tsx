@@ -5,7 +5,8 @@
 // On phones only three books show (#1, #2, #3); "View all" has the rest.
 import Link from "next/link";
 import type { HomeBook, HomeCollection } from "@/lib/home";
-import { BookPills, Cover, SectionHeader, bookHref, formatCount } from "./bookBits";
+import { Cover, SectionHeader, bookHref, formatCount } from "./bookBits";
+import { BookPills } from "@/components/home/bookPill";
 import { useTranslations } from "next-intl";
 
 function TopCard({ book }: { book: HomeBook }) {

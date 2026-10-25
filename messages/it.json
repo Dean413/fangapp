@@ -451,7 +451,9 @@
         "reads": "Letture",
         "recommended": "Consigliati",
         "progress": "Cap. {chapter} / {total} · {percent}%",
-        "chapterN": "Capitolo {chapter}"
+        "chapterN": "Capitolo {chapter}",
+        "byAuthor": "di {author}",
+        "viewsCount": "{views} visualizzazioni"
     },
     "Stories": {
         "genres": "Generi",
