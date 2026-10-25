@@ -1,7 +1,4 @@
-// app/api/auth/signup/route.ts
-// Creates an unconfirmed reader account (full name, email, password) and emails a 6-digit code.
-// Nobody is signed in until the code is entered (app/api/auth/verify-email).
-// Signing up again with an email that was never confirmed takes the new details and sends a new code.
+
 import { NextRequest } from "next/server";
 import { hashPassword } from "@/lib/auth/token";
 import { withTransaction } from "@/lib/auth/transaction";

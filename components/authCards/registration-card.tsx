@@ -1,8 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import { ChevronLeft, X } from "lucide-react";
-import Link from "next/link";
 import { Button } from "../Button";
 import OTPInput from "../otp";
 import Input from "../input";
@@ -92,9 +90,17 @@ const RegistrationCard = ({ open, onClose, onOpenSignIn }: AuthCardProps) => {
                             )}
 
                             {/* LOGO */}
-                            <div className="flex items-center gap-2 mb-4 sm:mb-5">
-                                <Image src="/fang_pictures/fang_logo2.png" alt="logo" width={42} height={42} />
-                                <Image src="/fang_pictures/fang_logo1.png" alt="logo text" width={110} height={110} />
+                            <div className="flex gap-2 items-center">
+                                <Image src="/fanglogo1.svg" alt="logo" width={80} height={80} className="w-10" />
+                                <div
+                                    role="img"
+                                    aria-label="FANG"
+                                    className="-ml-4 w-20 md:w-25 aspect-1873/614 bg-black dark:bg-white"
+                                    style={{
+                                        WebkitMask: "url(/fanglogo2.svg) center / contain no-repeat",
+                                        mask: "url(/fanglogo2.svg) center / contain no-repeat",
+                                    }}
+                                />
                             </div>
 
                             {/* HEADER */}
@@ -173,8 +179,8 @@ const RegistrationCard = ({ open, onClose, onOpenSignIn }: AuthCardProps) => {
                                 <div className="space-y-4 sm:space-y-5">
                                     <ProfileImagePicker image={Auth.image} setImage={Auth.setImage} name={Auth.fullName || Auth.userName} uploadIcon={t("uploadPhoto")} pictureHeader={t("profilePhoto")} />
                                     <Input label={t("username")} placeholder={t("usernamePlaceholder")} value={Auth.userName} onChange={Auth.setUserName} />
-                                    <h1 className="text-sm sm:text-base font-semibold text-gray-700 dark:text-neutral-300">{t("favouriteGenres")}</h1>
-                                    <GenrePicker selected={Auth.selectedGenres} onChange={Auth.setSelectedGenres} />
+                                    {/* <h1 className="text-sm sm:text-base font-semibold text-gray-700 dark:text-neutral-300">{t("favouriteGenres")}</h1> */}
+                                    {/* <GenrePicker selected={Auth.selectedGenres} onChange={Auth.setSelectedGenres} /> */}
                                     <BioField label={t("aboutYou")} value={Auth.bio} onChange={Auth.setBio} />
                                     <Button onClick={Auth.finalStep} disabled={Auth.savingProfile} loading={Auth.savingProfile} loadingText={c("saving")} label={c("continue")} />
                                 </div>

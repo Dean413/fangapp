@@ -1,13 +1,14 @@
 // app/collections/[id]/page.tsx
-// "View All" for a Home collection: every book in it, in the admin's order.
+// "View All" for a Home collection: every book in it, in the admin's order, one row per book.
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Eye } from "lucide-react";
 import Footer from "@/components/footer";
 import { getHomeCollection } from "@/lib/home";
 import { getTranslations } from "next-intl/server";
-import { Cover, Rating, bookHref, formatCount } from "@/components/home/bookBits";
+import { Cover, CoverRibbons, Rating, bookHref, formatCount } from "@/components/home/bookBits";
 import { BookPills } from "@/components/home/bookPill";
+import BookmarkButton from "@/components/home/bookmarkButton";
 
 // Always the admin's latest list
 export const dynamic = "force-dynamic";
@@ -24,6 +25,7 @@ export default async function CollectionPage({ params }: { params: Promise<{ id:
     const collection = await getHomeCollection(id);
     if (!collection) notFound();
     const t = await getTranslations("Collection");
+    const b = await getTranslations("Books");
 
     return (
         <div className="min-h-screen bg-white dark:bg-dark">
@@ -45,21 +47,50 @@ export default async function CollectionPage({ params }: { params: Promise<{ id:
                     </p>
                 </div>
 
-                <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-7 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-                    {collection.books.map((book) => (
-                        <Link key={book.id} href={bookHref(book)} className="group block min-w-0">
-                            <Cover book={book} imprint="sm" className="aspect-3/4 w-full" />
-                            <h2 className="mt-2 line-clamp-1 text-sm font-semibold text-gray-900 dark:text-white">{book.title}</h2>
-                            <p className="mt-0.5 line-clamp-1 text-xs text-gray-500 dark:text-neutral-400">{book.author}</p>
-                            <div className="mt-1.5">
-                                <BookPills book={book} />
+                <div className="mt-6 flex flex-col gap-4">
+                    {collection.books.map((book) => {
+                        const href = bookHref(book);
+                        const readHref = book.kind === "comic" ? href : `${href}/reader?chapter=1`;
+                        return (
+                            <div key={book.id}
+                                className="flex items-start gap-3 md:gap-4 rounded-xl border border-gray-100 bg-white p-3 md:p-4 shadow-sm dark:border-dark-border dark:bg-dark-raised dark:shadow-none">
+                                <Link href={href} className="group shrink-0">
+                                    <div className="relative w-18 md:w-21 overflow-hidden rounded-md">
+                                        <Cover book={book} imprint="sm" ribbons={false} className="aspect-2/3 w-full" />
+                                        <CoverRibbons book={book} small />
+                                    </div>
+                                </Link>
+
+                                <div className="min-w-0 flex-1">
+                                    <BookPills book={book} />
+                                    <Link href={href}>
+                                        <h2 className="mt-1.5 line-clamp-1 text-sm md:text-base font-bold text-gray-900 dark:text-white">{book.title}</h2>
+                                    </Link>
+                                    <p className="mt-0.5 line-clamp-1 text-[11px] md:text-xs text-gray-500 dark:text-neutral-400">
+                                        {b("byAuthor", { author: book.author })}
+                                        {book.chapters ? ` · ${t("chaptersCount", { count: book.chapters })}` : ""}
+                                    </p>
+                                    <p className="mt-1.5 flex items-center gap-3 text-[11px] text-gray-500 dark:text-neutral-400">
+                                        <span className="inline-flex items-center gap-1"><Eye size={12} /> {b("viewsCount", { views: formatCount(book.views) })}</span>
+                                        <Rating book={book} />
+                                    </p>
+                                    {book.blurb && (
+                                        <p className="mt-1.5 line-clamp-2 text-[11px] md:text-xs text-gray-600 dark:text-neutral-300">{book.blurb}</p>
+                                    )}
+                                </div>
+
+                                <div className="flex shrink-0 items-center gap-2 md:gap-3">
+                                    <Link href={readHref}
+                                        className="rounded-full bg-[#D90404] px-3 md:px-4 py-1.5 text-[11px] md:text-xs font-semibold text-white hover:bg-red-700 transition whitespace-nowrap">
+                                        {t("readNow")}
+                                    </Link>
+                                    {book.kind === "story" && (
+                                        <BookmarkButton slug={book.slug} storyId={book.id} title={book.title} image={book.image} label={t("addToLibrary")} />
+                                    )}
+                                </div>
                             </div>
-                            <p className="mt-1.5 flex items-center gap-3 text-[11px] text-gray-500 dark:text-neutral-400">
-                                <span className="inline-flex items-center gap-1"><Eye size={12} /> {formatCount(book.views)} views</span>
-                                <Rating book={book} />
-                            </p>
-                        </Link>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
             <Footer />

@@ -543,7 +543,10 @@
         "metaTitle": "Collezione | Fang",
         "breadcrumb": "Percorso di navigazione",
         "home": "Home",
-        "bookCount": "{count, plural, one {# libro} other {# libri}}"
+        "bookCount": "{count, plural, one {# libro} other {# libri}}",
+        "readNow": "Leggi ora",
+        "addToLibrary": "Aggiungi alla libreria",
+        "chaptersCount": "{count, plural, one {# capitolo} other {# capitoli}}"
     },
     "Reader": {
         "couldntUnlock": "Impossibile sbloccare questo capitolo",

@@ -26,6 +26,7 @@ import { FiLifeBuoy, FiLink } from "react-icons/fi";
 import { FaInfoCircle, FaQuestionCircle } from "react-icons/fa";
 import { useLocale, useTranslations } from "next-intl";
 import AutoRenewRow from "@/components/profile-components/settings/auto-renew-row";
+import TwoFactorCard from "@/components/authCards/twoFactorCards";
 
 type T = (key: string, values?: Record<string, string | number>) => string;
 
@@ -189,6 +190,8 @@ export default function SettingsPage() {
                     action={<span className="text-gray-400 text-sm">{t("readOnly")}</span>}
                 />
             </SettingsSection>
+
+            <TwoFactorCard />
 
             <SettingsSection title={t("security")} icon={<FaShieldHalved color="red" size={20} />}>
                 <SettingRow

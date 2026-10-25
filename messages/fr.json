@@ -543,7 +543,10 @@
         "metaTitle": "Collection | Fang",
         "breadcrumb": "Fil d’Ariane",
         "home": "Accueil",
-        "bookCount": "{count, plural, one {# livre} other {# livres}}"
+        "bookCount": "{count, plural, one {# livre} other {# livres}}",
+        "readNow": "Lire maintenant",
+        "addToLibrary": "Ajouter à la bibliothèque",
+        "chaptersCount": "{count, plural, one {# chapitre} other {# chapitres}}"
     },
     "Reader": {
         "couldntUnlock": "Impossible de débloquer ce chapitre",

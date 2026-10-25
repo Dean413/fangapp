@@ -543,7 +543,10 @@
         "metaTitle": "Sammlung | Fang",
         "breadcrumb": "Brotkrumennavigation",
         "home": "Startseite",
-        "bookCount": "{count, plural, one {# Buch} other {# Bücher}}"
+        "bookCount": "{count, plural, one {# Buch} other {# Bücher}}",
+        "readNow": "Jetzt lesen",
+        "addToLibrary": "Zur Bibliothek hinzufügen",
+        "chaptersCount": "{count, plural, one {# Kapitel} other {# Kapitel}}"
     },
     "Reader": {
         "couldntUnlock": "Dieses Kapitel konnte nicht freigeschaltet werden",

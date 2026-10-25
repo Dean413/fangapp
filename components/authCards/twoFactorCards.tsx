@@ -109,15 +109,23 @@ export default function TwoFactorCard() {
                     <X size={18} />
                 </button>
                 <div className="w-full px-6 md:px-16 sm:px-6 py-5 sm:py-6">
-                    <div className="flex items-center gap-2 mb-4 sm:mb-5">
-                        <Image src="/fang_pictures/fang_logo2.png" alt="logo" width={42} height={42} />
-                        <Image src="/fang_pictures/fang_logo1.png" alt="logo text" width={110} height={110} />
+                    <div className="flex gap-2 items-center">
+                        <Image src="/fanglogo1.svg" alt="logo" width={80} height={80} className="w-10" />
+                        <div
+                            role="img"
+                            aria-label="FANG"
+                            className="-ml-4 w-20 md:w-25 aspect-1873/614 bg-black dark:bg-white"
+                            style={{
+                                WebkitMask: "url(/fanglogo2.svg) center / contain no-repeat",
+                                mask: "url(/fanglogo2.svg) center / contain no-repeat",
+                            }}
+                        />
                     </div>
                     <div className="mb-4 sm:mb-6">
                         <h2 className="text-2xl font-bold mb-1 text-gray-900 dark:text-white">{t("twoFactorTitle")}</h2>
                         <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
                             <span className="block">{t("codeSentTo", { email: maskEmail(email) })}</span>
-                            <span className="block text-sm mt-2">{t("twoFactorText")}</span>
+                            {/* <span className="block text-sm mt-2">{t("twoFactorText")}</span> */}
                         </p>
                     </div>
                     <div className="space-y-4 sm:space-y-5">

@@ -543,7 +543,10 @@
         "metaTitle": "コレクション | Fang",
         "breadcrumb": "パンくずリスト",
         "home": "ホーム",
-        "bookCount": "{count}冊"
+        "bookCount": "{count}冊",
+        "readNow": "今すぐ読む",
+        "addToLibrary": "ライブラリに追加",
+        "chaptersCount": "{count}話"
     },
     "Reader": {
         "couldntUnlock": "このチャプターのロックを解除できませんでした",

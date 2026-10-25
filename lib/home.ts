@@ -14,7 +14,8 @@ export type HomeBook = {
     genre: string | null;
     tags: string[];
     blurb: string | null;
-    views: number; // already has the 3,000 threshold taken off
+    views: number;
+    chapters?: number;
     completed: boolean;
     exclusive: boolean; // under a signed Exclusive or MAB-Exclusive contract
     rating: number | null; // average of the readers' reviews (0.5 to 5), null = no reviews yet
@@ -63,7 +64,9 @@ const SIGNED_PLAN = (column: "story_id" | "comic_id") => `
 // FangInk lists hold comics; the other reader apps hold stories.
 // collection_id is compared as a number (not cast to text) so Postgres can use its index.
 const STORY_ITEMS = `
-    SELECT i.collection_id::text AS collection_id, b.id, b.slug, b.title, b.image, b.genre, b.tags, b.blurb, b.views,
+    SELECT i.collection_id::text AS collection_id,
+           (SELECT count(*)::int FROM chapters c WHERE c.story_id = b.id AND c.status = 'published') AS chapters,
+           b.id, b.slug, b.title, b.image, b.genre, b.tags, b.blurb, b.views,
            b.story_status AS progress, p.name AS author, ct.plan, rv.rating, b.created_at
     FROM curation_items i
     JOIN stories b ON b.id = i.story_id

@@ -34,7 +34,7 @@ const ReusableInput = ({ fullName, placeholder, label, showStrengthBar, email, s
     const t = useTranslations("Auth");
     return (
         <div className="mx-auto ">
-            {/* <div className="flex dark:text-white gap-4">
+            <div className="flex dark:text-white gap-4">
                 <button
                     type="button"
                     onClick={() => startSocialSignIn("google")}
@@ -58,14 +58,14 @@ const ReusableInput = ({ fullName, placeholder, label, showStrengthBar, email, s
                     <Image src="https://www.svgrepo.com/show/503173/apple-logo.svg" alt="apple-logo" width={20} height={20} />
                     <span className="font-medium md:text-sm text-xs">Apple</span>
                 </button>
-            </div> */}
+            </div>
 
             {/* DIVIDER */}
-            {/* <div className="flex items-center gap-3 my-5">
+            <div className="flex items-center gap-3 my-5">
                 <div className="grow h-px bg-gray-300 dark:bg-neutral-800"></div>
                 <span className="text-xs text-gray-500 dark:text-neutral-400">or</span>
                 <div className="grow h-px bg-gray-300 dark:bg-neutral-800"></div>
-            </div> */}
+            </div>
 
             {/* FORM */}
             <div className="space-y-4">

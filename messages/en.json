@@ -543,7 +543,10 @@
         "metaTitle": "Collection | Fang",
         "breadcrumb": "Breadcrumb",
         "home": "Home",
-        "bookCount": "{count, plural, one {# book} other {# books}}"
+        "bookCount": "{count, plural, one {# book} other {# books}}",
+        "readNow": "Read Now",
+        "addToLibrary": "Add to Library",
+        "chaptersCount": "{count, plural, one {# Chapter} other {# Chapters}}"
     },
     "Reader": {
         "couldntUnlock": "Couldn't unlock this chapter",

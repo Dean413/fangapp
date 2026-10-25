@@ -543,7 +543,10 @@
         "metaTitle": "Koleksiyon | Fang",
         "breadcrumb": "Gezinti yolu",
         "home": "Ana Sayfa",
-        "bookCount": "{count, plural, one {# kitap} other {# kitap}}"
+        "bookCount": "{count, plural, one {# kitap} other {# kitap}}",
+        "readNow": "Şimdi oku",
+        "addToLibrary": "Kitaplığa ekle",
+        "chaptersCount": "{count, plural, one {# bölüm} other {# bölüm}}"
     },
     "Reader": {
         "couldntUnlock": "Bu bölümün kilidi açılamadı",

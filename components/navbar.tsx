@@ -20,8 +20,10 @@ const GENRES_PATH = "/stories";
 const NOTIFICATIONS_PATH = "/profile/notifications";
 const WALLET_PATH = "/profile/wallet";
 
-// The reader's photo; no photo (or it fails to load): their initial in a circle. VIP readers get a crown at the bottom-left.
-function Avatar({ src, name, vip = false }: { src?: string | null; name?: string | null; vip?: boolean }) {
+type VipPlan = "weekly" | "monthly" | null;
+
+// The reader's photo; no photo (or it fails to load): their initial in a circle. VIP readers get their plan's crown at the bottom-right.
+function Avatar({ src, name, plan = null }: { src?: string | null; name?: string | null; plan?: VipPlan }) {
     const [failed, setFailed] = useState(false);
     useEffect(() => setFailed(false), [src]);
     const initial = (name ?? "").trim().charAt(0).toUpperCase() || "R";
@@ -35,9 +37,9 @@ function Avatar({ src, name, vip = false }: { src?: string | null; name?: string
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={src} alt="" onError={() => setFailed(true)} className="h-9 w-9 rounded-full object-cover" />
             )}
-            {vip && (
-                <Image src="/fang_pictures/crown.png" alt="" aria-hidden="true" width={16} height={16}
-                    className="pointer-events-none absolute -bottom-1 -left-1 h-4 w-4 object-contain drop-shadow" />
+            {plan && (
+                <Image src={plan === "monthly" ? "/fang_pictures/monthly-vip-crown.png" : "/fang_pictures/weekly-vip-crown.png"} alt="" aria-hidden="true" width={16} height={16}
+                    className="pointer-events-none absolute -bottom-1 -right-1 h-4 w-4 object-contain drop-shadow" />
             )}
         </span>
     );
@@ -67,18 +69,22 @@ const NavBar = () => {
     const loading = useAuthStore((s) => s.loading);
     const { logout } = useAuthStore();
     const [logOutloading, setLogOutLoading] = useState(false);
-    const [isVip, setIsVip] = useState(false);
+    const [vipPlan, setVipPlan] = useState<VipPlan>(null);
     const userId = user?.id ?? null;
 
     useEffect(() => { setMounted(true); }, []);
 
-    // VIP readers get the crown on their picture (checked again when the page changes, so it shows right after buying)
+    // VIP readers get their plan's crown on their picture (checked again when the page changes, so it shows right after buying)
     useEffect(() => {
-        if (!userId) { setIsVip(false); return; }
+        if (!userId) { setVipPlan(null); return; }
         let alive = true;
         fetch("/api/vip/status", { credentials: "include", cache: "no-store" })
             .then((res) => (res.ok ? res.json() : null))
-            .then((data) => { if (alive) setIsVip(Boolean((data?.vip ?? data)?.active)); })
+            .then((data) => {
+                if (!alive) return;
+                const status = data?.vip ?? data;
+                setVipPlan(status?.active ? (status.plan === "monthly" ? "monthly" : "weekly") : null);
+            })
             .catch(() => { });
         return () => { alive = false; };
     }, [userId, pathname]);
@@ -214,7 +220,7 @@ const NavBar = () => {
                                         </Link>
                                         <NotificationBell />
                                         <Link href="/profile" aria-label={t("Profile")} className="rounded-full">
-                                            <Avatar src={user.avatar_url} name={user.username || user.full_name} vip={isVip} />
+                                            <Avatar src={user.avatar_url} name={user.username || user.full_name} plan={vipPlan} />
                                         </Link>
                                     </>
                                 ) : (

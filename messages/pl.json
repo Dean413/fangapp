@@ -543,7 +543,10 @@
         "metaTitle": "Kolekcja | Fang",
         "breadcrumb": "Ścieżka nawigacji",
         "home": "Strona główna",
-        "bookCount": "{count, plural, one {# książka} few {# książki} many {# książek} other {# książki}}"
+        "bookCount": "{count, plural, one {# książka} few {# książki} many {# książek} other {# książki}}",
+        "readNow": "Czytaj teraz",
+        "addToLibrary": "Dodaj do biblioteki",
+        "chaptersCount": "{count, plural, one {# rozdział} few {# rozdziały} many {# rozdziałów} other {# rozdziału}}"
     },
     "Reader": {
         "couldntUnlock": "Nie udało się odblokować tego rozdziału",

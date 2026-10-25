@@ -49,23 +49,24 @@ export function SectionHeader({ title, href }: { title: string; href?: string })
 // Genre / tag pills: a client component (it shows the names in the site language), so it lives in its own file
 export { BookPills, OptionName } from "./bookPill";
 
-// Diagonal ribbons in the cover's top-left corner: red "Exclusive", green "Completed" (sit on the cover image, so same in both themes)
+// Diagonal ribbons in the cover's top-left corner: red "Exclusive", green "Completed", blue "Ongoing" (sit on the cover image, so same in both themes)
 // Corner ribbons across the cover's top-left corner, drawn as one SVG so each text
 // sits exactly in the middle of its band (1 unit = 1px).
 const RIBBON_OFFSETS = [22, 31.5]; // distance of each band's centre from the corner
 
-export function CoverRibbons({ book }: { book: HomeBook }) {
+// small = a smaller ribbon for small covers (list rows)
+export function CoverRibbons({ book, small = false }: { book: HomeBook; small?: boolean }) {
     const t = useTranslations("Books");
     const ribbons = [
         book.exclusive && { label: t("exclusive"), fill: "fill-red-600" },
-        book.completed ? { label: t("completed"), fill: "fill-green-600" } : { label: t("ongoing"), fill: "fill-red-600" },
+        book.completed ? { label: t("completed"), fill: "fill-green-600" } : { label: t("ongoing"), fill: "fill-[#2F7EFB]" },
     ].filter(Boolean) as { label: string; fill: string }[];
 
     return (
         <svg
             viewBox="0 0 80 80"
             aria-hidden="true"
-            className="absolute top-0 left-0 z-10 aspect-square w-[62%] h-auto pointer-events-none drop-shadow-sm sm:w-20">
+            className={`absolute top-0 left-0 z-10 aspect-square h-auto pointer-events-none drop-shadow-sm ${small ? "w-9" : "w-[42%] sm:w-20"}`}>
             {ribbons.map((r, i) => {
                 const o = RIBBON_OFFSETS[i];
                 return (
@@ -88,7 +89,6 @@ export function CoverRibbons({ book }: { book: HomeBook }) {
         </svg>
     );
 }
-
 // Average review rating, e.g. "★ 4.5" (nothing when the book has no reviews yet)
 export function Rating({ book, className = "" }: { book: HomeBook; className?: string }) {
     if (book.rating == null) return null;

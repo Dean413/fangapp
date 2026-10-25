@@ -17,7 +17,7 @@ export default function BookShelf({ collection }: { collection: HomeCollection }
     return (
         <section>
             <SectionHeader title={collection.name} href={`/collections/${collection.id}`} />
-            <div className="grid grid-cols-3 gap-3 sm:-mx-1 sm:flex sm:snap-x sm:snap-mandatory sm:gap-4 sm:overflow-x-auto sm:scroll-smooth sm:px-1 sm:pb-2 sm:[scrollbar-width:none] sm:[&::-webkit-scrollbar]:hidden">
+            <div className="grid grid-cols-3 gap-3 sm:-mx-1 sm:flex sm:snap-x sm:snap-mandatory sm:gap-4 sm:overflow-x-auto sm:scroll-smooth sm:px-1 sm:pb-2 sm:scrollbar-width:none sm:[&::-webkit-scrollbar]:hidden">
                 {collection.books.map((book, i) => (
                     <Link
                         key={book.id}

@@ -78,8 +78,8 @@ const AuthFooter = ({
                     ) : (
                         <p className="text-xs">
                             {t.rich("agreeTerms", {
-                                terms: (chunks) => <span className="text-red-600">{chunks}</span>,
-                                privacy: (chunks) => <span className="text-red-600">{chunks}</span>,
+                                terms: (chunks) => <a href="/terms-of-service" className="text-red-600">{chunks}</a>,
+                                privacy: (chunks) => <a href="/privacy-policy" className="text-red-600">{chunks}</a>,
                             })}
                         </p>
                     )

@@ -13,7 +13,7 @@ type Props = {
     href?: string;                // the last chapter read (or chapter 1)
     lastChapter?: number | null;
     chapterCount?: number;
-    completed?: boolean;          // green "Completed" ribbon (else red "Ongoing")
+    completed?: boolean;          // green "Completed" ribbon (else blue "Ongoing")
     exclusive?: boolean;          // red "Exclusive" ribbon
 }
 
@@ -23,7 +23,7 @@ function Ribbons({ completed, exclusive }: { completed?: boolean; exclusive?: bo
     const t = useTranslations("Books");
     const ribbons = [
         exclusive && { label: t("exclusive"), color: "bg-red-600" },
-        completed ? { label: t("completed"), color: "bg-green-600" } : { label: t("ongoing"), color: "bg-purple-600" },
+        completed ? { label: t("completed"), color: "bg-green-600" } : { label: t("ongoing"), color: "bg-[#2F7EFB]" },
     ].filter(Boolean) as { label: string; color: string }[];
 
     return ribbons.map((r, i) => (

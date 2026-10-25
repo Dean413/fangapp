@@ -90,7 +90,7 @@ export default function FeaturedSection({ collection }: { collection: HomeCollec
                     <FeaturedCard books={collection.books} />
                 </div>
                 {/* Phones: a sideways-scrolling row of the first 6 books; bigger screens: the grid */}
-                <div className="flex min-w-0 flex-1 snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-3 sm:gap-y-6 sm:overflow-visible sm:pb-0 lg:grid-cols-4">
+                <div className="flex min-w-0 flex-1 snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-2 scrollbar-width:none [&::-webkit-scrollbar]:hidden sm:grid sm:grid-cols-3 sm:gap-y-6 sm:overflow-visible sm:pb-0 lg:grid-cols-4">
                     {grid.map((book, i) => (
                         <GridCard key={book.id} book={book} className={`w-32 shrink-0 snap-start sm:w-auto sm:shrink ${i >= PHONE_COUNT ? "hidden sm:block" : ""}`} />
                     ))}
