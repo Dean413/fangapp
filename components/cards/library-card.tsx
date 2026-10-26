@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useLibraryStore } from "@/lib/store/library-store";
 import { useTranslations } from "next-intl";
+import Imprint from "@/components/imprint";
 
 
 type Props = {
@@ -13,29 +14,7 @@ type Props = {
     href?: string;                // the last chapter read (or chapter 1)
     lastChapter?: number | null;
     chapterCount?: number;
-    completed?: boolean;          // green "Completed" ribbon (else blue "Ongoing")
-    exclusive?: boolean;          // red "Exclusive" ribbon
 }
-
-
-// Diagonal ribbons in the cover's top-left corner (sit on the cover image, so the same in both themes)
-function Ribbons({ completed, exclusive }: { completed?: boolean; exclusive?: boolean }) {
-    const t = useTranslations("Books");
-    const ribbons = [
-        exclusive && { label: t("exclusive"), color: "bg-red-600" },
-        completed ? { label: t("completed"), color: "bg-green-600" } : { label: t("ongoing"), color: "bg-[#2F7EFB]" },
-    ].filter(Boolean) as { label: string; color: string }[];
-
-    return ribbons.map((r, i) => (
-        <span
-            key={r.label}
-            className={`absolute -left-8 w-28 -rotate-45 py-0.5 text-center text-[7px] font-bold uppercase tracking-wide text-white shadow ${r.color}`}
-            style={{ top: 10 + i * 19 }}>
-            {r.label}
-        </span>
-    ));
-}
-
 
 export default function LibraryCard({
     id,
@@ -44,8 +23,6 @@ export default function LibraryCard({
     href,
     lastChapter,
     chapterCount,
-    completed,
-    exclusive,
 }: Props) {
 
     const isEditMode = useLibraryStore((state) => state.isEditMode);
@@ -66,11 +43,11 @@ export default function LibraryCard({
                 sizes="(max-width: 768px) 50vw, 200px"
                 className="object-cover"
             />
-            <Ribbons completed={completed} exclusive={exclusive} />
+            <Imprint />
         </div>
     );
 
-    // Progress: bar + "Ch. 61 / 100 · 61%"
+    // Progress: bar + "Ch. 61 / 100 · 61%" (a saved book not opened yet: empty bar + "Not started · Saved")
     const total = lastChapter != null ? Math.max(chapterCount ?? 0, lastChapter, 1) : 0;
     const percent = lastChapter != null ? Math.min(100, Math.round((lastChapter / total) * 100)) : 0;
 
@@ -104,16 +81,14 @@ export default function LibraryCard({
 
             <h3 className="mt-2 font-semibold truncate">{title}</h3>
 
-            {lastChapter != null && (
-                <div className="mt-1.5">
-                    <div className="h-0.5 w-[85%] rounded-full bg-gray-300 dark:bg-neutral-600 overflow-hidden">
-                        <div className="h-full rounded-full bg-red-600" style={{ width: `${percent}%` }} />
-                    </div>
-                    <p className="mt-1.5 text-[11px] text-gray-500 dark:text-neutral-400">
-                        {t("progress", { chapter: lastChapter, total, percent })}
-                    </p>
+            <div className="mt-1.5">
+                <div className={`h-0.5 ${lastChapter != null ? "w-[85%]" : "w-full"} rounded-full bg-gray-300 dark:bg-neutral-600 overflow-hidden`}>
+                    <div className="h-full rounded-full bg-red-600" style={{ width: `${percent}%` }} />
                 </div>
-            )}
+                <p className="mt-1.5 text-[11px] text-gray-500 dark:text-neutral-400">
+                    {lastChapter != null ? t("progress", { chapter: lastChapter, total, percent }) : t("notStartedSaved")}
+                </p>
+            </div>
         </div>
     )
 }

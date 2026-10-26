@@ -21,7 +21,16 @@
         "logoutConfirmButton": "Sim, sair",
         "cancel": "Cancelar",
         "loggedOutTitle": "Desconectado",
-        "loggedOutText": "Você saiu da sua conta com sucesso"
+        "loggedOutText": "Você saiu da sua conta com sucesso",
+        "booksRead": "Livros lidos",
+        "MyReviews": "Minhas avaliações",
+        "myAccount": "Minha conta",
+        "closeMenu": "Fechar menu",
+        "toggleTheme": "Alternar modo escuro",
+        "vip": "VIP",
+        "Community": "Comunidade",
+        "following": "Seguindo",
+        "followers": "Seguidores"
     },
     "Api": {
         "signInFirst": "Entre na sua conta primeiro",
@@ -453,7 +462,10 @@
         "progress": "Cap. {chapter} / {total} · {percent}%",
         "chapterN": "Capítulo {chapter}",
         "byAuthor": "por {author}",
-        "viewsCount": "{views} visualizações"
+        "viewsCount": "{views} visualizações",
+        "updated": "Atualizado",
+        "notStartedSaved": "Salvo · Ainda não iniciado",
+        "topThisWeek": "Top da semana"
     },
     "Stories": {
         "genres": "Gêneros",
@@ -465,7 +477,7 @@
         "readNow": "Ler agora",
         "readAgain": "Ler novamente",
         "upToDate": "Em dia (Cap. {chapter})",
-        "continueReading": "Continuar lendo (Cap. {chapter})",
+        "continueReading": "Continuar (Cap. {chapter})",
         "home": "Início",
         "writtenBy": "Escrito por <name>{author}</name>",
         "views": "{views} visualizações",
@@ -481,7 +493,8 @@
         "showMore": "Mostrar mais",
         "youMayLike": "Você também pode gostar",
         "readerReviews": "Avaliações dos leitores",
-        "reportBook": "Denunciar livro"
+        "reportBook": "Denunciar livro",
+        "report": "Denunciar"
     },
     "Rankings": {
         "daily": "Diário",
@@ -577,7 +590,7 @@
         "coinsAmount": "{amount} moedas",
         "bonusAmount": "{amount} de bônus",
         "autoUnlock": "Desbloquear automaticamente o próximo capítulo",
-        "continueReading": "Continuar lendo",
+        "continueReading": "Continuar",
         "byAuthor": "por {author}",
         "theme": "Tema",
         "fonts": "Fontes",
@@ -645,7 +658,7 @@
         "send": "Enviar"
     },
     "Wallet": {
-        "vipBonus": "Bônus VIP",
+        "vipBonus": "Bônus VIP: {amount}",
         "title": "Minha carteira",
         "subtitle": "Ganhe, recarregue e gerencie suas vantagens VIP",
         "tabEarn": "Ganhar",
@@ -946,7 +959,7 @@
         "helpText": "Se você tiver algum problema ou não recebeu suas moedas, nossa equipe de suporte está aqui para ajudar.",
         "helpSubject": "Ajuda com a transação {id}",
         "contactSupport": "Falar com o suporte",
-        "bonusInfo": "✨ As moedas bônus expiram 2 dias depois de você recebê-las. Use-as para desbloquear capítulos antes que acabem.",
+        "bonusInfo": "✨ As moedas são adicionadas à sua conta na hora. Você pode usá-las para desbloquear capítulos e aproveitar recursos premium.",
         "coinsInfo": "✨ As moedas são adicionadas à sua conta na hora. Você pode usá-las para desbloquear capítulos e aproveitar recursos premium.",
         "filter_topup": "Recargas",
         "empty_topup": "Nenhuma recarga.",
@@ -966,7 +979,21 @@
         "amountPaid": "Valor pago",
         "vipInfo": "✨ Seu VIP é renovado automaticamente a cada período até você cancelar. Você pode desativar a renovação automática a qualquer momento nas Configurações e manter o VIP até o fim do período pago.",
         "filter_vip": "VIP",
-        "empty_vip": "Nenhuma transação VIP."
+        "empty_vip": "Nenhuma transação VIP.",
+        "back": "Voltar",
+        "coinsLabel": "Moedas",
+        "bonusLabel": "Bônus",
+        "vipBonusLabel": "Bônus VIP",
+        "totalCoinsReceived": "Total de moedas recebidas",
+        "paymentInfo": "Informações do pagamento",
+        "transactionInfo": "Informações da transação",
+        "idLabel": "ID da transação",
+        "copyId": "Copiar ID da transação",
+        "paymentMethod": "Forma de pagamento",
+        "paymentStatus": "Status do pagamento",
+        "status": "Status",
+        "totalPaid": "Total pago",
+        "dateTime": "Data e hora"
     },
     "Profile": {
         "couldntSavePhoto": "Não foi possível salvar sua foto",
@@ -998,7 +1025,9 @@
         "editGenresHint": "Escolha os gêneros que você ama para receber recomendações melhores",
         "genresSaved": "Gêneros atualizados",
         "couldntSaveGenres": "Não foi possível salvar seus gêneros",
-        "saving": "Salvando..."
+        "saving": "Salvando...",
+        "profilePhoto": "Foto de perfil",
+        "vip": "VIP"
     },
     "LiveChat": {
         "topic_account": "Problemas de conta e login",

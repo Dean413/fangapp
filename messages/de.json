@@ -21,7 +21,16 @@
         "logoutConfirmButton": "Ja, abmelden",
         "cancel": "Abbrechen",
         "loggedOutTitle": "Abgemeldet",
-        "loggedOutText": "Du wurdest erfolgreich abgemeldet"
+        "loggedOutText": "Du wurdest erfolgreich abgemeldet",
+        "booksRead": "Gelesene Bücher",
+        "MyReviews": "Meine Bewertungen",
+        "myAccount": "Mein Konto",
+        "closeMenu": "Menü schließen",
+        "toggleTheme": "Dunkelmodus umschalten",
+        "vip": "VIP",
+        "Community": "Community",
+        "following": "Folge ich",
+        "followers": "Follower"
     },
     "Api": {
         "signInFirst": "Bitte melde dich zuerst an",
@@ -453,7 +462,10 @@
         "progress": "Kap. {chapter} / {total} · {percent}%",
         "chapterN": "Kapitel {chapter}",
         "byAuthor": "von {author}",
-        "viewsCount": "{views} Aufrufe"
+        "viewsCount": "{views} Aufrufe",
+        "updated": "Aktualisiert",
+        "notStartedSaved": "Gespeichert · Noch nicht begonnen",
+        "topThisWeek": "Top der Woche"
     },
     "Stories": {
         "genres": "Genres",
@@ -465,7 +477,7 @@
         "readNow": "Jetzt lesen",
         "readAgain": "Erneut lesen",
         "upToDate": "Auf dem neuesten Stand (Kap. {chapter})",
-        "continueReading": "Weiterlesen (Kap. {chapter})",
+        "continueReading": "Fortsetzen (Kap. {chapter})",
         "home": "Startseite",
         "writtenBy": "Geschrieben von <name>{author}</name>",
         "views": "{views} Aufrufe",
@@ -481,7 +493,8 @@
         "showMore": "Mehr anzeigen",
         "youMayLike": "Das könnte dir auch gefallen",
         "readerReviews": "Leserrezensionen",
-        "reportBook": "Buch melden"
+        "reportBook": "Buch melden",
+        "report": "Melden"
     },
     "Rankings": {
         "daily": "Täglich",
@@ -577,7 +590,7 @@
         "coinsAmount": "{amount} Münzen",
         "bonusAmount": "{amount} Bonus",
         "autoUnlock": "Nächstes Kapitel automatisch freischalten",
-        "continueReading": "Weiterlesen",
+        "continueReading": "Fortsetzen",
         "byAuthor": "von {author}",
         "theme": "Design",
         "fonts": "Schriftarten",
@@ -645,7 +658,7 @@
         "send": "Senden"
     },
     "Wallet": {
-        "vipBonus": "VIP-Bonus",
+        "vipBonus": "VIP-Bonus: {amount}",
         "title": "Meine Wallet",
         "subtitle": "Sammle, lade auf und verwalte deine VIP-Vorteile",
         "tabEarn": "Verdienen",
@@ -946,7 +959,7 @@
         "helpText": "Wenn es ein Problem gibt oder du deine Münzen nicht erhalten hast, hilft dir unser Support-Team gerne weiter.",
         "helpSubject": "Hilfe zur Transaktion {id}",
         "contactSupport": "Support kontaktieren",
-        "bonusInfo": "✨ Bonus-Münzen verfallen 2 Tage nach Erhalt. Nutze sie, um Kapitel freizuschalten, bevor sie ablaufen.",
+        "bonusInfo": "✨ Münzen werden sofort deinem Konto gutgeschrieben. Du kannst damit Kapitel freischalten und Premium-Funktionen nutzen.",
         "coinsInfo": "✨ Münzen werden sofort deinem Konto gutgeschrieben. Du kannst damit Kapitel freischalten und Premium-Funktionen nutzen.",
         "filter_topup": "Aufladungen",
         "empty_topup": "Keine Aufladungen.",
@@ -966,7 +979,21 @@
         "amountPaid": "Bezahlter Betrag",
         "vipInfo": "✨ Dein VIP verlängert sich in jedem Zeitraum automatisch, bis du kündigst. Du kannst die automatische Verlängerung jederzeit in den Einstellungen deaktivieren und behältst VIP bis zum Ende des bezahlten Zeitraums.",
         "filter_vip": "VIP",
-        "empty_vip": "Keine VIP-Transaktionen."
+        "empty_vip": "Keine VIP-Transaktionen.",
+        "back": "Zurück",
+        "coinsLabel": "Münzen",
+        "bonusLabel": "Bonus",
+        "vipBonusLabel": "VIP-Bonus",
+        "totalCoinsReceived": "Erhaltene Münzen insgesamt",
+        "paymentInfo": "Zahlungsinformationen",
+        "transactionInfo": "Transaktionsinformationen",
+        "idLabel": "Transaktions-ID",
+        "copyId": "Transaktions-ID kopieren",
+        "paymentMethod": "Zahlungsmethode",
+        "paymentStatus": "Zahlungsstatus",
+        "status": "Status",
+        "totalPaid": "Insgesamt bezahlt",
+        "dateTime": "Datum & Uhrzeit"
     },
     "Profile": {
         "couldntSavePhoto": "Dein Foto konnte nicht gespeichert werden",
@@ -998,7 +1025,9 @@
         "editGenresHint": "Wähle deine Lieblingsgenres für bessere Empfehlungen",
         "genresSaved": "Genres aktualisiert",
         "couldntSaveGenres": "Deine Genres konnten nicht gespeichert werden",
-        "saving": "Wird gespeichert..."
+        "saving": "Wird gespeichert...",
+        "profilePhoto": "Profilfoto",
+        "vip": "VIP"
     },
     "LiveChat": {
         "topic_account": "Konto- und Anmeldeprobleme",

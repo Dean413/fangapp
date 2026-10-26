@@ -2,14 +2,17 @@
 
 import Image from "next/image";
 import { Link, usePathname } from "@/i18n/routing";
-import { Bell, ChevronDown, Menu, MoonStarIcon, Search, X } from "lucide-react";
+import {
+    Bell, ChevronRight, Menu, MoonStarIcon, Search, X,
+    User as UserIcon, Library as LibraryIcon, Wallet as WalletIcon, History as HistoryIcon,
+    Users, Star, Settings as SettingsIcon, MessageSquare, LogOut as LogOutIcon,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import LanguageChange from "./language-change";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import SearchBar from "./search-bar";
 import { useTranslations } from "next-intl";
-import { useDropDownStore } from "@/lib/store/dropDownStore";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useAuthModals } from "@/lib/store/auth-card-store";
 import Swal from "sweetalert2";
@@ -22,23 +25,28 @@ const WALLET_PATH = "/profile/wallet";
 
 type VipPlan = "weekly" | "monthly" | null;
 
+const crownFor = (plan: Exclude<VipPlan, null>) =>
+    plan === "monthly" ? "/fang_pictures/monthly-vip-crown.png" : "/fang_pictures/weekly-vip-crown.png";
+
 // The reader's photo; no photo (or it fails to load): their initial in a circle. VIP readers get their plan's crown at the bottom-right.
-function Avatar({ src, name, plan = null }: { src?: string | null; name?: string | null; plan?: VipPlan }) {
+// big = the larger picture in the account panel (no crown there, the panel has its own VIP pill)
+function Avatar({ src, name, plan = null, big = false }: { src?: string | null; name?: string | null; plan?: VipPlan; big?: boolean }) {
     const [failed, setFailed] = useState(false);
     useEffect(() => setFailed(false), [src]);
     const initial = (name ?? "").trim().charAt(0).toUpperCase() || "R";
+    const size = big ? "h-14 w-14" : "h-9 w-9";
     return (
-        <span className="relative inline-flex">
+        <span className="relative inline-flex shrink-0">
             {!src || failed ? (
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-linear-to-br from-[#8B0000] to-[#D90404] text-sm font-bold text-white">
+                <span className={`flex ${size} items-center justify-center rounded-full bg-linear-to-br from-[#8B0000] to-[#D90404] ${big ? "text-xl" : "text-sm"} font-bold text-white`}>
                     {initial}
                 </span>
             ) : (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={src} alt="" onError={() => setFailed(true)} className="h-9 w-9 rounded-full object-cover" />
+                <img src={src} alt="" onError={() => setFailed(true)} className={`${size} rounded-full object-cover`} />
             )}
-            {plan && (
-                <Image src={plan === "monthly" ? "/fang_pictures/monthly-vip-crown.png" : "/fang_pictures/weekly-vip-crown.png"} alt="" aria-hidden="true" width={16} height={16}
+            {plan && !big && (
+                <Image src={crownFor(plan)} alt="" aria-hidden="true" width={16} height={16}
                     className="pointer-events-none absolute -bottom-1 -right-1 h-4 w-4 object-contain drop-shadow" />
             )}
         </span>
@@ -60,6 +68,7 @@ function NotificationBell() {
 const NavBar = () => {
     const pathname = usePathname();
     const [open, setOpen] = useState(false);
+    const [accountOpen, setAccountOpen] = useState(false);
     const [mounted, setMounted] = useState(false);
     const [search, setSearch] = useState("");
     const { resolvedTheme, setTheme } = useTheme();
@@ -70,6 +79,7 @@ const NavBar = () => {
     const { logout } = useAuthStore();
     const [logOutloading, setLogOutLoading] = useState(false);
     const [vipPlan, setVipPlan] = useState<VipPlan>(null);
+    const [summary, setSummary] = useState({ booksRead: 0, following: 0 });
     const userId = user?.id ?? null;
 
     useEffect(() => { setMounted(true); }, []);
@@ -89,8 +99,21 @@ const NavBar = () => {
         return () => { alive = false; };
     }, [userId, pathname]);
 
+    // The panel's numbers, from the same endpoints the profile page uses, fetched each time the panel opens
     useEffect(() => {
-        if (open) {
+        if (!userId || !accountOpen) return;
+        let alive = true;
+        const read = (url: string) =>
+            fetch(url, { credentials: "include", cache: "no-store" }).then((res) => (res.ok ? res.json() : null)).catch(() => null);
+        Promise.all([read("/api/reading-stats?range=year"), read("/api/authors/following")]).then(([stats, following]) => {
+            if (!alive) return;
+            setSummary({ booksRead: Number(stats?.totalBooks) || 0, following: Number(following?.total) || 0 });
+        });
+        return () => { alive = false; };
+    }, [userId, accountOpen]);
+
+    useEffect(() => {
+        if (open || accountOpen) {
             document.body.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "auto";
@@ -99,22 +122,42 @@ const NavBar = () => {
         return () => {
             document.body.style.overflow = "auto";
         };
-    }, [open]);
+    }, [open, accountOpen]);
 
     useEffect(() => {
         setOpen(false);
+        setAccountOpen(false);
         // closeDropDown();
     }, [pathname]);
 
     // close mobile menu on route change / resize
     useEffect(() => {
-        const handler = () => { if (window.innerWidth >= 768) setOpen(false); };
+        const handler = () => { if (window.innerWidth >= 768) { setOpen(false); setAccountOpen(false); } };
         window.addEventListener("resize", handler);
         return () => window.removeEventListener("resize", handler);
     }, []);
 
     const t = useTranslations("NavBar");
     const isDark = mounted && resolvedTheme === "dark";
+
+    // Reading and following aren't recorded yet, so these start at 0 (same as the profile page)
+    const stats = [
+        { value: summary.booksRead, label: t("booksRead") },
+        { value: summary.following, label: t("following") },
+    ];
+
+    // The rows of the mobile account panel
+    const accountLinks = [
+        { href: "/profile", label: t("Profile"), icon: UserIcon, exact: true },
+        { href: "/library", label: t("Library"), icon: LibraryIcon },
+        { href: WALLET_PATH, label: t("Wallet"), icon: WalletIcon },
+        { href: "/profile/transaction-history", label: t("TransactionHistory"), icon: HistoryIcon },
+        { href: "/profile/community", label: t("Community"), icon: Users },
+        { href: NOTIFICATIONS_PATH, label: t("Notifications"), icon: Bell, badge: true },
+        { href: "/profile/reviews", label: t("MyReviews"), icon: Star },
+        { href: "/profile/settings", label: t("Settings"), icon: SettingsIcon },
+        { href: "/profile/live-chat", label: t("LiveChat"), icon: MessageSquare },
+    ];
 
     const logOut = async () => {
         const result = await Swal.fire({
@@ -155,8 +198,8 @@ const NavBar = () => {
                 <div className="flex w-[90%] mx-auto items-center justify-between py-3">
                     {/* LEFT: logo + desktop nav */}
                     <div className="flex items-center gap-8">
-                        <div className="flex items-center">
-                            <Image src="/fanglogo1.svg" alt="logo" width={80} height={80} className="w-10" />
+                        <Link href="/" className="flex items-center">
+                            <Image src="/fanglogo1.svg" alt="" width={80} height={80} className="w-10" />
                             <div
                                 role="img"
                                 aria-label="FANG"
@@ -166,7 +209,7 @@ const NavBar = () => {
                                     mask: "url(/fanglogo2.svg) center / contain no-repeat",
                                 }}
                             />
-                        </div>
+                        </Link>
 
                         {/* Desktop nav links */}
                         <div className="hidden lg:flex items-center gap-6 text-sm font-medium">
@@ -177,19 +220,10 @@ const NavBar = () => {
                             <Link href={GENRES_PATH} className={` transition ${isActive(GENRES_PATH) ? "text-red-600" : "border-transparent"}`}>
                                 {t("Genres")}
                             </Link>
-                            {/* <div className="relative group">
-                                <button onMouseEnter={openDropDown} className="flex items-center gap-1">
-                                    {t("Browse")}
-                                    <ChevronDown className="w-3 h-3 transition-transform group-hover:rotate-180" />
-                                </button>
-                                <div className="hidden group-hover:flex absolute top-full left-0 pt-3 z-50">
-                                    {isDropDownOpen && <NavBarDropDown />}
-                                </div>
-                            </div> */}
                             <Link href="/rankings" className={`transition ${isActive("/rankings") ? "text-red-600" : "border-transparent"}`}>
                                 {t("Rankings")}
                             </Link>
-                            <a href="fangwriters.com" className={`transition ${isActive("/writer-arena") ? "text-red-600" : "border-transparent"}`}>
+                            <a href="https://www.fangwriters.com" className={`transition ${isActive("/writer-arena") ? "text-red-600" : "border-transparent"}`}>
                                 {t("WriterArena")}
                             </a>
                             <Link href="/library" className={` transition ${isActive("/library") ? "text-red-600" : "border-transparent"}`}>
@@ -212,11 +246,11 @@ const NavBar = () => {
                             <div className="flex items-center gap-3">
                                 {user ? (
                                     <>
-                                        {/* Coins (bought + bonus), opens the wallet */}
+                                        {/* Coins (bought + bonus + VIP bonus), opens the wallet */}
                                         <Link href={WALLET_PATH} aria-label={t("Wallet")}
                                             className="flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-1.5 text-sm font-semibold text-amber-700 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-300">
                                             <Image src="/fang_pictures/balance.png" alt="" width={18} height={18} />
-                                            {((user.wallet?.coins ?? 0) + (user.wallet?.bonusCoins ?? 0)).toLocaleString()}
+                                            {((user.wallet?.coins ?? 0) + (user.wallet?.bonusCoins ?? 0) + (user.wallet?.vipBonusCoins ?? 0)).toLocaleString()}
                                         </Link>
                                         <NotificationBell />
                                         <Link href="/profile" aria-label={t("Profile")} className="rounded-full">
@@ -243,24 +277,36 @@ const NavBar = () => {
 
                         </div>
 
-                        {/* Mobile: theme toggle + hamburger */}
+                        {/* Mobile: language, theme, then the account button (signed in) or the menu button (guests) */}
                         <div className="flex items-center gap-2 md:hidden">
-                            {user && <NotificationBell />}
                             <LanguageChange />
-                            <button
-                                onClick={() => setOpen(!open)}
-                                aria-label={t("toggleMenu")}
-                                className="p-1"
-                            >
-                                {open ? <X size={26} className="dark:text-white text-black" /> : <Menu size={26} className="dark:text-white text-black" />}
+                            <button onClick={() => setTheme(isDark ? "light" : "dark")} aria-label={t("toggleTheme")} className="p-1.5">
+                                {isDark ? <Sun size={22} className="text-white" /> : <MoonStarIcon size={22} className="text-black" />}
                             </button>
+                            {user ? (
+                                <button
+                                    onClick={() => setAccountOpen(true)}
+                                    aria-label={t("myAccount")}
+                                    className="relative flex h-10 w-10 items-center justify-center rounded-full border border-red-500 text-red-500"
+                                >
+                                    <UserIcon size={20} />
+                                </button>
+                            ) : (
+                                <button
+                                    onClick={() => setOpen(!open)}
+                                    aria-label={t("toggleMenu")}
+                                    className="p-1"
+                                >
+                                    {open ? <X size={26} className="dark:text-white text-black" /> : <Menu size={26} className="dark:text-white text-black" />}
+                                </button>
+                            )}
                         </div>
                     </div>
                 </div>
 
 
 
-                {/* ── MOBILE MENU ── */}
+                {/* ── MOBILE MENU (guests) ── */}
                 <div
                     className={`absolute h-[calc(100vh-50px)] top-full left-0 w-full dark:bg-dark bg-white text-black dark:text-white overflow-y-auto lg:hidden transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] overflow-hidden origin-top
                     ${open
@@ -281,76 +327,117 @@ const NavBar = () => {
                             {t("Genres")}
                         </Link>
 
-                        {/* Genre accordion */}
-                        {/* <button onClick={() => toggleDropDown()} className="flex justify-center  items-center px-6 py-4  w-full">
-                            <p className={isDropDownOpen ? "text-[#D90404] text-center" : ""}>{t("Browse")}</p>
-                            <ChevronDown size={16} className={`transition-transform text-gray-500 dark:text-neutral-400 ${isDropDownOpen ? "rotate-180 text-[#D90404]" : ""}`} />
-                        </button> */}
-
-                        {/* Genre accordion body */}
-                        {/* <div className={`overflow-hidden transition-all duration-300 ${isDropDownOpen ? "max-h-196" : "max-h-0"}`}>
-                            <NavBarDropDown />
-                        </div> */}
-
-                        <a href="fangwriters.com" onClick={() => setOpen(false)} className="px-6 py-4 hover:text-red-500">
+                        <a href="https://www.fangwriters.com" onClick={() => setOpen(false)} className="px-6 py-4 hover:text-red-500">
                             {t("WriterArena")}
                         </a>
                         <Link href="/library" onClick={() => setOpen(false)} className={`px-6 py-4 hover:text-red-500 ${isActive("/library") ? "text-red-600" : ""}`}>
                             {t("Library")}
                         </Link>
-                        {user && (
-                            <>
-                                <Link href="/profile/transaction-history" onClick={() => setOpen(false)} className="px-6 py-4 hover:text-red-500">
-                                    {t("TransactionHistory")}
-                                </Link>
-
-                                <Link href="/profile/live-chat" onClick={() => setOpen(false)} className="px-6 py-4 hover:text-red-500">
-                                    {t("LiveChat")}
-                                </Link>
-
-                                <Link href="/profile/settings" onClick={() => setOpen(false)} className="px-6 py-4 border-b hover:text-red-500 border-gray-100 dark:border-dark-border">
-                                    {t("Settings")}
-                                </Link>
-                            </>
-                        )}
-
-
-                        <button onClick={() => setTheme(isDark ? "light" : "dark")} className={`relative w-14 h-8 rounded-full mt-8 mx-auto transition-colors duration-300
-                            ${isDark ? "bg-dark-raised" : "bg-gray-300 dark:bg-neutral-700"}`}>
-                            {/* SLIDING CIRCLE */}
-                            <div className={`absolute top-1 w-6 h-6 rounded-full bg-white shadow-md flex items-center justify-center transition-all duration-300
-                                ${isDark ? "left-7" : "left-1"}`}>
-                                {isDark ? (<Sun size={14} className="text-yellow-500" />) : (<Moon size={14} className="text-zinc-700" />)}
-                            </div>
-                        </button>
 
                         {/* Auth buttons */}
-                        <div >
-                            {user ? (
-                                <>
-                                    <div className="flex items-center justify-between px-6 py-6 mt-1">
-                                        <Link href="/profile" className="bg-linear-to-r from-[#8B0000] to-[#D90404] py-2 px-4 text-white font-bold rounded-xl">{t("Profile")}</Link>
-                                        <button onClick={logOut} disabled={loading} className="text-center text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10 mt-4 rounded-md px-4 py-3">
-                                            {t("LogOut")}
-                                        </button>
-                                    </div>
-
-                                </>
-                            ) : (
-
-                                <div className="flex items-center justify-between px-6 py-6 mt-1">
-                                    <button onClick={openSignIn} className="text-gray-500 dark:text-neutral-400 font-medium">
-                                        {t("SignIn")}
-                                    </button>
-                                    <button onClick={openSignUp} className="bg-[#D90404] text-white px-4 py-2.5 rounded-full text-sm font-medium">
-                                        {t("SignUp")}
-                                    </button>
-                                </div>
-                            )}
+                        <div className="flex items-center justify-between px-6 py-6 mt-1">
+                            <button onClick={openSignIn} className="text-gray-500 dark:text-neutral-400 font-medium">
+                                {t("SignIn")}
+                            </button>
+                            <button onClick={openSignUp} className="bg-[#D90404] text-white px-4 py-2.5 rounded-full text-sm font-medium">
+                                {t("SignUp")}
+                            </button>
                         </div>
                     </div>
                 </div>
             </nav>
+
+            {/* ── MOBILE ACCOUNT PANEL (signed in) ── */}
+            {user && (
+                <div className={`fixed inset-0 z-60 md:hidden ${accountOpen ? "pointer-events-auto" : "pointer-events-none"}`}>
+                    <div
+                        onClick={() => setAccountOpen(false)}
+                        className={`absolute inset-0 bg-black/50 transition-opacity duration-300 ${accountOpen ? "opacity-100" : "opacity-0"}`}
+                    />
+
+                    <aside
+                        role="dialog"
+                        aria-modal="true"
+                        aria-hidden={!accountOpen}
+                        aria-label={t("myAccount")}
+                        className={`absolute right-0 top-0 h-full w-[80%] max-w-sm overflow-y-auto bg-white dark:bg-dark text-black dark:text-white shadow-xl transition-transform duration-300 ${accountOpen ? "translate-x-0" : "translate-x-full"}`}
+                    >
+                        {/* Title + close */}
+                        <div className="flex items-center justify-between px-5 pt-6 pb-4">
+                            <h2 className="text-xl font-bold">{t("myAccount")}</h2>
+                            <button
+                                type="button"
+                                onClick={() => setAccountOpen(false)}
+                                aria-label={t("closeMenu")}
+                                className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 dark:bg-dark-raised"
+                            >
+                                <X size={18} />
+                            </button>
+                        </div>
+
+                        {/* Who */}
+                        <div className="flex items-center gap-3 px-5 pb-5">
+                            <Avatar src={user.avatar_url} name={user.username || user.full_name} big />
+                            <div className="min-w-0 flex-1">
+                                <p className="truncate font-serif text-xl font-bold">{user.full_name}</p>
+                                {user.username && (
+                                    <p className="truncate text-sm text-gray-500 dark:text-neutral-400">@{user.username}</p>
+                                )}
+                            </div>
+                            {vipPlan && (
+                                <span className="flex shrink-0 items-center gap-1 rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-600 dark:bg-amber-500/15 dark:text-amber-300">
+                                    <Image src={crownFor(vipPlan)} alt="" aria-hidden="true" width={16} height={16} className="h-4 w-4 object-contain" />
+                                    {t("vip")}
+                                </span>
+                            )}
+                        </div>
+
+                        {/* Numbers */}
+                        <div className="mx-5 grid grid-cols-2 border-t border-gray-100 dark:border-dark-border py-4 text-center">
+                            {stats.map((s) => (
+                                <div key={s.label}>
+                                    <p className="text-lg font-bold">{s.value.toLocaleString()}</p>
+                                    <p className="text-xs text-gray-500 dark:text-neutral-400">{s.label}</p>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Pages */}
+                        <nav className="space-y-1 border-t border-gray-100 dark:border-dark-border px-3 py-3">
+                            {accountLinks.map((l) => {
+                                const current = l.exact ? pathname === l.href : isActive(l.href);
+                                return (
+                                    <Link
+                                        key={l.href}
+                                        href={l.href}
+                                        onClick={() => setAccountOpen(false)}
+                                        className={`relative flex items-center gap-4 rounded-xl px-4 py-3.5 text-[15px] transition ${current ? "bg-red-50 font-semibold text-red-600 dark:bg-red-500/10" : "text-gray-800 hover:bg-gray-50 dark:text-neutral-200 dark:hover:bg-dark-raised"}`}
+                                    >
+                                        {current && <span className="absolute left-0 top-0 h-full w-1 rounded-l-xl bg-red-600" />}
+                                        <l.icon size={20} className="shrink-0" />
+                                        <span className="flex-1">{l.label}</span>
+                                        {l.badge && <UnreadBadge />}
+                                        <ChevronRight size={16} className="shrink-0 text-gray-400" />
+                                    </Link>
+                                );
+                            })}
+                        </nav>
+
+                        {/* Log out */}
+                        <div className="border-t border-gray-100 dark:border-dark-border px-3 py-3">
+                            <button
+                                type="button"
+                                onClick={() => { setAccountOpen(false); logOut(); }}
+                                disabled={logOutloading || loading}
+                                className="flex w-full items-center gap-4 rounded-xl px-4 py-3.5 text-[15px] text-gray-500 transition hover:bg-gray-50 disabled:opacity-60 dark:text-neutral-400 dark:hover:bg-dark-raised"
+                            >
+                                <LogOutIcon size={20} className="shrink-0" />
+                                {t("LogOut")}
+                            </button>
+                        </div>
+                    </aside>
+                </div>
+            )}
         </>
     );
 };

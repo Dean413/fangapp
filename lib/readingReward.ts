@@ -11,6 +11,7 @@ import "server-only";
 import { dbPool } from "@/lib/db";
 import { withTransaction } from "@/lib/auth/transaction";
 import { REWARD_EXPIRY_DAYS } from "@/lib/reward";
+import { recordDailyReading } from "./readingStat";
 
 export const READING_MILESTONES = [
     { minutes: 15, coins: 5 },
@@ -28,6 +29,7 @@ export type ReadingStatus = {
 
 // One "still reading" signal. Returns the seconds read in the current period.
 export async function recordReadingBeat(userId: string): Promise<number> {
+    await recordDailyReading(userId); // streak and most active day (never throws)
     const { rows } = await dbPool.query(
         `INSERT INTO reading_time (user_id, period_start, seconds, last_beat_at) VALUES ($1, date_trunc('milliseconds', now()), 0, now())
          ON CONFLICT (user_id) DO UPDATE SET

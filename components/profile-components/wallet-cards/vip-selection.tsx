@@ -215,7 +215,7 @@ export default function SelectionCard({ plan, isVip }: SelectionCardProps) {
 
                                             {isVip && (
                                                 <div className="flex justify-between">
-                                                    <span>{w("vipBonus")}</span>
+                                                    <span>{w("payVipBonus")}</span>
                                                     <span className="text-red-500 font-semibold">
                                                         +{vipBonusOf(item.coins)}
                                                     </span>

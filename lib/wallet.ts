@@ -45,8 +45,9 @@ export async function grantSignupBonusSafely(userId: string) {
 }
 
 export type WalletBalance = {
-    coins: number;       // bought with money
-    bonusCoins: number;  // bonus + VIP bonus, not yet expired
+    coins: number;         // bought with money
+    bonusCoins: number;    // bonus coins only (no VIP bonus), not yet expired
+    vipBonusCoins: number; // VIP bonus coins, not yet expired
     gems: number;
     nextExpiry: string | null; // when the soonest bonus coins or gems run out
 };
@@ -56,7 +57,8 @@ export async function getWalletBalance(userId: string): Promise<WalletBalance> {
     const { rows } = await dbPool.query(
         `SELECT
             COALESCE(SUM(remaining) FILTER (WHERE currency = 'coin' AND kind = 'base'), 0)::int AS coins,
-            COALESCE(SUM(remaining) FILTER (WHERE currency = 'coin' AND kind IN ('bonus', 'vip_bonus')), 0)::int AS bonus_coins,
+            COALESCE(SUM(remaining) FILTER (WHERE currency = 'coin' AND kind = 'bonus'), 0)::int AS bonus_coins,
+            COALESCE(SUM(remaining) FILTER (WHERE currency = 'coin' AND kind = 'vip_bonus'), 0)::int AS vip_bonus_coins,
             COALESCE(SUM(remaining) FILTER (WHERE currency = 'gem'), 0)::int AS gems,
             MIN(expires_at) FILTER (WHERE expires_at IS NOT NULL) AS next_expiry
          FROM wallet_lots
@@ -67,6 +69,7 @@ export async function getWalletBalance(userId: string): Promise<WalletBalance> {
     return {
         coins: Number(r.coins ?? 0),
         bonusCoins: Number(r.bonus_coins ?? 0),
+        vipBonusCoins: Number(r.vip_bonus_coins ?? 0),
         gems: Number(r.gems ?? 0),
         nextExpiry: r.next_expiry ? new Date(r.next_expiry).toISOString() : null,
     };

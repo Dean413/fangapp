@@ -170,18 +170,18 @@ export default function TopUpModal({ pkg = null, plan = null, vipPercent = 0, on
                                         <span>{t("payDuration")}</span>
                                         <span>{t("payDays", { count: info.days })}</span>
                                     </div>
-                                    <div className={row}>
+                                    {/* <div className={row}>
                                         <span>{t("payDailyCoins")}</span>
                                         <span className="flex items-center gap-2">{info.dailyBonusCoins} <Coins size={22} /></span>
-                                    </div>
-                                    <div className={row}>
+                                    </div> */}
+                                    {/* <div className={row}>
                                         <span>{t("payFreeUnlocks")}</span>
                                         <span>{info.freeUnlocksPerDay}</span>
-                                    </div>
-                                    <div className={row}>
+                                    </div> */}
+                                    {/* <div className={row}>
                                         <span>{t("payTopupBonus")}</span>
                                         <span>+{info.topUpPercent}%</span>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </>
                         ) : (

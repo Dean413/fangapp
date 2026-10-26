@@ -44,6 +44,8 @@ export type Transaction = {
     // For top-ups: the payment provider and its transaction id (what Stripe / PayPal call it)
     provider: "stripe" | "paypal" | null;
     providerTxn: string | null;
+    // Paid top-ups (details page): every coin this payment gave
+    breakdown: { coins: number; bonus: number; vipBonus: number; total: number } | null;
 };
 
 // Every coin event for one reader, with the running balance after each
@@ -126,6 +128,7 @@ function toTx(r: any): Transaction {
         refId: r.ref_id ?? null,
         provider: r.pay_provider === "stripe" || r.pay_provider === "paypal" ? r.pay_provider : null,
         providerTxn: r.pay_txn ?? null,
+        breakdown: null,
     };
 }
 
@@ -169,8 +172,30 @@ export async function listTransactions(userId: string, filter: TxFilter, before?
 }
 
 // One entry (only the reader's own)
+// One entry (only the reader's own)
 export async function getTransaction(userId: string, id: string): Promise<Transaction | null> {
     if (!TX_ID.test(id)) return null;
     const { rows } = await dbPool.query(`${EVENTS} SELECT * FROM ordered WHERE id = $2`, [userId, id]);
-    return rows[0] ? toTx(rows[0]) : null;
+    if (!rows[0]) return null;
+    const tx = toTx(rows[0]);
+
+    // A paid top-up: every coin that payment gave (bought coins, package bonus, VIP bonus) and what was paid
+    if ((tx.reason === "purchase" || tx.reason === "topup") && rows[0].ref_type === "payment" && rows[0].ref_id) {
+        const { rows: parts } = await dbPool.query(
+            `SELECT COALESCE(SUM(l.delta) FILTER (WHERE l.kind = 'base'), 0)::int AS coins,
+                    COALESCE(SUM(l.delta) FILTER (WHERE l.kind = 'bonus'), 0)::int AS bonus,
+                    COALESCE(SUM(l.delta) FILTER (WHERE l.kind = 'vip_bonus'), 0)::int AS vip_bonus,
+                    (SELECT p.price_cents FROM payments p WHERE p.id::text = $2 AND p.user_id = $1) AS price_cents
+             FROM wallet_ledger l
+             WHERE l.user_id = $1 AND l.currency = 'coin' AND l.ref_type = 'payment' AND l.ref_id = $2 AND l.delta > 0`,
+            [userId, rows[0].ref_id]
+        );
+        const p = parts[0];
+        if (p) {
+            const coins = Number(p.coins), bonus = Number(p.bonus), vipBonus = Number(p.vip_bonus);
+            tx.breakdown = { coins, bonus, vipBonus, total: coins + bonus + vipBonus };
+            tx.amountCents = p.price_cents != null ? Number(p.price_cents) : null;
+        }
+    }
+    return tx;
 }

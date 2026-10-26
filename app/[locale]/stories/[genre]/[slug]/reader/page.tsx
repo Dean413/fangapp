@@ -317,7 +317,7 @@ export default function ReaderPage() {
 
     // Auto-unlock on: a locked chapter unlocks by itself when opened, if the reader has enough coins (once per chapter)
     const lockedChapter = !loading && data?.chapter?.isLocked ? data.chapter : null;
-    const balance = (wallet?.coins ?? 0) + (wallet?.bonusCoins ?? 0);
+    const balance = (wallet?.coins ?? 0) + (wallet?.bonusCoins ?? 0) + (wallet?.vipBonusCoins ?? 0);
     useEffect(() => {
         if (!lockedChapter || !lockedChapter.autoUnlock || !signedIn || lockedChapter.firstLocked) return;
         if (autoTried.current === String(lockedChapter.id)) return;

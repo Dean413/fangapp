@@ -39,7 +39,7 @@ type Notification = {
     amountCents?: number;
 };
 
-const TAB_PARAM: Record<string, string> = { All: "all", Unread: "unread", Mentions: "mentions", Transactions: "transactions" };
+const TAB_PARAM: Record<string, string> = { All: "all", Unread: "unread", Mentions: "mentions" };
 
 const COIN = "/fang_pictures/balance.png";
 
@@ -396,8 +396,10 @@ export default function NotificationsPage() {
     }, []);
 
     const serverNow = now + offset;
+    // Chapter unlocks aren't shown here (they're in the transaction history)
+    const visible = items.filter((n) => !(n.kind === "coins_spent" && n.reason === "unlock"));
     const groups: { title: Group; list: Notification[] }[] = (["Today", "Yesterday", "Earlier"] as Group[])
-        .map((title) => ({ title, list: items.filter((n) => groupOf(n.at, serverNow) === title) }))
+        .map((title) => ({ title, list: visible.filter((n) => groupOf(n.at, serverNow) === title) }))
         .filter((g) => g.list.length > 0);
 
     return (

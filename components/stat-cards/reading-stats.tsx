@@ -210,8 +210,8 @@ export function ReadingStats({ onTotal }: { onTotal?: (total: number) => void })
                             </div>
 
                             <div className="grid grid-cols-7 gap-2 sm:gap-3">
-                                {stats.streak.recent.map((read, i, all) => (
-                                    <div key={i} className={`h-12 rounded-md ${read ? (i === all.length - 1 ? "bg-red-500 dark:bg-red-600" : "bg-red-500 dark:bg-red-300") : "bg-gray-200 dark:bg-neutral-100"}`} />
+                                {[...stats.streak.recent].reverse().map((read, i) => (
+                                    <div key={i} className={`h-12 rounded-md ${read ? (i === 0 ? "bg-red-500 dark:bg-red-600" : "bg-red-500 dark:bg-red-300") : "bg-gray-200 dark:bg-neutral-100"}`} />
                                 ))}
                             </div>
                         </>

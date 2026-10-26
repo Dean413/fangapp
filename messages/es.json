@@ -21,7 +21,16 @@
         "logoutConfirmButton": "Sí, cerrar sesión",
         "cancel": "Cancelar",
         "loggedOutTitle": "Sesión cerrada",
-        "loggedOutText": "Has cerrado sesión correctamente"
+        "loggedOutText": "Has cerrado sesión correctamente",
+        "booksRead": "Libros leídos",
+        "MyReviews": "Mis reseñas",
+        "myAccount": "Mi cuenta",
+        "closeMenu": "Cerrar menú",
+        "toggleTheme": "Cambiar modo oscuro",
+        "vip": "VIP",
+        "Community": "Comunidad",
+        "following": "Siguiendo",
+        "followers": "Seguidores"
     },
     "Api": {
         "signInFirst": "Inicia sesión primero",
@@ -453,7 +462,10 @@
         "progress": "Cap. {chapter} / {total} · {percent}%",
         "chapterN": "Capítulo {chapter}",
         "byAuthor": "de {author}",
-        "viewsCount": "{views} visualizaciones"
+        "viewsCount": "{views} visualizaciones",
+        "updated": "Actualizado",
+        "notStartedSaved": "Guardado · Aún no empezado",
+        "topThisWeek": "Top de la semana"
     },
     "Stories": {
         "genres": "Géneros",
@@ -465,7 +477,7 @@
         "readNow": "Leer ahora",
         "readAgain": "Leer de nuevo",
         "upToDate": "Al día (Cap. {chapter})",
-        "continueReading": "Continuar leyendo (Cap. {chapter})",
+        "continueReading": "Continuar (Cap. {chapter})",
         "home": "Inicio",
         "writtenBy": "Escrito por <name>{author}</name>",
         "views": "{views} visualizaciones",
@@ -481,7 +493,8 @@
         "showMore": "Mostrar más",
         "youMayLike": "También te puede gustar",
         "readerReviews": "Reseñas de lectores",
-        "reportBook": "Denunciar libro"
+        "reportBook": "Denunciar libro",
+        "report": "Denunciar"
     },
     "Rankings": {
         "daily": "Diario",
@@ -577,7 +590,7 @@
         "coinsAmount": "{amount} monedas",
         "bonusAmount": "{amount} de bonificación",
         "autoUnlock": "Desbloquear automáticamente el siguiente capítulo",
-        "continueReading": "Continuar leyendo",
+        "continueReading": "Continuar",
         "byAuthor": "de {author}",
         "theme": "Tema",
         "fonts": "Fuentes",
@@ -645,7 +658,7 @@
         "send": "Enviar"
     },
     "Wallet": {
-        "vipBonus": "Bonificación VIP",
+        "vipBonus": "Bonificación VIP: {amount}",
         "title": "Mi billetera",
         "subtitle": "Gana, recarga y gestiona tus ventajas VIP",
         "tabEarn": "Ganar",
@@ -946,7 +959,7 @@
         "helpText": "Si tienes algún problema o no recibiste tus monedas, nuestro equipo de soporte está aquí para ayudarte.",
         "helpSubject": "Ayuda con la transacción {id}",
         "contactSupport": "Contactar con soporte",
-        "bonusInfo": "✨ Las monedas de bonificación caducan 2 días después de recibirlas. Úsalas para desbloquear capítulos antes de que se agoten.",
+        "bonusInfo": "✨ Las monedas se añaden a tu cuenta al instante. Puedes usarlas para desbloquear capítulos y disfrutar de las funciones premium.",
         "coinsInfo": "✨ Las monedas se añaden a tu cuenta al instante. Puedes usarlas para desbloquear capítulos y disfrutar de las funciones premium.",
         "filter_topup": "Recargas",
         "empty_topup": "No hay recargas.",
@@ -966,7 +979,21 @@
         "amountPaid": "Importe pagado",
         "vipInfo": "✨ Tu VIP se renueva automáticamente cada periodo hasta que lo canceles. Puedes desactivar la renovación automática en cualquier momento en Ajustes y conservar el VIP hasta el final del periodo pagado.",
         "filter_vip": "VIP",
-        "empty_vip": "No hay transacciones VIP."
+        "empty_vip": "No hay transacciones VIP.",
+        "back": "Volver",
+        "coinsLabel": "Monedas",
+        "bonusLabel": "Bonificación",
+        "vipBonusLabel": "Bonificación VIP",
+        "totalCoinsReceived": "Total de monedas recibidas",
+        "paymentInfo": "Información del pago",
+        "transactionInfo": "Información de la transacción",
+        "idLabel": "ID de transacción",
+        "copyId": "Copiar ID de transacción",
+        "paymentMethod": "Método de pago",
+        "paymentStatus": "Estado del pago",
+        "status": "Estado",
+        "totalPaid": "Total pagado",
+        "dateTime": "Fecha y hora"
     },
     "Profile": {
         "couldntSavePhoto": "No pudimos guardar tu foto",
@@ -998,7 +1025,9 @@
         "editGenresHint": "Elige los géneros que te encantan para recibir mejores recomendaciones",
         "genresSaved": "Géneros actualizados",
         "couldntSaveGenres": "No se pudieron guardar tus géneros",
-        "saving": "Guardando..."
+        "saving": "Guardando...",
+        "profilePhoto": "Foto de perfil",
+        "vip": "VIP"
     },
     "LiveChat": {
         "topic_account": "Problemas con la cuenta y el inicio de sesión",

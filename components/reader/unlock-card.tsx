@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 export interface UnlockCardProps {
     price: number;
     signedIn: boolean;
-    wallet: { coins: number; bonusCoins: number } | null;
+    wallet: { coins: number; bonusCoins: number; vipBonusCoins?: number } | null;
     unlocking: boolean;
     onUnlock: () => void;
     onSignIn: () => void;
@@ -24,7 +24,7 @@ const WALLET_PATH = "/profile/wallet";
 
 export default function UnlockCard({ price, firstLocked, free, onGoToFirst, signedIn, wallet, unlocking, onUnlock, onSignIn, autoUnlock, autoBusy, onToggleAuto, dark }: UnlockCardProps) {
     const coins = wallet?.coins ?? 0;
-    const bonus = wallet?.bonusCoins ?? 0;
+    const bonus = (wallet?.bonusCoins ?? 0) + (wallet?.vipBonusCoins ?? 0);
     const balance = coins + bonus;
     const short = Math.max(price - balance, 0);
     const enough = signedIn && (free || short === 0);

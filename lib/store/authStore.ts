@@ -1,8 +1,9 @@
 import { create } from "zustand";
 
 export type Wallet = {
-    coins: number;       // bought with money
-    bonusCoins: number;  // bonus + VIP bonus, not expired
+    coins: number;         // bought with money
+    bonusCoins: number;    // bonus coins only, not expired
+    vipBonusCoins: number; // VIP bonus coins, not expired
     gems: number;
     nextExpiry: string | null;
 };

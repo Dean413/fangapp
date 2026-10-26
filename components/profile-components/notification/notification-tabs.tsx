@@ -8,7 +8,7 @@ interface Props {
 }
 
 export default function NotificationTabs({ active, setActive }: Props) {
-    const tabs = ["All", "Unread", "Mentions", "Transactions"];
+    const tabs = ["All", "Unread", "Mentions"];
     const t = useTranslations("Notifications");
 
     return (

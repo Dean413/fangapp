@@ -2,23 +2,26 @@
 
 import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { toast } from "@/lib/store/toastStore";
 import { Button } from "@/components/Button";
 import Input from "@/components/input";
 import BioField from "@/components/text-area";
 import { useAuthStore } from "@/lib/store/authStore";
+import { ProfileImagePicker } from "./imagePicker";
 
 type EditDetailsCardProps = {
     open: boolean;
     onClose: () => void;
 };
 
-// Change the reader's full name, username and About you. The photo is changed with the camera icon on the profile,
-// and favourite genres have their own editor.
+// Change the reader's photo, full name, username and About you.
+// Favourite genres have their own editor.
 const EditDetailsCard = ({ open, onClose }: EditDetailsCardProps) => {
     const user = useAuthStore((s) => s.user);
     const fetchUser = useAuthStore((s) => s.fetchUser);
-
+    const t = useTranslations("Profile");
+    const [image, setImage] = useState<string | null>(null);
     const [fullName, setFullName] = useState("");
     const [userName, setUserName] = useState("");
     const [bio, setBio] = useState("");
@@ -29,6 +32,7 @@ const EditDetailsCard = ({ open, onClose }: EditDetailsCardProps) => {
     // Fill in what's saved each time the card opens
     useEffect(() => {
         if (!open || !user) return;
+        setImage(user.avatar_url ?? null);
         setFullName(user.full_name ?? "");
         setUserName(user.username ?? "");
         setBio(user.bio ?? "");
@@ -64,6 +68,21 @@ const EditDetailsCard = ({ open, onClose }: EditDetailsCardProps) => {
         busy.current = true;
         setSaving(true);
         try {
+            // A newly picked photo is a data URL; the saved one is a normal link, so nothing is re-uploaded
+            if (image && image.startsWith("data:image/")) {
+                const photoRes = await fetch("/api/auth/avatar", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    credentials: "include",
+                    body: JSON.stringify({ image }),
+                });
+                const photoData = await photoRes.json().catch(() => ({}));
+                if (!photoRes.ok) {
+                    toast.error(photoData.message || t("couldntSavePhoto"));
+                    return;
+                }
+            }
+
             const res = await fetch("/api/auth/profile", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -107,6 +126,7 @@ const EditDetailsCard = ({ open, onClose }: EditDetailsCardProps) => {
                     </div>
 
                     <div className="space-y-4 sm:space-y-5">
+                        <ProfileImagePicker image={image} setImage={setImage} name={fullName || userName} uploadIcon={t("changePhoto")} pictureHeader={t("profilePhoto")} />
                         <Input label="Full Name" value={fullName} onChange={setFullName} />
                         <Input label="Username" value={userName} onChange={setUserName} />
                         <BioField label="About you" value={bio} onChange={setBio} />

@@ -6,7 +6,7 @@ import { Eye } from "lucide-react";
 import Footer from "@/components/footer";
 import { getHomeCollection } from "@/lib/home";
 import { getTranslations } from "next-intl/server";
-import { Cover, CoverRibbons, Rating, bookHref, formatCount } from "@/components/home/bookBits";
+import { Cover, Rating, bookHref, formatCount } from "@/components/home/bookBits";
 import { BookPills } from "@/components/home/bookPill";
 import BookmarkButton from "@/components/home/bookmarkButton";
 
@@ -56,8 +56,7 @@ export default async function CollectionPage({ params }: { params: Promise<{ id:
                                 className="flex items-start gap-3 md:gap-4 rounded-xl border border-gray-100 bg-white p-3 md:p-4 shadow-sm dark:border-dark-border dark:bg-dark-raised dark:shadow-none">
                                 <Link href={href} className="group shrink-0">
                                     <div className="relative w-18 md:w-21 overflow-hidden rounded-md">
-                                        <Cover book={book} imprint="sm" ribbons={false} className="aspect-2/3 w-full" />
-                                        <CoverRibbons book={book} small />
+                                        <Cover book={book} imprint="sm" className="aspect-2/3 w-full" />
                                     </div>
                                 </Link>
 

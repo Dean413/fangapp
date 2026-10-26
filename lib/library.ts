@@ -1,10 +1,3 @@
-// lib/library.ts
-// The reader's library (saved books) and reading progress, saved per account.
-//  - Reading:  saved books not finished yet (last read first)
-//  - Viewed:   every book the reader opened, saved or not (last read first)
-//  - Finished: books marked completed whose last published chapter the reader has read
-// A book is named by its link id (slug, old slug, book_id or uuid), like everywhere else in the app.
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import "server-only";
 import { dbPool } from "@/lib/db";
 import { genreSlug, getStoryBySlug } from "@/lib/stories";
@@ -17,6 +10,8 @@ const MAX_SAVED = 1000;
 const MAX_LISTED = 200;
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
 const STORY_TENANT = process.env.STORY_TENANT || null;
+// A book counts as "Updated" for this many days after its newest chapter comes out (until the reader reads it)
+const UPDATED_DAYS = 7;
 
 export type LibraryBook = {
     id: string;              // the book's current link id (slug)
@@ -29,6 +24,7 @@ export type LibraryBook = {
     finished: boolean;
     completed: boolean;            // the writer marked the book completed (else ongoing)
     exclusive: boolean;            // under a signed Exclusive or MAB-Exclusive contract
+    updated: boolean;              // a chapter came out in the last few days and this reader hasn't read it yet
     href: string;                  // where tapping the book goes (the last chapter read, or chapter 1)
 };
 
@@ -38,7 +34,7 @@ const BOOK_SELECT = `
            COALESCE(s.slug, s.book_id, s.id::text) AS slug,
            s.title, s.image, COALESCE(s.genre, '') AS genre,
            lower(COALESCE(s.story_status, '')) AS story_status,
-           ch.chapter_count, ch.last_number,
+           ch.chapter_count, ch.last_number, ch.last_published_at,
            p.last_chapter, p.max_chapter, p.last_read_at,
            l.added_at,
            (l.user_id IS NOT NULL) AS saved,
@@ -56,10 +52,11 @@ const SIGNED_PLAN = `
 
 const CHAPTER_NUMBERS = `
     LEFT JOIN LATERAL (
-        SELECT COUNT(*)::int AS chapter_count, COALESCE(MAX(n), 0)::int AS last_number
+        SELECT COUNT(*)::int AS chapter_count, COALESCE(MAX(n), 0)::int AS last_number, MAX(pub) AS last_published_at
         FROM (
             SELECT COALESCE(c.chapter_number,
-                            ROW_NUMBER() OVER (ORDER BY COALESCE(c.published_at, c.created_at), c.created_at, c.id))::int AS n
+                            ROW_NUMBER() OVER (ORDER BY COALESCE(c.published_at, c.created_at), c.created_at, c.id))::int AS n,
+                   COALESCE(c.published_at, c.created_at) AS pub
             FROM chapters c WHERE c.story_id = s.id AND c.status = 'published'
         ) numbered
     ) ch ON true
@@ -71,13 +68,16 @@ const VISIBLE = `
     AND ($2::text IS NULL OR $2 = ANY(s.tenants))
 `;
 
-// Completed book whose last published chapter was read
-const FINISHED = `(lower(COALESCE(s.story_status, '')) = 'completed' AND COALESCE(p.max_chapter, 0) >= ch.last_number)`;
+// A book whose last published chapter the reader has read (ongoing or completed)
+const FINISHED = `(ch.last_number > 0 AND COALESCE(p.max_chapter, 0) >= ch.last_number)`;
 
 function toBook(r: any): LibraryBook {
     const lastNumber = Number(r.last_number) || 0;
-    const finished = r.story_status === "completed" && Number(r.max_chapter ?? 0) >= lastNumber && lastNumber > 0;
+    const finished = lastNumber > 0 && Number(r.max_chapter ?? 0) >= lastNumber;
     const lastChapter = r.last_chapter != null ? Number(r.last_chapter) : null;
+    const recent =
+        r.last_published_at != null &&
+        Date.now() - new Date(r.last_published_at).getTime() < UPDATED_DAYS * 86400000;
     return {
         id: r.slug,
         storyId: r.story_id,
@@ -89,6 +89,7 @@ function toBook(r: any): LibraryBook {
         finished,
         completed: r.story_status === "completed",
         exclusive: r.plan === "exclusive" || r.plan === "mab-exclusive",
+        updated: recent && Number(r.max_chapter ?? 0) < lastNumber,
         href: `/stories/${genreSlug(r.genre) || "all"}/${r.slug}/reader?chapter=${lastChapter ?? 1}`,
     };
 }

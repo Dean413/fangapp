@@ -21,7 +21,16 @@
         "logoutConfirmButton": "ログアウトする",
         "cancel": "キャンセル",
         "loggedOutTitle": "ログアウトしました",
-        "loggedOutText": "ログアウトが完了しました"
+        "loggedOutText": "ログアウトが完了しました",
+        "booksRead": "読んだ本",
+        "MyReviews": "マイレビュー",
+        "myAccount": "マイアカウント",
+        "closeMenu": "メニューを閉じる",
+        "toggleTheme": "ダークモードを切り替え",
+        "vip": "VIP",
+        "Community": "コミュニティ",
+        "following": "フォロー中",
+        "followers": "フォロワー"
     },
     "Api": {
         "signInFirst": "先にログインしてください",
@@ -453,7 +462,10 @@
         "progress": "第{chapter}話 / 全{total}話 · {percent}%",
         "chapterN": "第{chapter}話",
         "byAuthor": "{author} 著",
-        "viewsCount": "{views}閲覧"
+        "viewsCount": "{views}閲覧",
+        "updated": "更新",
+        "notStartedSaved": "保存済み · 未読",
+        "topThisWeek": "今週のトップ"
     },
     "Stories": {
         "genres": "ジャンル",
@@ -465,7 +477,7 @@
         "readNow": "今すぐ読む",
         "readAgain": "もう一度読む",
         "upToDate": "最新話まで読了（第{chapter}話）",
-        "continueReading": "続きを読む（第{chapter}話）",
+        "continueReading": "続きから（第{chapter}話）",
         "home": "ホーム",
         "writtenBy": "<name>{author}</name>著",
         "views": "{views}閲覧",
@@ -481,7 +493,8 @@
         "showMore": "もっと見る",
         "youMayLike": "こちらもおすすめ",
         "readerReviews": "読者レビュー",
-        "reportBook": "作品を報告"
+        "reportBook": "作品を報告",
+        "report": "報告"
     },
     "Rankings": {
         "daily": "デイリー",
@@ -577,7 +590,7 @@
         "coinsAmount": "{amount}コイン",
         "bonusAmount": "{amount}ボーナス",
         "autoUnlock": "次のチャプターを自動でロック解除",
-        "continueReading": "続きを読む",
+        "continueReading": "続きから",
         "byAuthor": "作者: {author}",
         "theme": "テーマ",
         "fonts": "フォント",
@@ -645,7 +658,7 @@
         "send": "送る"
     },
     "Wallet": {
-        "vipBonus": "VIPボーナス",
+        "vipBonus": "VIPボーナス: {amount}",
         "title": "マイウォレット",
         "subtitle": "獲得、チャージ、VIP特典の管理",
         "tabEarn": "獲得",
@@ -946,7 +959,7 @@
         "helpText": "問題がある場合や、コインを受け取れていない場合は、サポートチームがお手伝いします。",
         "helpSubject": "取引{id}についてのお問い合わせ",
         "contactSupport": "サポートに連絡",
-        "bonusInfo": "✨ ボーナスコインは獲得から2日で失効します。なくなる前にチャプターのロック解除にご利用ください。",
+        "bonusInfo": "✨ コインはすぐにアカウントに追加されます。チャプターのロック解除やプレミアム機能にご利用いただけます。",
         "coinsInfo": "✨ コインはすぐにアカウントに追加されます。チャプターのロック解除やプレミアム機能にご利用いただけます。",
         "filter_topup": "チャージ",
         "empty_topup": "チャージ履歴はありません。",
@@ -966,7 +979,21 @@
         "amountPaid": "お支払い金額",
         "vipInfo": "✨ VIPはキャンセルするまで期間ごとに自動更新されます。自動更新は設定からいつでもオフにでき、支払い済みの期間が終了するまでVIPをご利用いただけます。",
         "filter_vip": "VIP",
-        "empty_vip": "VIPの取引はありません。"
+        "empty_vip": "VIPの取引はありません。",
+        "back": "戻る",
+        "coinsLabel": "コイン",
+        "bonusLabel": "ボーナス",
+        "vipBonusLabel": "VIPボーナス",
+        "totalCoinsReceived": "受け取ったコインの合計",
+        "paymentInfo": "お支払い情報",
+        "transactionInfo": "取引情報",
+        "idLabel": "取引ID",
+        "copyId": "取引IDをコピー",
+        "paymentMethod": "お支払い方法",
+        "paymentStatus": "お支払い状況",
+        "status": "ステータス",
+        "totalPaid": "お支払い合計",
+        "dateTime": "日時"
     },
     "Profile": {
         "couldntSavePhoto": "写真を保存できませんでした",
@@ -998,7 +1025,9 @@
         "editGenresHint": "好きなジャンルを選ぶと、おすすめがより的確になります",
         "genresSaved": "ジャンルを更新しました",
         "couldntSaveGenres": "ジャンルを保存できませんでした",
-        "saving": "保存中..."
+        "saving": "保存中...",
+        "profilePhoto": "プロフィール写真",
+        "vip": "VIP"
     },
     "LiveChat": {
         "topic_account": "アカウントとログインの問題",

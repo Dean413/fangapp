@@ -228,41 +228,58 @@ const ProfilePage = () => {
                 {/* PROFILE INFO */}
                 <div className="w-[92%] mx-auto">
                     <div className="flex items-center justify-between gap-3">
-                        <div className="flex items-center gap-2">
-                            <h1 className="text-lg font-semibold">{displayName}</h1>
+                        <div className="flex items-center gap-3 min-w-0">
+                            <h1 className="text-2xl md:text-lg font-semibold truncate">{displayName}</h1>
                             {vipPlan && (
-                                <Image src={`/fang_pictures/crown.png`} width={30} height={24} alt="" className="h-6 w-auto -translate-y-1" />
+                                <span className="flex shrink-0 items-center gap-1 rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-600 dark:bg-amber-500/15 dark:text-amber-300">
+                                    <Image src={`/fang_pictures/${vipPlan}-vip-crown.png`} width={16} height={16} alt="" className="h-4 w-4 object-contain" />
+                                    {t("vip")}
+                                </span>
                             )}
                         </div>
-                        <button type="button" onClick={() => setEditOpen(true)} className="bg-red-700 text-white text-xs md:text-sm rounded-full py-1 md:py-2 px-2 md:px-4 flex items-center gap-2 ">
+                        {/* PC: Edit Profile beside the name */}
+                        <button type="button" onClick={() => setEditOpen(true)} className="hidden md:flex items-center gap-2 bg-red-700 text-white text-sm rounded-full py-2 px-4">
                             <FaPen size={12} />
                             {t("editProfile")}
                         </button>
                     </div>
 
                     {(handle || joined) && (
-                        <p className="text-sm text-gray-500 dark:text-neutral-400 mt-1">
-                            {[handle, joined].filter(Boolean).join(" • ")}
-                        </p>
+                        <>
+                            {/* Mobile: handle and joined date on their own lines */}
+                            <div className="md:hidden mt-3 space-y-1 text-sm text-gray-500 dark:text-neutral-400">
+                                {handle && <p>{handle}</p>}
+                                {joined && <p>{joined}</p>}
+                            </div>
+                            {/* PC: one line */}
+                            <p className="hidden md:block text-sm text-gray-500 dark:text-neutral-400 mt-1">
+                                {[handle, joined].filter(Boolean).join(" • ")}
+                            </p>
+                        </>
                     )}
 
-                    <p className="mt-2 text-gray-700 dark:text-neutral-200">
+                    <p className="mt-4 md:mt-2 text-gray-700 dark:text-neutral-200">
                         {user.bio || <span className="text-gray-400 dark:text-neutral-500">{t("noBio")}</span>}
                     </p>
 
-                    {/* STATS */}
-                    <div className="w-full md:w-[40%] flex justify-between mt-6 text-center">
+                    {/* STATS: lines above and below on mobile */}
+                    <div className="mt-5 md:mt-6 grid grid-cols-2 w-full md:w-[40%] border-y border-gray-200 dark:border-dark-border py-4 md:border-0 md:py-0 text-center">
                         <div>
-                            <p className="font-bold text-lg">{bookReads.toLocaleString(locale)}</p>
+                            <p className="font-bold text-xl md:text-lg">{bookReads.toLocaleString(locale)}</p>
                             <p className="text-gray-500 dark:text-neutral-400 text-sm">{t("bookReads")}</p>
                         </div>
 
                         <div>
-                            <p className="font-bold text-lg">{followedTotal.toLocaleString(locale)}</p>
+                            <p className="font-bold text-xl md:text-lg">{followedTotal.toLocaleString(locale)}</p>
                             <p className="text-gray-500 dark:text-neutral-400 text-sm">{t("following")}</p>
                         </div>
-
                     </div>
+
+                    {/* Mobile: Edit Profile full width at the bottom */}
+                    <button type="button" onClick={() => setEditOpen(true)} className="md:hidden mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-red-700 py-3 text-sm font-semibold text-white">
+                        <FaPen size={12} />
+                        {t("editProfile")}
+                    </button>
                 </div>
             </div>
 

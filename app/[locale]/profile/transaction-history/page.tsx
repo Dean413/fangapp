@@ -197,11 +197,7 @@ export default function TransactionHistory() {
 
                                     <td className="py-5 text-gray-700 dark:text-neutral-200">
                                         {item.category === "vip" ? (item.refId === "monthly" ? t("vipMonthly") : t("vipWeekly")) : item.reason === "expired" ? t("expiredEntry", { source: coinDescription(ct, item.reason, item.refId) }) : coinDescription(ct, item.reason, item.refId, item.description)}
-                                        {item.expiresAt && (
-                                            <div className="text-xs text-gray-400 dark:text-neutral-500">
-                                                {t(new Date(item.expiresAt) > new Date() ? "expiresOn" : "expiredOn", { date: `${formatDate(item.expiresAt, locale)}, ${formatTime(item.expiresAt, locale)}` })}
-                                            </div>
-                                        )}
+
                                     </td>
 
                                     <td

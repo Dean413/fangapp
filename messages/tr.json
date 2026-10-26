@@ -21,7 +21,16 @@
         "logoutConfirmButton": "Evet, çıkış yap",
         "cancel": "İptal",
         "loggedOutTitle": "Çıkış yapıldı",
-        "loggedOutText": "Başarıyla çıkış yaptın"
+        "loggedOutText": "Başarıyla çıkış yaptın",
+        "booksRead": "Okunan kitaplar",
+        "MyReviews": "Değerlendirmelerim",
+        "myAccount": "Hesabım",
+        "closeMenu": "Menüyü kapat",
+        "toggleTheme": "Karanlık modu aç/kapat",
+        "vip": "VIP",
+        "Community": "Topluluk",
+        "following": "Takip edilen",
+        "followers": "Takipçi"
     },
     "Api": {
         "signInFirst": "Lütfen önce giriş yap",
@@ -453,7 +462,10 @@
         "progress": "Böl. {chapter} / {total} · %{percent}",
         "chapterN": "Bölüm {chapter}",
         "byAuthor": "{author}",
-        "viewsCount": "{views} görüntülenme"
+        "viewsCount": "{views} görüntülenme",
+        "updated": "Güncellendi",
+        "notStartedSaved": "Kaydedildi · Henüz başlanmadı",
+        "topThisWeek": "Haftanın zirvesi"
     },
     "Stories": {
         "genres": "Türler",
@@ -465,7 +477,7 @@
         "readNow": "Şimdi oku",
         "readAgain": "Tekrar oku",
         "upToDate": "Güncel (Böl. {chapter})",
-        "continueReading": "Okumaya devam et (Böl. {chapter})",
+        "continueReading": "Devam et (Böl. {chapter})",
         "home": "Ana Sayfa",
         "writtenBy": "Yazar: <name>{author}</name>",
         "views": "{views} görüntülenme",
@@ -481,7 +493,8 @@
         "showMore": "Daha fazla göster",
         "youMayLike": "Bunlar da hoşuna gidebilir",
         "readerReviews": "Okur değerlendirmeleri",
-        "reportBook": "Kitabı şikayet et"
+        "reportBook": "Kitabı şikayet et",
+        "report": "Şikayet et"
     },
     "Rankings": {
         "daily": "Günlük",
@@ -577,7 +590,7 @@
         "coinsAmount": "{amount} jeton",
         "bonusAmount": "{amount} bonus",
         "autoUnlock": "Sonraki bölümün kilidini otomatik aç",
-        "continueReading": "Okumaya devam et",
+        "continueReading": "Devam et",
         "byAuthor": "yazar: {author}",
         "theme": "Tema",
         "fonts": "Yazı tipleri",
@@ -645,7 +658,7 @@
         "send": "Gönder"
     },
     "Wallet": {
-        "vipBonus": "VIP Bonusu",
+        "vipBonus": "VIP Bonusu: {amount}",
         "title": "Cüzdanım",
         "subtitle": "Kazan, yükle ve VIP avantajlarını yönet",
         "tabEarn": "Kazan",
@@ -946,7 +959,7 @@
         "helpText": "Bir sorun yaşıyorsan veya jetonların hesabına geçmediyse destek ekibimiz yardımcı olmak için burada.",
         "helpSubject": "{id} işlemi için yardım",
         "contactSupport": "Destekle iletişime geç",
-        "bonusInfo": "✨ Bonus jetonların süresi aldıktan 2 gün sonra dolar. Bitmeden önce bölümlerin kilidini açmak için kullan.",
+        "bonusInfo": "✨ Jetonlar hesabına anında eklenir. Bölümlerin kilidini açmak ve premium özellikleri kullanmak için kullanabilirsin.",
         "coinsInfo": "✨ Jetonlar hesabına anında eklenir. Bölümlerin kilidini açmak ve premium özellikleri kullanmak için kullanabilirsin.",
         "filter_topup": "Yüklemeler",
         "empty_topup": "Yükleme yok.",
@@ -966,7 +979,21 @@
         "amountPaid": "Ödenen Tutar",
         "vipInfo": "✨ VIP üyeliğin iptal edene kadar her dönem otomatik olarak yenilenir. Otomatik yenilemeyi Ayarlar’dan istediğin zaman kapatabilir ve VIP’yi ödenmiş dönemin sonuna kadar kullanabilirsin.",
         "filter_vip": "VIP",
-        "empty_vip": "VIP işlemi yok."
+        "empty_vip": "VIP işlemi yok.",
+        "back": "Geri",
+        "coinsLabel": "Jeton",
+        "bonusLabel": "Bonus",
+        "vipBonusLabel": "VIP bonusu",
+        "totalCoinsReceived": "Alınan toplam jeton",
+        "paymentInfo": "Ödeme bilgileri",
+        "transactionInfo": "İşlem bilgileri",
+        "idLabel": "İşlem kimliği",
+        "copyId": "İşlem kimliğini kopyala",
+        "paymentMethod": "Ödeme yöntemi",
+        "paymentStatus": "Ödeme durumu",
+        "status": "Durum",
+        "totalPaid": "Ödenen toplam",
+        "dateTime": "Tarih ve saat"
     },
     "Profile": {
         "couldntSavePhoto": "Fotoğrafın kaydedilemedi",
@@ -998,7 +1025,9 @@
         "editGenresHint": "Daha iyi öneriler almak için sevdiğin türleri seç",
         "genresSaved": "Türler güncellendi",
         "couldntSaveGenres": "Türlerin kaydedilemedi",
-        "saving": "Kaydediliyor..."
+        "saving": "Kaydediliyor...",
+        "profilePhoto": "Profil fotoğrafı",
+        "vip": "VIP"
     },
     "LiveChat": {
         "topic_account": "Hesap ve giriş sorunları",

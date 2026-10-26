@@ -12,9 +12,7 @@ export default function WalletPage() {
     const { active, setActive } = useWalletStore()
     const t = useTranslations("Wallet")
     const wallet = useAuthStore((s) => s.user?.wallet)
-    // Coins bought with money + bonus coins that haven't expired
-    const totalBalance = (wallet?.coins ?? 0) + (wallet?.bonusCoins ?? 0)
-
+    const totalBalance = (wallet?.coins ?? 0) + (wallet?.bonusCoins ?? 0) + (wallet?.vipBonusCoins ?? 0)
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-dark p-6">
 
@@ -61,10 +59,12 @@ export default function WalletPage() {
                             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm md:text-base text-gray-300 dark:text-neutral-400">
                                 <span>{t("coins", { amount: (wallet?.coins ?? 0).toLocaleString() })}</span>
                                 <span>{t("bonus", { amount: (wallet?.bonusCoins ?? 0).toLocaleString() })}</span>
+                                <span>{t("vipBonus", { amount: (wallet?.vipBonusCoins ?? 0).toLocaleString() })}</span>
                                 <span className="flex items-center gap-2">
                                     <Image src="/fang_pictures/gift-icons/ruby.png" width={22} height={22} alt={t("gems")} />
                                     <span className="text-white">{(wallet?.gems ?? 0).toLocaleString()}</span>
                                 </span>
+
                             </div>
                         </div>
                         <div className="">

@@ -21,7 +21,16 @@
         "logoutConfirmButton": "Yes, logout",
         "cancel": "Cancel",
         "loggedOutTitle": "Logged out",
-        "loggedOutText": "You have been successfully logged out"
+        "loggedOutText": "You have been successfully logged out",
+        "booksRead": "Books Read",
+        "MyReviews": "My Reviews",
+        "myAccount": "My Account",
+        "closeMenu": "Close menu",
+        "toggleTheme": "Toggle dark mode",
+        "vip": "VIP",
+        "Community": "Community",
+        "following": "Following",
+        "followers": "Followers"
     },
     "Api": {
         "signInFirst": "Please sign in first",
@@ -453,7 +462,10 @@
         "progress": "Ch. {chapter} / {total} · {percent}%",
         "chapterN": "Chapter {chapter}",
         "byAuthor": "by {author}",
-        "viewsCount": "{views} Views"
+        "viewsCount": "{views} Views",
+        "updated": "Updated",
+        "notStartedSaved": "Saved · Not started yet",
+        "topThisWeek": "Top this week"
     },
     "Stories": {
         "genres": "Genres",
@@ -465,7 +477,7 @@
         "readNow": "Read Now",
         "readAgain": "Read Again",
         "upToDate": "Up to date (Ch. {chapter})",
-        "continueReading": "Continue Reading (Ch. {chapter})",
+        "continueReading": "Continue (Ch. {chapter})",
         "home": "Home",
         "writtenBy": "Written by <name>{author}</name>",
         "views": "{views} Views",
@@ -481,7 +493,8 @@
         "showMore": "Show More",
         "youMayLike": "You May Like",
         "readerReviews": "Reader Reviews",
-        "reportBook": "Report Book"
+        "reportBook": "Report Book",
+        "report": "Report"
     },
     "Rankings": {
         "daily": "Daily",
@@ -577,7 +590,7 @@
         "coinsAmount": "{amount} Coins",
         "bonusAmount": "{amount} Bonus",
         "autoUnlock": "Auto-Unlock Next Chapter",
-        "continueReading": "Continue Reading",
+        "continueReading": "Continue",
         "byAuthor": "by {author}",
         "theme": "Theme",
         "fonts": "Fonts",
@@ -645,7 +658,7 @@
         "send": "Send"
     },
     "Wallet": {
-        "vipBonus": "VIP Bonus",
+        "vipBonus": "VIP Bonus: {amount}",
         "title": "My Wallet",
         "subtitle": "Earn, top up and manage your VIP perks",
         "tabEarn": "Earn",
@@ -946,7 +959,7 @@
         "helpText": "If you have any issues or did not receive your coins, our support team is here to help.",
         "helpSubject": "Help with transaction {id}",
         "contactSupport": "Contact Support",
-        "bonusInfo": "✨ Bonus coins expire 2 days after you get them. Use them to unlock chapters before they run out.",
+        "bonusInfo": "✨ Coins are added to your account instantly. You can use them to unlock chapters and enjoy premium features.",
         "coinsInfo": "✨ Coins are added to your account instantly. You can use them to unlock chapters and enjoy premium features.",
         "filter_topup": "Top-ups",
         "empty_topup": "No top-ups.",
@@ -966,7 +979,21 @@
         "amountPaid": "Amount Paid",
         "vipInfo": "✨ Your VIP renews automatically each period until you cancel. You can turn off auto-renewal anytime in Settings and keep VIP until the end of the paid period.",
         "filter_vip": "VIP",
-        "empty_vip": "No VIP transactions."
+        "empty_vip": "No VIP transactions.",
+        "back": "Back",
+        "coinsLabel": "Coins",
+        "bonusLabel": "Bonus",
+        "vipBonusLabel": "VIP Bonus",
+        "totalCoinsReceived": "Total Coins Received",
+        "paymentInfo": "Payment Information",
+        "transactionInfo": "Transaction Information",
+        "idLabel": "Transaction ID",
+        "copyId": "Copy transaction ID",
+        "paymentMethod": "Payment Method",
+        "paymentStatus": "Payment Status",
+        "status": "Status",
+        "totalPaid": "Total Paid",
+        "dateTime": "Date & Time"
     },
     "Profile": {
         "couldntSavePhoto": "Couldn't save your photo",
@@ -998,7 +1025,9 @@
         "editGenresHint": "Pick the genres you love to get better recommendations",
         "genresSaved": "Genres updated",
         "couldntSaveGenres": "Couldn't save your genres",
-        "saving": "Saving..."
+        "saving": "Saving...",
+        "profilePhoto": "Profile Photo",
+        "vip": "VIP"
     },
     "LiveChat": {
         "topic_account": "Account & Login Issues",

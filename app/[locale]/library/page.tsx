@@ -14,7 +14,6 @@ const TABS: LibraryTab[] = ["reading", "viewed", "finished"];
 
 const Library = () => {
     const t = useTranslations("Library");
-
     const library = useLibraryStore((state) => state.library);
     const saved = useLibraryStore((state) => state.saved);
     const tab = useLibraryStore((state) => state.tab);
@@ -67,16 +66,12 @@ const Library = () => {
                     <div className="flex flex-col items-center justify-center h-[70vh] gap-4">
                         <Image src="/fang_pictures/white-moon.png" alt={t("empty")} width={200} height={200} className="object-contain hidden dark:block" />
                         <Image src="/fang_pictures/dark-moon.png" alt={t("empty")} width={200} height={200} className="object-contain dark:hidden" />
-
                         <h2 className="text-2xl font-bold">{t("shelfWaiting")}</h2>
-
                         <Link href="/" className="bg-red-700 text-white px-6 py-3 rounded">
                             {t("explore")}
                         </Link>
                     </div>
-
                 ) : (
-
                     <>
                         <div className="flex justify-between items-center mt-8">
                             <div className="flex gap-4">

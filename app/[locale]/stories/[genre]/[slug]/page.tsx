@@ -14,7 +14,7 @@ import { useLibraryStore } from "@/lib/store/library-store";
 import { useAuthStore } from "@/lib/store/authStore";
 import BookReviews, { type ReviewSummary } from "@/components/reviews/bookReview";
 import Imprint from "@/components/imprint";
-import { Flag } from "lucide-react";
+import { BookOpen, Eye, Flag, Star } from "lucide-react";
 import ReportBookDialog from "@/components/book-controls/report-book";
 import { useOptionNames } from "@/hooks/useOptionName";
 
@@ -58,7 +58,7 @@ function Cover({ src, alt }: { src?: string; alt: string }) {
     const [failed, setFailed] = useState(false);
     useEffect(() => setFailed(false), [src]);
     return (
-        <div className="relative w-32 md:w-44 aspect-3/4 shrink-0 overflow-hidden rounded-lg shadow-xl">
+        <div className="relative w-36 md:w-44 aspect-3/4 shrink-0 overflow-hidden rounded-lg shadow-xl">
             <div className="absolute inset-0 flex items-center justify-center animate-pulse bg-white/10">
                 <HeroLogo />
             </div>
@@ -79,7 +79,7 @@ function Cover({ src, alt }: { src?: string; alt: string }) {
 function HeroSkeleton() {
     return (
         <div className="mt-5 md:mt-6 flex items-start gap-5 md:gap-10">
-            <div className="flex w-32 md:w-44 aspect-3/4 shrink-0 items-center justify-center rounded-lg animate-pulse bg-white/10">
+            <div className="flex w-36 md:w-44 aspect-3/4 shrink-0 items-center justify-center rounded-lg animate-pulse bg-white/10">
                 <HeroLogo />
             </div>
             <div className="min-w-0 flex-1 space-y-3 pt-1">
@@ -87,7 +87,7 @@ function HeroSkeleton() {
                 <div className="h-4 w-1/3 rounded animate-pulse bg-white/10" />
                 <div className="h-4 w-1/2 rounded animate-pulse bg-white/10" />
                 <div className="flex flex-wrap gap-2 pt-1">
-                    {[12, 18, 13, 12, 22].map((w, i) => (
+                    {[12, 18, 13, 12].map((w, i) => (
                         <div key={i} style={{ width: `${w * 4}px` }} className="h-5 rounded-full animate-pulse bg-white/10" />
                     ))}
                 </div>
@@ -149,9 +149,9 @@ export default function Page() {
             : t("continueReading", { chapter: lastChapter });
     const chapterCount = book?.chapter ?? (Number(book?.chapters) || chapters.length);
 
-    // Genre first, then the tags (no repeats)
+    // Genre first, then the tags (no repeats), four at most
     const pills = book
-        ? [book.genre, ...(book.tags ?? [])].filter((t, i, all) => t && all.findIndex((x) => x?.toLowerCase() === t.toLowerCase()) === i)
+        ? [book.genre, ...(book.tags ?? [])].filter((t, i, all) => t && all.findIndex((x) => x?.toLowerCase() === t.toLowerCase()) === i).slice(0, 4)
         : [];
 
     const paragraphs = (book?.summary ?? "").split(/\n+/).map((p) => p.trim()).filter(Boolean);
@@ -231,11 +231,11 @@ export default function Page() {
         }
     };
 
-    // Tags and buttons: beside the cover on bigger screens, full width under it on phones
+    // Tags and buttons: beside the cover on bigger screens, full width under it on phones. Tags stay on one line, cut with "…"
     const pillsEl = pills.length > 0 && (
-        <div className="mt-4 flex flex-wrap gap-2">
+        <div className="mt-4 flex flex-nowrap gap-2 overflow-hidden">
             {pills.map((p) => (
-                <span key={p} className="max-w-full truncate rounded-full bg-white/30 px-2.5 py-0.5 text-[11px] md:text-xs text-white">
+                <span key={p} className="min-w-0 shrink truncate rounded-full bg-white/25 px-3.5 py-1.5 text-[13px] text-white md:bg-white/30 md:px-2.5 md:py-0.5 md:text-xs">
                     {tr(p)}
                 </span>
             ))}
@@ -245,26 +245,27 @@ export default function Page() {
         <div className="mt-6 md:mt-8 flex gap-3">
             <Link
                 href={`${bookPath}/reader?chapter=${startChapter}`}
-                className="flex-1 md:flex-none rounded-md bg-red-600 px-6 md:px-7 py-2 text-center text-[11px] md:text-xs font-semibold text-white hover:bg-red-700">
+                className="flex flex-1 md:flex-none items-center justify-center rounded-xl md:rounded-md bg-red-600 px-3 md:px-7 py-3 md:py-2 text-center text-sm md:text-xs font-semibold leading-tight text-white hover:bg-red-700">
                 {readLabel}
             </Link>
             <button
                 type="button"
                 onClick={handleLibrary}
                 disabled={savingBook}
-                className={`flex-1 md:flex-none rounded-md border px-5 md:px-6 py-2 text-[11px] md:text-xs font-semibold disabled:opacity-60 ${saved
+                className={`flex flex-1 md:flex-none items-center justify-center rounded-xl md:rounded-md border px-3 md:px-6 py-3 md:py-2 text-center text-sm md:text-xs font-semibold leading-tight disabled:opacity-60 ${saved
                     ? "border-red-600 bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500/15"
-                    : "border-gray-200 dark:border-dark-border bg-white dark:bg-dark-card text-black dark:text-white hover:bg-gray-100 dark:hover:bg-dark-raised"
+                    : "border-gray-200 bg-white text-black hover:bg-gray-100 dark:hover:bg-dark-raised"
                     }`}>
                 {saved ? t("inLibrary") : t("addToLibrary")}
             </button>
 
+            {/* Bigger screens: the flag beside the buttons (phones have a Report link under them) */}
             <button
                 type="button"
                 onClick={() => setReportOpen(true)}
                 aria-label={t("reportBook")}
                 title={t("reportBook")}
-                className="flex shrink-0 items-center justify-center rounded-md border border-gray-200 dark:border-dark-border bg-white dark:bg-dark-card px-3 text-gray-600 dark:text-neutral-300 hover:bg-gray-100 dark:hover:bg-dark-raised hover:text-red-600">
+                className="hidden md:flex shrink-0 items-center justify-center rounded-md border border-gray-200 dark:border-dark-border bg-white dark:bg-dark-card px-3 text-gray-600 dark:text-neutral-300 hover:bg-gray-100 dark:hover:bg-dark-raised hover:text-red-600">
                 <Flag size={14} />
             </button>
         </div>
@@ -308,34 +309,34 @@ export default function Page() {
                         <>
                             <div className="mt-5 md:mt-6 flex items-start gap-5 md:gap-10">
                                 <Cover src={book.image} alt={book.title} />
-
                                 <div className="min-w-0 pt-1 md:pt-2">
-                                    <h1 className="line-clamp-2 text-lg md:text-[26px] font-bold text-white leading-tight">{book.title}</h1>
+                                    <h1 className="line-clamp-2 text-2xl md:text-[26px] font-bold text-white leading-tight">{book.title}</h1>
 
-                                    <div className="mt-1 flex flex-wrap items-center gap-x-1.5 text-xs md:text-[15px] text-white/50">
+                                    {/* Phones: author and status stacked */}
+                                    <div className="mt-2 md:mt-1 flex flex-col items-start gap-y-1 md:flex-row md:flex-wrap md:items-center md:gap-x-1.5 text-sm md:text-[15px] text-white/60 md:text-white/50">
                                         {book.author && (
                                             <p>{t.rich("writtenBy", {
                                                 author: book.author, name: (chunks) => book.authorSlug
                                                     ? <Link href={`/authors/${book.authorSlug}`} className="text-red-600 hover:underline">{chunks}</Link>
                                                     : <span className="text-red-600">{chunks}</span>
                                             })}</p>)}
-                                        {book.status && <><span>•</span><span>{completed ? b("completed") : book.status.toLowerCase() === "ongoing" ? b("ongoing") : titleCase(book.status)}</span></>}
+                                        {book.status && <div className="flex items-center gap-1.5"><span>•</span><span>{completed ? b("completed") : book.status.toLowerCase() === "ongoing" ? b("ongoing") : titleCase(book.status)}</span></div>}
                                     </div>
 
-                                    {/* Phones: one stat per line, so the text stays no taller than the cover */}
-                                    <div className="mt-2 flex flex-col items-start gap-y-0.5 text-xs text-white/85 md:mt-2.5 md:flex-row md:flex-wrap md:items-center md:gap-x-2.5 md:gap-y-1 md:text-[15px]">
+                                    {/* Bigger screens: stats beside the cover (phones have their own row below the cover) */}
+                                    <div className="hidden md:mt-2.5 md:flex md:flex-wrap md:items-center md:gap-x-2.5 md:gap-y-1 md:text-[15px] text-white/85">
                                         <span>👁️ {t("views", { views: book.views ?? 0 })}</span>
-                                        <span className="hidden md:inline">•</span>
+                                        <span>•</span>
                                         <span>📚 {t("chapters", { count: chapterCount })}</span>
                                         {ratingText && (
                                             <>
-                                                <span className="hidden md:inline">•</span>
+                                                <span>•</span>
                                                 <span>⭐ {t("rating", { rating: ratingText })}</span>
                                             </>
                                         )}
                                     </div>
 
-                                    {/* Bigger screens: tags and buttons beside the cover (phones: under it, below) */}
+                                    {/* Bigger screens: tags and buttons beside the cover */}
                                     <div className="hidden md:block">
                                         {pillsEl}
                                         {actionsEl}
@@ -343,10 +344,23 @@ export default function Page() {
                                 </div>
                             </div>
 
-                            {/* Phones: tags and buttons full width under the cover */}
+                            {/* Phones: stats in one row, then tags, buttons and Report, full width under the cover */}
                             <div className="md:hidden">
+                                <div className="mt-6 flex items-center justify-between gap-2 text-sm text-white/85">
+                                    <span className="flex items-center gap-1.5 whitespace-nowrap"><Eye size={18} />{t("views", { views: book.views ?? 0 })}</span>
+                                    <span className="flex items-center gap-1.5 whitespace-nowrap"><BookOpen size={18} />{t("chapters", { count: chapterCount })}</span>
+                                    {ratingText && (
+                                        <span className="flex items-center gap-1.5 whitespace-nowrap"><Star size={18} className="text-amber-400" />{t("rating", { rating: ratingText })}</span>
+                                    )}
+                                </div>
                                 {pillsEl}
                                 {actionsEl}
+                                <div className="mt-4 flex justify-end">
+                                    <button type="button" onClick={() => setReportOpen(true)} className="flex items-center gap-2 text-sm text-white/80 hover:text-white">
+                                        <Flag size={16} />
+                                        {t("report")}
+                                    </button>
+                                </div>
                             </div>
                         </>
                     ) : (

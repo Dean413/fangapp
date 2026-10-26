@@ -21,7 +21,16 @@
         "logoutConfirmButton": "Oui, me déconnecter",
         "cancel": "Annuler",
         "loggedOutTitle": "Déconnecté",
-        "loggedOutText": "Vous avez bien été déconnecté"
+        "loggedOutText": "Vous avez bien été déconnecté",
+        "booksRead": "Livres lus",
+        "MyReviews": "Mes avis",
+        "myAccount": "Mon compte",
+        "closeMenu": "Fermer le menu",
+        "toggleTheme": "Basculer le mode sombre",
+        "vip": "VIP",
+        "Community": "Communauté",
+        "following": "Abonnements",
+        "followers": "Abonnés"
     },
     "Api": {
         "signInFirst": "Veuillez d’abord vous connecter",
@@ -453,7 +462,10 @@
         "progress": "Ch. {chapter} / {total} · {percent} %",
         "chapterN": "Chapitre {chapter}",
         "byAuthor": "par {author}",
-        "viewsCount": "{views} vues"
+        "viewsCount": "{views} vues",
+        "updated": "Mis à jour",
+        "notStartedSaved": "Enregistré · Pas encore commencé",
+        "topThisWeek": "Top de la semaine"
     },
     "Stories": {
         "genres": "Genres",
@@ -465,7 +477,7 @@
         "readNow": "Lire maintenant",
         "readAgain": "Relire",
         "upToDate": "À jour (ch. {chapter})",
-        "continueReading": "Reprendre la lecture (ch. {chapter})",
+        "continueReading": "Reprendre (ch. {chapter})",
         "home": "Accueil",
         "writtenBy": "Écrit par <name>{author}</name>",
         "views": "{views} vues",
@@ -481,7 +493,8 @@
         "showMore": "Voir plus",
         "youMayLike": "Vous aimerez peut-être",
         "readerReviews": "Avis des lecteurs",
-        "reportBook": "Signaler le livre"
+        "reportBook": "Signaler le livre",
+        "report": "Signaler"
     },
     "Rankings": {
         "daily": "Quotidien",
@@ -577,7 +590,7 @@
         "coinsAmount": "{amount} pièces",
         "bonusAmount": "{amount} bonus",
         "autoUnlock": "Débloquer automatiquement le chapitre suivant",
-        "continueReading": "Reprendre la lecture",
+        "continueReading": "Reprendre",
         "byAuthor": "de {author}",
         "theme": "Thème",
         "fonts": "Polices",
@@ -645,7 +658,7 @@
         "send": "Envoyer"
     },
     "Wallet": {
-        "vipBonus": "Bonus VIP",
+        "vipBonus": "Bonus VIP : {amount}",
         "title": "Mon portefeuille",
         "subtitle": "Gagnez, rechargez et gérez vos avantages VIP",
         "tabEarn": "Gagner",
@@ -946,7 +959,7 @@
         "helpText": "En cas de problème ou si vous n’avez pas reçu vos pièces, notre équipe d’assistance est là pour vous aider.",
         "helpSubject": "Aide pour la transaction {id}",
         "contactSupport": "Contacter l’assistance",
-        "bonusInfo": "✨ Les pièces bonus expirent 2 jours après leur obtention. Utilisez-les pour débloquer des chapitres avant qu’elles n’expirent.",
+        "bonusInfo": "✨ Les pièces sont créditées instantanément sur votre compte. Utilisez-les pour débloquer des chapitres et profiter des fonctionnalités premium.",
         "coinsInfo": "✨ Les pièces sont créditées instantanément sur votre compte. Utilisez-les pour débloquer des chapitres et profiter des fonctionnalités premium.",
         "filter_topup": "Recharges",
         "empty_topup": "Aucune recharge.",
@@ -966,7 +979,21 @@
         "amountPaid": "Montant payé",
         "vipInfo": "✨ Votre VIP se renouvelle automatiquement à chaque période jusqu’à ce que vous l’annuliez. Vous pouvez désactiver le renouvellement automatique à tout moment dans les Paramètres et conserver le VIP jusqu’à la fin de la période payée.",
         "filter_vip": "VIP",
-        "empty_vip": "Aucune transaction VIP."
+        "empty_vip": "Aucune transaction VIP.",
+        "back": "Retour",
+        "coinsLabel": "Pièces",
+        "bonusLabel": "Bonus",
+        "vipBonusLabel": "Bonus VIP",
+        "totalCoinsReceived": "Total des pièces reçues",
+        "paymentInfo": "Informations de paiement",
+        "transactionInfo": "Informations sur la transaction",
+        "idLabel": "ID de transaction",
+        "copyId": "Copier l’ID de transaction",
+        "paymentMethod": "Moyen de paiement",
+        "paymentStatus": "Statut du paiement",
+        "status": "Statut",
+        "totalPaid": "Total payé",
+        "dateTime": "Date et heure"
     },
     "Profile": {
         "couldntSavePhoto": "Impossible d’enregistrer votre photo",
@@ -998,7 +1025,9 @@
         "editGenresHint": "Choisissez vos genres préférés pour de meilleures recommandations",
         "genresSaved": "Genres mis à jour",
         "couldntSaveGenres": "Impossible d’enregistrer vos genres",
-        "saving": "Enregistrement..."
+        "saving": "Enregistrement...",
+        "profilePhoto": "Photo de profil",
+        "vip": "VIP"
     },
     "LiveChat": {
         "topic_account": "Compte et connexion",

@@ -99,7 +99,7 @@ export function ProfileImagePicker({ name, image, pictureHeader, uploadIcon, isP
 
                             {isProfilePage && (
                                 <label className="absolute bottom-4 right-1 bg-gray-100 dark:bg-dark-raised p-2 rounded-full cursor-pointer z-20 translate-x-1/4 translate-y-1/4">
-                                    <FiCamera size={18} className="dark:text-white" />
+                                    {/* <FiCamera size={18} className="dark:text-white" /> */}
                                     <input
                                         type="file"
                                         accept="image/*"
