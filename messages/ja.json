@@ -25,6 +25,7 @@
         "booksRead": "読んだ本",
         "MyReviews": "マイレビュー",
         "myAccount": "マイアカウント",
+        "menu": "メニュー",
         "closeMenu": "メニューを閉じる",
         "toggleTheme": "ダークモードを切り替え",
         "vip": "VIP",
@@ -35,6 +36,7 @@
     "Api": {
         "signInFirst": "先にログインしてください",
         "invalidRequest": "無効なリクエストです",
+        "invalidDateRange": "開始日は終了日より後の日付にできません。",
         "bookNotFound": "作品が見つかりません",
         "storyNotFound": "作品が見つかりません",
         "somethingWrong": "問題が発生しました",

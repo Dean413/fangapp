@@ -10,8 +10,7 @@ export const TOPUP_PACKAGES = [
     { coins: 4000, bonus: 1850, priceCents: 3999 },
 ] as const;
 
-// Extra coins a VIP gets on top-ups
-export const VIP_TOPUP_PERCENT: Record<string, number> = { weekly: 10, monthly: 15 };
+// Extra coins a VIP gets on top-ups: VIP_TOPUP_PERCENT in lib/vipRates.ts
 
 export const TOPUP_GEMS = 3;            // gems for every top-up
 export const BONUS_EXPIRY_DAYS = 14;    // package bonus coins

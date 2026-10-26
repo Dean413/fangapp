@@ -112,8 +112,9 @@ const GenreBrowser = () => {
                     {t("genres")}
                 </h1>
 
-                <div className="flex gap-8 my-6 flex-wrap">
-                    <button type="button" onClick={() => pick(ALL)} className={genreClass(selected === ALL)}>
+                {/* Phones: one line, scrolls sideways and runs to the screen edge. Bigger screens: wraps */}
+                <div className="flex gap-8 my-6 overflow-x-auto no-scrollbar max-md:-mx-[5.56%] max-md:px-[5.56%] md:flex-wrap md:overflow-visible">
+                    <button type="button" onClick={() => pick(ALL)} className={`shrink-0 whitespace-nowrap ${genreClass(selected === ALL)}`}>
                         {t("all")}
                     </button>
                     {genres.map((genre) => (
@@ -121,7 +122,7 @@ const GenreBrowser = () => {
                             key={genre.slug}
                             type="button"
                             onClick={() => pick(genre.slug)}
-                            className={genreClass(selected === genre.slug)}
+                            className={`shrink-0 whitespace-nowrap ${genreClass(selected === genre.slug)}`}
                         >
                             {genre.name}
                         </button>

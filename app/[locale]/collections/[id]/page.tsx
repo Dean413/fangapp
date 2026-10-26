@@ -42,9 +42,7 @@ export default async function CollectionPage({ params }: { params: Promise<{ id:
                     {collection.description && (
                         <p className="mt-3 max-w-3xl text-sm text-gray-600 dark:text-neutral-400">{collection.description}</p>
                     )}
-                    <p className="mt-2 text-xs text-gray-500 dark:text-neutral-500">
-                        {t("bookCount", { count: collection.books.length })}
-                    </p>
+
                 </div>
 
                 <div className="mt-6 flex flex-col gap-4">

@@ -2,14 +2,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Eye } from "lucide-react";
+import { Bookmark, Eye, Star } from "lucide-react";
 import { CoverPlaceholder } from "@/components/skeleton";
 import { useTranslations } from "next-intl";
+import { useLibraryStore } from "@/lib/store/library-store";
+import { useOptionNames } from "@/hooks/useOptionName";
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
 const MAX_TAGS = 3;
 
 interface cardDataProps {
+    id?: string | number;
     title: string;
     slug: string;
     genreSlug?: string;
@@ -21,80 +24,114 @@ interface cardDataProps {
     summary?: string;
     status: string;
     chapter: number;
+    rating?: number | null;
 }
 
 export const GenreCard = (genreCard: cardDataProps) => {
-    const { image, title, slug, genreSlug, author, genre, tags, chapter, summary, status, views } = genreCard;
+    const { id, image, title, slug, genreSlug, author, genre, tags, chapter, summary, views, rating } = genreCard;
     const [failed, setFailed] = useState(false);
+    const [saving, setSaving] = useState(false);
     const t = useTranslations("Books");
+    const bk = useTranslations("Book");
+    // Genre and tag names in the site's language
+    const tr = useOptionNames();
     useEffect(() => setFailed(false), [image]);
 
-    const completed = String(status).toUpperCase() === "COMPLETED";
+    // Library: saved or not, and the toggle
+    const toggleBook = useLibraryStore((s) => s.toggleBook);
+    const saved = useLibraryStore((s) => s.saved.some((b) => b.id === slug || b.storyId === String(id ?? "")));
+
+    const handleSave = async (e: React.MouseEvent) => {
+        // The card is a link: the bookmark must not open the book
+        e.preventDefault();
+        e.stopPropagation();
+        if (saving) return;
+        setSaving(true);
+        try {
+            await toggleBook({ id: slug, title, image: image || FALLBACK_COVER });
+        } finally {
+            setSaving(false);
+        }
+    };
+
     // The genre in red, then at most 3 tags (no repeat of the genre)
     const tagList = (Array.isArray(tags) ? tags : [tags])
-        .filter((t) => t && t.toLowerCase() !== (genre ?? "").toLowerCase())
+        .filter((x) => x && x.toLowerCase() !== (genre ?? "").toLowerCase())
         .slice(0, MAX_TAGS);
 
     return (
         <Link
             href={`/stories/${genreSlug || "all"}/${slug}`}
-            className="flex flex-row items-center gap-3 sm:gap-5 p-3 sm:p-4 rounded-2xl bg-white border border-gray-100 dark:bg-dark-card dark:border-transparent transition hover:shadow-sm hover:border-gray-200 dark:hover:bg-dark-raised">
-            {/* Image: as tall as the text next to it */}
-            <div className="w-24 sm:w-32 md:w-44 aspect-3/4 relative shrink-0 overflow-hidden rounded-lg">
+            className="flex flex-row items-start gap-3 sm:gap-5 p-3 sm:p-4 rounded-2xl bg-white border border-gray-100 dark:bg-dark-card dark:border-transparent transition hover:shadow-sm hover:border-gray-200 dark:hover:bg-dark-raised">
+            {/* Cover */}
+            <div className="w-28 sm:w-32 md:w-44 aspect-3/4 relative shrink-0 overflow-hidden rounded-lg">
                 <CoverPlaceholder />
                 <Image
                     src={!image || failed ? FALLBACK_COVER : image}
                     alt={title}
                     fill
-                    sizes="(min-width: 768px) 176px, (min-width: 640px) 128px, 96px"
+                    sizes="(min-width: 768px) 176px, (min-width: 640px) 128px, 112px"
                     onError={() => setFailed(true)}
                     className="object-cover"
                 />
             </div>
 
             {/* Content */}
-            <div className="flex flex-col justify-center min-w-0 flex-1">
-                <h3 className="line-clamp-1 font-bold text-gray-900 dark:text-white text-base sm:text-lg leading-snug">
+            <div className="relative flex min-w-0 flex-1 flex-col">
+                {/* Bookmark, top right */}
+                <button
+                    type="button"
+                    onClick={handleSave}
+                    disabled={saving}
+                    aria-label={saved ? bk("inLibrary") : bk("addToLibrary")}
+                    className="absolute right-0 top-0 text-gray-500 hover:text-red-600 disabled:opacity-60 dark:text-neutral-400">
+                    <Bookmark size={24} className={saved ? "fill-red-600 text-red-600" : ""} />
+                </button>
+
+                {/* Genre and tags: one line, cut with "…" */}
+                <div className="flex flex-nowrap items-center gap-2 overflow-hidden pr-9">
+                    {genre && (
+                        <span className="min-w-0 shrink truncate rounded-full bg-red-50 px-2.5 py-0.5 text-[11px] sm:text-xs font-semibold text-red-600 dark:bg-red-500/15 dark:text-red-300">
+                            {tr(genre)}
+                        </span>
+                    )}
+                    {tagList.map((x, i) => (
+                        <span
+                            key={x}
+                            className={`min-w-0 shrink truncate rounded-full bg-gray-100 px-2.5 py-0.5 text-[11px] sm:text-xs font-medium text-gray-600 dark:bg-neutral-200 dark:text-neutral-900 ${i >= 1 ? "max-sm:hidden" : ""}`}>
+                            {tr(x)}
+                        </span>
+                    ))}
+                </div>
+
+                <h3 className="mt-2 line-clamp-1 text-lg sm:text-xl leading-snug text-gray-900 dark:text-white">
                     {title}
                 </h3>
 
-                {/* Ongoing • Chapter 412 • Author */}
-                <div className="mt-1 flex items-center gap-x-1.5 sm:gap-x-2 text-[11px] sm:text-sm text-gray-500 dark:text-neutral-400 min-w-0">
-                    <span className={`shrink-0 font-semibold ${completed ? "text-green-600 dark:text-green-400" : "text-gray-800 dark:text-neutral-200"}`}>
-                        {completed ? t("completed") : t("ongoing")}
-                    </span>
-                    <span aria-hidden="true">•</span>
-                    <span className="shrink-0">{t("chapterN", { chapter })}</span>
-                    <span aria-hidden="true">•</span>
-                    <span className="truncate">{author}</span>
+                {/* by Author · 198 chapters */}
+                <p className="mt-0.5 truncate text-sm text-gray-500 dark:text-neutral-400">
+                    {t("byAuthor", { author })} · {bk("chapters", { count: chapter })}
+                </p>
+
+                {/* Views and rating */}
+                <div className="mt-1.5 flex items-center gap-4 text-sm text-gray-500 dark:text-neutral-400">
+                    {views && (
+                        <span className="inline-flex items-center gap-1.5">
+                            <Eye size={16} /> {views}
+                        </span>
+                    )}
+                    {rating != null && (
+                        <span className="inline-flex items-center gap-1.5">
+                            <Star size={14} className="fill-amber-400 text-amber-400" /> {rating.toFixed(1)}
+                        </span>
+                    )}
                 </div>
 
                 {summary && (
-                    <p className="mt-1.5 sm:mt-2 text-xs sm:text-sm leading-relaxed text-gray-700 dark:text-neutral-300 line-clamp-2 sm:line-clamp-3 md:line-clamp-5">
+                    <p className="mt-2 line-clamp-2 sm:line-clamp-3 md:line-clamp-5 text-sm leading-relaxed text-gray-700 dark:text-neutral-300">
                         {summary}
                     </p>
                 )}
-
-                {/* Genre, tags, views */}
-                <div className="mt-2 sm:mt-3 flex flex-wrap items-center gap-1.5">
-                    {genre && (
-                        <span className="rounded-full border border-red-200 bg-red-50 px-2.5 py-0.5 text-[10px] sm:text-xs font-medium text-red-700 dark:border-red-500/30 dark:bg-red-500/15 dark:text-red-300">
-                            {genre}
-                        </span>
-                    )}
-                    {tagList.map((t) => (
-                        <span
-                            key={t}
-                            className="rounded-full bg-gray-100 px-2.5 py-0.5 text-[10px] sm:text-xs text-gray-800 dark:bg-neutral-200 dark:text-neutral-900">
-                            {t}
-                        </span>
-                    ))}
-                    {views && (
-                        <span className="ml-1 inline-flex items-center gap-1 text-[10px] sm:text-xs text-gray-500 dark:text-neutral-400">
-                            <Eye size={13} /> {views}
-                        </span>
-                    )}
-                </div>
             </div>
         </Link>
     );

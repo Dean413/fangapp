@@ -34,8 +34,7 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# lock
-package-lock.json
+# lock (package-lock.json is committed: this project uses npm)
 yarn.lock
 pnpm-lock.yaml
 

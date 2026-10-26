@@ -110,13 +110,14 @@ export async function listLibrary(userId: string, tab: LibraryTab): Promise<Libr
     } else {
         sql = `
             ${BOOK_SELECT}
-            FROM reading_progress p
-            JOIN stories s ON s.id = p.story_id
-            LEFT JOIN reader_library l ON l.user_id = p.user_id AND l.story_id = s.id
+            FROM stories s
+            LEFT JOIN reading_progress p ON p.user_id = $1::uuid AND p.story_id = s.id
+            LEFT JOIN reader_library l ON l.user_id = $1::uuid AND l.story_id = s.id
+            LEFT JOIN story_views v ON v.story_id = s.id AND v.viewer_key = 'u:' || ($1::uuid)::text
             ${CHAPTER_NUMBERS}
             ${SIGNED_PLAN}
-            WHERE p.user_id = $1 AND ${VISIBLE} ${tab === "finished" ? `AND ${FINISHED}` : ""}
-            ORDER BY p.last_read_at DESC
+            WHERE (p.user_id IS NOT NULL OR v.story_id IS NOT NULL) AND ${VISIBLE} ${tab === "finished" ? `AND ${FINISHED}` : ""}
+            ORDER BY COALESCE(p.last_read_at, v.created_at) DESC
             LIMIT ${MAX_LISTED}`;
     }
     const { rows } = await dbPool.query(sql, [userId, STORY_TENANT]);

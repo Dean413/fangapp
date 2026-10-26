@@ -1,6 +1,6 @@
 {
   "about": {
-    "title": "About FANG",
+    "title": "Chi siamo",
     "blocks": [
       {
         "t": "div",
@@ -14,15 +14,15 @@
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Where Obsession Bites."
+            "text": "Dove l'ossessione morde."
           },
           {
             "t": "p",
-            "text": "FANG is a premier digital storytelling platform built specifically for readers who crave obsession-worthy fiction and writers who create unforgettable worlds. From dark romance and urban fantasy to intensive werewolves, vampires, mafia syndicates, thrillers, and deep drama, FANG is the home for emotionally addictive stories that stay with you long after the final chapter. We believe that fiction should feel completely immersive, emotional, exciting, and impossible to put down."
+            "text": "FANG è una piattaforma di narrativa digitale di primo piano, pensata per i lettori che cercano storie da cui diventare dipendenti e per gli scrittori che creano mondi indimenticabili. Dal dark romance e dall'urban fantasy fino a storie intense di lupi mannari, vampiri, clan mafiosi, thriller e drammi profondi, FANG è la casa delle storie emotivamente coinvolgenti che restano con te molto dopo l'ultimo capitolo. Crediamo che la narrativa debba essere totalmente immersiva, emozionante, avvincente e impossibile da mettere giù."
           },
           {
             "t": "p",
-            "text": "FANG is more than a standard reading utility, it is a vibrant space for serialization that captures complete reader attention and a sanctuary for fans who love getting lost inside complex narrative universes."
+            "text": "FANG è più di una semplice app di lettura: è uno spazio vivace per le storie a puntate, capace di catturare completamente l'attenzione dei lettori, e un rifugio per chi ama perdersi in universi narrativi complessi."
           }
         ]
       },
@@ -33,23 +33,23 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "Our Vision"
+            "text": "La nostra visione"
           },
           {
             "t": "p",
-            "text": "We believe the absolute best stories are the ones readers cannot let go of. Stories that spark deep obsession. Stories that forge global fandoms. Stories that keep readers awake into the late hours of the night. FANG exists to give those powerful narratives a permanent home."
+            "text": "Crediamo che le storie migliori siano quelle da cui i lettori non riescono a staccarsi. Storie che accendono una profonda ossessione. Storie che danno vita a fandom in tutto il mondo. Storie che tengono svegli i lettori fino a notte fonda. FANG esiste per dare a queste storie potenti una casa permanente."
           },
           {
             "t": "p",
-            "text": "Our core goal is to build an ecosystem where:"
+            "text": "Il nostro obiettivo principale è costruire un ecosistema in cui:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Readers effortlessly discover unforgettable serialized worlds;",
-              "Writers cultivate passionate, highly engaged fan communities;",
-              "Strategic storytelling is honored as an impactful creative force."
+              "I lettori scoprano senza fatica mondi a puntate indimenticabili;",
+              "Gli scrittori coltivino community di fan appassionate e coinvolte;",
+              "La narrazione strategica sia riconosciuta come una forza creativa di grande impatto."
             ]
           }
         ]
@@ -61,27 +61,27 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "What Makes FANG Different"
+            "text": "Cosa rende FANG diversa"
           },
           {
             "t": "p",
-            "text": "FANG is engineered for modern digital reading architectures. We completely embrace:"
+            "text": "FANG è progettata per la lettura digitale moderna. Crediamo pienamente in:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Emotionally intense and high-stakes fiction;",
-              "Deep, immersive character worldbuilding;",
-              "Binge-worthy, cliffhanger-driven narrative pacing;",
-              "Serialized digital reading loops;",
-              "Passionate, connected reader communities;",
-              "Pure creator-driven project development."
+              "Storie emotivamente intense e ad alta tensione;",
+              "Personaggi e mondi profondi e immersivi;",
+              "Un ritmo narrativo travolgente, ricco di colpi di scena;",
+              "La lettura digitale a puntate;",
+              "Community di lettori appassionate e connesse;",
+              "Progetti guidati interamente dai loro autori."
             ]
           },
           {
             "t": "p",
-            "text": "We intimately understand that fiction can be dark, dramatic, chaotic, romantic, and deeply personal. That intense emotional vulnerability is exactly what makes creative storytelling memorable."
+            "text": "Sappiamo bene che la narrativa può essere oscura, drammatica, caotica, romantica e profondamente personale. È proprio questa intensa vulnerabilità emotiva a rendere una storia memorabile."
           }
         ]
       },
@@ -92,23 +92,23 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "Our Values"
+            "text": "I nostri valori"
           },
           {
             "t": "p",
-            "text": "<b>Creativity:</b> Great stories can originate from anywhere and anyone. Some of the most unforgettable fictional worlds begin with a single author bold enough to share their vision."
+            "text": "<b>Creatività:</b> Le grandi storie possono nascere ovunque e da chiunque. Alcuni dei mondi immaginari più indimenticabili iniziano con un solo autore abbastanza audace da condividere la propria visione."
           },
           {
             "t": "p",
-            "text": "<b>Originality:</b> We champion unique narrative voices, highly complex characters, and storylines that readers cannot stop thinking about."
+            "text": "<b>Originalità:</b> Sosteniamo voci narrative uniche, personaggi complessi e trame a cui i lettori non smettono di pensare."
           },
           {
             "t": "p",
-            "text": "<b>Community:</b> FANG is co-built for both sides of the literary market. We want our audience to discover stories they cherish, while empowering our creators to build loyal, long-term followings around their work."
+            "text": "<b>Community:</b> FANG è costruita per entrambe le parti del mercato letterario. Vogliamo che il nostro pubblico scopra storie da amare e che i nostri autori possano creare un seguito fedele e duraturo attorno al proprio lavoro."
           },
           {
             "t": "p",
-            "text": "<b>Growth:</b> We are continuously updating our software features, publisher utilities, and monetization opportunities to expand platform value for readers and writers globally."
+            "text": "<b>Crescita:</b> Aggiorniamo continuamente le nostre funzioni, gli strumenti per gli autori e le opportunità di guadagno per accrescere il valore della piattaforma per lettori e scrittori di tutto il mondo."
           }
         ]
       },
@@ -119,27 +119,27 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "For Readers"
+            "text": "Per i lettori"
           },
           {
             "t": "p",
-            "text": "FANG offers an extensive catalog of serialized works across highly popular genres, including:"
+            "text": "FANG offre un ampio catalogo di opere a puntate nei generi più amati, tra cui:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Romance & Dark Romance",
-              "Werewolf & Shifter Lore",
-              "Vampire & Paranormal Romance",
-              "Mafia & Crime Romance",
-              "Urban Fantasy & Fantasy Romance",
-              "Thrillers, Drama, & LGBTQ+ Fiction"
+              "Romance e dark romance",
+              "Lupi mannari e mutaforma",
+              "Vampiri e romance paranormale",
+              "Mafia e crime romance",
+              "Urban fantasy e romantasy",
+              "Thriller, drammi e narrativa LGBTQ+"
             ]
           },
           {
             "t": "p",
-            "text": "Whether you are searching for dangerous love interests, intense emotional chaos, addictive cliffhangers, or unforgettable fantasy settings, there is always another universe waiting for you on our shelves."
+            "text": "Che tu stia cercando amori pericolosi, un intenso caos emotivo, cliffhanger irresistibili o ambientazioni fantasy indimenticabili, sui nostri scaffali c'è sempre un altro universo ad aspettarti."
           }
         ]
       },
@@ -150,15 +150,15 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "For Writers"
+            "text": "Per gli scrittori"
           },
           {
             "t": "p",
-            "text": "FANG was established with creator empowerment at the center of our operational model. We provide comprehensive tracking metrics, expanding reader discovery channels, and competitive capitalization infrastructure to support long-term creative career growth."
+            "text": "FANG è nata mettendo gli autori al centro del proprio modello. Offriamo statistiche complete, canali sempre più ampi per farti scoprire dai lettori e un'infrastruttura di monetizzazione competitiva per sostenere la crescita della tua carriera creativa nel lungo periodo."
           },
           {
             "t": "p",
-            "text": "To keep our system optimized, FANG operates on a multi-platform framework. While readers explore, read, and purchase virtual content packages on our primary domain (fangapp.io), our independent authors and creators manage their writing profiles, track analytics, review legal parameters, and organize monetization tools exclusively on our dedicated publisher interface at FangWriters.com. We want our writers focused completely on what they do best: creating stories that readers cannot stop obsessing over."
+            "text": "Per funzionare al meglio, FANG opera su più piattaforme. Mentre i lettori esplorano, leggono e acquistano pacchetti di contenuti virtuali sul nostro dominio principale (fangapp.io), i nostri autori e creatori indipendenti gestiscono i propri profili, consultano le statistiche, verificano le condizioni legali e organizzano gli strumenti di monetizzazione esclusivamente sulla nostra piattaforma dedicata agli autori, FangWriters.com. Vogliamo che i nostri scrittori si concentrino completamente su ciò che sanno fare meglio: creare storie di cui i lettori non possono fare a meno."
           }
         ]
       },
@@ -169,7 +169,7 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "Contact Us"
+            "text": "Contattaci"
           },
           {
             "t": "p",
@@ -185,15 +185,15 @@
           },
           {
             "t": "p",
-            "text": "United States"
+            "text": "Stati Uniti"
           },
           {
             "t": "p",
-            "text": "Support: support@fangapp.io"
+            "text": "Assistenza: support@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Legal: legal@fangapp.io"
+            "text": "Ufficio legale: legal@fangapp.io"
           },
           {
             "t": "p",

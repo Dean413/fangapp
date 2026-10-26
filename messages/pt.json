@@ -25,6 +25,7 @@
         "booksRead": "Livros lidos",
         "MyReviews": "Minhas avaliações",
         "myAccount": "Minha conta",
+        "menu": "Menu",
         "closeMenu": "Fechar menu",
         "toggleTheme": "Alternar modo escuro",
         "vip": "VIP",
@@ -35,6 +36,7 @@
     "Api": {
         "signInFirst": "Entre na sua conta primeiro",
         "invalidRequest": "Solicitação inválida",
+        "invalidDateRange": "A data de início não pode ser posterior à data de término.",
         "bookNotFound": "Livro não encontrado",
         "storyNotFound": "História não encontrada",
         "somethingWrong": "Algo deu errado",

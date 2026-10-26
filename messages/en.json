@@ -25,6 +25,7 @@
         "booksRead": "Books Read",
         "MyReviews": "My Reviews",
         "myAccount": "My Account",
+        "menu": "Menu",
         "closeMenu": "Close menu",
         "toggleTheme": "Toggle dark mode",
         "vip": "VIP",
@@ -35,6 +36,7 @@
     "Api": {
         "signInFirst": "Please sign in first",
         "invalidRequest": "Invalid request",
+        "invalidDateRange": "The start date can't be after the end date.",
         "bookNotFound": "Book not found",
         "storyNotFound": "Story not found",
         "somethingWrong": "Something went wrong",

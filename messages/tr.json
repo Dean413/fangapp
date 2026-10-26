@@ -25,6 +25,7 @@
         "booksRead": "Okunan kitaplar",
         "MyReviews": "Değerlendirmelerim",
         "myAccount": "Hesabım",
+        "menu": "Menü",
         "closeMenu": "Menüyü kapat",
         "toggleTheme": "Karanlık modu aç/kapat",
         "vip": "VIP",
@@ -35,6 +36,7 @@
     "Api": {
         "signInFirst": "Lütfen önce giriş yap",
         "invalidRequest": "Geçersiz istek",
+        "invalidDateRange": "Başlangıç tarihi bitiş tarihinden sonra olamaz.",
         "bookNotFound": "Kitap bulunamadı",
         "storyNotFound": "Hikaye bulunamadı",
         "somethingWrong": "Bir şeyler ters gitti",

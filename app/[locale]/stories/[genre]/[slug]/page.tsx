@@ -17,6 +17,7 @@ import Imprint from "@/components/imprint";
 import { BookOpen, Eye, Flag, Star } from "lucide-react";
 import ReportBookDialog from "@/components/book-controls/report-book";
 import { useOptionNames } from "@/hooks/useOptionName";
+import ViewTracker from "@/components/book-controls/view-tracker";
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
 
@@ -450,6 +451,8 @@ export default function Page() {
                     book={{ slug: book.slug, title: book.title, author: book.author, image: book.image }}
                 />
             )}
+
+            {book && <ViewTracker slug={book.slug} />}
             <Footer />
 
         </div>

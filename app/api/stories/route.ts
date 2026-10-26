@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { createStory, listStories, StorySort } from "@/lib/stories";
-import { verifyAuth } from "@/lib/rbac";
+import { listStories, StorySort } from "@/lib/stories";
 import { NextResponse } from "next/server";
 import { translateMsg } from "@/lib/i18n";
 
@@ -40,40 +38,3 @@ export async function GET(req: Request) {
     }
 }
 
-// POST /api/stories - create a story (writers & admins)
-export async function POST(req: Request) {
-    try {
-        const user = await verifyAuth(req, ['writer', 'author', 'admin']);
-        if (user instanceof Response) return user;
-
-        const body = await req.json();
-
-        if (!body.title || !body.genre) {
-            return NextResponse.json(
-                {
-                    message: "Title and genre are required.",
-                },
-                {
-                    status: 400,
-                }
-            );
-        }
-
-        const story = await createStory(user.id, body);
-
-        return NextResponse.json(story, {
-            status: 201,
-        });
-    } catch (error: any) {
-        console.error(error);
-
-        return NextResponse.json(
-            {
-                message: "Failed to create story.",
-            },
-            {
-                status: 500,
-            }
-        );
-    }
-}

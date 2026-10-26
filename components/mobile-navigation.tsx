@@ -2,16 +2,16 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FiUser, FiCreditCard, FiUsers, FiBell, FiStar, FiSettings, } from "react-icons/fi";
+import { FiUser, FiCreditCard, FiUsers, FiBell, FiStar, FiSettings, FiHome, } from "react-icons/fi";
 import { useTranslations } from "next-intl";
 
 const links = [
-    { name: "Profile" as const, href: "/profile", icon: FiUser },
-    { name: "Wallet" as const, href: "/profile/wallet", icon: FiCreditCard },
-    { name: "Community" as const, href: "/profile/community", icon: FiUsers },
+    { name: "Home" as const, href: "/", icon: FiHome },
+    { name: "Genres" as const, href: "/profile/wallet", icon: FiCreditCard },
+    { name: "Writer Areana" as const, href: "/profile/community", icon: FiUsers },
     // { name: "Transaction History", href: "/profile/transaction-history", icon: FiUsers },
-    { name: "Notifications" as const, href: "/profile/notifications", icon: FiBell },
-    { name: "Reviews" as const, href: "/profile/reviews", icon: FiStar },
+    // { name: "" as const, href: "/profile/notifications", icon: FiBell },
+    // { name: "Reviews" as const, href: "/profile/reviews", icon: FiStar },
 
 ];
 

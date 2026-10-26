@@ -4,10 +4,11 @@ import "server-only";
 const isProduction = process.env.NODE_ENV === "production";
 
 export const PAYMENT_CONFIG = {
-    // Your site address, without a trailing slash
-    siteUrl: isProduction
+    // Where readers come back to after paying: SITE_URL (the same address sign-in uses), otherwise
+    // the Vercel site on the live server and localhost during npm run dev
+    siteUrl: process.env.SITE_URL || (isProduction
         ? "https://fang-app.vercel.app"
-        : "http://localhost:3000",
+        : "http://localhost:3000"),
 
     // Stripe
     stripeSecretKey: process.env.STRIPE_SECRET_KEY || "",
@@ -16,7 +17,8 @@ export const PAYMENT_CONFIG = {
     // PayPal
     paypalClientId: process.env.PAYPAL_CLIENT_ID || "",
     paypalSecret: process.env.PAYPAL_SECRET || "",
-    paypalLive: false,
+    // PAYPAL_ENV=live uses real PayPal; anything else (or unset) uses the sandbox
+    paypalLive: process.env.PAYPAL_ENV === "live",
 
 
     stripePrices: {

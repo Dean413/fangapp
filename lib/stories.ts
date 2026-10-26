@@ -185,14 +185,23 @@ export async function listStories(filters: StoryFilters = {}): Promise<StoryCard
             orderBy = "s.created_at DESC";
     }
 
+    // Each book's average rating (null = no reviews yet)
+    const ratingJoin = `
+        LEFT JOIN LATERAL (
+            SELECT round(avg(r.rating), 1) AS rating
+            FROM book_reviews r WHERE r.story_id = s.id AND NOT r.hidden
+        ) rv ON true
+    `;
+
     const limit = Math.min(Math.max(Number(filters.limit) || 30, 1), 100);
     params.push(limit);
 
     const { rows } = await dbPool.query(
         `
-        SELECT ${STORY_COLUMNS}
+        SELECT ${STORY_COLUMNS}, rv.rating
         ${STORY_FROM}
         ${join}
+        ${ratingJoin}
         WHERE ${where.join(" AND ")}
         ORDER BY ${orderBy}
         LIMIT $${params.length};
@@ -200,8 +209,9 @@ export async function listStories(filters: StoryFilters = {}): Promise<StoryCard
         params
     );
 
-    return rows.map(toCard);
+    return rows.map((r) => ({ ...toCard(r), rating: r.rating != null ? Number(r.rating) : null }));
 }
+
 
 // The story a link points to: its current slug first, then an old slug of a renamed story,
 // then the older link forms (book_id "FS123", or the uuid). Returns the story id and whether the link is old.
@@ -387,103 +397,6 @@ export async function getChapter(story: StoryCard, chapterNumber: number, viewer
     };
 }
 
-/*
- * Writes (story create/update for writers & admins). Field names match the old /api/books
- * payload: summary → blurb, status → story_status ("ongoing" | "completed").
- * The database sets and updates the slug itself (on create, and when the title changes).
- */
-export interface StoryInput {
-    title?: string;
-    summary?: string;
-    image?: string;
-    genre?: string;
-    secondaryGenre?: string;
-    status?: string;
-    label?: string;
-    tags?: string[];
-    language?: string;
-}
-
-export async function createStory(userId: string, input: StoryInput) {
-    const { rows } = await dbPool.query(
-        `
-        INSERT INTO stories (
-            user_id, book_id, title, blurb, image, genre, secondary_genre,
-            story_status, label, tags, language
-        )
-        VALUES ($1, nextval('story_book_id_seq')::text, $2, $3, $4, $5, $6, COALESCE($7, 'ongoing'), $8, $9, $10)
-        RETURNING id, COALESCE(slug, book_id, id::text) AS slug;
-        `,
-        [
-            userId,
-            input.title,
-            input.summary ?? null,
-            input.image ?? null,
-            input.genre ?? null,
-            input.secondaryGenre ?? null,
-            input.status ?? null,
-            input.label ?? null,
-            input.tags ?? [],
-            input.language ?? null,
-        ]
-    );
-
-    return rows[0];
-}
-
-export async function storyBelongsToUser(slug: string, userId: string) {
-    const found = await findStoryId(slug);
-    if (!found) return false;
-    const { rows } = await dbPool.query(
-        `SELECT 1 FROM stories WHERE id = $1 AND user_id = $2 AND is_deleted = false`,
-        [found.id, userId]
-    );
-
-    return rows.length > 0;
-}
-
-export async function updateStoryBySlug(slug: string, input: StoryInput) {
-    const columns: Record<string, unknown> = {
-        title: input.title,
-        blurb: input.summary,
-        image: input.image,
-        genre: input.genre,
-        secondary_genre: input.secondaryGenre,
-        story_status: input.status,
-        label: input.label,
-        tags: input.tags,
-        language: input.language,
-    };
-
-    const fields: string[] = [];
-    const values: any[] = [];
-
-    for (const [column, value] of Object.entries(columns)) {
-        if (value === undefined) continue;
-        values.push(value);
-        fields.push(`${column} = $${values.length}`);
-    }
-
-    if (fields.length === 0) {
-        return null;
-    }
-
-    const found = await findStoryId(slug);
-    if (!found) return null;
-    values.push(found.id);
-
-    const { rows } = await dbPool.query(
-        `
-        UPDATE stories
-        SET ${fields.join(", ")}, updated_on = NOW()
-        WHERE id = $${values.length} AND is_deleted = false
-        RETURNING id, COALESCE(slug, book_id, id::text) AS slug;
-        `,
-        values
-    );
-
-    return rows[0] || null;
-}
 // You May Like for a book (book page and reader): the same writer's other books first, then books in the same
 // genre (primary or secondary), the most viewed first. Only books in `language` (the language the reader picked
 // on the site; when not given, the book's own language). Never the book itself.

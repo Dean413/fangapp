@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Globe } from "lucide-react";
+import { ChevronDown, Globe } from "lucide-react";
 import { usePathname, useRouter } from "@/i18n/routing";
 import { useLocale } from "next-intl";
 
@@ -28,12 +28,9 @@ export default function LocaleDropdown() {
   const currentLocale = useLocale();
 
   const switchLocale = (locale: string) => {
-    if (locale === currentLocale) {
-      // setOpen(false);
-      return;
-    }
-
     setOpen(false);
+
+    if (locale === currentLocale) return;
 
     startTransition(() => {
       router.replace(pathname, {
@@ -54,19 +51,24 @@ export default function LocaleDropdown() {
         `}
       />
 
+      {/* TAP OUTSIDE TO CLOSE */}
+      {open && <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />}
+
       <div className="relative">
-        {/* BUTTON */}
+        {/* BUTTON: phones show plain "EN ⌄", bigger screens the globe pill */}
         <button
+          type="button"
           onClick={() => setOpen(!open)}
+          aria-expanded={open}
           className="
-            bg-gray-100 dark:bg-dark-raised
-            rounded-full px-3 py-2
-            flex items-center gap-2
-            transition
+            flex items-center gap-1 text-base font-semibold transition
+            md:gap-2 md:rounded-full md:bg-gray-100 md:px-3 md:py-2 md:text-sm md:font-normal
+            dark:md:bg-dark-raised
           "
         >
-          <Globe className="w-4 h-4" />
+          <Globe className="hidden w-4 h-4 md:block" />
           {currentLocale.toUpperCase()}
+          <ChevronDown className={`w-4 h-4 transition-transform md:hidden ${open ? "rotate-180" : ""}`} strokeWidth={3} />
         </button>
 
         {/* DROPDOWN */}

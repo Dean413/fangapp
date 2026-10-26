@@ -6,13 +6,11 @@ import { useAuthStore } from "@/lib/store/authStore";
 import { useTranslations } from "next-intl";
 import { toast } from "@/lib/store/toastStore";
 import TopUpModal, { type TopUpPackage } from "./topUp";
+import { VIP_TOPUP_PERCENT } from "@/lib/vipRates";
 
 type CardProps = {
     isVip?: boolean; // ignored: VIP is read from the server
 };
-
-// Extra coins a VIP gets on top-ups: weekly 10%, monthly 15%
-const VIP_TOPUP_PERCENT: Record<string, number> = { weekly: 10, monthly: 15 };
 
 export default function CoinCard(_props: CardProps) {
     const user = useAuthStore((s) => s.user);

@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@/components/Button";
+import MobileProfileNav from "@/components/mobile-navigation";
 import ProfileSidebar from "@/components/profile-components/profileSidebar";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useAuthModals } from "@/lib/store/auth-card-store";
@@ -29,12 +30,13 @@ export default function ProfileLayout({ children, }: { children: React.ReactNode
     }
 
     return (
-        <div className="w-full bg-gray-50 dark:bg-dark pb-6">
+        <div className="w-full bg-gray-50 dark:bg-dark pb-20 md:pb-6">
             <div className="flex gap-6">
                 {/* Sidebar */}
                 <aside className="hidden md:block w-64 shrink-0 border-r border-gray-100 dark:border-dark-border">
 
                     <div className="fixed h-screen flex flex-col bg-white dark:bg-black pt-4 pr-4">
+
                         {/* Top content */}
                         <div className="flex-1 overflow-y-auto">
                             <ProfileSidebar />
@@ -46,6 +48,11 @@ export default function ProfileLayout({ children, }: { children: React.ReactNode
                 <main className="flex-1 w-full">
                     {children}
                 </main>
+            </div>
+
+            {/* Mobile nav */}
+            <div className="md:hidden fixed bottom-0 left-0 right-0 z-50">
+                <MobileProfileNav />
             </div>
         </div>
     );

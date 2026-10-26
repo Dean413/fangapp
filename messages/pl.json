@@ -25,6 +25,7 @@
         "booksRead": "Przeczytane książki",
         "MyReviews": "Moje recenzje",
         "myAccount": "Moje konto",
+        "menu": "Menu",
         "closeMenu": "Zamknij menu",
         "toggleTheme": "Przełącz tryb ciemny",
         "vip": "VIP",
@@ -35,6 +36,7 @@
     "Api": {
         "signInFirst": "Najpierw się zaloguj",
         "invalidRequest": "Nieprawidłowe żądanie",
+        "invalidDateRange": "Data początkowa nie może być późniejsza niż data końcowa.",
         "bookNotFound": "Nie znaleziono książki",
         "storyNotFound": "Nie znaleziono historii",
         "somethingWrong": "Coś poszło nie tak",

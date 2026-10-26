@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict JGtR4VogNrHOfHEcexZRSUHaGj38DbVkPr9DzmYK1lUYPn7El7h7ckvKz0L53kf
+\restrict wJOm9pNG5xXP6IcrdimOUJLn71heAeTZcLetYM3MoeCwtweQjDQ1a3UAyT2ZWVf
 
 -- Dumped from database version 17.11
 -- Dumped by pg_dump version 18.6
@@ -222,7 +222,8 @@ CREATE TYPE auth.one_time_token_type AS ENUM (
 CREATE TYPE public.contract_plan AS ENUM (
     'exclusive',
     'non-exclusive',
-    'mab-exclusive'
+    'mab-exclusive',
+    'custom'
 );
 
 
@@ -776,6 +777,192 @@ CREATE FUNCTION pgbouncer.get_auth(p_usename text) RETURNS TABLE(username text, 
 
 
 --
+-- Name: chapters_fill_number(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.chapters_fill_number() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    IF NEW.chapter_number IS NULL THEN
+        NEW.chapter_number := COALESCE(
+            substring(NEW.title from '(?i)^\s*ch(?:apter)?[\s._-]*0*(\d+)')::int,
+            array_position(
+                ARRAY['one','two','three','four','five','six','seven','eight','nine','ten',
+                      'eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty'],
+                lower(substring(NEW.title from '(?i)^\s*chapter[\s._-]+([a-z]+)'))
+            ),
+            (SELECT COALESCE(MAX(chapter_number), 0) + 1 FROM chapters WHERE story_id = NEW.story_id)
+        );
+    END IF;
+    RETURN NEW;
+END
+$$;
+
+
+--
+-- Name: fang_book_slug(text, uuid, text, uuid, text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.fang_book_slug(tbl text, book_id uuid, title text, owner uuid, code text) RETURNS text
+    LANGUAGE plpgsql
+    AS $_$
+DECLARE
+    k text := CASE tbl WHEN 'stories' THEN 'story' ELSE 'comic' END;
+    base text := fang_slug_base(book_id, title, owner, code);
+    candidate text := base;
+    n int := 1;
+    taken boolean;
+BEGIN
+    LOOP
+        EXECUTE format('SELECT EXISTS (SELECT 1 FROM %I WHERE slug = $1 AND id <> $2)', tbl)
+           INTO taken USING candidate, book_id;
+        IF NOT taken THEN
+            SELECT EXISTS (SELECT 1 FROM book_slug_history h WHERE h.kind = k AND h.slug = candidate AND h.book_id <> fang_book_slug.book_id)
+              INTO taken;
+        END IF;
+        EXIT WHEN NOT taken;
+        n := n + 1;
+        candidate := base || '-' || n;
+    END LOOP;
+    RETURN candidate;
+END $_$;
+
+
+--
+-- Name: fang_book_slug_trigger(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.fang_book_slug_trigger() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $_$
+DECLARE
+    k text := CASE TG_TABLE_NAME WHEN 'stories' THEN 'story' ELSE 'comic' END;
+    base text;
+    fresh text;
+BEGIN
+    IF TG_OP = 'INSERT' THEN
+        IF NEW.slug IS NULL OR NEW.slug = '' THEN
+            NEW.slug := fang_book_slug(TG_TABLE_NAME, NEW.id, NEW.title, NEW.user_id, NEW.book_id);
+        END IF;
+        RETURN NEW;
+    END IF;
+
+    -- UPDATE of the title
+    base := fang_slug_base(NEW.id, NEW.title, NEW.user_id, NEW.book_id);
+    IF OLD.slug IS NOT NULL AND (OLD.slug = base OR OLD.slug ~ ('^' || base || '-[0-9]+$')) THEN
+        NEW.slug := OLD.slug;
+        RETURN NEW;
+    END IF;
+
+    fresh := fang_book_slug(TG_TABLE_NAME, NEW.id, NEW.title, NEW.user_id, NEW.book_id);
+    IF OLD.slug IS NOT NULL AND OLD.slug <> fresh THEN
+        INSERT INTO book_slug_history (kind, slug, book_id) VALUES (k, OLD.slug, NEW.id)
+        ON CONFLICT (kind, slug) DO NOTHING;
+    END IF;
+    -- Renamed back to an earlier title: that slug is current again, not old
+    DELETE FROM book_slug_history WHERE kind = k AND slug = fresh AND book_id = NEW.id;
+    NEW.slug := fresh;
+    RETURN NEW;
+END $_$;
+
+
+--
+-- Name: fang_slug_base(uuid, text, uuid, text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.fang_slug_base(book_id uuid, title text, owner uuid, code text) RETURNS text
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    author text;
+    base text;
+BEGIN
+    -- Books owned by the platform account get no "-by-author" in the link
+    IF NOT EXISTS (SELECT 1 FROM users u WHERE u.id = owner AND COALESCE(u.role, '') LIKE 'platform%') THEN
+        SELECT fang_slugify(COALESCE(NULLIF(trim(pen_name), ''), NULLIF(trim(full_name), '')))
+          INTO author
+          FROM user_profiles WHERE user_id = owner ORDER BY created_at DESC LIMIT 1;
+    END IF;
+
+    base := fang_slugify(title);
+    IF base = '' THEN base := fang_slugify(COALESCE(code, left(book_id::text, 8))); END IF;
+    IF COALESCE(author, '') <> '' THEN base := base || '-by-' || author; END IF;
+    RETURN trim(both '-' FROM left(base, 180));
+END $$;
+
+
+--
+-- Name: fang_slugify(text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.fang_slugify(t text) RETURNS text
+    LANGUAGE sql IMMUTABLE
+    AS $$
+    SELECT trim(both '-' FROM regexp_replace(
+        lower(translate(coalesce(t, ''),
+            'ÀÁÂÃÄÅàáâãäåÇçÈÉÊËèéêëÌÍÎÏìíîïÑñÒÓÔÕÖØòóôõöøÙÚÛÜùúûüÝýÿŁłŚśŹźŻżĞğİıŞşßÆæŒœĆćĘęŃńĄą',
+            'AAAAAAaaaaaaCcEEEEeeeeIIIIiiiiNnOOOOOOooooooUUUUuuuuYyyLlSsZzZzGgIiSssAaOoCcEeNnAa')),
+        '[^a-z0-9]+', '-', 'g'))
+$$;
+
+
+--
+-- Name: new_tx_code(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.new_tx_code() RETURNS text
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    c text;
+BEGIN
+    LOOP
+        c := 'TXN' || lpad(floor(random() * 1e14)::bigint::text, 14, '0');
+        EXIT WHEN NOT EXISTS (SELECT 1 FROM public.wallet_ledger WHERE tx_code = c)
+              AND NOT EXISTS (SELECT 1 FROM public.wallet_lots WHERE expiry_code = c)
+              AND NOT EXISTS (SELECT 1 FROM public.payments WHERE tx_code = c);
+    END LOOP;
+    RETURN c;
+END
+$$;
+
+
+--
+-- Name: reader_content_account_deleted(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.reader_content_account_deleted() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    DELETE FROM public.book_reviews WHERE user_id = NEW.id;
+    DELETE FROM public.review_replies WHERE user_id = NEW.id;
+    DELETE FROM public.review_likes WHERE user_id = NEW.id;
+    DELETE FROM public.comment_likes WHERE user_id = NEW.id;
+    DELETE FROM public.content_reports WHERE reporter_id = NEW.id;
+    UPDATE public.comments
+       SET reader_name = 'Deleted reader', reader_avatar = NULL, content = 'This comment was deleted.'
+     WHERE user_id = NEW.id;
+    RETURN NEW;
+END $$;
+
+
+--
+-- Name: reader_notifications_account_deleted(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.reader_notifications_account_deleted() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    DELETE FROM public.reader_notifications WHERE user_id = NEW.id;
+    DELETE FROM public.reader_notification_state WHERE user_id = NEW.id;
+    RETURN NEW;
+END $$;
+
+
+--
 -- Name: set_updated_at(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -786,6 +973,36 @@ BEGIN
     NEW.updated_at = now();
     RETURN NEW;
 END;
+$$;
+
+
+--
+-- Name: story_seed_views(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.story_seed_views() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    IF NEW.views_seed = 0 THEN
+        NEW.views_seed := 3000 + floor(random() * 1501)::int;
+        NEW.views := NEW.views_seed;
+    END IF;
+    RETURN NEW;
+END
+$$;
+
+
+--
+-- Name: wallet_ledger_is_permanent(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.wallet_ledger_is_permanent() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    RAISE EXCEPTION 'wallet_ledger rows cannot be changed or deleted';
+END
 $$;
 
 
@@ -4951,6 +5168,24 @@ CREATE TABLE auth.webauthn_credentials (
 
 
 --
+-- Name: account_actions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.account_actions (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    user_id uuid NOT NULL,
+    action text NOT NULL,
+    reason text,
+    notes text,
+    duration_days integer,
+    ends_at timestamp with time zone,
+    performed_by text DEFAULT 'Admin'::text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT account_actions_action_check CHECK ((action = ANY (ARRAY['suspend'::text, 'reactivate'::text])))
+);
+
+
+--
 -- Name: announcements; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -4961,6 +5196,18 @@ CREATE TABLE public.announcements (
     body text[] NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     subtitle text
+);
+
+
+--
+-- Name: author_follows; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.author_follows (
+    reader_id uuid NOT NULL,
+    author_id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT author_follows_check CHECK ((reader_id <> author_id))
 );
 
 
@@ -4980,6 +5227,95 @@ CREATE TABLE public.bonus_progress (
     updated_at timestamp with time zone DEFAULT now(),
     CONSTRAINT bonus_progress_bonus_type_check CHECK ((bonus_type = ANY (ARRAY['signing'::text, 'completion'::text, 'elite_performance'::text]))),
     CONSTRAINT bonus_progress_status_check CHECK ((status = ANY (ARRAY['in_progress'::text, 'claimed'::text, 'expired'::text])))
+);
+
+
+--
+-- Name: book_report_files; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.book_report_files (
+    id bigint NOT NULL,
+    report_id uuid NOT NULL,
+    s3_key text NOT NULL,
+    file_name text NOT NULL,
+    content_type text NOT NULL,
+    size_bytes integer NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT book_report_files_content_type_check CHECK ((content_type = ANY (ARRAY['image/png'::text, 'image/jpeg'::text, 'image/webp'::text, 'application/pdf'::text]))),
+    CONSTRAINT book_report_files_file_name_check CHECK ((char_length(file_name) <= 150)),
+    CONSTRAINT book_report_files_size_bytes_check CHECK (((size_bytes > 0) AND (size_bytes <= 5242880)))
+);
+
+
+--
+-- Name: book_report_files_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.book_report_files_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: book_report_files_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.book_report_files_id_seq OWNED BY public.book_report_files.id;
+
+
+--
+-- Name: book_reports; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.book_reports (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    reporter_id uuid NOT NULL,
+    story_id uuid NOT NULL,
+    reason text NOT NULL,
+    original_url text,
+    details text,
+    status text DEFAULT 'open'::text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT book_reports_details_check CHECK ((char_length(details) <= 2000)),
+    CONSTRAINT book_reports_original_url_check CHECK ((char_length(original_url) <= 500)),
+    CONSTRAINT book_reports_reason_check CHECK ((reason = ANY (ARRAY['inappropriate'::text, 'sexual'::text, 'harassment'::text, 'hate'::text, 'violence'::text, 'child_safety'::text, 'copyright'::text, 'impersonation'::text, 'privacy'::text, 'political'::text, 'other'::text]))),
+    CONSTRAINT book_reports_status_check CHECK ((status = ANY (ARRAY['open'::text, 'reviewed'::text, 'dismissed'::text])))
+);
+
+
+--
+-- Name: book_reviews; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.book_reviews (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    story_id uuid NOT NULL,
+    user_id uuid NOT NULL,
+    rating numeric(2,1) NOT NULL,
+    content text NOT NULL,
+    after_completion boolean DEFAULT false NOT NULL,
+    hidden boolean DEFAULT false NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT book_reviews_content_check CHECK (((char_length(content) >= 1) AND (char_length(content) <= 2000))),
+    CONSTRAINT book_reviews_rating_check CHECK (((rating >= 0.5) AND (rating <= (5)::numeric) AND ((rating * (2)::numeric) = floor((rating * (2)::numeric)))))
+);
+
+
+--
+-- Name: book_slug_history; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.book_slug_history (
+    kind text NOT NULL,
+    slug text NOT NULL,
+    book_id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT book_slug_history_kind_check CHECK ((kind = ANY (ARRAY['story'::text, 'comic'::text])))
 );
 
 
@@ -5021,6 +5357,22 @@ CREATE TABLE public.chapter_edit_requests (
 
 
 --
+-- Name: chapter_unlocks; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.chapter_unlocks (
+    user_id uuid NOT NULL,
+    chapter_id uuid NOT NULL,
+    story_id uuid NOT NULL,
+    coins integer NOT NULL,
+    method text DEFAULT 'coins'::text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT chapter_unlocks_coins_check CHECK ((coins >= 0)),
+    CONSTRAINT chapter_unlocks_method_check CHECK ((method = ANY (ARRAY['coins'::text, 'vip'::text, 'free'::text])))
+);
+
+
+--
 -- Name: chapters; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -5035,8 +5387,83 @@ CREATE TABLE public.chapters (
     created_at timestamp with time zone DEFAULT now(),
     updated_at timestamp with time zone DEFAULT now(),
     note text,
-    published_at timestamp with time zone
+    published_at timestamp with time zone,
+    chapter_number integer
 );
+
+
+--
+-- Name: chapters_title_backup; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.chapters_title_backup (
+    id uuid,
+    story_id uuid,
+    title text,
+    backed_up_at timestamp with time zone
+);
+
+
+--
+-- Name: chapters_title_backup_phase2; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.chapters_title_backup_phase2 (
+    id uuid,
+    story_id uuid,
+    chapter_number integer,
+    title text
+);
+
+
+--
+-- Name: coin_spends; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.coin_spends (
+    id bigint NOT NULL,
+    ledger_id bigint NOT NULL,
+    lot_id bigint NOT NULL,
+    user_id uuid NOT NULL,
+    coin_kind text NOT NULL,
+    purchase_id text,
+    coins integer NOT NULL,
+    value_per_coin numeric(20,10) DEFAULT 0 NOT NULL,
+    net_revenue numeric(20,10) DEFAULT 0 NOT NULL,
+    story_id uuid NOT NULL,
+    chapter_id uuid NOT NULL,
+    creator_id uuid,
+    contract_id text,
+    contract_type text,
+    contractual_rate numeric(6,4),
+    payout_factor numeric(6,4),
+    creator_earnings numeric(20,10),
+    settlement_status text DEFAULT 'pending'::text NOT NULL,
+    settled_at timestamp with time zone,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT coin_spends_coin_kind_check CHECK ((coin_kind = ANY (ARRAY['base'::text, 'bonus'::text, 'vip_bonus'::text]))),
+    CONSTRAINT coin_spends_coins_check CHECK ((coins > 0)),
+    CONSTRAINT coin_spends_settlement_status_check CHECK ((settlement_status = ANY (ARRAY['pending'::text, 'settled'::text, 'not_eligible'::text, 'refunded'::text])))
+);
+
+
+--
+-- Name: coin_spends_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.coin_spends_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: coin_spends_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.coin_spends_id_seq OWNED BY public.coin_spends.id;
 
 
 --
@@ -5142,7 +5569,22 @@ CREATE TABLE public.comics (
     is_deleted boolean DEFAULT false NOT NULL,
     termination_eligible boolean DEFAULT false NOT NULL,
     tenants text[] DEFAULT '{}'::text[] NOT NULL,
+    original_comic_id uuid,
+    created_by_admin boolean DEFAULT false NOT NULL,
+    slug text,
+    CONSTRAINT comics_not_own_original CHECK (((original_comic_id IS NULL) OR (original_comic_id <> id))),
     CONSTRAINT comics_status_check CHECK ((status = ANY (ARRAY['ongoing'::text, 'completed'::text])))
+);
+
+
+--
+-- Name: comment_likes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.comment_likes (
+    comment_id uuid NOT NULL,
+    user_id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL
 );
 
 
@@ -5160,7 +5602,28 @@ CREATE TABLE public.comments (
     content text NOT NULL,
     blocked boolean DEFAULT false NOT NULL,
     created_at timestamp with time zone DEFAULT now(),
-    platform text DEFAULT 'FangWriters'::text NOT NULL
+    platform text DEFAULT 'FangWriters'::text NOT NULL,
+    user_id uuid
+);
+
+
+--
+-- Name: content_reports; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.content_reports (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    reporter_id uuid NOT NULL,
+    target_type text NOT NULL,
+    target_id uuid NOT NULL,
+    reason text NOT NULL,
+    details text,
+    status text DEFAULT 'open'::text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT content_reports_details_check CHECK ((char_length(details) <= 2000)),
+    CONSTRAINT content_reports_reason_check CHECK ((reason = ANY (ARRAY['inappropriate'::text, 'sexual'::text, 'harassment'::text, 'hate'::text, 'violence'::text, 'child_safety'::text, 'copyright'::text, 'impersonation'::text, 'privacy'::text, 'political'::text, 'other'::text]))),
+    CONSTRAINT content_reports_status_check CHECK ((status = ANY (ARRAY['open'::text, 'reviewed'::text, 'dismissed'::text]))),
+    CONSTRAINT content_reports_target_type_check CHECK ((target_type = ANY (ARRAY['review'::text, 'review_reply'::text, 'comment'::text])))
 );
 
 
@@ -5190,7 +5653,7 @@ CREATE TABLE public.contracts (
     plan_id public.contract_plan NOT NULL,
     status public.contract_status DEFAULT 'pending'::public.contract_status,
     locale text DEFAULT 'en'::text NOT NULL,
-    content jsonb NOT NULL,
+    content jsonb,
     start_paywall_chapter numeric NOT NULL,
     outline text NOT NULL,
     interesting text NOT NULL,
@@ -5230,6 +5693,121 @@ CREATE TABLE public.contracts (
 
 
 --
+-- Name: curation_collections; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.curation_collections (
+    id bigint NOT NULL,
+    section text NOT NULL,
+    tenant text NOT NULL,
+    language text NOT NULL,
+    platform text NOT NULL,
+    name text NOT NULL,
+    description text,
+    genre_option_id bigint,
+    enabled boolean DEFAULT true NOT NULL,
+    display_order integer DEFAULT 0 NOT NULL,
+    updated_by uuid,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    rank_type_id bigint,
+    period text,
+    CONSTRAINT curation_collections_check CHECK (((section = 'genre'::text) = (genre_option_id IS NOT NULL))),
+    CONSTRAINT curation_collections_period_check CHECK ((period = ANY (ARRAY['daily'::text, 'weekly'::text, 'monthly'::text, 'all_round'::text]))),
+    CONSTRAINT curation_collections_period_check2 CHECK (((section = 'ranking'::text) = (period IS NOT NULL))),
+    CONSTRAINT curation_collections_rank_type_id_check CHECK (((section = 'ranking'::text) = (rank_type_id IS NOT NULL))),
+    CONSTRAINT curation_collections_section_check CHECK ((section = ANY (ARRAY['home'::text, 'genre'::text, 'ranking'::text])))
+);
+
+
+--
+-- Name: curation_collections_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+ALTER TABLE public.curation_collections ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
+    SEQUENCE NAME public.curation_collections_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- Name: curation_items; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.curation_items (
+    id bigint NOT NULL,
+    collection_id bigint NOT NULL,
+    story_id uuid,
+    comic_id uuid,
+    "position" integer NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT curation_items_check CHECK (((story_id IS NULL) <> (comic_id IS NULL)))
+);
+
+
+--
+-- Name: curation_items_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+ALTER TABLE public.curation_items ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
+    SEQUENCE NAME public.curation_items_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- Name: daily_checkins; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.daily_checkins (
+    user_id uuid NOT NULL,
+    streak_day integer NOT NULL,
+    last_claim_at timestamp with time zone NOT NULL,
+    CONSTRAINT daily_checkins_streak_day_check CHECK (((streak_day >= 1) AND (streak_day <= 7)))
+);
+
+
+--
+-- Name: email_change_requests; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.email_change_requests (
+    user_id uuid NOT NULL,
+    new_email text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: email_codes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.email_codes (
+    user_id uuid NOT NULL,
+    purpose text NOT NULL,
+    code_hash text NOT NULL,
+    attempts integer DEFAULT 0 NOT NULL,
+    expires_at timestamp with time zone NOT NULL,
+    sent_at timestamp with time zone DEFAULT now() NOT NULL,
+    sends integer DEFAULT 1 NOT NULL,
+    sends_since timestamp with time zone DEFAULT now() NOT NULL,
+    prev_code_hash text,
+    prev_expires_at timestamp with time zone,
+    send_times timestamp with time zone[] DEFAULT '{}'::timestamp with time zone[] NOT NULL,
+    prev_attempts integer,
+    CONSTRAINT email_codes_purpose_check CHECK ((purpose = ANY (ARRAY['verify_email'::text, 'reset_password'::text, 'reset_session'::text, 'login_2fa'::text, 'change_email'::text, 'delete_account'::text])))
+);
+
+
+--
 -- Name: income_transactions; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -5264,6 +5842,16 @@ CREATE TABLE public.invoice_counters (
 
 
 --
+-- Name: login_attempts; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.login_attempts (
+    email text NOT NULL,
+    tries timestamp with time zone[] DEFAULT '{}'::timestamp with time zone[] NOT NULL
+);
+
+
+--
 -- Name: mab_monthly_attendance; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -5277,6 +5865,77 @@ CREATE TABLE public.mab_monthly_attendance (
     created_at timestamp with time zone DEFAULT now(),
     updated_at timestamp with time zone DEFAULT now(),
     CONSTRAINT mab_monthly_attendance_status_check CHECK ((status = ANY (ARRAY['pending'::text, 'qualified'::text, 'failed'::text, 'claimed'::text])))
+);
+
+
+--
+-- Name: metadata_categories; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.metadata_categories (
+    id bigint NOT NULL,
+    slug text NOT NULL,
+    name text NOT NULL,
+    enabled boolean DEFAULT true NOT NULL,
+    display_order integer DEFAULT 0 NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: metadata_categories_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+ALTER TABLE public.metadata_categories ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
+    SEQUENCE NAME public.metadata_categories_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- Name: metadata_option_translations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.metadata_option_translations (
+    option_id bigint NOT NULL,
+    locale text NOT NULL,
+    name text NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT metadata_option_translations_locale_check CHECK ((locale = ANY (ARRAY['ja'::text, 'de'::text, 'es'::text, 'fr'::text, 'it'::text, 'pt'::text, 'pl'::text, 'tr'::text])))
+);
+
+
+--
+-- Name: metadata_options; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.metadata_options (
+    id bigint NOT NULL,
+    category_id bigint NOT NULL,
+    name text NOT NULL,
+    enabled boolean DEFAULT true NOT NULL,
+    display_order integer DEFAULT 0 NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: metadata_options_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+ALTER TABLE public.metadata_options ALTER COLUMN id ADD GENERATED BY DEFAULT AS IDENTITY (
+    SEQUENCE NAME public.metadata_options_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
 );
 
 
@@ -5330,6 +5989,61 @@ CREATE TABLE public.payment_info (
 
 
 --
+-- Name: payments; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.payments (
+    id bigint NOT NULL,
+    user_id uuid NOT NULL,
+    provider text NOT NULL,
+    provider_ref text,
+    provider_txn text,
+    price_cents integer NOT NULL,
+    base_coins integer NOT NULL,
+    bonus_coins integer DEFAULT 0 NOT NULL,
+    vip_bonus_coins integer DEFAULT 0 NOT NULL,
+    vip_plan text,
+    gems integer DEFAULT 0 NOT NULL,
+    status text DEFAULT 'pending'::text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    paid_at timestamp with time zone,
+    currency text DEFAULT 'USD'::text NOT NULL,
+    refunded_at timestamp with time zone,
+    refund_cents integer,
+    product text DEFAULT 'coins'::text NOT NULL,
+    tx_code text DEFAULT public.new_tx_code(),
+    CONSTRAINT payments_base_coins_check CHECK ((base_coins >= 0)),
+    CONSTRAINT payments_bonus_coins_check CHECK ((bonus_coins >= 0)),
+    CONSTRAINT payments_gems_check CHECK ((gems >= 0)),
+    CONSTRAINT payments_price_cents_check CHECK ((price_cents > 0)),
+    CONSTRAINT payments_product_check CHECK ((product = ANY (ARRAY['coins'::text, 'vip'::text]))),
+    CONSTRAINT payments_provider_check CHECK ((provider = ANY (ARRAY['stripe'::text, 'paypal'::text]))),
+    CONSTRAINT payments_refund_cents_check CHECK (((refund_cents IS NULL) OR (refund_cents >= 0))),
+    CONSTRAINT payments_status_check CHECK ((status = ANY (ARRAY['pending'::text, 'paid'::text, 'failed'::text, 'refunded'::text]))),
+    CONSTRAINT payments_vip_bonus_coins_check CHECK ((vip_bonus_coins >= 0))
+);
+
+
+--
+-- Name: payments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.payments_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: payments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.payments_id_seq OWNED BY public.payments.id;
+
+
+--
 -- Name: public_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -5339,6 +6053,227 @@ CREATE SEQUENCE public.public_id_seq
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
+
+
+--
+-- Name: reader_auto_unlock; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.reader_auto_unlock (
+    user_id uuid NOT NULL,
+    story_id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: reader_favorite_genres; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.reader_favorite_genres (
+    user_id uuid NOT NULL,
+    option_id bigint NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: reader_library; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.reader_library (
+    user_id uuid NOT NULL,
+    story_id uuid NOT NULL,
+    added_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: reader_notification_state; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.reader_notification_state (
+    user_id uuid NOT NULL,
+    started_at timestamp with time zone DEFAULT now() NOT NULL,
+    synced_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: reader_notifications; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.reader_notifications (
+    id bigint NOT NULL,
+    user_id uuid NOT NULL,
+    kind text NOT NULL,
+    ref text NOT NULL,
+    data jsonb DEFAULT '{}'::jsonb NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    read_at timestamp with time zone,
+    CONSTRAINT reader_notifications_kind_check CHECK ((kind = ANY (ARRAY['new_chapter'::text, 'coins_added'::text, 'coins_spent'::text, 'coins_expired'::text, 'bonus_expiring'::text, 'checkin_ready'::text, 'reply'::text, 'vip_started'::text, 'vip_renewed'::text, 'vip_cancelled'::text, 'vip_ended'::text])))
+);
+
+
+--
+-- Name: reader_notifications_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.reader_notifications_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: reader_notifications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.reader_notifications_id_seq OWNED BY public.reader_notifications.id;
+
+
+--
+-- Name: reader_profiles; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.reader_profiles (
+    user_id uuid NOT NULL,
+    public_id text NOT NULL,
+    full_name text DEFAULT ''::text NOT NULL,
+    username text,
+    bio text,
+    avatar_url text,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    cover_url text,
+    CONSTRAINT reader_profiles_bio_check CHECK ((char_length(bio) <= 300)),
+    CONSTRAINT reader_profiles_full_name_check CHECK ((char_length(full_name) <= 60)),
+    CONSTRAINT reader_profiles_username_check CHECK ((username ~ '^[A-Za-z0-9_]{3,20}$'::text))
+);
+
+
+--
+-- Name: reader_settings; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.reader_settings (
+    user_id uuid NOT NULL,
+    notify_new_chapters boolean DEFAULT true NOT NULL,
+    notify_rewards boolean DEFAULT true NOT NULL,
+    notify_replies boolean DEFAULT true NOT NULL,
+    email_updates boolean DEFAULT false NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: reading_daily; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.reading_daily (
+    user_id uuid NOT NULL,
+    day date NOT NULL,
+    seconds integer DEFAULT 0 NOT NULL,
+    last_beat_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT reading_daily_seconds_check CHECK ((seconds >= 0))
+);
+
+
+--
+-- Name: reading_gem_claims; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.reading_gem_claims (
+    user_id uuid NOT NULL,
+    period_start timestamp with time zone NOT NULL,
+    gems integer NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT reading_gem_claims_gems_check CHECK ((gems > 0))
+);
+
+
+--
+-- Name: reading_progress; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.reading_progress (
+    user_id uuid NOT NULL,
+    story_id uuid NOT NULL,
+    last_chapter integer NOT NULL,
+    max_chapter integer DEFAULT 0 NOT NULL,
+    last_read_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT reading_progress_last_chapter_check CHECK ((last_chapter > 0)),
+    CONSTRAINT reading_progress_max_chapter_check CHECK ((max_chapter >= 0))
+);
+
+
+--
+-- Name: reading_reward_claims; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.reading_reward_claims (
+    user_id uuid NOT NULL,
+    period_start timestamp with time zone NOT NULL,
+    minutes integer NOT NULL,
+    coins integer NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT reading_reward_claims_coins_check CHECK ((coins > 0))
+);
+
+
+--
+-- Name: reading_time; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.reading_time (
+    user_id uuid NOT NULL,
+    period_start timestamp with time zone NOT NULL,
+    seconds integer DEFAULT 0 NOT NULL,
+    last_beat_at timestamp with time zone NOT NULL,
+    CONSTRAINT reading_time_seconds_check CHECK ((seconds >= 0))
+);
+
+
+--
+-- Name: review_likes; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.review_likes (
+    review_id uuid NOT NULL,
+    user_id uuid NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: review_prompts; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.review_prompts (
+    user_id uuid NOT NULL,
+    story_id uuid NOT NULL,
+    chapter_id uuid NOT NULL,
+    half_shown_at timestamp with time zone,
+    end_shown_at timestamp with time zone,
+    created_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: review_replies; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.review_replies (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    review_id uuid NOT NULL,
+    user_id uuid NOT NULL,
+    content text NOT NULL,
+    hidden boolean DEFAULT false NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT review_replies_content_check CHECK (((char_length(content) >= 1) AND (char_length(content) <= 1000)))
+);
 
 
 --
@@ -5411,7 +6346,13 @@ CREATE TABLE public.stories (
     series_id uuid,
     termination_eligible boolean DEFAULT false NOT NULL,
     is_deleted boolean DEFAULT false NOT NULL,
-    tenants text[] DEFAULT '{}'::text[] NOT NULL
+    tenants text[] DEFAULT '{}'::text[] NOT NULL,
+    original_story_id uuid,
+    created_by_admin boolean DEFAULT false NOT NULL,
+    slug text,
+    views_seed integer DEFAULT 0 NOT NULL,
+    views_before_seed bigint,
+    CONSTRAINT stories_not_own_original CHECK (((original_story_id IS NULL) OR (original_story_id <> id)))
 );
 
 
@@ -5449,6 +6390,8 @@ CREATE TABLE public.story_completion_requests (
     requested_contract_type text,
     comic_id uuid,
     rejection_reason text,
+    review_comment text,
+    reviewer text,
     CONSTRAINT completion_requests_exactly_one_target CHECK ((((story_id IS NOT NULL) AND (comic_id IS NULL)) OR ((story_id IS NULL) AND (comic_id IS NOT NULL)))),
     CONSTRAINT story_completion_requests_status_check CHECK ((status = ANY (ARRAY['pending'::text, 'approved'::text, 'rejected'::text]))),
     CONSTRAINT story_completion_requests_type_check CHECK ((type = ANY (ARRAY['completion'::text, 'continuation'::text, 'contract_change'::text, 'termination'::text])))
@@ -5468,6 +6411,38 @@ CREATE TABLE public.story_recommendations (
 
 
 --
+-- Name: story_views; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.story_views (
+    id bigint NOT NULL,
+    story_id uuid NOT NULL,
+    viewer_key text NOT NULL,
+    user_id uuid,
+    created_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+--
+-- Name: story_views_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.story_views_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: story_views_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.story_views_id_seq OWNED BY public.story_views.id;
+
+
+--
 -- Name: tax_info; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -5479,6 +6454,21 @@ CREATE TABLE public.tax_info (
     review_status text DEFAULT 'pending'::text,
     updated_at timestamp with time zone DEFAULT now(),
     created_at timestamp with time zone DEFAULT now()
+);
+
+
+--
+-- Name: user_identities; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.user_identities (
+    provider text NOT NULL,
+    provider_user_id text NOT NULL,
+    user_id uuid NOT NULL,
+    email text NOT NULL,
+    email_verified boolean DEFAULT false NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT user_identities_provider_check CHECK ((provider = ANY (ARRAY['google'::text, 'facebook'::text, 'apple'::text])))
 );
 
 
@@ -5525,8 +6515,194 @@ CREATE TABLE public.users (
     last_active_at timestamp with time zone,
     account_status text DEFAULT 'active'::text NOT NULL,
     role text DEFAULT 'reader'::text NOT NULL,
+    suspended_until timestamp with time zone,
+    email_verified_at timestamp with time zone,
+    sessions_valid_after timestamp with time zone,
+    two_factor_enabled boolean DEFAULT false NOT NULL,
+    password_changed_at timestamp with time zone,
+    timezone text,
+    timezone_changed_at timestamp with time zone,
     CONSTRAINT users_account_status_check CHECK ((account_status = ANY (ARRAY['active'::text, 'suspended'::text, 'banned'::text, 'deleted'::text])))
 );
+
+
+--
+-- Name: vip_billing; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.vip_billing (
+    id bigint NOT NULL,
+    user_id uuid NOT NULL,
+    provider text NOT NULL,
+    plan text NOT NULL,
+    provider_ref text,
+    provider_subscription_id text,
+    status text DEFAULT 'pending'::text NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    activated_at timestamp with time zone,
+    cancelled_at timestamp with time zone,
+    CONSTRAINT vip_billing_plan_check CHECK ((plan = ANY (ARRAY['weekly'::text, 'monthly'::text]))),
+    CONSTRAINT vip_billing_provider_check CHECK ((provider = ANY (ARRAY['stripe'::text, 'paypal'::text]))),
+    CONSTRAINT vip_billing_status_check CHECK ((status = ANY (ARRAY['pending'::text, 'active'::text, 'cancelled'::text, 'ended'::text])))
+);
+
+
+--
+-- Name: vip_billing_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.vip_billing_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: vip_billing_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.vip_billing_id_seq OWNED BY public.vip_billing.id;
+
+
+--
+-- Name: vip_daily_bonus; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.vip_daily_bonus (
+    user_id uuid NOT NULL,
+    subscription_id bigint NOT NULL,
+    day date NOT NULL,
+    coins integer NOT NULL,
+    lot_id bigint,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT vip_daily_bonus_coins_check CHECK ((coins > 0))
+);
+
+
+--
+-- Name: vip_subscriptions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.vip_subscriptions (
+    id bigint NOT NULL,
+    user_id uuid NOT NULL,
+    plan text NOT NULL,
+    starts_at timestamp with time zone DEFAULT now() NOT NULL,
+    ends_at timestamp with time zone NOT NULL,
+    source text DEFAULT 'admin'::text NOT NULL,
+    external_id text,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    CONSTRAINT vip_subscriptions_check CHECK ((ends_at > starts_at)),
+    CONSTRAINT vip_subscriptions_plan_check CHECK ((plan = ANY (ARRAY['weekly'::text, 'monthly'::text]))),
+    CONSTRAINT vip_subscriptions_source_check CHECK ((source = ANY (ARRAY['stripe'::text, 'paypal'::text, 'admin'::text])))
+);
+
+
+--
+-- Name: vip_subscriptions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.vip_subscriptions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: vip_subscriptions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.vip_subscriptions_id_seq OWNED BY public.vip_subscriptions.id;
+
+
+--
+-- Name: wallet_ledger; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.wallet_ledger (
+    id bigint NOT NULL,
+    user_id uuid NOT NULL,
+    lot_id bigint,
+    currency text NOT NULL,
+    kind text NOT NULL,
+    delta integer NOT NULL,
+    reason text NOT NULL,
+    ref_type text,
+    ref_id text,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    tx_code text DEFAULT public.new_tx_code() NOT NULL,
+    CONSTRAINT wallet_ledger_currency_check CHECK ((currency = ANY (ARRAY['coin'::text, 'gem'::text]))),
+    CONSTRAINT wallet_ledger_delta_check CHECK ((delta <> 0)),
+    CONSTRAINT wallet_ledger_kind_check CHECK ((kind = ANY (ARRAY['base'::text, 'bonus'::text, 'vip_bonus'::text, 'earned'::text])))
+);
+
+
+--
+-- Name: wallet_ledger_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.wallet_ledger_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: wallet_ledger_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.wallet_ledger_id_seq OWNED BY public.wallet_ledger.id;
+
+
+--
+-- Name: wallet_lots; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.wallet_lots (
+    id bigint NOT NULL,
+    user_id uuid NOT NULL,
+    currency text NOT NULL,
+    kind text NOT NULL,
+    amount integer NOT NULL,
+    remaining integer NOT NULL,
+    net_value_per_coin numeric(20,10),
+    purchase_id text,
+    source text NOT NULL,
+    expires_at timestamp with time zone,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    expiry_code text DEFAULT public.new_tx_code() NOT NULL,
+    CONSTRAINT wallet_lots_amount_check CHECK ((amount > 0)),
+    CONSTRAINT wallet_lots_check CHECK (((remaining >= 0) AND (remaining <= amount))),
+    CONSTRAINT wallet_lots_currency_check CHECK ((currency = ANY (ARRAY['coin'::text, 'gem'::text]))),
+    CONSTRAINT wallet_lots_gems_are_earned CHECK (((currency = 'coin'::text) OR (kind = 'earned'::text))),
+    CONSTRAINT wallet_lots_kind_check CHECK ((kind = ANY (ARRAY['base'::text, 'bonus'::text, 'vip_bonus'::text, 'earned'::text]))),
+    CONSTRAINT wallet_lots_value_only_for_base CHECK (((kind = 'base'::text) = (net_value_per_coin IS NOT NULL)))
+);
+
+
+--
+-- Name: wallet_lots_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.wallet_lots_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: wallet_lots_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.wallet_lots_id_seq OWNED BY public.wallet_lots.id;
 
 
 --
@@ -5770,6 +6946,69 @@ CREATE TABLE storage.vector_indexes (
 --
 
 ALTER TABLE ONLY auth.refresh_tokens ALTER COLUMN id SET DEFAULT nextval('auth.refresh_tokens_id_seq'::regclass);
+
+
+--
+-- Name: book_report_files id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.book_report_files ALTER COLUMN id SET DEFAULT nextval('public.book_report_files_id_seq'::regclass);
+
+
+--
+-- Name: coin_spends id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.coin_spends ALTER COLUMN id SET DEFAULT nextval('public.coin_spends_id_seq'::regclass);
+
+
+--
+-- Name: payments id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.payments ALTER COLUMN id SET DEFAULT nextval('public.payments_id_seq'::regclass);
+
+
+--
+-- Name: reader_notifications id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reader_notifications ALTER COLUMN id SET DEFAULT nextval('public.reader_notifications_id_seq'::regclass);
+
+
+--
+-- Name: story_views id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.story_views ALTER COLUMN id SET DEFAULT nextval('public.story_views_id_seq'::regclass);
+
+
+--
+-- Name: vip_billing id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vip_billing ALTER COLUMN id SET DEFAULT nextval('public.vip_billing_id_seq'::regclass);
+
+
+--
+-- Name: vip_subscriptions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vip_subscriptions ALTER COLUMN id SET DEFAULT nextval('public.vip_subscriptions_id_seq'::regclass);
+
+
+--
+-- Name: wallet_ledger id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wallet_ledger ALTER COLUMN id SET DEFAULT nextval('public.wallet_ledger_id_seq'::regclass);
+
+
+--
+-- Name: wallet_lots id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wallet_lots ALTER COLUMN id SET DEFAULT nextval('public.wallet_lots_id_seq'::regclass);
 
 
 --
@@ -6085,11 +7324,27 @@ ALTER TABLE ONLY auth.webauthn_credentials
 
 
 --
+-- Name: account_actions account_actions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.account_actions
+    ADD CONSTRAINT account_actions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: announcements announcements_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.announcements
     ADD CONSTRAINT announcements_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: author_follows author_follows_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.author_follows
+    ADD CONSTRAINT author_follows_pkey PRIMARY KEY (reader_id, author_id);
 
 
 --
@@ -6106,6 +7361,62 @@ ALTER TABLE ONLY public.bonus_progress
 
 ALTER TABLE ONLY public.bonus_progress
     ADD CONSTRAINT bonus_progress_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: book_report_files book_report_files_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.book_report_files
+    ADD CONSTRAINT book_report_files_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: book_report_files book_report_files_s3_key_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.book_report_files
+    ADD CONSTRAINT book_report_files_s3_key_key UNIQUE (s3_key);
+
+
+--
+-- Name: book_reports book_reports_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.book_reports
+    ADD CONSTRAINT book_reports_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: book_reports book_reports_reporter_id_story_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.book_reports
+    ADD CONSTRAINT book_reports_reporter_id_story_id_key UNIQUE (reporter_id, story_id);
+
+
+--
+-- Name: book_reviews book_reviews_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.book_reviews
+    ADD CONSTRAINT book_reviews_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: book_reviews book_reviews_story_id_user_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.book_reviews
+    ADD CONSTRAINT book_reviews_story_id_user_id_key UNIQUE (story_id, user_id);
+
+
+--
+-- Name: book_slug_history book_slug_history_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.book_slug_history
+    ADD CONSTRAINT book_slug_history_pkey PRIMARY KEY (kind, slug);
 
 
 --
@@ -6141,11 +7452,35 @@ ALTER TABLE ONLY public.chapter_edit_requests
 
 
 --
+-- Name: chapter_unlocks chapter_unlocks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chapter_unlocks
+    ADD CONSTRAINT chapter_unlocks_pkey PRIMARY KEY (user_id, chapter_id);
+
+
+--
 -- Name: chapters chapters_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.chapters
     ADD CONSTRAINT chapters_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: coin_spends coin_spends_ledger_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.coin_spends
+    ADD CONSTRAINT coin_spends_ledger_id_key UNIQUE (ledger_id);
+
+
+--
+-- Name: coin_spends coin_spends_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.coin_spends
+    ADD CONSTRAINT coin_spends_pkey PRIMARY KEY (id);
 
 
 --
@@ -6189,11 +7524,35 @@ ALTER TABLE ONLY public.comics
 
 
 --
+-- Name: comment_likes comment_likes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comment_likes
+    ADD CONSTRAINT comment_likes_pkey PRIMARY KEY (comment_id, user_id);
+
+
+--
 -- Name: comments comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.comments
     ADD CONSTRAINT comments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: content_reports content_reports_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.content_reports
+    ADD CONSTRAINT content_reports_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: content_reports content_reports_reporter_id_target_type_target_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.content_reports
+    ADD CONSTRAINT content_reports_reporter_id_target_type_target_id_key UNIQUE (reporter_id, target_type, target_id);
 
 
 --
@@ -6213,6 +7572,46 @@ ALTER TABLE ONLY public.contracts
 
 
 --
+-- Name: curation_collections curation_collections_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.curation_collections
+    ADD CONSTRAINT curation_collections_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: curation_items curation_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.curation_items
+    ADD CONSTRAINT curation_items_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: daily_checkins daily_checkins_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.daily_checkins
+    ADD CONSTRAINT daily_checkins_pkey PRIMARY KEY (user_id);
+
+
+--
+-- Name: email_change_requests email_change_requests_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.email_change_requests
+    ADD CONSTRAINT email_change_requests_pkey PRIMARY KEY (user_id);
+
+
+--
+-- Name: email_codes email_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.email_codes
+    ADD CONSTRAINT email_codes_pkey PRIMARY KEY (user_id, purpose);
+
+
+--
 -- Name: income_transactions income_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6229,6 +7628,14 @@ ALTER TABLE ONLY public.invoice_counters
 
 
 --
+-- Name: login_attempts login_attempts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.login_attempts
+    ADD CONSTRAINT login_attempts_pkey PRIMARY KEY (email);
+
+
+--
 -- Name: mab_monthly_attendance mab_monthly_attendance_contract_id_month_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6242,6 +7649,38 @@ ALTER TABLE ONLY public.mab_monthly_attendance
 
 ALTER TABLE ONLY public.mab_monthly_attendance
     ADD CONSTRAINT mab_monthly_attendance_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: metadata_categories metadata_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.metadata_categories
+    ADD CONSTRAINT metadata_categories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: metadata_categories metadata_categories_slug_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.metadata_categories
+    ADD CONSTRAINT metadata_categories_slug_key UNIQUE (slug);
+
+
+--
+-- Name: metadata_option_translations metadata_option_translations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.metadata_option_translations
+    ADD CONSTRAINT metadata_option_translations_pkey PRIMARY KEY (option_id, locale);
+
+
+--
+-- Name: metadata_options metadata_options_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.metadata_options
+    ADD CONSTRAINT metadata_options_pkey PRIMARY KEY (id);
 
 
 --
@@ -6274,6 +7713,142 @@ ALTER TABLE ONLY public.payment_info
 
 ALTER TABLE ONLY public.payment_info
     ADD CONSTRAINT payment_info_user_id_key UNIQUE (user_id);
+
+
+--
+-- Name: payments payments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.payments
+    ADD CONSTRAINT payments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: reader_auto_unlock reader_auto_unlock_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reader_auto_unlock
+    ADD CONSTRAINT reader_auto_unlock_pkey PRIMARY KEY (user_id, story_id);
+
+
+--
+-- Name: reader_favorite_genres reader_favorite_genres_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reader_favorite_genres
+    ADD CONSTRAINT reader_favorite_genres_pkey PRIMARY KEY (user_id, option_id);
+
+
+--
+-- Name: reader_library reader_library_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reader_library
+    ADD CONSTRAINT reader_library_pkey PRIMARY KEY (user_id, story_id);
+
+
+--
+-- Name: reader_notification_state reader_notification_state_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reader_notification_state
+    ADD CONSTRAINT reader_notification_state_pkey PRIMARY KEY (user_id);
+
+
+--
+-- Name: reader_notifications reader_notifications_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reader_notifications
+    ADD CONSTRAINT reader_notifications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: reader_notifications reader_notifications_user_id_kind_ref_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reader_notifications
+    ADD CONSTRAINT reader_notifications_user_id_kind_ref_key UNIQUE (user_id, kind, ref);
+
+
+--
+-- Name: reader_profiles reader_profiles_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reader_profiles
+    ADD CONSTRAINT reader_profiles_pkey PRIMARY KEY (user_id);
+
+
+--
+-- Name: reader_settings reader_settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reader_settings
+    ADD CONSTRAINT reader_settings_pkey PRIMARY KEY (user_id);
+
+
+--
+-- Name: reading_daily reading_daily_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reading_daily
+    ADD CONSTRAINT reading_daily_pkey PRIMARY KEY (user_id, day);
+
+
+--
+-- Name: reading_gem_claims reading_gem_claims_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reading_gem_claims
+    ADD CONSTRAINT reading_gem_claims_pkey PRIMARY KEY (user_id, period_start);
+
+
+--
+-- Name: reading_progress reading_progress_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reading_progress
+    ADD CONSTRAINT reading_progress_pkey PRIMARY KEY (user_id, story_id);
+
+
+--
+-- Name: reading_reward_claims reading_reward_claims_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reading_reward_claims
+    ADD CONSTRAINT reading_reward_claims_pkey PRIMARY KEY (user_id, period_start, minutes);
+
+
+--
+-- Name: reading_time reading_time_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reading_time
+    ADD CONSTRAINT reading_time_pkey PRIMARY KEY (user_id);
+
+
+--
+-- Name: review_likes review_likes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.review_likes
+    ADD CONSTRAINT review_likes_pkey PRIMARY KEY (review_id, user_id);
+
+
+--
+-- Name: review_prompts review_prompts_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.review_prompts
+    ADD CONSTRAINT review_prompts_pkey PRIMARY KEY (user_id, story_id);
+
+
+--
+-- Name: review_replies review_replies_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.review_replies
+    ADD CONSTRAINT review_replies_pkey PRIMARY KEY (id);
 
 
 --
@@ -6349,6 +7924,14 @@ ALTER TABLE ONLY public.story_recommendations
 
 
 --
+-- Name: story_views story_views_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.story_views
+    ADD CONSTRAINT story_views_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: tax_info tax_info_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -6362,6 +7945,14 @@ ALTER TABLE ONLY public.tax_info
 
 ALTER TABLE ONLY public.tax_info
     ADD CONSTRAINT tax_info_user_id_key UNIQUE (user_id);
+
+
+--
+-- Name: user_identities user_identities_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_identities
+    ADD CONSTRAINT user_identities_pkey PRIMARY KEY (provider, provider_user_id);
 
 
 --
@@ -6402,6 +7993,46 @@ ALTER TABLE ONLY public.users
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: vip_billing vip_billing_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vip_billing
+    ADD CONSTRAINT vip_billing_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: vip_daily_bonus vip_daily_bonus_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vip_daily_bonus
+    ADD CONSTRAINT vip_daily_bonus_pkey PRIMARY KEY (user_id, day);
+
+
+--
+-- Name: vip_subscriptions vip_subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vip_subscriptions
+    ADD CONSTRAINT vip_subscriptions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: wallet_ledger wallet_ledger_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wallet_ledger
+    ADD CONSTRAINT wallet_ledger_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: wallet_lots wallet_lots_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wallet_lots
+    ADD CONSTRAINT wallet_lots_pkey PRIMARY KEY (id);
 
 
 --
@@ -7035,10 +8666,234 @@ CREATE INDEX webauthn_credentials_user_id_idx ON auth.webauthn_credentials USING
 
 
 --
+-- Name: author_follows_author_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX author_follows_author_idx ON public.author_follows USING btree (author_id);
+
+
+--
+-- Name: author_follows_reader_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX author_follows_reader_idx ON public.author_follows USING btree (reader_id, created_at DESC);
+
+
+--
+-- Name: book_report_files_report_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX book_report_files_report_idx ON public.book_report_files USING btree (report_id);
+
+
+--
+-- Name: book_reports_open_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX book_reports_open_idx ON public.book_reports USING btree (created_at DESC) WHERE (status = 'open'::text);
+
+
+--
+-- Name: book_reports_story_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX book_reports_story_idx ON public.book_reports USING btree (story_id, created_at DESC);
+
+
+--
+-- Name: book_reviews_story_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX book_reviews_story_idx ON public.book_reviews USING btree (story_id, created_at DESC, id DESC);
+
+
+--
+-- Name: book_reviews_user_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX book_reviews_user_idx ON public.book_reviews USING btree (user_id, created_at DESC, id DESC);
+
+
+--
+-- Name: book_slug_history_book_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX book_slug_history_book_idx ON public.book_slug_history USING btree (kind, book_id);
+
+
+--
+-- Name: chapter_unlocks_story_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX chapter_unlocks_story_idx ON public.chapter_unlocks USING btree (user_id, story_id);
+
+
+--
+-- Name: chapter_unlocks_vip_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX chapter_unlocks_vip_idx ON public.chapter_unlocks USING btree (user_id, created_at) WHERE (method = 'vip'::text);
+
+
+--
+-- Name: chapters_story_number_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX chapters_story_number_idx ON public.chapters USING btree (story_id, chapter_number);
+
+
+--
+-- Name: chapters_story_published_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX chapters_story_published_idx ON public.chapters USING btree (story_id) WHERE (status = 'published'::text);
+
+
+--
+-- Name: coin_spends_creator_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX coin_spends_creator_idx ON public.coin_spends USING btree (creator_id, created_at);
+
+
+--
+-- Name: coin_spends_pending_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX coin_spends_pending_idx ON public.coin_spends USING btree (created_at) WHERE (settlement_status = 'pending'::text);
+
+
+--
+-- Name: coin_spends_story_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX coin_spends_story_idx ON public.coin_spends USING btree (story_id, created_at);
+
+
+--
 -- Name: comic_episodes_comic_id_episode_number_key; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX comic_episodes_comic_id_episode_number_key ON public.comic_episodes USING btree (comic_id, episode_number) WHERE (status <> 'trash'::text);
+
+
+--
+-- Name: comic_episodes_comic_published_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comic_episodes_comic_published_idx ON public.comic_episodes USING btree (comic_id) WHERE (status = 'published'::text);
+
+
+--
+-- Name: comics_original_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comics_original_idx ON public.comics USING btree (original_comic_id) WHERE (original_comic_id IS NOT NULL);
+
+
+--
+-- Name: comics_original_language_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX comics_original_language_idx ON public.comics USING btree (original_comic_id, language) WHERE ((original_comic_id IS NOT NULL) AND (is_deleted = false));
+
+
+--
+-- Name: comics_slug_key; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX comics_slug_key ON public.comics USING btree (slug);
+
+
+--
+-- Name: comments_chapter_list_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comments_chapter_list_idx ON public.comments USING btree (chapter_id, created_at DESC);
+
+
+--
+-- Name: comments_user_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX comments_user_idx ON public.comments USING btree (user_id, created_at DESC) WHERE (user_id IS NOT NULL);
+
+
+--
+-- Name: content_reports_open_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX content_reports_open_idx ON public.content_reports USING btree (created_at DESC) WHERE (status = 'open'::text);
+
+
+--
+-- Name: contracts_comic_signed_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX contracts_comic_signed_idx ON public.contracts USING btree (comic_id, created_at DESC) WHERE (status = 'signed'::public.contract_status);
+
+
+--
+-- Name: contracts_story_signed_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX contracts_story_signed_idx ON public.contracts USING btree (story_id, created_at DESC) WHERE (status = 'signed'::public.contract_status);
+
+
+--
+-- Name: curation_collections_genre_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX curation_collections_genre_idx ON public.curation_collections USING btree (tenant, language, platform, genre_option_id) WHERE (section = 'genre'::text);
+
+
+--
+-- Name: curation_collections_list_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX curation_collections_list_idx ON public.curation_collections USING btree (tenant, language, platform, section, display_order);
+
+
+--
+-- Name: curation_collections_lookup_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX curation_collections_lookup_idx ON public.curation_collections USING btree (tenant, language, platform, section, display_order);
+
+
+--
+-- Name: curation_items_collection_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX curation_items_collection_idx ON public.curation_items USING btree (collection_id, "position");
+
+
+--
+-- Name: curation_items_comic_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX curation_items_comic_idx ON public.curation_items USING btree (collection_id, comic_id) WHERE (comic_id IS NOT NULL);
+
+
+--
+-- Name: curation_items_order_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX curation_items_order_idx ON public.curation_items USING btree (collection_id, "position");
+
+
+--
+-- Name: curation_items_story_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX curation_items_story_idx ON public.curation_items USING btree (collection_id, story_id) WHERE (story_id IS NOT NULL);
+
+
+--
+-- Name: email_codes_code_hash_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX email_codes_code_hash_idx ON public.email_codes USING btree (code_hash);
 
 
 --
@@ -7252,6 +9107,20 @@ CREATE INDEX idx_withdrawal_requests_user_id ON public.withdrawal_requests USING
 
 
 --
+-- Name: metadata_options_category_order_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX metadata_options_category_order_idx ON public.metadata_options USING btree (category_id, enabled, display_order);
+
+
+--
+-- Name: metadata_options_unique_name_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX metadata_options_unique_name_idx ON public.metadata_options USING btree (category_id, lower(TRIM(BOTH FROM name)));
+
+
+--
 -- Name: notifications_user_id_created_at_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -7266,10 +9135,213 @@ CREATE UNIQUE INDEX one_active_edit_request_per_chapter ON public.chapter_edit_r
 
 
 --
+-- Name: payments_provider_ref_key; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX payments_provider_ref_key ON public.payments USING btree (provider, provider_ref) WHERE (provider_ref IS NOT NULL);
+
+
+--
+-- Name: payments_provider_txn_key; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX payments_provider_txn_key ON public.payments USING btree (provider, provider_txn) WHERE (provider_txn IS NOT NULL);
+
+
+--
+-- Name: payments_tx_code_key; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX payments_tx_code_key ON public.payments USING btree (tx_code) WHERE (tx_code IS NOT NULL);
+
+
+--
+-- Name: payments_user_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX payments_user_idx ON public.payments USING btree (user_id, created_at DESC);
+
+
+--
+-- Name: reader_library_user_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX reader_library_user_idx ON public.reader_library USING btree (user_id, added_at DESC);
+
+
+--
+-- Name: reader_notifications_list_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX reader_notifications_list_idx ON public.reader_notifications USING btree (user_id, created_at DESC, id DESC);
+
+
+--
+-- Name: reader_notifications_unread_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX reader_notifications_unread_idx ON public.reader_notifications USING btree (user_id) WHERE (read_at IS NULL);
+
+
+--
+-- Name: reader_profiles_public_id_key; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX reader_profiles_public_id_key ON public.reader_profiles USING btree (public_id);
+
+
+--
+-- Name: reader_profiles_username_key; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX reader_profiles_username_key ON public.reader_profiles USING btree (lower(username)) WHERE (username IS NOT NULL);
+
+
+--
+-- Name: reading_progress_user_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX reading_progress_user_idx ON public.reading_progress USING btree (user_id, last_read_at DESC);
+
+
+--
+-- Name: review_replies_review_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX review_replies_review_idx ON public.review_replies USING btree (review_id, created_at, id);
+
+
+--
+-- Name: review_replies_user_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX review_replies_user_idx ON public.review_replies USING btree (user_id, created_at DESC);
+
+
+--
+-- Name: stories_original_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX stories_original_idx ON public.stories USING btree (original_story_id) WHERE (original_story_id IS NOT NULL);
+
+
+--
+-- Name: stories_original_language_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX stories_original_language_idx ON public.stories USING btree (original_story_id, language) WHERE ((original_story_id IS NOT NULL) AND (is_deleted = false));
+
+
+--
+-- Name: stories_slug_key; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX stories_slug_key ON public.stories USING btree (slug);
+
+
+--
+-- Name: story_views_once_key; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX story_views_once_key ON public.story_views USING btree (story_id, viewer_key);
+
+
+--
+-- Name: user_identities_user_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX user_identities_user_idx ON public.user_identities USING btree (user_id);
+
+
+--
+-- Name: user_profiles_user_created_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX user_profiles_user_created_idx ON public.user_profiles USING btree (user_id, created_at DESC);
+
+
+--
 -- Name: users_last_active_at_idx; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX users_last_active_at_idx ON public.users USING btree (last_active_at);
+
+
+--
+-- Name: vip_billing_ref_key; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX vip_billing_ref_key ON public.vip_billing USING btree (provider, provider_ref) WHERE (provider_ref IS NOT NULL);
+
+
+--
+-- Name: vip_billing_sub_key; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX vip_billing_sub_key ON public.vip_billing USING btree (provider, provider_subscription_id) WHERE (provider_subscription_id IS NOT NULL);
+
+
+--
+-- Name: vip_billing_user_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX vip_billing_user_idx ON public.vip_billing USING btree (user_id, created_at DESC);
+
+
+--
+-- Name: vip_subscriptions_active_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX vip_subscriptions_active_idx ON public.vip_subscriptions USING btree (user_id, ends_at DESC);
+
+
+--
+-- Name: vip_subscriptions_external_key; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX vip_subscriptions_external_key ON public.vip_subscriptions USING btree (external_id) WHERE (external_id IS NOT NULL);
+
+
+--
+-- Name: wallet_ledger_tx_code_key; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX wallet_ledger_tx_code_key ON public.wallet_ledger USING btree (tx_code);
+
+
+--
+-- Name: wallet_ledger_user_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX wallet_ledger_user_idx ON public.wallet_ledger USING btree (user_id, created_at DESC);
+
+
+--
+-- Name: wallet_lots_expiry_code_key; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX wallet_lots_expiry_code_key ON public.wallet_lots USING btree (expiry_code);
+
+
+--
+-- Name: wallet_lots_one_per_purchase; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX wallet_lots_one_per_purchase ON public.wallet_lots USING btree (purchase_id, kind) WHERE (purchase_id IS NOT NULL);
+
+
+--
+-- Name: wallet_lots_one_signup_bonus; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX wallet_lots_one_signup_bonus ON public.wallet_lots USING btree (user_id) WHERE (source = 'signup_bonus'::text);
+
+
+--
+-- Name: wallet_lots_spendable_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX wallet_lots_spendable_idx ON public.wallet_lots USING btree (user_id, currency, expires_at) WHERE (remaining > 0);
 
 
 --
@@ -7378,6 +9450,62 @@ CREATE UNIQUE INDEX vector_indexes_name_bucket_id_idx ON storage.vector_indexes 
 
 
 --
+-- Name: chapters chapters_fill_number; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER chapters_fill_number BEFORE INSERT ON public.chapters FOR EACH ROW EXECUTE FUNCTION public.chapters_fill_number();
+
+
+--
+-- Name: comics comics_slug; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER comics_slug BEFORE INSERT ON public.comics FOR EACH ROW EXECUTE FUNCTION public.fang_book_slug_trigger();
+
+
+--
+-- Name: comics comics_slug_rename; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER comics_slug_rename BEFORE UPDATE OF title ON public.comics FOR EACH ROW WHEN ((old.title IS DISTINCT FROM new.title)) EXECUTE FUNCTION public.fang_book_slug_trigger();
+
+
+--
+-- Name: users reader_content_account_deleted; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER reader_content_account_deleted AFTER UPDATE OF account_status ON public.users FOR EACH ROW WHEN (((new.account_status = 'deleted'::text) AND (old.account_status IS DISTINCT FROM 'deleted'::text))) EXECUTE FUNCTION public.reader_content_account_deleted();
+
+
+--
+-- Name: users reader_notifications_account_deleted; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER reader_notifications_account_deleted AFTER UPDATE OF account_status ON public.users FOR EACH ROW WHEN (((new.account_status = 'deleted'::text) AND (old.account_status IS DISTINCT FROM 'deleted'::text))) EXECUTE FUNCTION public.reader_notifications_account_deleted();
+
+
+--
+-- Name: stories stories_seed_views; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER stories_seed_views BEFORE INSERT ON public.stories FOR EACH ROW EXECUTE FUNCTION public.story_seed_views();
+
+
+--
+-- Name: stories stories_slug; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER stories_slug BEFORE INSERT ON public.stories FOR EACH ROW EXECUTE FUNCTION public.fang_book_slug_trigger();
+
+
+--
+-- Name: stories stories_slug_rename; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER stories_slug_rename BEFORE UPDATE OF title ON public.stories FOR EACH ROW WHEN ((old.title IS DISTINCT FROM new.title)) EXECUTE FUNCTION public.fang_book_slug_trigger();
+
+
+--
 -- Name: comic_episode_edit_requests trg_comic_episode_edit_requests_updated_at; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -7389,6 +9517,13 @@ CREATE TRIGGER trg_comic_episode_edit_requests_updated_at BEFORE UPDATE ON publi
 --
 
 CREATE TRIGGER trg_contracts_updated_at BEFORE UPDATE ON public.contracts FOR EACH ROW EXECUTE FUNCTION public.set_updated_at();
+
+
+--
+-- Name: wallet_ledger wallet_ledger_permanent; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER wallet_ledger_permanent BEFORE DELETE OR UPDATE ON public.wallet_ledger FOR EACH ROW EXECUTE FUNCTION public.wallet_ledger_is_permanent();
 
 
 --
@@ -7626,11 +9761,67 @@ ALTER TABLE ONLY auth.webauthn_credentials
 
 
 --
+-- Name: author_follows author_follows_author_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.author_follows
+    ADD CONSTRAINT author_follows_author_id_fkey FOREIGN KEY (author_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: author_follows author_follows_reader_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.author_follows
+    ADD CONSTRAINT author_follows_reader_id_fkey FOREIGN KEY (reader_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
 -- Name: bonus_progress bonus_progress_contract_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.bonus_progress
     ADD CONSTRAINT bonus_progress_contract_id_fkey FOREIGN KEY (contract_id) REFERENCES public.contracts(id) ON DELETE CASCADE;
+
+
+--
+-- Name: book_report_files book_report_files_report_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.book_report_files
+    ADD CONSTRAINT book_report_files_report_id_fkey FOREIGN KEY (report_id) REFERENCES public.book_reports(id) ON DELETE CASCADE;
+
+
+--
+-- Name: book_reports book_reports_reporter_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.book_reports
+    ADD CONSTRAINT book_reports_reporter_id_fkey FOREIGN KEY (reporter_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: book_reports book_reports_story_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.book_reports
+    ADD CONSTRAINT book_reports_story_id_fkey FOREIGN KEY (story_id) REFERENCES public.stories(id) ON DELETE CASCADE;
+
+
+--
+-- Name: book_reviews book_reviews_story_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.book_reviews
+    ADD CONSTRAINT book_reviews_story_id_fkey FOREIGN KEY (story_id) REFERENCES public.stories(id) ON DELETE CASCADE;
+
+
+--
+-- Name: book_reviews book_reviews_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.book_reviews
+    ADD CONSTRAINT book_reviews_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
 
 
 --
@@ -7658,11 +9849,43 @@ ALTER TABLE ONLY public.chapter_edit_requests
 
 
 --
+-- Name: chapter_unlocks chapter_unlocks_chapter_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chapter_unlocks
+    ADD CONSTRAINT chapter_unlocks_chapter_id_fkey FOREIGN KEY (chapter_id) REFERENCES public.chapters(id) ON DELETE CASCADE;
+
+
+--
+-- Name: chapter_unlocks chapter_unlocks_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chapter_unlocks
+    ADD CONSTRAINT chapter_unlocks_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
 -- Name: chapters chapters_story_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.chapters
     ADD CONSTRAINT chapters_story_id_fkey FOREIGN KEY (story_id) REFERENCES public.stories(id) ON DELETE CASCADE;
+
+
+--
+-- Name: coin_spends coin_spends_ledger_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.coin_spends
+    ADD CONSTRAINT coin_spends_ledger_id_fkey FOREIGN KEY (ledger_id) REFERENCES public.wallet_ledger(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: coin_spends coin_spends_lot_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.coin_spends
+    ADD CONSTRAINT coin_spends_lot_id_fkey FOREIGN KEY (lot_id) REFERENCES public.wallet_lots(id) ON DELETE RESTRICT;
 
 
 --
@@ -7706,11 +9929,35 @@ ALTER TABLE ONLY public.comic_episodes
 
 
 --
+-- Name: comics comics_original_comic_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comics
+    ADD CONSTRAINT comics_original_comic_id_fkey FOREIGN KEY (original_comic_id) REFERENCES public.comics(id);
+
+
+--
 -- Name: comics comics_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.comics
     ADD CONSTRAINT comics_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: comment_likes comment_likes_comment_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comment_likes
+    ADD CONSTRAINT comment_likes_comment_id_fkey FOREIGN KEY (comment_id) REFERENCES public.comments(id) ON DELETE CASCADE;
+
+
+--
+-- Name: comment_likes comment_likes_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comment_likes
+    ADD CONSTRAINT comment_likes_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
 
 
 --
@@ -7727,6 +9974,22 @@ ALTER TABLE ONLY public.comments
 
 ALTER TABLE ONLY public.comments
     ADD CONSTRAINT comments_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES public.comments(id) ON DELETE CASCADE;
+
+
+--
+-- Name: comments comments_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT comments_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: content_reports content_reports_reporter_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.content_reports
+    ADD CONSTRAINT content_reports_reporter_id_fkey FOREIGN KEY (reporter_id) REFERENCES public.users(id) ON DELETE CASCADE;
 
 
 --
@@ -7767,6 +10030,70 @@ ALTER TABLE ONLY public.contracts
 
 ALTER TABLE ONLY public.contracts
     ADD CONSTRAINT contracts_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: curation_collections curation_collections_genre_option_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.curation_collections
+    ADD CONSTRAINT curation_collections_genre_option_id_fkey FOREIGN KEY (genre_option_id) REFERENCES public.metadata_options(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: curation_collections curation_collections_rank_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.curation_collections
+    ADD CONSTRAINT curation_collections_rank_type_id_fkey FOREIGN KEY (rank_type_id) REFERENCES public.metadata_options(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: curation_items curation_items_collection_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.curation_items
+    ADD CONSTRAINT curation_items_collection_id_fkey FOREIGN KEY (collection_id) REFERENCES public.curation_collections(id) ON DELETE CASCADE;
+
+
+--
+-- Name: curation_items curation_items_comic_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.curation_items
+    ADD CONSTRAINT curation_items_comic_id_fkey FOREIGN KEY (comic_id) REFERENCES public.comics(id) ON DELETE CASCADE;
+
+
+--
+-- Name: curation_items curation_items_story_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.curation_items
+    ADD CONSTRAINT curation_items_story_id_fkey FOREIGN KEY (story_id) REFERENCES public.stories(id) ON DELETE CASCADE;
+
+
+--
+-- Name: daily_checkins daily_checkins_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.daily_checkins
+    ADD CONSTRAINT daily_checkins_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: email_change_requests email_change_requests_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.email_change_requests
+    ADD CONSTRAINT email_change_requests_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: email_codes email_codes_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.email_codes
+    ADD CONSTRAINT email_codes_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
 
 
 --
@@ -7826,6 +10153,22 @@ ALTER TABLE ONLY public.mab_monthly_attendance
 
 
 --
+-- Name: metadata_option_translations metadata_option_translations_option_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.metadata_option_translations
+    ADD CONSTRAINT metadata_option_translations_option_id_fkey FOREIGN KEY (option_id) REFERENCES public.metadata_options(id) ON DELETE CASCADE;
+
+
+--
+-- Name: metadata_options metadata_options_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.metadata_options
+    ADD CONSTRAINT metadata_options_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.metadata_categories(id) ON DELETE RESTRICT;
+
+
+--
 -- Name: notifications notifications_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7842,6 +10185,198 @@ ALTER TABLE ONLY public.payment_info
 
 
 --
+-- Name: payments payments_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.payments
+    ADD CONSTRAINT payments_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: reader_auto_unlock reader_auto_unlock_story_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reader_auto_unlock
+    ADD CONSTRAINT reader_auto_unlock_story_id_fkey FOREIGN KEY (story_id) REFERENCES public.stories(id) ON DELETE CASCADE;
+
+
+--
+-- Name: reader_auto_unlock reader_auto_unlock_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reader_auto_unlock
+    ADD CONSTRAINT reader_auto_unlock_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: reader_favorite_genres reader_favorite_genres_option_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reader_favorite_genres
+    ADD CONSTRAINT reader_favorite_genres_option_id_fkey FOREIGN KEY (option_id) REFERENCES public.metadata_options(id) ON DELETE CASCADE;
+
+
+--
+-- Name: reader_favorite_genres reader_favorite_genres_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reader_favorite_genres
+    ADD CONSTRAINT reader_favorite_genres_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: reader_library reader_library_story_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reader_library
+    ADD CONSTRAINT reader_library_story_id_fkey FOREIGN KEY (story_id) REFERENCES public.stories(id) ON DELETE CASCADE;
+
+
+--
+-- Name: reader_library reader_library_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reader_library
+    ADD CONSTRAINT reader_library_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: reader_notification_state reader_notification_state_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reader_notification_state
+    ADD CONSTRAINT reader_notification_state_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: reader_notifications reader_notifications_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reader_notifications
+    ADD CONSTRAINT reader_notifications_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: reader_profiles reader_profiles_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reader_profiles
+    ADD CONSTRAINT reader_profiles_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: reader_settings reader_settings_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reader_settings
+    ADD CONSTRAINT reader_settings_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: reading_daily reading_daily_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reading_daily
+    ADD CONSTRAINT reading_daily_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: reading_gem_claims reading_gem_claims_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reading_gem_claims
+    ADD CONSTRAINT reading_gem_claims_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: reading_progress reading_progress_story_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reading_progress
+    ADD CONSTRAINT reading_progress_story_id_fkey FOREIGN KEY (story_id) REFERENCES public.stories(id) ON DELETE CASCADE;
+
+
+--
+-- Name: reading_progress reading_progress_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reading_progress
+    ADD CONSTRAINT reading_progress_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: reading_reward_claims reading_reward_claims_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reading_reward_claims
+    ADD CONSTRAINT reading_reward_claims_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: reading_time reading_time_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reading_time
+    ADD CONSTRAINT reading_time_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: review_likes review_likes_review_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.review_likes
+    ADD CONSTRAINT review_likes_review_id_fkey FOREIGN KEY (review_id) REFERENCES public.book_reviews(id) ON DELETE CASCADE;
+
+
+--
+-- Name: review_likes review_likes_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.review_likes
+    ADD CONSTRAINT review_likes_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: review_prompts review_prompts_chapter_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.review_prompts
+    ADD CONSTRAINT review_prompts_chapter_id_fkey FOREIGN KEY (chapter_id) REFERENCES public.chapters(id) ON DELETE CASCADE;
+
+
+--
+-- Name: review_prompts review_prompts_story_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.review_prompts
+    ADD CONSTRAINT review_prompts_story_id_fkey FOREIGN KEY (story_id) REFERENCES public.stories(id) ON DELETE CASCADE;
+
+
+--
+-- Name: review_prompts review_prompts_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.review_prompts
+    ADD CONSTRAINT review_prompts_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: review_replies review_replies_review_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.review_replies
+    ADD CONSTRAINT review_replies_review_id_fkey FOREIGN KEY (review_id) REFERENCES public.book_reviews(id) ON DELETE CASCADE;
+
+
+--
+-- Name: review_replies review_replies_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.review_replies
+    ADD CONSTRAINT review_replies_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
 -- Name: series series_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7855,6 +10390,14 @@ ALTER TABLE ONLY public.series
 
 ALTER TABLE ONLY public.sessions
     ADD CONSTRAINT sessions_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: stories stories_original_story_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.stories
+    ADD CONSTRAINT stories_original_story_id_fkey FOREIGN KEY (original_story_id) REFERENCES public.stories(id);
 
 
 --
@@ -7906,6 +10449,14 @@ ALTER TABLE ONLY public.story_recommendations
 
 
 --
+-- Name: story_views story_views_story_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.story_views
+    ADD CONSTRAINT story_views_story_id_fkey FOREIGN KEY (story_id) REFERENCES public.stories(id) ON DELETE CASCADE;
+
+
+--
 -- Name: tax_info tax_info_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -7914,11 +10465,83 @@ ALTER TABLE ONLY public.tax_info
 
 
 --
+-- Name: user_identities user_identities_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_identities
+    ADD CONSTRAINT user_identities_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
 -- Name: user_profiles user_profiles_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.user_profiles
     ADD CONSTRAINT user_profiles_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
+
+
+--
+-- Name: vip_billing vip_billing_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vip_billing
+    ADD CONSTRAINT vip_billing_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: vip_daily_bonus vip_daily_bonus_lot_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vip_daily_bonus
+    ADD CONSTRAINT vip_daily_bonus_lot_id_fkey FOREIGN KEY (lot_id) REFERENCES public.wallet_lots(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: vip_daily_bonus vip_daily_bonus_subscription_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vip_daily_bonus
+    ADD CONSTRAINT vip_daily_bonus_subscription_id_fkey FOREIGN KEY (subscription_id) REFERENCES public.vip_subscriptions(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: vip_daily_bonus vip_daily_bonus_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vip_daily_bonus
+    ADD CONSTRAINT vip_daily_bonus_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: vip_subscriptions vip_subscriptions_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.vip_subscriptions
+    ADD CONSTRAINT vip_subscriptions_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: wallet_ledger wallet_ledger_lot_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wallet_ledger
+    ADD CONSTRAINT wallet_ledger_lot_id_fkey FOREIGN KEY (lot_id) REFERENCES public.wallet_lots(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: wallet_ledger wallet_ledger_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wallet_ledger
+    ADD CONSTRAINT wallet_ledger_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE RESTRICT;
+
+
+--
+-- Name: wallet_lots wallet_lots_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.wallet_lots
+    ADD CONSTRAINT wallet_lots_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE RESTRICT;
 
 
 --
@@ -8182,5 +10805,5 @@ CREATE EVENT TRIGGER pgrst_drop_watch ON sql_drop
 -- PostgreSQL database dump complete
 --
 
-\unrestrict JGtR4VogNrHOfHEcexZRSUHaGj38DbVkPr9DzmYK1lUYPn7El7h7ckvKz0L53kf
+\unrestrict wJOm9pNG5xXP6IcrdimOUJLn71heAeTZcLetYM3MoeCwtweQjDQ1a3UAyT2ZWVf
 

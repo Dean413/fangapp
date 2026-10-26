@@ -88,7 +88,7 @@ const Footer = () => {
                         <li><Link href="/about">{t("about")}</Link></li>
                         <li><Link href="/">{t("contact")}</Link></li>
                         <li><Link href="/refund-policy">{t("refundPolicy")}</Link></li>
-                        <li><Link href="/dcma">{t("dmca")}</Link></li>
+                        <li><Link href="/dmca">{t("dmca")}</Link></li>
                     </ul>
                 </div>
 

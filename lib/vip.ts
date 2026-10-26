@@ -1,13 +1,10 @@
 import "server-only";
 import { dbPool } from "@/lib/db";
 import { withTransaction } from "@/lib/auth/transaction";
+import { VIP_PLAN_INFO, type VipPlanId } from "@/lib/vipRates";
 
-// The two VIP plans (prices in USD)
-export const VIP_PLANS = {
-    weekly: { days: 7, freeUnlocksPerDay: 3, dailyBonusCoins: 10, topUpBonusPercent: 10, priceUsd: 9.99 },
-    monthly: { days: 30, freeUnlocksPerDay: 5, dailyBonusCoins: 20, topUpBonusPercent: 15, priceUsd: 29.99 },
-} as const;
-export type VipPlan = keyof typeof VIP_PLANS;
+// The VIP plans themselves are in lib/vipRates.ts
+export type VipPlan = VipPlanId;
 
 // A pool or a transaction client
 type Queryable = { query: (text: string, params?: any[]) => Promise<{ rows: any[] }> };
@@ -42,7 +39,7 @@ export async function getVipStatus(userId: string | null, db: Queryable = dbPool
     const row = rows[0];
     if (!row) return NOT_VIP;
     const plan = row.plan as VipPlan;
-    const perDay = VIP_PLANS[plan]?.freeUnlocksPerDay ?? 0;
+    const perDay = VIP_PLAN_INFO[plan]?.freeUnlocksPerDay ?? 0;
     return {
         active: true,
         plan,
@@ -83,7 +80,7 @@ export async function syncVipDay(userId: string, timezone: string | null): Promi
         );
         const sub = subs[0];
         if (!sub) return { credited: 0 };
-        const coins = VIP_PLANS[sub.plan as VipPlan]?.dailyBonusCoins ?? 0;
+        const coins = VIP_PLAN_INFO[sub.plan as VipPlan]?.dailyBonusCoins ?? 0;
         if (coins <= 0) return { credited: 0 };
 
         // Today's date for this reader, then claim it (a second try finds the row already there)
@@ -96,7 +93,7 @@ export async function syncVipDay(userId: string, timezone: string | null): Promi
         );
         if (!claim[0]) return { credited: 0 };
 
-        // The coins: VIP bonus, no purchase value, they end with the plan
+        // The coins: VIP bonus, no purchase value, they expire 7 days after they are given (even if the plan ends sooner)
         const { rows: lot } = await client.query(
             `INSERT INTO wallet_lots (user_id, currency, kind, amount, remaining, source, expires_at)
      VALUES ($1, 'coin', 'vip_bonus', $2, $2, 'vip_daily', now() + interval '7 days')
