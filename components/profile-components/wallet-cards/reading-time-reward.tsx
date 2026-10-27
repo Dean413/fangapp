@@ -49,40 +49,35 @@ export function RewardCard({ milestone, seconds, resetIn, claiming, onClaim }: R
     const t = useTranslations("Wallet");
 
     return (
-        <div className="bg-white dark:bg-dark-card p-4 rounded-xl border border-gray-400 dark:border-neutral-600">
-            <div className="flex items-center justify-between">
-                <p className="font-semibold">{label(milestone.minutes, t)}</p>
+        <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm dark:border-neutral-700 dark:bg-dark-card dark:shadow-none">
+            <p className="text-lg font-semibold">{label(milestone.minutes, t)}</p>
 
-                <div className="flex gap-1 items-center">
-                    <p className="text-gray-500 dark:text-neutral-400 text-sm">+{milestone.coins}</p>
-                    <img src="/fang_pictures/balance.png" alt="coin" width={20} />
-                </div>
+            <div className="mt-3 flex items-center gap-2">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/fang_pictures/coin-topup.png" alt="coin" width={24} height={24} className="shrink-0" />
+                <p className="text-base font-medium text-[#B7791F] dark:text-amber-400">
+                    +{milestone.coins} {t("coinsUnit")}
+                </p>
             </div>
 
-            <p className="text-xs text-gray-400 dark:text-neutral-500 mt-1">
-                {t("minsReading", { count: milestone.minutes })}
-            </p>
-
-            <div className="w-full my-4">
-                <div className="h-3 w-full bg-gray-400 dark:bg-neutral-700 rounded-full overflow-hidden">
-                    <div
-                        className="h-full transition-all duration-300 bg-red-500"
-                        style={{ width: `${milestone.claimed ? 100 : percent}%` }}
-                    />
-                </div>
+            <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-neutral-700">
+                <div
+                    className={`h-full rounded-full transition-all duration-300 ${milestone.reached || milestone.claimed ? "bg-red-600" : "bg-amber-400"}`}
+                    style={{ width: `${milestone.claimed ? 100 : percent}%` }}
+                />
             </div>
 
             <button
                 type="button"
                 onClick={() => onClaim(milestone.minutes)}
                 disabled={!canClaim}
-                className={`w-full py-2 rounded-lg text-white ${canClaim
-                    ? "bg-red-600"
-                    : "bg-gray-400 dark:bg-neutral-700 cursor-not-allowed"
+                className={`mt-4 w-full rounded-xl py-3 text-base font-semibold ${canClaim
+                    ? "bg-red-600 text-white hover:bg-red-700"
+                    : "cursor-not-allowed bg-gray-100 text-gray-500 dark:bg-neutral-700 dark:text-neutral-300"
                     }`}
             >
                 {milestone.claimed
-                    ? t("resetsIn", { time: formatTime(resetIn) })
+                    ? formatTime(resetIn)
                     : claiming
                         ? t("claiming")
                         : milestone.reached
@@ -174,7 +169,7 @@ export default function ReadingRewards() {
     const milestones = status?.milestones ?? DEFAULT_MILESTONES;
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 my-4">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 my-4">
             {milestones.map((m) => (
                 <RewardCard
                     key={m.minutes}

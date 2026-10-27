@@ -18,6 +18,7 @@ import { cancelCodes } from "@/lib/auth/emailCode";
 import { isClosedAccount, CLOSED_MESSAGE } from "@/lib/auth/loginLimit";
 import { canUseReaderApp, type TokenUser } from "@/lib/auth/token";
 import { AUTH_CONFIG } from "@/lib/auth/authConfig";
+import { logError } from "@/lib/log";
 
 export type Provider = "google" | "facebook";
 
@@ -86,7 +87,7 @@ export async function prepareReader(userId: string) {
     try {
         await withTransaction((client) => ensureReaderProfile(client, userId, ""));
     } catch (error) {
-        console.error("Reader profile setup failed:", error);
+        logError("Reader profile setup failed:", error);
     }
     await grantSignupBonusSafely(userId);
 }

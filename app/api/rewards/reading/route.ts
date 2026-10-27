@@ -3,6 +3,7 @@
 import { getCurrentUser } from "@/lib/auth/session";
 import { getReadingStatus } from "@/lib/readingReward";
 import { reply } from "@/lib/auth/rules";
+import { logError } from "@/lib/log";
 
 export async function GET() {
     const user = await getCurrentUser();
@@ -10,7 +11,7 @@ export async function GET() {
     try {
         return reply(200, "OK", { status: await getReadingStatus(user.id) });
     } catch (error) {
-        console.error("Reading status error:", error);
+        logError("Reading status error:", error);
         return reply(500, "couldntLoadReadingTime");
     }
 }

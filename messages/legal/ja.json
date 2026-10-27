@@ -205,7 +205,7 @@
     ]
   },
   "communityGuidelines": {
-    "title": "FANG Community Guidelines & Policy",
+    "title": "FANGコミュニティガイドライン&ポリシー",
     "blocks": [
       {
         "t": "div",
@@ -218,19 +218,19 @@
           },
           {
             "t": "p",
-            "text": "Effective Date: August 18, 2026"
+            "text": "施行日: 2026年8月18日"
           },
           {
             "t": "p",
-            "text": "FANG is a premier digital storytelling platform engineered for readers who enjoy immersive serialization and writers who cultivate highly engaged fan communities. FANG supports creative freedom across complex adult fiction tracks, including Dark Romance, Werewolf, Vampire, Mafia, Billionaire, Thrillers, and emotionally addictive narrative arcs."
+            "text": "FANGは、連載形式の作品に夢中になれる読者と、熱心なファンコミュニティを育む作家のために設計された、一流のデジタルストーリーテリングプラットフォームです。FANGは、ダークロマンス、人狼、バンパイア、マフィア、億万長者、スリラーなど、感情に強く訴える複雑な大人向けフィクション全般における創作の自由を支援します。"
           },
           {
             "t": "p",
-            "text": "These Community Guidelines and Content Policies outline the exact structural boundaries governing permitted user behavior, content moderation thresholds, and media restrictions across our ecosystem. By accessing or publishing content on FANG, you explicitly agree to adhere to these guidelines alongside our core Terms of Use and Privacy Policy."
+            "text": "本コミュニティガイドラインおよびコンテンツポリシーは、当社のエコシステム全体における許可されるユーザー行動、コンテンツモデレーションのしきい値、メディアに関する制限についての正確な構造的境界を定めています。FANGにアクセスしたりコンテンツを公開したりすることで、利用規約およびプライバシーポリシーとともに本ガイドラインに従うことに明示的に同意したものとみなされます。"
           },
           {
             "t": "p",
-            "text": "The FANG platform is operated by IFO DIGITAL MEDIA, LLC, 1111B S Governors Ave STE 52111, Dover, DE 19904, United States. Support Desk: support@fangapp.io | Legal Operations: legal@fangapp.io"
+            "text": "FANGプラットフォームは、IFO DIGITAL MEDIA, LLC（1111B S Governors Ave STE 52111, Dover, DE 19904, アメリカ合衆国）によって運営されています。サポート窓口: support@fangapp.io | 法務オペレーション: legal@fangapp.io"
           }
         ]
       },
@@ -241,11 +241,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "1. Creative Freedom Framework"
+            "text": "1. 創作の自由に関する基本方針"
           },
           {
             "t": "p",
-            "text": "FANG proudly champions a highly expansive catalog of fictional storytelling. We understand that high-stakes creative literature frequently incorporates emotionally intense, complex, dramatic, or dark themes. Fictional conflict, character obsession, narrative manipulation, and stylized genre violence do not automatically violate our structural boundaries. However, content will be systematically restricted, demonetized, or permanently removed if it crosses defined legal, safety, compliance, or payment gateway operational thresholds."
+            "text": "FANGは、幅広いフィクション作品を誇りを持って支援しています。緊張感のある創作文学には、感情的に激しく、複雑で、ドラマチック、またはダークなテーマが含まれることが多いことを理解しています。フィクション上の対立、キャラクターへの執着、物語上の操作、様式化されたジャンル的暴力表現は、それ自体で当社の構造的な境界に違反するものではありません。しかし、定められた法的、安全性、コンプライアンス、決済事業者に関する運用上のしきい値を超えるコンテンツは、組織的に制限、収益化停止、または永久削除の対象となります。"
           }
         ]
       },
@@ -256,19 +256,19 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "2. Book Titles and Metadata Standards"
+            "text": "2. 書籍タイトルおよびメタデータの基準"
           },
           {
             "t": "p",
-            "text": "Book titles and text metadata profiles must accurately represent the creative work and remain entirely appropriate for public distribution storefronts."
+            "text": "書籍のタイトルおよびテキストメタデータは、作品を正確に表し、公開配信プラットフォームにおいて完全に適切なものである必要があります。"
           },
           {
             "t": "p",
-            "text": "Permitted Metadata: Seductive or dramatic titles, mature romance branding, and standard genre terminology (e.g., The Alpha’s Obsession, Claimed by the Mafia King, Bound to the Vampire Lord)."
+            "text": "許可されるメタデータ: 誘惑的またはドラマチックなタイトル、大人向けロマンスのブランディング、標準的なジャンル用語（例: The Alpha's Obsession、Claimed by the Mafia King、Bound to the Vampire Lord）。"
           },
           {
             "t": "p",
-            "text": "Prohibited Metadata: Titles containing explicit pornographic phrasing, real-world slurs, hate speech, or terms directly promoting the exploitation of minors, or text deliberately designed to infringe existing copyrighted trademarks or established commercial brands."
+            "text": "禁止されるメタデータ: 明示的なポルノ表現、実在する差別用語、ヘイトスピーチ、未成年者の搾取を直接助長する表現を含むタイトル、または既存の著作権付き商標や確立された商業ブランドを侵害するよう意図的に作成されたテキスト。"
           }
         ]
       },
@@ -279,19 +279,19 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "3. Book Cover and Media Art Regulations"
+            "text": "3. 書籍カバーおよびメディア素材に関する規定"
           },
           {
             "t": "p",
-            "text": "Book covers and associated storefront media assets must remain strictly suitable for public display across global mobile distribution marketplaces."
+            "text": "書籍カバーおよび関連するストア用メディア素材は、世界各国のモバイル配信マーケットプレイスでの公開表示に厳格に適したものでなければなりません。"
           },
           {
             "t": "p",
-            "text": "Permitted Artwork: Romantic embracing, stylized kissing scenes, fantasy weapons within fictional contexts, artistic blood elements within horror configurations, shirtless characters, and dark aesthetic illustrations."
+            "text": "許可されるアートワーク: ロマンチックな抱擁、様式化されたキスシーン、フィクション内のファンタジー武器、ホラー表現における芸術的な血の要素、上半身裸のキャラクター、ダークな美学のイラスト。"
           },
           {
             "t": "p",
-            "text": "Prohibited Artwork: Explicit graphic nudity, visible genitals or nipples, graphic representations of sexual acts, real-world extreme gore, or graphic self-harm depictions. Any cover utilizing copyright-infringing source graphics or unauthorized celebrity likenesses will be instantly removed."
+            "text": "禁止されるアートワーク: 明示的な露骨なヌード、性器や乳首の露出、性的行為の露骨な表現、現実世界における過激な残酷描写、または露骨な自傷行為の描写。著作権を侵害する素材や無断で著名人に似せた画像を使用したカバーは直ちに削除されます。"
           }
         ]
       },
@@ -302,43 +302,43 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "4. Story Content Thresholds"
+            "text": "4. ストーリーコンテンツのしきい値"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "4.1 Permitted Fiction Formats"
+            "text": "4.1 許可されるフィクション形式"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Mature romance and complex character interactions;",
-              "Atmospheric dark romance, high-stakes psychological tension, and emotional drama;",
-              "Stylized fantasy combat, supernatural action sequences, and werewolf/vampire lore;",
-              "Narrative sexual tension and non-graphic intimate scenes;",
-              "Diverse LGBTQ+ relationships and comprehensive speculative fiction."
+              "大人向けロマンスおよび複雑なキャラクター間の交流;",
+              "雰囲気のあるダークロマンス、緊迫した心理的緊張、感情的なドラマ;",
+              "様式化されたファンタジー戦闘、超自然的なアクションシーン、人狼・バンパイアに関する設定;",
+              "物語上の性的緊張感および露骨でない親密なシーン;",
+              "多様なLGBTQ+関係および包括的なスペキュレイティブフィクション。"
             ]
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "4.2 Prohibited Content Categories"
+            "text": "4.2 禁止されるコンテンツのカテゴリー"
           },
           {
             "t": "p",
-            "text": "In strict alignment with global legal frameworks and our merchant processor compliance rules, FANG maintains a zero-tolerance policy toward the following text or media configurations:"
+            "text": "グローバルな法的枠組みおよび決済事業者のコンプライアンス規定に厳格に従い、FANGは以下のテキストまたはメディアの内容に対してゼロトレランス方針を維持します。"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Any representation of sexual content, exploitation, or abuse involving minors;",
-              "Real-world terrorist propaganda, violent extremism, or hate group recruitment text;",
-              "Detailed instructional guides for executing serious real-world criminal acts or manufacturing illegal weapons;",
-              "Non-consensual explicit sexual exploitation, graphic sexual violence, or bestiality;",
-              "Extreme real-world gore or graphic physical mutilation presented for shock value;",
-              "The promotion, encouragement, or instructional tracking of suicide or self-harm actions."
+              "未成年者が関与する性的表現、搾取、虐待のいかなる描写;",
+              "現実世界におけるテロリズムの宣伝、暴力的過激主義、または憎悪団体への勧誘テキスト;",
+              "現実世界における重大な犯罪行為や違法な武器製造に関する詳細な指南;",
+              "同意のない露骨な性的搾取、露骨な性的暴力、または獣姦;",
+              "衝撃目的で描かれる現実世界の過激な残酷描写や露骨な身体損傷の描写;",
+              "自殺または自傷行為の助長、推奨、または手順の説明。"
             ]
           }
         ]
@@ -350,23 +350,23 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "5. Content Moderation & Programmatic Enforcement"
+            "text": "5. コンテンツモデレーションと自動執行"
           },
           {
             "t": "p",
-            "text": "To maintain absolute platform safety, FANG utilizes a multi-layered compliance verification network."
+            "text": "プラットフォームの完全な安全性を維持するため、FANGは多層的なコンプライアンス検証ネットワークを活用しています。"
           },
           {
             "t": "p",
-            "text": "User Reporting: Every story page across the platform features an active “Report Book” interface button, allowing readers to flag content for intellectual property theft, safety violations, or policy infractions."
+            "text": "ユーザー報告: プラットフォーム上のすべてのストーリーページには「作品を報告」ボタンが設置されており、読者が知的財産の盗用、安全違反、ポリシー違反についてコンテンツを報告できます。"
           },
           {
             "t": "p",
-            "text": "Programmatic Controls: Our backend servers actively analyze these user signals. Stories that accumulate verified reporting thresholds are programmatically isolated, hidden from public storefront navigation, and automatically demonetized pending manual human review."
+            "text": "自動制御: 当社のバックエンドサーバーはこれらのユーザー信号を常に分析しています。検証済みの報告しきい値に達した作品は自動的に隔離され、公開ストアのナビゲーションから非表示にされ、人による審査が完了するまで自動的に収益化が停止されます。"
           },
           {
             "t": "p",
-            "text": "Keyword Scanning: Newly published manuscripts are automatically scanned via text-matching string filters to block known high-risk extremist phrases or malicious configurations before publication occurs."
+            "text": "キーワードスキャン: 新たに公開される原稿は、公開前にテキストマッチングフィルターによって自動的にスキャンされ、既知の高リスクな過激主義的表現や悪質な内容がブロックされます。"
           }
         ]
       },
@@ -377,15 +377,15 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "6. Intellectual Property, Plagiarism & AI Controls"
+            "text": "6. 知的財産、盗作、およびAIに関する管理"
           },
           {
             "t": "p",
-            "text": "Copyright Infringement: FANG strictly prohibits plagiarism, unauthorized text translations, or the reposting of stolen novels from alternative publishing networks. Systemic violations will result in permanent account deactivation and the complete forfeiture of monetization privileges."
+            "text": "著作権侵害: FANGは、盗作、無許可のテキスト翻訳、他の出版ネットワークから盗まれた小説の再投稿を厳しく禁止します。組織的な違反は、アカウントの永久停止および収益化権限の完全な剥奪につながります。"
           },
           {
             "t": "p",
-            "text": "Artificial Intelligence (AI) Parameters: Creators may utilize generative software utilities as creative tools, provided that the uploader possesses all necessary commercial usage rights for the source materials. AI-assisted content must completely comply with our core content safety rules, must be meaningfully curated or edited, and must not consist of mass-generated automated spam text designed to manipulate platform metrics. Unedited AI spam text is programmatically excluded from platform contract rewards."
+            "text": "AI（人工知能）に関する規定: クリエイターは、素材の必要な商用利用権をすべて保有している場合に限り、生成AIソフトウェアを創作ツールとして利用できます。AI支援コンテンツは、当社の基本的なコンテンツ安全規定を完全に遵守し、意味のある編集・キュレーションが行われている必要があり、プラットフォームの指標を操作するために大量生成された自動スパムテキストであってはなりません。編集されていないAIスパムテキストは、プラットフォームの契約報酬から自動的に除外されます。"
           }
         ]
       },
@@ -396,19 +396,19 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "7. Reviews, Comments, and Community Interaction"
+            "text": "7. レビュー、コメント、コミュニティでの交流"
           },
           {
             "t": "p",
-            "text": "We are committed to maintaining a supportive, professional digital arena for our writing and reading communities. We do not permit:"
+            "text": "FANGは、執筆および読書コミュニティのために、支え合いのある、プロフェッショナルなデジタル空間を維持することに努めています。以下の行為は禁止されています。"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Targeted harassment, doxxing, personal threats, or malicious bullying;",
-              "Coordinated review manipulation or fraudulent engagement tracking;",
-              "Hate speech targeting individuals based on race, religion, orientation, or protected status."
+              "個人への嫌がらせ、晒し行為、個人的な脅迫、悪意のあるいじめ;",
+              "組織的なレビュー操作や不正なエンゲージメント集計;",
+              "人種、宗教、性的指向、その他の保護対象属性に基づく個人へのヘイトスピーチ。"
             ]
           }
         ]
@@ -420,7 +420,7 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "8. Corporate Contact Information"
+            "text": "8. 企業連絡先情報"
           },
           {
             "t": "p",
@@ -436,15 +436,15 @@
           },
           {
             "t": "p",
-            "text": "United States"
+            "text": "アメリカ合衆国"
           },
           {
             "t": "p",
-            "text": "User Support: support@fangapp.io"
+            "text": "ユーザーサポート: support@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Legal Infrastructure: legal@fangapp.io"
+            "text": "法務部門: legal@fangapp.io"
           },
           {
             "t": "p",
@@ -456,7 +456,7 @@
     ]
   },
   "dmca": {
-    "title": "DMCA Guidelines",
+    "title": "DMCAガイドライン",
     "blocks": [
       {
         "t": "div",
@@ -469,31 +469,31 @@
           },
           {
             "t": "p",
-            "text": "Effective Date: August 18, 2026"
+            "text": "施行日: 2026年8月18日"
           },
           {
             "t": "p",
-            "text": "DMCA Designated Agent Registration ID: DMCA-1073241"
+            "text": "DMCA指定代理人登録ID: DMCA-1073241"
           },
           {
             "t": "p",
-            "text": "FANG respects intellectual property rights and expects all readers, writers, publishers, editors, and platform partners to do the same. We are committed to maintaining a lawful, creator-focused, and fair digital storytelling ecosystem. FANG strictly prohibits the publication of content that infringes upon third-party copyrights, trademarks, patents, or proprietary rights."
+            "text": "FANGは知的財産権を尊重し、すべての読者、作家、出版者、編集者、プラットフォームパートナーにも同様の対応を求めます。当社は、合法的で、クリエイターを中心とした、公正なデジタルストーリーテリングのエコシステムを維持することに努めています。FANGは、第三者の著作権、商標、特許、または財産権を侵害するコンテンツの公開を厳しく禁止します。"
           },
           {
             "t": "p",
-            "text": "This Copyright Policy details the specific procedures through which intellectual property owners may report alleged digital infringement, and outlines how platform users may respond to claims submitted against their hosted content. FANG operates in compliance with the Digital Millennium Copyright Act (“DMCA”) Safe Harbor provisions applicable to online digital service providers."
+            "text": "本著作権ポリシーは、知的財産権の所有者が疑われるデジタル上の侵害を報告するための具体的な手続きを詳述し、プラットフォーム利用者が自身のコンテンツに対して提出された申し立てにどのように対応できるかを説明します。FANGは、オンラインデジタルサービス提供者に適用されるデジタルミレニアム著作権法（「DMCA」）のセーフハーバー条項に準拠して運営されています。"
           },
           {
             "t": "p",
-            "text": "The FANG service infrastructure is operated by IFO DIGITAL MEDIA, LLC, 1111B S Governors Ave STE 52111, Dover, DE 19904, United States."
+            "text": "FANGサービスの基盤は、IFO DIGITAL MEDIA, LLC（1111B S Governors Ave STE 52111, Dover, DE 19904, アメリカ合衆国）によって運営されています。"
           },
           {
             "t": "p",
-            "text": "Support Desk: support@fangapp.io"
+            "text": "サポート窓口: support@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Legal Operations: legal@fangapp.io"
+            "text": "法務オペレーション: legal@fangapp.io"
           }
         ]
       },
@@ -504,15 +504,15 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "1. Protocol for Reporting Copyright Infringement"
+            "text": "1. 著作権侵害の報告手順"
           },
           {
             "t": "p",
-            "text": "If you have a good-faith belief that creative materials available across the FANG service infringe upon your original copyright or intellectual property rights, you may submit a formal written copyright complaint (“DMCA Notice”) directly to our legal department."
+            "text": "FANGサービス上で利用可能な創作物が、あなたの元の著作権または知的財産権を侵害していると誠実に信じる場合、正式な書面による著作権侵害の申し立て（「DMCA通知」）を直接当社法務部門に提出することができます。"
           },
           {
             "t": "p",
-            "text": "Your notice must contain specific, comprehensive details enabling us to verify your claim and locate the disputed material. Where legally appropriate and mandated, FANG may share a copy of your complaint, including your provided contact information, with the specific platform user who uploaded the reported story files."
+            "text": "通知には、当社が主張を確認し、問題の対象物を特定できるよう、具体的かつ包括的な詳細を含める必要があります。法的に適切かつ義務付けられている場合、FANGは報告された作品ファイルをアップロードした特定のプラットフォーム利用者に対し、提供された連絡先情報を含む申し立てのコピーを共有することがあります。"
           }
         ]
       },
@@ -523,74 +523,74 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "2. Statutory Criteria for a Valid DMCA Notice"
+            "text": "2. 有効なDMCA通知の法的要件"
           },
           {
             "t": "p",
-            "text": "To evaluate and process your copyright claim quickly, your written notice must include the following components:"
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "a) Identification of the Protected Work"
-          },
-          {
-            "t": "p",
-            "text": "A description of the original copyrighted work or proprietary intellectual property you claim has been actively infringed."
+            "text": "著作権侵害の申し立てを迅速に評価・処理するため、書面による通知には以下の内容を含める必要があります。"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "b) Identification of the Infringing Material"
+            "text": "a) 保護されている作品の特定"
           },
           {
             "t": "p",
-            "text": "The specific story title, chapter numbers (if applicable), author username, and the direct URL link or inside-application location parameters necessary to isolate the content."
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "c) Claimant Contact Details"
-          },
-          {
-            "t": "p",
-            "text": "Your full legal name, active email address, physical mailing address, and telephone number."
+            "text": "積極的に侵害されたと主張する、元の著作権で保護された作品または知的財産の説明。"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "d) Supporting Verification Records"
+            "text": "b) 侵害している対象物の特定"
           },
           {
             "t": "p",
-            "text": "Copies of formal copyright registration certificates, original timestamped publication logs, historical creative drafts, or relevant distribution licensing agreements."
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "e) Good-Faith Affirmation"
-          },
-          {
-            "t": "p",
-            "text": "An explicit statement that you have a good-faith belief that the disputed use of the intellectual property is not authorized by the copyright owner, its legal agent, or current federal statutes."
+            "text": "対象コンテンツを特定するために必要な、具体的な作品名、章番号（該当する場合）、作者のユーザー名、および直接のURLリンクまたはアプリ内の位置情報。"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "f) Perjury Declaration"
+            "text": "c) 申立人の連絡先情報"
           },
           {
             "t": "p",
-            "text": "A statement made under penalty of perjury that the data provided within your notice is entirely accurate, and that you are the copyright holder or are legally authorized to act on behalf of the owner."
+            "text": "あなたの正式な氏名、有効なメールアドレス、郵送先住所、および電話番号。"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "g) Authorized Signature"
+            "text": "d) 証拠となる確認資料"
           },
           {
             "t": "p",
-            "text": "A physical or verified electronic signature of the copyright owner or an authorized legal representative."
+            "text": "正式な著作権登録証明書の写し、タイムスタンプ付きの公開記録の原本、過去の創作原稿、または関連する配信ライセンス契約書。"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "e) 誠実性に関する確認"
+          },
+          {
+            "t": "p",
+            "text": "問題となっている知的財産の使用が、著作権所有者、その法的代理人、または現行の連邦法によって許可されていないと誠実に信じていることを明示する声明。"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "f) 偽証に関する宣誓"
+          },
+          {
+            "t": "p",
+            "text": "通知内で提供された情報がすべて正確であること、およびあなたが著作権所有者であるか、所有者に代わって行動する法的権限を有していることについて、偽証罪のもとで行う宣誓。"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "g) 正式な署名"
+          },
+          {
+            "t": "p",
+            "text": "著作権所有者または正当な法的代理人による自筆または確認済みの電子署名。"
           }
         ]
       },
@@ -601,27 +601,27 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "3. Submission Channels for Copyright Complaints"
+            "text": "3. 著作権侵害の申し立ての送付先"
           },
           {
             "t": "p",
-            "text": "Please route your completed, signed DMCA Notice directly to our compliance office:"
+            "text": "記入および署名済みのDMCA通知は、直接当社のコンプライアンス担当窓口へお送りください。"
           },
           {
             "t": "p",
-            "text": "Department: FANG Legal Infrastructure"
+            "text": "部門: FANG法務部門"
           },
           {
             "t": "p",
-            "text": "Email Channel: legal@fangapp.io"
+            "text": "メール窓口: legal@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Subject Header: DMCA Notice - [Insert Story Title]"
+            "text": "件名: DMCA通知 - [作品タイトルを入力]"
           },
           {
             "t": "p",
-            "text": "Note: FANG reserves the right to request additional identification documentation or text logs before executing removal actions if the initial notice lacks sufficient details."
+            "text": "注記: 最初の通知に十分な詳細が含まれていない場合、FANGは削除対応を行う前に追加の本人確認書類やテキスト記録を求める権利を留保します。"
           }
         ]
       },
@@ -632,30 +632,30 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "4. Counter-Notification Process"
+            "text": "4. 異議申し立て（カウンターノーティス）の手続き"
           },
           {
             "t": "p",
-            "text": "If your published writing has been removed or hidden due to a copyright complaint, and you believe this action occurred as a result of a mistake, misidentification, or a fair-use protection, you may file a formal counter-notification."
+            "text": "著作権侵害の申し立てにより自身の公開作品が削除または非表示にされ、それが誤り、誤認、またはフェアユースによる保護に基づくものであると考える場合、正式な異議申し立てを行うことができます。"
           },
           {
             "t": "p",
-            "text": "Your counter-notice must be submitted in writing to legal@fangapp.io and must contain:"
+            "text": "異議申し立てはlegal@fangapp.ioへ書面にて提出する必要があり、以下を含める必要があります。"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Your full legal name, telephone number, physical address, and email details",
-              "A description of the material that was hidden or removed and its original platform location prior to isolation",
-              "A statement made under penalty of perjury that you have a good-faith belief that the content was removed or disabled due to mistake or misidentification",
-              "An explicit statement consenting to the jurisdiction of the Federal District Court for the judicial district in which your address is located (or Delaware, if operating outside the United States), and that you will accept service of process from the original complaining party",
-              "Your physical or verified electronic signature"
+              "あなたの正式な氏名、電話番号、住所、およびメールアドレス",
+              "非表示または削除された対象物の説明、および隔離前のプラットフォーム上の元の位置",
+              "コンテンツが誤りまたは誤認によって削除または無効化されたと誠実に信じていることについて、偽証罪のもとで行う宣誓",
+              "あなたの住所が所在する司法管轄区域の連邦地方裁判所（アメリカ合衆国外に居住する場合はデラウェア州）の管轄権に同意し、当初の申立人からの訴訟手続き文書の送達を受け入れることを明示する声明",
+              "あなたの自筆または確認済みの電子署名"
             ]
           },
           {
             "t": "p",
-            "text": "Upon receipt of a valid counter-notification, FANG will forward it to the original complainant. If the copyright owner does not file a court action seeking a restraining order against the content within ten (10) business days, our system is authorized under safe harbor rules to restore the hidden material to public view."
+            "text": "有効な異議申し立てを受領した場合、FANGはこれを当初の申立人に転送します。著作権所有者が10営業日以内にコンテンツに対する差止命令を求める訴訟を提起しない場合、当社のシステムはセーフハーバー規定に基づき、非表示にされた対象物を再公開する権限を有します。"
           }
         ]
       },
@@ -666,20 +666,20 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "5. Automated Content Integrity & Repeat Infringer Policy"
+            "text": "5. 自動コンテンツ監視と常習侵害者に関する方針"
           },
           {
             "t": "p",
-            "text": "In alignment with our automated Acceptable Use Policy (AUP) controls, FANG enforces a zero-tolerance policy against repeat infringers and systemic plagiarism:"
+            "text": "当社の自動化された利用規約（AUP）の管理に基づき、FANGは常習的な侵害者および組織的な盗作に対してゼロトレランス方針を実施します。"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Systemic Violations: A repeat infringer includes any user profile that repeatedly uploads unauthorized content, accumulates multiple distinct valid DMCA notices, or attempts to circumvent platform digital locks.",
-              "Automated Enforcement: Users may flag copyright violations directly inside our reading interface via our native “Report Book” protocols. Our system programmatically tallies these signals to isolate, restrict, and automatically demonetize high-risk content pending formal review.",
-              "Account Deactivation: FANG reserves the absolute right to suspend, restrict, or permanently terminate any user account or creator profile found in chronic violation of this section.",
-              "Forfeiture of Ledger Balances: In cases of severe, systemic plagiarism or deliberate copyright fraud, FANG reserves the right to permanently withhold accrued virtual coin earnings, promotional bonuses, and publisher rewards generated via the infringing material."
+              "組織的な違反: 常習侵害者には、無許可のコンテンツを繰り返しアップロードするユーザープロフィール、複数の異なる有効なDMCA通知を受けているユーザープロフィール、またはプラットフォームのデジタル保護を回避しようとするユーザープロフィールが含まれます。",
+              "自動執行: ユーザーは、読書インターフェース内の「作品を報告」機能を通じて、著作権侵害を直接報告できます。当社のシステムはこれらの報告を自動的に集計し、高リスクなコンテンツを隔離・制限し、正式な審査が完了するまで自動的に収益化を停止します。",
+              "アカウントの停止: FANGは、本条項に慢性的に違反していると判断されたユーザーアカウントまたはクリエイタープロフィールを、一時停止、制限、または永久に終了させる権利を完全に留保します。",
+              "残高の没収: 重大かつ組織的な盗作や、意図的な著作権に関する不正行為が認められた場合、FANGは侵害対象物から得た仮想コインの収益、プロモーション特典、作家報酬を永久に差し止める権利を留保します。"
             ]
           }
         ]
@@ -691,11 +691,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "6. Protection Against Fraudulent and Abusive Claims"
+            "text": "6. 不正・悪用的な申し立てに対する保護"
           },
           {
             "t": "p",
-            "text": "Under Section 512(f) of the DMCA, any individual who knowingly materially misrepresents that online material is infringing can be held legally liable for damages, including court costs and attorneys' fees incurred by the alleged infringer or the platform provider. FANG will actively pursue account deactivation and legal remedies against any party who knowingly submits false, malicious, or misleading copyright notices to disrupt our creators."
+            "text": "DMCA第512条(f)項に基づき、オンライン上の対象物が侵害していると故意に実質的な虚偽の主張を行った者は、訴えられた者やプラットフォーム提供者が負った訴訟費用や弁護士費用を含む損害について法的責任を問われる可能性があります。FANGは、当社のクリエイターを妨害する目的で故意に虚偽、悪意、または誤解を招く著作権通知を送信する者に対し、アカウント停止や法的措置を積極的に講じます。"
           }
         ]
       },
@@ -706,15 +706,15 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "7. Platform Neutrality Framework"
+            "text": "7. プラットフォームの中立性に関する方針"
           },
           {
             "t": "p",
-            "text": "FANG operates fundamentally as a neutral online service provider. We do not pre-screen all serialized manuscript text before publication, nor do we independently investigate the absolute copyright chain of every chapter uploaded by creators to FangWriters."
+            "text": "FANGは基本的に中立的なオンラインサービス提供者として運営されています。当社は、公開前にすべての連載原稿のテキストを事前審査することはなく、FangWritersにクリエイターがアップロードする各章について著作権の完全な経緯を独自に調査することもありません。"
           },
           {
             "t": "p",
-            "text": "Upon receipt of valid legal notices, we act immediately to review, isolate, or restrict access to the disputed material in complete compliance with federal safe harbor regulations. FANG reserves the right to temporarily disable access to or demonetize content at its sole discretion while an active copyright audit is ongoing."
+            "text": "有効な法的通知を受領した場合、当社は連邦セーフハーバー規定に完全に準拠し、問題の対象物の確認、隔離、またはアクセス制限を速やかに実施します。著作権に関する調査が進行している間、FANGは独自の裁量により、コンテンツへのアクセスを一時的に無効化したり収益化を停止したりする権利を留保します。"
           }
         ]
       },
@@ -725,15 +725,15 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "8. Artificial Intelligence (AI) Content Regulations"
+            "text": "8. 人工知能（AI）コンテンツに関する規定"
           },
           {
             "t": "p",
-            "text": "Platform uploaders bear 100% responsibility for ensuring that any AI-assisted or AI-generated text, artwork, or cover designs uploaded to the platform do not infringe upon the copyrights, trademarks, or publicity rights of third parties. The utilization of generative software tools does not transfer or remove liability from the uploader."
+            "text": "プラットフォームへのコンテンツ投稿者は、AI支援またはAI生成のテキスト、アートワーク、カバーデザインが第三者の著作権、商標、パブリシティ権を侵害していないことについて、100%の責任を負います。生成AIソフトウェアツールの使用は、投稿者の責任を移転または免除するものではありません。"
           },
           {
             "t": "p",
-            "text": "FANG reserves the absolute right to remove AI-generated stories that trigger our automated content matching or user-reporting systems. Furthermore, unedited AI-generated text content does not guarantee corporate contract eligibility, bonus allocations, or custom platform marketing promotions."
+            "text": "FANGは、自動コンテンツマッチングシステムまたはユーザー報告システムをトリガーするAI生成作品を削除する権利を完全に留保します。さらに、未編集のAI生成テキストコンテンツは、企業契約の対象資格、特典の割り当て、またはプラットフォーム独自のマーケティング施策を保証するものではありません。"
           }
         ]
       },
@@ -744,11 +744,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "9. International Rights Documentation"
+            "text": "9. 国際的な権利に関する文書"
           },
           {
             "t": "p",
-            "text": "If you are logging an intellectual property complaint on behalf of an international publishing house, foreign literary agency, or corporate group, FANG may request official proof of legal authorization, corporate business registries, or localization power-of-attorney documentation. Any supporting records submitted in languages other than English must be accompanied by certified English translations to be evaluated."
+            "text": "国際的な出版社、海外の文学エージェンシー、または企業グループを代理して知的財産に関する申し立てを行う場合、FANGは正式な法的権限を示す証明、企業の登記情報、または現地化のための委任状の提出を求めることがあります。英語以外の言語で提出される補足資料は、評価のため、公認の英語翻訳を添付する必要があります。"
           }
         ]
       },
@@ -759,7 +759,7 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "10. Contact Information"
+            "text": "10. 連絡先情報"
           },
           {
             "t": "p",
@@ -775,15 +775,15 @@
           },
           {
             "t": "p",
-            "text": "United States"
+            "text": "アメリカ合衆国"
           },
           {
             "t": "p",
-            "text": "Reader Support: support@fangapp.io"
+            "text": "読者サポート: support@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Legal Department: legal@fangapp.io"
+            "text": "法務部: legal@fangapp.io"
           },
           {
             "t": "p",
@@ -795,7 +795,7 @@
     ]
   },
   "privacy": {
-    "title": "Privacy Policy",
+    "title": "プライバシーポリシー",
     "blocks": [
       {
         "t": "div",
@@ -808,11 +808,11 @@
           },
           {
             "t": "p",
-            "text": "Effective Date: August 18, 2026"
+            "text": "施行日: 2026年8月18日"
           },
           {
             "t": "p",
-            "text": "FANG (“FANG,” “we,” “our,” or “us”) respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, store, share, and protect information when you use the FANG mobile application, website, writer portal, and related services (collectively, the “Services”). FANG is operated by IFO DIGITAL MEDIA, LLC."
+            "text": "FANG（以下「FANG」「当社」といいます）は、あなたのプライバシーを尊重し、個人情報の保護に努めています。本プライバシーポリシーは、FANGモバイルアプリ、ウェブサイト、作家ポータル、および関連サービス（以下「サービス」）をご利用いただく際に、当社が情報をどのように収集、利用、保存、共有、保護するかについて説明します。FANGはIFO DIGITAL MEDIA, LLCによって運営されています。"
           }
         ]
       },
@@ -823,7 +823,7 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "1. Company Information"
+            "text": "1. 会社情報"
           },
           {
             "t": "div",
@@ -843,62 +843,62 @@
               },
               {
                 "t": "p",
-                "text": "United States"
+                "text": "アメリカ合衆国"
               },
               {
                 "t": "p",
-                "text": "Support: support@fangapp.io"
+                "text": "サポート: support@fangapp.io"
               },
               {
                 "t": "p",
-                "text": "Legal: legal@fangapp.io"
+                "text": "法務: legal@fangapp.io"
               }
             ]
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Finality of Sale"
+            "text": "販売の確定性"
           },
           {
             "t": "p",
-            "text": "All purchases of Coins completed on the FANG website or mobile applications are absolute, permanent, instant, and completely non-refundable."
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "No Cash Value"
-          },
-          {
-            "t": "p",
-            "text": "Coins possess zero real-world monetary value, are completely non-transferable, and can never be exchanged, redeemed, or reversed for fiat cash or external credit."
+            "text": "FANGのウェブサイトまたはモバイルアプリで完了したコインの購入はすべて、確定的、永久的、即時に有効となり、一切返金されません。"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Instant Consumption Waiver"
+            "text": "現金としての価値はありません"
           },
           {
             "t": "p",
-            "text": "Digital coin top-ups deliver instant database utility. The exact second Coins are credited to your user wallet profile, the contract of sale is fulfilled in its entirety. You explicitly waive any statutory right of withdrawal, consumer cooling-off periods, or transaction cancellations."
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "User Error Protection"
-          },
-          {
-            "t": "p",
-            "text": "FANG does not issue refunds, replacements, or credits for Coins purchased accidentally, Coins spent unlocking chapters inadvertently, or Coins lost due to an account password compromise resulting from user negligence."
+            "text": "コインは実世界において金銭的価値を持たず、譲渡することはできず、現金や外部の通貨への交換・引き換え・取り消しは一切できません。"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Exceptional Technical Errors"
+            "text": "即時消費に関する権利放棄"
           },
           {
             "t": "p",
-            "text": "If an authentic banking failure occurs where funds were cleared from your card but Coins were not delivered due to a system glitch, you must contact support@fangapp.io within forty-eight (48) hours with verified transaction logs. FANG may, at its sole discretion, issue digital Coin replacements."
+            "text": "デジタルコインのチャージは即時にデータベース上の効力を発揮します。コインがあなたのウォレットプロフィールに付与された瞬間に、売買契約は完全に履行されたものとなります。あなたは、法定の撤回権、消費者クーリングオフ期間、または取引のキャンセルに関する権利を明示的に放棄するものとします。"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "ユーザー過失に対する対応"
+          },
+          {
+            "t": "p",
+            "text": "FANGは、誤って購入されたコイン、誤って章の解除に使用されたコイン、またはユーザーの過失によるアカウントパスワードの漏洩により失われたコインについて、返金、交換、クレジットの発行を行いません。"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "例外的な技術的エラー"
+          },
+          {
+            "t": "p",
+            "text": "カードから資金が決済されたにもかかわらず、システム障害によりコインが付与されなかった正当な決済上の問題が発生した場合、確認可能な取引記録とともに48時間以内にsupport@fangapp.ioへご連絡ください。FANGは独自の裁量により、デジタルコインの再発行を行う場合があります。"
           }
         ]
       },
@@ -909,70 +909,70 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "2. Information We Collect"
+            "text": "2. 当社が収集する情報"
           },
           {
             "t": "p",
-            "text": "We collect information you provide directly to us, information collected automatically through your use of the Services, and information received from third-party providers."
+            "text": "当社は、あなたが直接提供する情報、サービスの利用により自動的に収集される情報、および第三者提供者から受け取る情報を収集します。"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "2.1 Information You Provide"
+            "text": "2.1 あなたが提供する情報"
           },
           {
             "t": "p",
-            "text": "When you create an account or interact with FANG, we may collect:"
+            "text": "アカウントを作成したり、FANGと関わったりする際、当社は以下の情報を収集することがあります。"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Username, legal name, and email address;",
-              "Password or secure login credentials;",
-              "Profile pictures and biography details;",
-              "Comments, reviews, direct messages, and user-generated literary content;",
-              "Purchase, subscription history, and payout ledger preferences;",
-              "Customer support communications and basic account verification details."
+              "ユーザー名、本名、メールアドレス;",
+              "パスワードまたは安全なログイン認証情報;",
+              "プロフィール画像および自己紹介情報;",
+              "コメント、レビュー、ダイレクトメッセージ、およびユーザーが作成した文芸コンテンツ;",
+              "購入履歴、サブスクリプション履歴、および支払い記録に関する設定;",
+              "カスタマーサポートとのやり取り、および基本的なアカウント確認情報。"
             ]
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "2.2 Device Permissions"
+            "text": "2.2 デバイスの権限"
           },
           {
             "t": "p",
-            "text": "Depending on the features you use, FANG may request access to your device’s camera, photo library, storage, and push notifications. You may choose to deny these permissions, though some platform features may become unavailable."
+            "text": "ご利用になる機能によっては、FANGがあなたのデバイスのカメラ、フォトライブラリ、ストレージ、プッシュ通知へのアクセスを求めることがあります。これらの権限を拒否することもできますが、一部の機能が利用できなくなる場合があります。"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "2.3 Information Collected Automatically"
+            "text": "2.3 自動的に収集される情報"
           },
           {
             "t": "p",
-            "text": "When you interact with our Services, we automatically collect:"
+            "text": "当社のサービスをご利用いただく際、当社は以下の情報を自動的に収集します。"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Device type, hardware model, browser version, and operating system;",
-              "Application version and unique device identifiers;",
-              "IP address, language settings, and local time zone;",
-              "Reading activity, preferences, view timestamps, and book interaction statistics;",
-              "Crash reports, system diagnostics, and account log dates."
+              "デバイスの種類、ハードウェアモデル、ブラウザのバージョン、オペレーティングシステム;",
+              "アプリバージョンおよびデバイス固有の識別子;",
+              "IPアドレス、言語設定、ローカルタイムゾーン;",
+              "読書アクティビティ、設定、閲覧日時、作品に対する操作統計;",
+              "クラッシュレポート、システム診断情報、アカウントのログイン記録日時。"
             ]
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "2.4 Information from Third Parties"
+            "text": "2.4 第三者からの情報"
           },
           {
             "t": "p",
-            "text": "If you sign in or link your account through third-party services such as Apple, Google, Facebook, or X (Twitter), we may receive your username, email address, profile information, and basic authentication details from those systems."
+            "text": "Apple、Google、Facebook、X（旧Twitter）などの第三者サービスを通じてサインインまたはアカウントを連携した場合、当社はこれらのシステムから、ユーザー名、メールアドレス、プロフィール情報、基本的な認証情報を受け取ることがあります。"
           }
         ]
       },
@@ -983,132 +983,23 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "3. How We Use Information"
+            "text": "3. 情報の利用方法"
           },
           {
             "t": "p",
-            "text": "We process your personal information to fulfill our business services, including to:"
+            "text": "当社は、以下を含む事業運営の目的で、あなたの個人情報を処理します。"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Create, manage, and secure user and creator accounts;",
-              "Provide, maintain, and optimize platform functionality;",
-              "Personalize reading recommendations and content discovery tracking;",
-              "Securely process coin purchases, premium subscriptions, and creator payouts;",
-              "Deliver responsive customer support and technical troubleshooting;",
-              "Detect, investigate, and prevent fraud, platform abuse, spam, or security risks;",
-              "Ensure full compliance with relevant tax regulations, anti-money laundering (AML) laws, and legal mandates."
-            ]
-          }
-        ]
-      },
-      {
-        "t": "div",
-        "cls": "space-y-3",
-        "blocks": [
-          {
-            "t": "h2",
-            "cls": "font-bold text-xl",
-            "text": "4. Recommendations and Advertising"
-          },
-          {
-            "t": "p",
-            "text": "FANG uses data activity to recommend relevant stories, optimize creator visibility, and measure advertising performance. We may work with verified analytics and advertising partners who utilize cookies or SDKs to help evaluate platform trends. Where legally mandated by regional privacy laws, we will explicitly obtain your consent before processing data for target-advertising tracks."
-          }
-        ]
-      },
-      {
-        "t": "div",
-        "cls": "space-y-3",
-        "blocks": [
-          {
-            "t": "h2",
-            "cls": "font-bold text-xl",
-            "text": "5. Cookies and Similar Technologies"
-          },
-          {
-            "t": "p",
-            "text": "We use cookies, web beacons, and mobile SDKs to keep users safely signed in, remember system preferences, analyze user engagement, and support marketing tracking. You can manage or disable cookies through your browser settings, though doing so may prevent certain e-commerce and login features from functioning properly."
-          }
-        ]
-      },
-      {
-        "t": "div",
-        "cls": "space-y-3",
-        "blocks": [
-          {
-            "t": "h2",
-            "cls": "font-bold text-xl",
-            "text": "6. Sharing of Information"
-          },
-          {
-            "t": "p",
-            "text": "FANG does not sell personal information. We only disclose information under the following corporate guidelines:"
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "6.1 Service Providers and Platform Partners"
-          },
-          {
-            "t": "p",
-            "text": "We share data with verified third-party vendors who assist our core operations, including cloud hosting providers, analytics systems, communication tools, and our merchant payment infrastructure partners (such as Stripe and PayPal)."
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "6.2 Legal Compliance and Platform Protection"
-          },
-          {
-            "t": "p",
-            "text": "We may disclose information where required to comply with court orders, enforce our Terms of Service, defend against legal liabilities, protect public safety, or secure our infrastructure against active fraudulent or cyber threats."
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "6.3 Business Transfers"
-          },
-          {
-            "t": "p",
-            "text": "In the event of a corporate merger, acquisition, structural reorganization, or asset sale, user database information may be transferred as a part of standard corporate assets."
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "6.4 Public Platform Content"
-          },
-          {
-            "t": "p",
-            "text": "Information you intentionally place on public areas of the application including your username, public profile pictures, published novels, comments, book reviews, and community posts is visible to all users across the FANG ecosystem."
-          }
-        ]
-      },
-      {
-        "t": "div",
-        "cls": "space-y-3",
-        "blocks": [
-          {
-            "t": "h2",
-            "cls": "font-bold text-xl",
-            "text": "7. Payment Information"
-          },
-          {
-            "t": "p",
-            "text": "All commercial financial transactions are handled securely by authorized third-party payment gateways, including Apple App Store, Google Play, Stripe, and PayPal. FANG operates on a marketplace structure where consumer coin sales occur on fangapp.io and creator tools are managed separately through FangWriters.com."
-          },
-          {
-            "t": "p",
-            "text": "FANG does not store full credit card or bank account details on our servers. For accounting, fraud prevention, and audit tracking, we securely maintain:"
-          },
-          {
-            "t": "ul",
-            "cls": "list-disc pl-6 space-y-1",
-            "items": [
-              "Numerical transaction IDs and reference keys;",
-              "Platform purchase and subscription records;",
-              "Timestamps and order amounts."
+              "ユーザーおよびクリエイターのアカウントを作成、管理、保護すること;",
+              "プラットフォームの機能を提供、維持、最適化すること;",
+              "読書に関するおすすめの個別最適化、およびコンテンツ発見のための分析;",
+              "コインの購入、プレミアムサブスクリプション、クリエイターへの支払いを安全に処理すること;",
+              "迅速なカスタマーサポートおよび技術的な問題解決を提供すること;",
+              "不正行為、プラットフォームの悪用、スパム、セキュリティリスクを検出、調査、防止すること;",
+              "関連する税法、マネーロンダリング防止（AML）法、その他の法的義務への完全な準拠を確保すること。"
             ]
           }
         ]
@@ -1120,11 +1011,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "8. Data Retention"
+            "text": "4. おすすめコンテンツと広告"
           },
           {
             "t": "p",
-            "text": "We retain personal data only as long as necessary to provide platform availability, manage active accounts, resolve disputes, prevent ongoing fraud, or satisfy federal financial and legal reporting criteria."
+            "text": "FANGは、関連する作品のおすすめ、クリエイターの表示機会の最適化、広告効果の測定のためにデータ活動を利用します。プラットフォームの傾向を評価するために、クッキーやSDKを利用する認証済みの分析・広告パートナーと提携する場合があります。地域のプライバシー法で義務付けられている場合、ターゲティング広告のためのデータ処理前に、明示的に同意を取得します。"
           }
         ]
       },
@@ -1135,11 +1026,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "9. Account Deletion and User Rights"
+            "text": "5. クッキーおよび類似技術"
           },
           {
             "t": "p",
-            "text": "You can request full account deletion at any time through available in-app software settings or by emailing support@fangapp.io. Please note that certain historical transaction data and ledger values may be permanently archived due to strict tax and legal auditing obligations. Deleting an account will immediately permanently terminate access to your purchased coin balances and premium digital libraries. Depending on your physical jurisdiction (such as under GDPR or CCPA frameworks), you have the right to access, correct, or completely delete your personal information, withdraw data consent, or restrict specific processing tracks."
+            "text": "当社は、ユーザーが安全にログイン状態を維持できるようにし、システム設定を記憶し、ユーザーの利用状況を分析し、マーケティング追跡をサポートするために、クッキー、ウェブビーコン、モバイルSDKを使用しています。ブラウザの設定からクッキーを管理または無効にすることができますが、その場合、一部のeコマースやログイン機能が正しく動作しなくなることがあります。"
           }
         ]
       },
@@ -1150,11 +1041,47 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "10. International Data Transfers"
+            "text": "6. 情報の共有"
           },
           {
             "t": "p",
-            "text": "FANG operates via globally distributed cloud servers, with primary operations running in the United States. By utilizing our services, you acknowledge that your personal information may be transferred and securely processed outside of your home country under data protection regulations that may vary from your local laws."
+            "text": "FANGは個人情報を販売しません。情報の開示は、以下の企業方針に基づく場合に限られます。"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "6.1 サービス提供者およびプラットフォームパートナー"
+          },
+          {
+            "t": "p",
+            "text": "当社は、クラウドホスティング事業者、分析システム、コミュニケーションツール、決済基盤パートナー（StripeやPayPalなど）など、当社の基幹業務を支える認証済みの第三者業者とデータを共有します。"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "6.2 法令遵守およびプラットフォームの保護"
+          },
+          {
+            "t": "p",
+            "text": "裁判所の命令への対応、利用規約の執行、法的責任への対応、公共の安全の保護、または不正行為やサイバー攻撃に対する基盤の保護のために必要な場合、当社は情報を開示することがあります。"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "6.3 事業の譲渡"
+          },
+          {
+            "t": "p",
+            "text": "企業の合併、買収、組織再編、または資産譲渡が発生した場合、ユーザーデータベース情報は通常の企業資産の一部として移転されることがあります。"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "6.4 プラットフォーム上の公開コンテンツ"
+          },
+          {
+            "t": "p",
+            "text": "ユーザー名、公開プロフィール画像、公開した小説、コメント、書評、コミュニティへの投稿など、あなたが自ら意図してアプリの公開領域に掲載した情報は、FANGのエコシステム内のすべてのユーザーに表示されます。"
           }
         ]
       },
@@ -1165,11 +1092,24 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "11. Security Protection"
+            "text": "7. 決済情報"
           },
           {
             "t": "p",
-            "text": "We implement administrative, technical, and physical security measures to guard your information against unauthorized access, loss, or manipulation. However, no method of data transmission across the internet can be guaranteed as 100% secure. You hold full responsibility for protecting your individual login profile credentials."
+            "text": "すべての商取引に関する決済は、Apple App Store、Google Play、Stripe、PayPalなどの認証済みの第三者決済システムによって安全に処理されます。FANGは、消費者向けのコイン販売がfangapp.io上で行われ、クリエイター向けツールはFangWriters.comを通じて別途管理されるマーケットプレイス構造で運営されています。"
+          },
+          {
+            "t": "p",
+            "text": "FANGはクレジットカードや銀行口座の全情報を自社サーバーに保存しません。会計処理、不正防止、監査のため、当社は以下の情報を安全に保持します。"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "取引ID番号および参照キー;",
+              "プラットフォーム上の購入およびサブスクリプション記録;",
+              "タイムスタンプおよび注文金額。"
+            ]
           }
         ]
       },
@@ -1180,11 +1120,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "12. Children’s Privacy"
+            "text": "8. データの保持"
           },
           {
             "t": "p",
-            "text": "FANG is strictly an adult web novel platform. In full alignment with our Terms of Use, the Service is not directed toward or intended for children under the age of 18. We do not knowingly collect information from minors. If a parent or guardian believes data has been processed improperly, contact us immediately at support@fangapp.io."
+            "text": "当社は、プラットフォームの提供、アクティブなアカウントの管理、紛争の解決、不正行為の防止、または連邦の財務・法的報告要件を満たすために必要な範囲でのみ、個人データを保持します。"
           }
         ]
       },
@@ -1195,11 +1135,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "13. Third-Party Services"
+            "text": "9. アカウントの削除およびユーザーの権利"
           },
           {
             "t": "p",
-            "text": "Our Services natively interface with external systems, websites, or application links (such as developer tracking links and creator platforms like FangWriters.com). FANG holds no operational responsibility for the distinct privacy policies or data practices managed by third-party systems."
+            "text": "アカウントの完全な削除は、アプリ内の設定またはsupport@fangapp.ioへのメールにより、いつでも申請できます。なお、一部の過去の取引データや記録は、厳格な税務・法的監査義務により永久に保管される場合があります。アカウントを削除すると、購入済みのコイン残高やプレミアムデジタルライブラリへのアクセスは即時かつ永久に失われます。お住まいの地域の法域（GDPRやCCPAなど）によっては、個人情報へのアクセス、修正、完全な削除を求める権利、データ処理への同意を撤回する権利、または特定の処理を制限する権利を有する場合があります。"
           }
         ]
       },
@@ -1210,11 +1150,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "14. Marketing and Communication Alerts"
+            "text": "10. 国際的なデータ移転"
           },
           {
             "t": "p",
-            "text": "We may occasionally distribute service announcements, strict security warnings, database platform updates, and optional promotional email newsletters. You can easily opt out of promotional newsletters at any time by clicking the “Unsubscribe” links provided in our footers."
+            "text": "FANGは世界各地に分散配置されたクラウドサーバーを通じて運営されており、主な運用はアメリカ合衆国で行われています。当社のサービスを利用することで、あなたの個人情報が自国以外の、現地の法律とは異なる場合があるデータ保護規制のもとで、安全に移転・処理される可能性があることを了承したものとみなされます。"
           }
         ]
       },
@@ -1225,11 +1165,71 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "15. Changes to This Privacy Policy"
+            "text": "11. セキュリティ対策"
           },
           {
             "t": "p",
-            "text": "We reserve the right to modify this Privacy Policy at any time. If material alterations occur, we will notify our community via prominent in-app update warnings, website layout announcements, or direct email alerts."
+            "text": "当社は、あなたの情報を不正アクセス、損失、改ざんから保護するために、管理的、技術的、物理的なセキュリティ対策を実施しています。ただし、インターネットを通じたデータ伝送方法の安全性を100%保証することはできません。ご自身のログイン認証情報の保護については、お客様ご自身が完全に責任を負います。"
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "12. 未成年者のプライバシー"
+          },
+          {
+            "t": "p",
+            "text": "FANGは成人向けのウェブ小説プラットフォームです。利用規約に完全に準じ、本サービスは18歳未満の方を対象としておらず、意図的に未成年者から情報を収集することはありません。保護者が、データが不適切に処理されたと考える場合は、直ちにsupport@fangapp.ioへご連絡ください。"
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "13. 第三者サービス"
+          },
+          {
+            "t": "p",
+            "text": "当社のサービスは、開発者向けの追跡リンクやFangWriters.comなどのクリエイター向けプラットフォームといった外部システム、ウェブサイト、アプリとネイティブに連携しています。FANGは、これらの第三者システムが独自に管理するプライバシーポリシーやデータの取り扱いについて、運営上の責任を負いません。"
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "14. マーケティングおよび通知に関するお知らせ"
+          },
+          {
+            "t": "p",
+            "text": "当社は、サービスに関するお知らせ、重要なセキュリティ警告、プラットフォームの更新情報、および任意のプロモーションメールマガジンを配信することがあります。プロモーションメールマガジンは、フッターに記載された「配信停止」リンクをクリックすることで、いつでも簡単に解除できます。"
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "15. 本プライバシーポリシーの変更"
+          },
+          {
+            "t": "p",
+            "text": "当社は、本プライバシーポリシーをいつでも変更する権利を留保します。重大な変更が行われる場合、アプリ内の目立つ更新通知、ウェブサイト上の告知、またはメールによる直接のお知らせを通じて、コミュニティに通知します。"
           }
         ]
       },
@@ -1240,11 +1240,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "16. Contact Us"
+            "text": "16. お問い合わせ"
           },
           {
             "t": "p",
-            "text": "If you have questions, requests, or concerns regarding this Privacy Policy or your information, please contact:"
+            "text": "本プライバシーポリシーまたはあなたの情報に関してご質問、ご要望、またはご不明な点がある場合は、以下へご連絡ください。"
           },
           {
             "t": "p",
@@ -1260,15 +1260,15 @@
           },
           {
             "t": "p",
-            "text": "United States"
+            "text": "アメリカ合衆国"
           },
           {
             "t": "p",
-            "text": "Support: support@fangapp.io"
+            "text": "サポート: support@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Legal: legal@fangapp.io"
+            "text": "法務: legal@fangapp.io"
           },
           {
             "t": "p",
@@ -1280,7 +1280,7 @@
     ]
   },
   "refund": {
-    "title": "Refund Policy",
+    "title": "返金ポリシー",
     "blocks": [
       {
         "t": "div",
@@ -1293,15 +1293,15 @@
           },
           {
             "t": "p",
-            "text": "Effective Date: August 18, 2026"
+            "text": "施行日: 2026年8月18日"
           },
           {
             "t": "p",
-            "text": "Thank you for supporting writers and creators on FANG. The FANG platform is operated by IFO DIGITAL MEDIA, LLC."
+            "text": "FANGの作家やクリエイターをご支援いただきありがとうございます。FANGプラットフォームはIFO DIGITAL MEDIA, LLCによって運営されています。"
           },
           {
             "t": "p",
-            "text": "This Refund Policy outlines the professional financial parameters governing all virtual currency transactions and digital VIP memberships completed across the FANG platform ecosystem. By initiating any transaction or premium purchase on our platform, you explicitly acknowledge and agree to the comprehensive terms outlined below."
+            "text": "本返金ポリシーは、FANGプラットフォームのエコシステム全体で行われる仮想通貨取引およびデジタルVIP会員資格に関する金銭的な取り決めを説明します。当プラットフォームで取引またはプレミアム購入を行うことで、以下に記載する詳細な条件を明示的に承諾したものとみなされます。"
           }
         ]
       },
@@ -1312,31 +1312,31 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "1. Terms of Sale for Virtual Currency (Coins)"
+            "text": "1. 仮想通貨（コイン）の販売条件"
           },
           {
             "t": "p",
-            "text": "FANG utilizes digital currency (“Coins”) to enable users to systematically unlock premium chapters, exclusive stories, and specialized platform features."
+            "text": "FANGは、ユーザーがプレミアム章、限定作品、特別なプラットフォーム機能を解除できるようにするため、デジタル通貨（「コイン」）を使用しています。"
           },
           {
             "t": "p",
-            "text": "Finality of Sale: All virtual currency bundle purchases completed on our web portal or mobile applications are absolute, permanent, instant, and entirely non-refundable."
+            "text": "販売の確定性: 当社のウェブポータルまたはモバイルアプリで完了した仮想通貨パッケージの購入はすべて、確定的、永久的、即時に有効となり、一切返金されません。"
           },
           {
             "t": "p",
-            "text": "No Cash Value: Coins possess zero real-world monetary value, are completely non-transferable, and can never be exchanged, redeemed, or reversed for fiat cash or external financial credit."
+            "text": "現金としての価値はありません: コインは実世界において金銭的価値を持たず、譲渡することはできず、現金や外部の金融資産への交換・引き換え・取り消しは一切できません。"
           },
           {
             "t": "p",
-            "text": "Instant Consumption Waiver: Digital coin top-ups deliver immediate database utility. The exact second Coins are credited to your user wallet profile, the contract of sale is fulfilled in its entirety. You explicitly waive any statutory right of withdrawal, consumer cooling-off periods, or transaction cancellations."
+            "text": "即時消費に関する権利放棄: デジタルコインのチャージは即時にデータベース上の効力を発揮します。コインがあなたのウォレットプロフィールに付与された瞬間に、売買契約は完全に履行されたものとなります。あなたは、法定の撤回権、消費者クーリングオフ期間、または取引のキャンセルに関する権利を明示的に放棄するものとします。"
           },
           {
             "t": "p",
-            "text": "User Error Protection: FANG does not issue refunds, replacements, or account credits for Coins purchased accidentally, Coins spent unlocking chapters inadvertently, or balances lost due to credentials compromised via user negligence."
+            "text": "ユーザー過失に対する対応: FANGは、誤って購入されたコイン、誤って章の解除に使用されたコイン、またはユーザーの過失による認証情報の漏洩により失われた残高について、返金、交換、アカウントクレジットの発行を行いません。"
           },
           {
             "t": "p",
-            "text": "Exceptional Technical Failures: If a verifiable payment infrastructure failure occurs where funds are successfully cleared from your payment card but digital Coins are not delivered due to a database glitch, you must contact support@fangapp.io within forty-eight (48) hours with verified transaction logs. FANG reserves the right, at its sole discretion, to credit replacement digital Coins after account audit completion."
+            "text": "例外的な技術的障害: お支払いカードから資金が正常に決済されたにもかかわらず、データベースの障害によりデジタルコインが付与されなかった確認可能な決済基盤の障害が発生した場合、確認可能な取引記録とともに48時間以内にsupport@fangapp.ioへご連絡ください。FANGは、アカウント確認完了後、独自の裁量により代替のデジタルコインを付与する権利を留保します。"
           }
         ]
       },
@@ -1347,27 +1347,27 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "2. Digital VIP Memberships and Billing Cycles"
+            "text": "2. デジタルVIP会員資格および請求サイクル"
           },
           {
             "t": "p",
-            "text": "FANG offers recurring weekly & monthly subscription options providing premium platform access."
+            "text": "FANGは、プレミアムなプラットフォームアクセスを提供する、週次および月次の継続サブスクリプションプランを提供しています。"
           },
           {
             "t": "p",
-            "text": "No Prorated Credits: We do not issue prorated refunds or partial credits for unused days within an active monthly billing period."
+            "text": "日割りクレジットの対象外: 有効な月次請求期間内の未使用日数について、日割り返金や部分的なクレジットの発行は行いません。"
           },
           {
             "t": "p",
-            "text": "Cancellation Parameters: You may cancel your VIP subscription at any time through your respective Apple account settings, Google Play settings, or website account settings. Deleting the FANG application from your device does not cancel your recurring subscription."
+            "text": "解約について: VIPサブスクリプションは、Appleアカウント設定、Google Play設定、またはウェブサイトのアカウント設定から、いつでも解約することができます。FANGアプリをデバイスから削除しても、継続サブスクリプションは解約されません。"
           },
           {
             "t": "p",
-            "text": "App Deletion Rules: Uninstalling or deleting the FANG application from your device does not cancel or suspend your active recurring VIP billing configuration."
+            "text": "アプリ削除に関する注意: FANGアプリをデバイスからアンインストールまたは削除しても、有効な継続VIP請求設定は解約または停止されません。"
           },
           {
             "t": "p",
-            "text": "Access Preservation: Upon successful cancellation, premium VIP features will remain active on your profile until the conclusion of the current paid billing cycle."
+            "text": "解約後のアクセス: 解約が完了した後も、現在の有効な請求期間が終了するまで、プレミアムVIP機能はプロフィール上で有効なままとなります。"
           }
         ]
       },
@@ -1378,23 +1378,23 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "3. Payment Integrity and Account Verification"
+            "text": "3. 決済の適正性およびアカウントの確認"
           },
           {
             "t": "p",
-            "text": "To safeguard our payment systems and protect our network against fraudulent activity, FANG enforces strict transaction verification standards:"
+            "text": "決済システムの保護および不正行為からネットワークを守るため、FANGは厳格な取引確認基準を適用しています。"
           },
           {
             "t": "p",
-            "text": "Account Suspension Flags: If an official transaction dispute, chargeback request, or payment reversal is initiated through a credit card issuer or bank without first utilizing our dedicated internal support channel, our platform systems reserve the right to immediately suspend or permanently close the associated user account."
+            "text": "アカウント停止の対象: 当社の専用サポート窓口を事前に利用せずに、クレジットカード発行会社や銀行を通じて正式な取引異議、チャージバック請求、または決済の取り消しが開始された場合、当社のプラットフォームシステムは、関連するユーザーアカウントを直ちに停止または永久に閉鎖する権利を留保します。"
           },
           {
             "t": "p",
-            "text": "Forfeiture of Ledger Data: In the event of an account closure resulting from billing abuse, all remaining virtual Coin balances, accumulated promotional bonuses, unlocked reading access records, and account data histories are instantly and permanently forfeited."
+            "text": "取引記録の没収: 請求の不正利用によりアカウントが閉鎖された場合、残存するすべての仮想コイン残高、積み上げたプロモーション特典、解除済みの読書アクセス記録、およびアカウントの履歴データは即時かつ永久に失われます。"
           },
           {
             "t": "p",
-            "text": "Hardware Restrictions: To preserve platform infrastructure integrity, FANG reserves the right to programmatically block related hardware device IDs and associated network addresses involved in repeated transaction disputes."
+            "text": "ハードウェアに関する制限: プラットフォーム基盤の健全性を維持するため、FANGは、繰り返される取引異議に関与した関連ハードウェアデバイスIDおよび関連するネットワークアドレスを自動的にブロックする権利を留保します。"
           }
         ]
       },
@@ -1405,15 +1405,15 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "4. Jurisdiction-Specific Consumer Provisions"
+            "text": "4. 管轄区域別の消費者条項"
           },
           {
             "t": "p",
-            "text": "Certain global regions enforce mandatory statutory protections regarding digital software and consumption content transactions. If consumer protection laws in your local jurisdiction legally override our standard platform policy, our direct refund liability will strictly adapt to the absolute minimum parameters required by those regional mandates."
+            "text": "一部の地域では、デジタルソフトウェアおよび消費コンテンツの取引に関する強制的な法定保護が定められています。お住まいの地域の消費者保護法が当社の標準的なプラットフォーム方針を法的に優先する場合、当社の直接的な返金責任は、その地域の規定で求められる最低限の範囲に厳密に従うものとします。"
           },
           {
             "t": "p",
-            "text": "Note: Any purchase cleared through the Apple App Store or Google Play Store payment infrastructures must be handled directly through their respective platform support desks, in accordance with their individual consumer refund guidelines."
+            "text": "注記: Apple App StoreまたはGoogle Play Storeの決済基盤を通じて行われた購入については、各プラットフォームの消費者向け返金方針に従い、それぞれのサポート窓口を通じて直接対応される必要があります。"
           }
         ]
       },
@@ -1424,11 +1424,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "5. Policy Updates"
+            "text": "5. ポリシーの更新"
           },
           {
             "t": "p",
-            "text": "FANG reserves the right to modify or replace this Refund Policy at any time. Continued use of our primary domain or application features following the publication of any text amendments constitutes official acceptance of the updated terms."
+            "text": "FANGは、本返金ポリシーをいつでも変更または改定する権利を留保します。改定後に当社の主要ドメインまたはアプリ機能を継続して利用した場合、更新された条件を正式に承諾したものとみなされます。"
           }
         ]
       },
@@ -1439,11 +1439,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "6. Corporate Contact Information"
+            "text": "6. 企業連絡先情報"
           },
           {
             "t": "p",
-            "text": "For operational questions regarding missing delivery data or platform technical bugs, please contact our legal and support structures directly."
+            "text": "付与漏れやプラットフォームの技術的な不具合に関する運用上のお問い合わせは、直接当社の法務部門またはサポート窓口へご連絡ください。"
           },
           {
             "t": "p",
@@ -1459,15 +1459,15 @@
           },
           {
             "t": "p",
-            "text": "United States"
+            "text": "アメリカ合衆国"
           },
           {
             "t": "p",
-            "text": "Customer Support: support@fangapp.io"
+            "text": "カスタマーサポート: support@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Legal Infrastructure: legal@fangapp.io"
+            "text": "法務部門: legal@fangapp.io"
           },
           {
             "t": "p",
@@ -1479,7 +1479,7 @@
     ]
   },
   "terms": {
-    "title": "Terms of Use and Service",
+    "title": "利用規約",
     "blocks": [
       {
         "t": "div",
@@ -1492,7 +1492,7 @@
           },
           {
             "t": "p",
-            "text": "Effective Date: August 18, 2026"
+            "text": "施行日: 2026年8月18日"
           }
         ]
       },
@@ -1503,19 +1503,19 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "1. Acceptance of Terms"
+            "text": "1. 規約への同意"
           },
           {
             "t": "p",
-            "text": "These Terms of Use and Service (“Terms”) govern your access to and use of the FANG platform, including the FANG mobile application, website, writer portal, content, tools, services, and related features (collectively, the “Service”)."
+            "text": "本利用規約（「本規約」）は、FANGモバイルアプリ、ウェブサイト、作家ポータル、コンテンツ、各種ツール、サービス、および関連機能（総称して「サービス」）を含む、FANGプラットフォームへのアクセスおよび利用について規定します。"
           },
           {
             "t": "p",
-            "text": "The Service is operated by IFO DIGITAL MEDIA, LLC (“FANG,” “we,” “us,” or “our”)."
+            "text": "本サービスは、IFO DIGITAL MEDIA, LLC（以下「FANG」「当社」）によって運営されています。"
           },
           {
             "t": "p",
-            "text": "By accessing or using the Service, you agree to these Terms and our Privacy Policy. If you do not agree to these Terms, you must discontinue use of the Service immediately. We may update or modify these Terms from time to time. Continued use of the Service after changes become effective constitutes acceptance of the revised Terms."
+            "text": "本サービスにアクセスまたは利用することにより、あなたは本規約およびプライバシーポリシーに同意したものとみなされます。本規約に同意できない場合は、直ちに本サービスの利用を中止してください。当社は、本規約を随時更新または変更することがあります。変更が効力を持った後も本サービスの利用を継続した場合、改定後の規約に同意したものとみなされます。"
           }
         ]
       },
@@ -1526,7 +1526,7 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "2. Company Information"
+            "text": "2. 会社情報"
           },
           {
             "t": "p",
@@ -1542,15 +1542,15 @@
           },
           {
             "t": "p",
-            "text": "United States"
+            "text": "アメリカ合衆国"
           },
           {
             "t": "p",
-            "text": "Support: support@fangapp.io"
+            "text": "サポート: support@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Legal: legal@fangapp.io"
+            "text": "法務: legal@fangapp.io"
           }
         ]
       },
@@ -1561,28 +1561,28 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "3. Eligibility"
+            "text": "3. 利用資格"
           },
           {
             "t": "p",
-            "text": "FANG is an online storytelling and reading platform that allows users to read, publish, and interact with digital literary content. You must be at least 18 years old or legal majority in your jurisdiction to use the Service."
+            "text": "FANGは、ユーザーがデジタル文芸コンテンツを読み、公開し、それらと関わることができるオンラインのストーリーテリング・読書プラットフォームです。本サービスを利用するには、18歳以上であるか、お住まいの地域における成年年齢に達している必要があります。"
           },
           {
             "t": "p",
-            "text": "By using the Service, you represent and warrant that:"
+            "text": "本サービスを利用することにより、あなたは以下を表明し、保証します。"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "You are legally capable of entering binding agreements;",
-              "You comply with applicable laws and regulations;",
-              "You have not previously been suspended or permanently banned from FANG."
+              "法的に拘束力のある契約を締結する能力を有していること;",
+              "適用されるすべての法律・規則を遵守していること;",
+              "過去にFANGから利用停止または永久追放を受けていないこと。"
             ]
           },
           {
             "t": "p",
-            "text": "You must be at least 18 years old, or the age of legal majority in your jurisdiction, to use the Service."
+            "text": "本サービスを利用するには、18歳以上であるか、お住まいの地域における成年年齢に達している必要があります。"
           }
         ]
       },
@@ -1593,41 +1593,41 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "4. Accounts and Registration"
+            "text": "4. アカウントと登録"
           },
           {
             "t": "p",
-            "text": "Some features of the Service require account registration. You agree to provide accurate and current information and keep your account information updated."
+            "text": "本サービスの一部機能には、アカウント登録が必要です。あなたは、正確かつ最新の情報を提供し、アカウント情報を常に更新しておくことに同意します。"
           },
           {
             "t": "p",
-            "text": "You are responsible for:"
+            "text": "あなたは以下について責任を負います。"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Maintaining the confidentiality of your login credentials;",
-              "Activities occurring under your account;",
-              "Any unauthorized use resulting from failure to secure your account."
+              "ログイン認証情報の機密性を保持すること;",
+              "あなたのアカウント上で行われるすべての活動;",
+              "アカウントの保護を怠ったことにより生じる不正利用。"
             ]
           },
           {
             "t": "p",
-            "text": "You may not:"
+            "text": "以下の行為は禁止されています。"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Sell or transfer your account;",
-              "Impersonate another person;",
-              "Create accounts using false information."
+              "アカウントを売却または譲渡すること;",
+              "他人になりすますこと;",
+              "虚偽の情報を用いてアカウントを作成すること。"
             ]
           },
           {
             "t": "p",
-            "text": "FANG reserves the right to suspend or terminate accounts that violate these Terms."
+            "text": "FANGは、本規約に違反するアカウントを停止または終了させる権利を留保します。"
           }
         ]
       },
@@ -1638,117 +1638,52 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "5. Coins, Payments, and Subscriptions"
+            "text": "5. コイン、決済、サブスクリプション"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "5.1 Coins and Virtual Currency"
+            "text": "5.1 コインおよび仮想通貨"
           },
           {
             "t": "p",
-            "text": "FANG may offer virtual currency (“Coins”) used to unlock stories, chapters, premium content, or platform features."
+            "text": "FANGは、作品、章、プレミアムコンテンツ、またはプラットフォーム機能を解除するために使用される仮想通貨（「コイン」）を提供することがあります。"
           },
           {
             "t": "p",
-            "text": "Coins may be obtained through:"
+            "text": "コインは以下の方法で入手できます。"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Purchases;",
-              "Promotional campaigns;",
-              "Reward systems;",
-              "Advertising incentives."
+              "購入;",
+              "プロモーションキャンペーン;",
+              "報酬制度;",
+              "広告視聴による特典。"
             ]
           },
           {
             "t": "p",
-            "text": "Coins hold no cash value, are non-transferable, and are non-refundable except where required by law. FANG reserves the right to modify coin pricing, availability, or functionality at any time."
+            "text": "コインには現金としての価値がなく、譲渡はできず、法律で義務付けられている場合を除き返金されません。FANGは、コインの価格、提供状況、機能をいつでも変更する権利を留保します。"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "5.2 Subscriptions"
+            "text": "5.2 サブスクリプション"
           },
           {
             "t": "p",
-            "text": "FANG may offer recurring subscription plans with premium benefits. Subscriptions automatically renew unless canceled before the renewal date. Payments may be processed through the Apple App Store, Google Play, Stripe, or other Authorized Payment providers."
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "5.3 Cancellation and Refunds"
-          },
-          {
-            "t": "p",
-            "text": "Subscriptions may be canceled through Apple account Settings, Google Play Settings, FANG account settings, or by contacting support@fangapp.io. Deleting the app does not cancel subscriptions. All purchases are final unless otherwise required by applicable law or platform policies."
-          }
-        ]
-      },
-      {
-        "t": "div",
-        "cls": "space-y-3",
-        "blocks": [
-          {
-            "t": "h2",
-            "cls": "font-bold text-xl",
-            "text": "6. User Content"
-          },
-          {
-            "t": "p",
-            "text": "Users may upload stories, comments, reviews, images, and other materials (“User Content”). You retain ownership of your User Content. By uploading or publishing content on FANG, you grant FANG a worldwide, non-exclusive, royalty-free, sublicensable license to host, store, display, publish, reproduce, translate, adapt, promote, and distribute content solely for operation, improvement, marketing, and promotion of the Service. You are solely responsible for your User Content and the consequences of publishing it."
-          }
-        ]
-      },
-      {
-        "t": "div",
-        "cls": "space-y-3",
-        "blocks": [
-          {
-            "t": "h2",
-            "cls": "font-bold text-xl",
-            "text": "7. Prohibited Conduct and Acceptable Use Policy (AUP)"
-          },
-          {
-            "t": "p",
-            "text": "You strictly agree not to use the platform to upload, publish, link to, or share any content that:"
-          },
-          {
-            "t": "ul",
-            "cls": "list-disc pl-6 space-y-1",
-            "items": [
-              "Promotes, facilitates, or encourages violent extremism, terrorism, or hate speech;",
-              "Involves the unauthorized use of intellectual property (IP), including plagiarism, copyright infringement, pirated novels, or trademark violations;",
-              "Exploits or harms minors in any way;",
-              "Contains unlawful pornography or sexually explicit content;",
-              "Harasses, threatens, defames, or abuses others;",
-              "Contains malware, viruses, or malicious software code."
-            ]
-          },
-          {
-            "t": "p",
-            "text": "Furthermore, you agree not to:"
-          },
-          {
-            "t": "ul",
-            "cls": "list-disc pl-6 space-y-1",
-            "items": [
-              "Use bots, automated scripts, or scraping tools to access the service;",
-              "Reverse engineer, decompile, or interfere with platform functionality;",
-              "Circumvent any platform security or content protection measures;",
-              "Utilize the Service for unauthorized commercial activities."
-            ]
+            "text": "FANGは、プレミアム特典付きの継続サブスクリプションプランを提供することがあります。サブスクリプションは、更新日前に解約されない限り自動的に更新されます。決済は、Apple App Store、Google Play、Stripe、またはその他の認証済み決済事業者を通じて処理される場合があります。"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "7.1 Automated AUP Enforcement"
+            "text": "5.3 解約と返金"
           },
           {
             "t": "p",
-            "text": "We maintain a zero-tolerance policy for violations of this section. FANG utilizes automated, programmatic content detection software alongside active user-reporting mechanisms (“Report Book” features) to scan, monitor, and analyze content. We reserve the absolute right to automatically demonetize, restrict access to, hide, or permanently remove any user account or User Content that violates our Acceptable Use Policy without prior notice."
+            "text": "サブスクリプションは、Appleアカウント設定、Google Play設定、FANGアカウント設定から、またはsupport@fangapp.ioへの連絡により解約できます。アプリを削除してもサブスクリプションは解約されません。適用法令またはプラットフォームの方針で別途定められない限り、すべての購入は確定とされます。"
           }
         ]
       },
@@ -1759,11 +1694,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "8. Intellectual Property"
+            "text": "6. ユーザーコンテンツ"
           },
           {
             "t": "p",
-            "text": "All platform software, branding, logos, interfaces, graphics, and platform materials are owned by or licensed to FANG and are protected under applicable intellectual property laws. You may not reproduce, distribute, modify, or commercially exploit any portion of the Service without prior written permission from FANG. Copyright complaints and infringement claims are handled under the FANG Copyright Policy & DMCA Guidelines."
+            "text": "ユーザーは、作品、コメント、レビュー、画像、その他の素材（「ユーザーコンテンツ」）をアップロードすることができます。あなたはユーザーコンテンツの所有権を保持します。FANG上にコンテンツをアップロードまたは公開することにより、あなたはFANGに対し、本サービスの運営、改善、マーケティング、宣伝のためにのみ、コンテンツをホスティング、保存、表示、公開、複製、翻訳、改変、宣伝、配布するための、世界的、非独占的、無償、再許諾可能なライセンスを許諾します。あなたは、ユーザーコンテンツおよびその公開によって生じる結果について、単独で責任を負います。"
           }
         ]
       },
@@ -1774,23 +1709,88 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "9. FangWriters Program"
+            "text": "7. 禁止行為および利用規定（AUP）"
           },
           {
             "t": "p",
-            "text": "FANG operates a multi-entity marketplace framework. While readers interact with content on fangapp.io, independent creators and authors publish content, manage rights, and track monetization metrics exclusively via our dedicated writers platform located at FangWriters.com."
-          },
-          {
-            "t": "p",
-            "text": "Participation in our Writer Program or creator monetization tracks requires separate electronic agreements and compliance with specialized eligibility requirements. FANG retains absolute editorial discretion to:"
+            "text": "あなたは、以下に該当するコンテンツのアップロード、公開、リンク、または共有に本プラットフォームを利用しないことに厳格に同意します。"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Approve or reject writer application profiles;",
-              "Modify platform monetization parameters and coin allocation percentages;",
-              "Immediately suspend or remove stories that violate our platform safety standards or Acceptable Use Policy."
+              "暴力的過激主義、テロリズム、ヘイトスピーチを助長、促進、または奨励するもの;",
+              "盗作、著作権侵害、海賊版小説、商標権侵害など、知的財産（IP）の無断利用を含むもの;",
+              "いかなる形でも未成年者を搾取または害するもの;",
+              "違法なポルノグラフィーまたは露骨な性的内容を含むもの;",
+              "他者への嫌がらせ、脅迫、名誉毀損、または虐待を行うもの;",
+              "マルウェア、ウイルス、または悪意のあるソフトウェアコードを含むもの。"
+            ]
+          },
+          {
+            "t": "p",
+            "text": "さらに、あなたは以下を行わないことに同意します。"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "ボット、自動スクリプト、スクレイピングツールを利用して本サービスにアクセスすること;",
+              "プラットフォームの機能をリバースエンジニアリング、逆コンパイル、または妨害すること;",
+              "プラットフォームのセキュリティまたはコンテンツ保護対策を回避すること;",
+              "無許可の商業活動のために本サービスを利用すること。"
+            ]
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "7.1 利用規定の自動執行"
+          },
+          {
+            "t": "p",
+            "text": "当社は、本項の違反に対してゼロトレランス方針を維持します。FANGは、コンテンツをスキャン、監視、分析するために、ユーザーによる報告機能（「作品を報告」機能）とともに、自動化された検出ソフトウェアを活用します。当社は、利用規定に違反するユーザーアカウントまたはユーザーコンテンツについて、事前通知なく自動的に収益化を停止し、アクセスを制限し、非表示にし、または永久に削除する権利を完全に留保します。"
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "8. 知的財産"
+          },
+          {
+            "t": "p",
+            "text": "すべてのプラットフォームソフトウェア、ブランド、ロゴ、インターフェース、グラフィック、およびプラットフォーム素材は、FANGが所有またはライセンスを受けており、適用される知的財産法によって保護されています。FANGから事前の書面による許可を得ない限り、本サービスのいかなる部分も複製、配布、変更、または商業的に利用することはできません。著作権侵害に関する申し立てや苦情は、FANG著作権ポリシーおよびDMCAガイドラインに基づき処理されます。"
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "9. FangWritersプログラム"
+          },
+          {
+            "t": "p",
+            "text": "FANGは複数の事業体によるマーケットプレイス構造で運営されています。読者がfangapp.io上でコンテンツを利用する一方、独立したクリエイターや作家は、FangWriters.comにある専用の作家向けプラットフォームを通じてコンテンツの公開、権利の管理、収益化に関する指標の確認を行います。"
+          },
+          {
+            "t": "p",
+            "text": "作家プログラムまたはクリエイター向け収益化制度への参加には、別途の電子契約への同意および特定の資格要件への準拠が必要です。FANGは、以下について完全な編集上の裁量を保持します。"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "作家の申請プロフィールを承認または拒否すること;",
+              "プラットフォームの収益化に関する条件およびコインの配分割合を変更すること;",
+              "プラットフォームの安全基準または利用規定に違反する作品を直ちに停止または削除すること。"
             ]
           }
         ]
@@ -1802,11 +1802,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "10. Privacy"
+            "text": "10. プライバシー"
           },
           {
             "t": "p",
-            "text": "Your use of the Service is also governed by the FANG Privacy Policy. By using the Service, you consent to the collection and use of information as described in the Privacy Policy."
+            "text": "本サービスの利用は、FANGプライバシーポリシーにも準拠します。本サービスを利用することにより、あなたはプライバシーポリシーに記載された方法での情報の収集および利用に同意したものとみなされます。"
           }
         ]
       },
@@ -1817,11 +1817,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "11. Third-Party Services"
+            "text": "11. 第三者サービス"
           },
           {
             "t": "p",
-            "text": "The Service may contain links to third-party websites, services, advertisements, or payment providers. FANG is not responsible for the availability, content, products, or practices of third-party services. Your use of third-party services is at your own risk."
+            "text": "本サービスには、第三者のウェブサイト、サービス、広告、または決済事業者へのリンクが含まれる場合があります。FANGは、これら第三者サービスの利用可能性、内容、製品、または運営方法について責任を負いません。第三者サービスの利用は、あなた自身の責任で行ってください。"
           }
         ]
       },
@@ -1832,11 +1832,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "12. Service Availability"
+            "text": "12. サービスの提供状況"
           },
           {
             "t": "p",
-            "text": "FANG may modify, suspend, limit, or discontinue any portion of the Service at any time. We do not guarantee uninterrupted or error-free operation of the Service. Temporary outages, maintenance interruptions, or technical failures may occur."
+            "text": "FANGは、本サービスのいかなる部分についても、いつでも変更、停止、制限、または終了することができます。本サービスが中断なく、またエラーなく動作することを保証するものではありません。一時的な停止、保守作業、または技術的な不具合が発生する場合があります。"
           }
         ]
       },
@@ -1847,11 +1847,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "13. Termination"
+            "text": "13. 終了"
           },
           {
             "t": "p",
-            "text": "FANG may suspend or terminate your access to the Service at any time for violations of these Terms, fraudulent activity, platform abuse, illegal conduct, or repeated copyright infringement. You may request account deletion at any time by contacting support@fangapp.io."
+            "text": "FANGは、本規約への違反、不正行為、プラットフォームの悪用、違法行為、または著作権侵害の繰り返しがあった場合、あなたの本サービスへのアクセスをいつでも停止または終了することができます。アカウントの削除は、support@fangapp.ioへご連絡いただくことで、いつでも申請できます。"
           }
         ]
       },
@@ -1862,11 +1862,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "14. Disclaimer"
+            "text": "14. 免責事項"
           },
           {
             "t": "p",
-            "text": "THE SERVICE IS PROVIDED “AS IS” AND “AS AVAILABLE”. TO THE MAXIMUM EXTENT PERMITTED BY LAW, FANG DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, CONTINUOUS AVAILABILITY, SECURITY, OR ERROR-FREE OPERATION. USE OF THE SERVICE IS AT YOUR OWN RISK."
+            "text": "本サービスは「現状のまま」および「提供可能な範囲」で提供されます。法律で認められる最大限の範囲において、FANGは、商品性、特定目的への適合性、権利の非侵害、継続的な利用可能性、安全性、エラーのない動作など、明示または黙示のいかなる保証も行いません。本サービスの利用は、お客様ご自身の責任において行われるものとします。"
           }
         ]
       },
@@ -1877,11 +1877,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "15. Limitation of Liability"
+            "text": "15. 責任の制限"
           },
           {
             "t": "p",
-            "text": "TO THE MAXIMUM EXTENT PERMITTED BY LAW, FANG SHALL NOT BE LIABLE FOR INDIRECT, INCIDENTAL, CONSEQUENTIAL, OR SPECIAL DAMAGES, OR FOR LOSS OF PROFITS, LOSS OF DATA, OR BUSINESS INTERRUPTION. FANG’S TOTAL LIABILITY SHALL NOT EXCEED THE AMOUNT PAID BY YOU TO FANG DURING THE SIX MONTHS PRECEDING THE CLAIM."
+            "text": "法律で認められる最大限の範囲において、FANGは、間接的、付随的、結果的、または特別な損害、あるいは利益の損失、データの損失、事業の中断について責任を負いません。FANGの総責任額は、請求の原因となった事象の発生前6か月間にお客様がFANGに支払った金額を超えないものとします。"
           }
         ]
       },
@@ -1892,11 +1892,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "16. Indemnification"
+            "text": "16. 補償"
           },
           {
             "t": "p",
-            "text": "You agree to defend, indemnify, and hold harmless FANG, its affiliates, employees, partners, and licensors from claims, liabilities, damages, losses, and expenses arising from your use of the Service, your User Content, your violation of these Terms, or your violation of third-party rights."
+            "text": "あなたは、本サービスの利用、あなたのユーザーコンテンツ、本規約への違反、または第三者の権利の侵害から生じる請求、責任、損害、損失、および費用について、FANG、その関連会社、従業員、パートナー、ライセンサーを防御し、補償し、免責することに同意します。"
           }
         ]
       },
@@ -1907,11 +1907,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "17. Governing Law and Disputes"
+            "text": "17. 適用法および紛争"
           },
           {
             "t": "p",
-            "text": "These Terms shall be governed by the laws of the State of Delaware, United States, without regard to conflict of law principles. Before initiating formal legal proceedings, you agree to attempt informal resolution by contacting legal@fangapp.io. To the maximum extent permitted by law, disputes shall be resolved individually, and class actions or class arbitrations are waived."
+            "text": "本規約は、法の抵触に関する原則にかかわらず、アメリカ合衆国デラウェア州の法律に準拠します。正式な法的手続きを開始する前に、あなたはlegal@fangapp.ioへの連絡による非公式な解決を試みることに同意します。法律で認められる最大限の範囲において、紛争は個別に解決されるものとし、集団訴訟または集団仲裁は放棄されます。"
           }
         ]
       },
@@ -1922,11 +1922,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "18. Electronic Communications"
+            "text": "18. 電子的な通知"
           },
           {
             "t": "p",
-            "text": "By using the Service, you consent to receive electronic communications from FANG. Electronic notices, agreements, and records satisfy legal communication requirements."
+            "text": "本サービスを利用することにより、あなたはFANGからの電子的な通知を受け取ることに同意します。電子的な通知、契約、および記録は、法的な通知要件を満たすものとします。"
           }
         ]
       },
@@ -1937,11 +1937,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "19. Force Majeure"
+            "text": "19. 不可抗力"
           },
           {
             "t": "p",
-            "text": "FANG shall not be liable for delays or failures caused by events beyond reasonable control, including natural disasters, internet outages, cyberattacks, government actions, power failures, wars, or labor disputes."
+            "text": "FANGは、自然災害、インターネット障害、サイバー攻撃、政府の措置、停電、戦争、労働争議など、合理的な管理を超える事象によって生じた遅延または不履行について責任を負いません。"
           }
         ]
       },
@@ -1952,11 +1952,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "20. Miscellaneous"
+            "text": "20. 雑則"
           },
           {
             "t": "p",
-            "text": "If any provision of these Terms is found unenforceable, the remaining provisions remain effective. Failure to enforce any provision shall not constitute a waiver. These Terms constitute the complete agreement between you and FANG regarding the use of the Service."
+            "text": "本規約のいずれかの条項が執行不能と判断された場合でも、その他の条項は引き続き有効です。いずれかの条項の執行を怠ったことは、その条項の放棄とはみなされません。本規約は、本サービスの利用に関して、あなたとFANGとの間の完全な合意を構成します。"
           }
         ]
       },
@@ -1967,7 +1967,7 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "21. Contact Information"
+            "text": "21. 連絡先情報"
           },
           {
             "t": "p",
@@ -1983,15 +1983,15 @@
           },
           {
             "t": "p",
-            "text": "United States"
+            "text": "アメリカ合衆国"
           },
           {
             "t": "p",
-            "text": "Support: support@fangapp.io"
+            "text": "サポート: support@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Legal: legal@fangapp.io"
+            "text": "法務: legal@fangapp.io"
           },
           {
             "t": "p",
@@ -2003,7 +2003,7 @@
     ]
   },
   "faq": {
-    "title": "FANG Faq",
+    "title": "FANG よくある質問",
     "blocks": [
       {
         "t": "div",
@@ -2012,12 +2012,12 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "1. Virtual Currency & Content Access"
+            "text": "1. 仮想通貨とコンテンツへのアクセス"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: What is the difference between Normal Coins and Bonus Coins?"
+            "text": "Q: 通常コインとボーナスコインの違いは何ですか？"
           },
           {
             "t": "p",
@@ -2025,11 +2025,11 @@
           },
           {
             "t": "p",
-            "text": "<b>Normal Coins:</b> Acquired via direct standard wallet top-ups on our platform. These coins have no expiration date and can be used to unlock premium content tiers across the FANG application interface."
+            "text": "<b>通常コイン:</b> プラットフォーム上での標準的なウォレットチャージにより直接取得されるコインです。これらのコインには有効期限がなく、FANGアプリ内のプレミアムコンテンツを解除するために使用できます。"
           },
           {
             "t": "p",
-            "text": "<b>Bonus Coins:</b> Promotional currency granted through daily check-in rewards, video ad engagement tasks, or specific platform reading events. Bonus Coins carry a structural expiration window of exactly two (2) days from the credit timestamp and should be utilized within that timeframe."
+            "text": "<b>ボーナスコイン:</b> 毎日のチェックイン特典、動画広告視聴タスク、または特定の読書イベントを通じて付与されるプロモーション用コインです。ボーナスコインは、付与された時点から正確に2日間の有効期限が設定されており、その期間内にご利用ください。"
           },
           {
             "t": "br"
@@ -2037,11 +2037,11 @@
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: How much does a premium chapter cost to unlock?"
+            "text": "Q: プレミアム章を解除するにはどのくらいのコストがかかりますか？"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> Premium text content scales dynamically based on the story’s depth and placement structure within the book’s volume arc. Early premium launch chapters require 25 Coins, middle progression chapters adjust to 35 Coins, and final high-tension climax chapters scale to 45 Coins."
+            "text": "<b>A:</b> プレミアムコンテンツの価格は、作品の内容やボリューム内での位置によって動的に変動します。初期のプレミアム章は25コイン、中盤の章は35コイン、緊迫した展開のある終盤の章では最大45コインが必要となります。"
           },
           {
             "t": "br"
@@ -2049,11 +2049,11 @@
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: Why do I receive extra promotional rewards when buying packages directly on the FANG Web Portal?"
+            "text": "Q: FANGウェブポータルで直接パッケージを購入すると、追加のプロモーション特典がもらえるのはなぜですか？"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> Processing transactions directly through our native secure web checkout infrastructure minimizes processing overhead compared to third-party app stores. We route these efficiency savings directly back to our community by granting up to 60% extra promotional Bonus Coins for packages cleared through our direct web gateway."
+            "text": "<b>A:</b> 当社独自の安全なウェブ決済基盤を通じて直接取引を処理することで、第三者のアプリストアと比較して処理コストを抑えることができます。当社は、ウェブ決済経由で購入されたパッケージに対し、最大60%の追加ボーナスコインを提供することで、この効率化による利益を直接コミュニティに還元しています。"
           },
           {
             "t": "br"
@@ -2061,11 +2061,11 @@
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: Can I access my virtual balance across multiple mobile devices?"
+            "text": "Q: 複数のモバイルデバイスから仮想通貨の残高にアクセスできますか？"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> Yes. Your virtual balance is linked directly to your authenticated, unified FANG account profile. The moment your account updates, your coin balances and reading history will automatically sync across any authorized device interface where you log in."
+            "text": "<b>A:</b> はい。あなたの仮想通貨の残高は、認証済みの統一されたFANGアカウントプロフィールに直接紐づいています。アカウントが更新されると、コインの残高や読書履歴は、ログインしているすべての認証済みデバイスで自動的に同期されます。"
           }
         ]
       },
@@ -2076,16 +2076,16 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "2. Billing, Subscriptions & Cancellations"
+            "text": "2. 請求、サブスクリプション、解約"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: Can I request a refund if I purchase a coin bundle accidentally?"
+            "text": "Q: 誤ってコインパッケージを購入した場合、返金を申請できますか？"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> No. In accordance with our global Terms of Sale, all virtual currency transactions completed across the FANG platform deliver immediate database utility and are absolute, final, and non-refundable. We do not issue cash refunds, ledger reversals, or promotional credits for inadvertent user choices or unused balances."
+            "text": "<b>A:</b> いいえ。当社の国際的な販売条件に基づき、FANGプラットフォーム上で完了した仮想通貨の取引はすべて、即時にデータベース上の効力を発揮し、確定的かつ最終的なものであり、返金はできません。誤ったユーザー操作や未使用の残高について、現金での返金、記録の取り消し、またはプロモーションクレジットの発行は行いません。"
           },
           {
             "t": "br"
@@ -2093,11 +2093,11 @@
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: What global payment channels are currently accepted on the platform?"
+            "text": "Q: 現在プラットフォームで利用できる国際的な決済方法は何ですか？"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> We support all major international credit/debit card merchant systems (including Visa, Mastercard, American Express, and Discover), encrypted mobile checkout wallets (Apple Pay and Google Pay), and authorized payment partner portals. All financial transactions are settled securely in USD currency."
+            "text": "<b>A:</b> 当社は、Visa、Mastercard、American Express、Discoverを含む主要な国際クレジット/デビットカードシステム、暗号化されたモバイル決済ウォレット（Apple PayおよびGoogle Pay）、および認証済みの決済パートナーポータルをサポートしています。すべての金融取引は、米ドルで安全に処理されます。"
           },
           {
             "t": "br"
@@ -2105,18 +2105,18 @@
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: How do the FANG VIP membership plans and passes operate?"
+            "text": "Q: FANGのVIP会員プランやパスはどのような仕組みですか？"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> VIP plans offer premium, enhanced reading environments tailored to your binging preferences across two distinct structural tiers:"
+            "text": "<b>A:</b> VIPプランは、2つの異なるプランレベルにわたり、まとめ読みのニーズに合わせたプレミアムで充実した読書体験を提供します。"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "<b>Weekly VIP ($9.99 / week):</b> Grants full weekly access including daily promotional bonus coin distribution drops, completely reduced ad layout profiles, early chapter access privileges, small top-up account bonus triggers, and an exclusive VIP profile status badge.",
-              "<b>Monthly VIP ($29.99 / month):</b> Our designated best-value framework granting much larger daily coin distribution rewards, maximized top-up bonus multipliers, enhanced premium chapter discounts, entry into platform exclusive content events, maximum monthly coin value utility, and priority tier access to trending premium stories."
+              "<b>週間VIP（週額9.99ドル）:</b> 毎日のボーナスコイン配布、大幅に削減された広告表示、章の早期アクセス特典、チャージ時の少額ボーナス、限定のVIPステータスバッジを含む、1週間分の全特典を利用できます。",
+              "<b>月間VIP（月額29.99ドル）:</b> 当社が最もお得と位置付けるプランで、より大きな毎日のコイン配布、最大化されたチャージボーナス倍率、プレミアム章の割引強化、プラットフォーム限定コンテンツイベントへの参加、月間で最大限のコイン価値、注目のプレミアム作品への優先アクセスを提供します。"
             ]
           },
           {
@@ -2125,11 +2125,11 @@
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: How do I terminate my recurring VIP membership?"
+            "text": "Q: 継続中のVIP会員資格を解約するにはどうすればよいですか？"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> You can cancel your active membership at any time. If you initialized your subscription inside our mobile software interfaces, cancellations must be managed directly within your Apple App Store or Google Play Store account subscription panels. If you subscribed directly on our web platform, you can disable the auto-renewal toggle within your native Account Settings menu. All cancellations must be logged at least 24 hours prior to the next billing cycle timestamp to prevent automated renewal charges."
+            "text": "<b>A:</b> 現在有効な会員資格は、いつでも解約することができます。モバイルアプリ内でサブスクリプションを開始した場合、解約はApple App StoreまたはGoogle Play Storeのアカウントのサブスクリプション画面から直接行う必要があります。ウェブプラットフォーム上で直接登録した場合は、アカウント設定メニュー内で自動更新をオフにすることができます。自動更新による請求を防ぐため、すべての解約は次回の請求サイクルの少なくとも24時間前までに行う必要があります。"
           }
         ]
       },
@@ -2140,16 +2140,16 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "3. Account Safety & Technical Support"
+            "text": "3. アカウントの安全性と技術サポート"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: What happens if a user bypasses support and initiates a formal bank dispute?"
+            "text": "Q: ユーザーがサポートを経由せずに正式な銀行への異議申し立てを行った場合、どうなりますか？"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> FANG maintains strict protection mechanisms against payment abuse and unauthorized chargebacks. If an official transaction dispute or chargeback is initiated through a credit card issuer or banking institution without first utilizing our standard dispute desk, our backend system reserves the right to immediately suspend or permanently close the associated account profile to safeguard system integrity."
+            "text": "<b>A:</b> FANGは、決済の不正利用や無断でのチャージバックに対し、厳格な保護対策を維持しています。当社の標準的な異議申し立て窓口を事前に利用せずに、クレジットカード発行会社や金融機関を通じて正式な取引異議やチャージバックが開始された場合、当社のバックエンドシステムは、システムの健全性を守るため、関連するアカウントプロフィールを直ちに停止または永久に閉鎖する権利を留保します。"
           },
           {
             "t": "br"
@@ -2157,18 +2157,18 @@
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: I completed a coin purchase but my wallet hasn’t updated. What steps should I take?"
+            "text": "Q: コインを購入しましたが、ウォレットに反映されていません。どうすればよいですか？"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> Brief network or database latency can occasionally delay transaction synchronization. We recommend closing and fully restarting your application interface. If your coin balance does not reflect your transaction within 1 hour, please forward a digital copy of your official Stripe, Apple, or Google payment confirmation receipt directly to our team at support@fangapp.io so our technical support engineers can manually verify the ledger entry and credit your account."
+            "text": "<b>A:</b> 一時的なネットワークやデータベースの遅延により、取引の反映が遅れることがあります。アプリを完全に閉じて再起動することをお勧めします。1時間経ってもコイン残高に反映されない場合は、Stripe、Apple、またはGoogleの正式な決済確認レシートのデジタルコピーをsupport@fangapp.ioの担当チームへ直接お送りください。技術サポートの担当者が記録を手動で確認し、アカウントへの付与を行います。"
           }
         ]
       }
     ]
   },
   "cookies": {
-    "title": "Cookie Policy",
+    "title": "クッキーポリシー",
     "blocks": [
       {
         "t": "div",
@@ -2181,15 +2181,15 @@
           },
           {
             "t": "p",
-            "text": "Effective Date: August 18, 2026"
+            "text": "施行日: 2026年8月18日"
           },
           {
             "t": "p",
-            "text": "FANG (“FANG,” “we,” “our,” or “us”) uses cookies and similar tracking technologies (“Cookies”) to operate, improve, secure, and personalize the FANG platform, including our mobile applications, website, writer portal, and related services (collectively, the “Services”)."
+            "text": "FANG（以下「FANG」「当社」）は、モバイルアプリ、ウェブサイト、作家ポータル、および関連サービス（以下「サービス」）を含むFANGプラットフォームを運営、改善、保護、パーソナライズするために、クッキーおよび類似の追跡技術（以下「クッキー」）を使用しています。"
           },
           {
             "t": "p",
-            "text": "This Cookie Policy explains what Cookies are, how we use them, how third-party services interface with our platform, and how you can manage your preferences. FANG is operated by IFO DIGITAL MEDIA, LLC."
+            "text": "本クッキーポリシーでは、クッキーとは何か、当社がそれをどのように利用しているか、第三者サービスが当社プラットフォームとどのように連携しているか、そしてあなたが設定をどのように管理できるかについて説明します。FANGはIFO DIGITAL MEDIA, LLCによって運営されています。"
           }
         ]
       },
@@ -2200,7 +2200,7 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "1. Company Information"
+            "text": "1. 会社情報"
           },
           {
             "t": "div",
@@ -2220,15 +2220,15 @@
               },
               {
                 "t": "p",
-                "text": "United States"
+                "text": "アメリカ合衆国"
               },
               {
                 "t": "p",
-                "text": "Support: support@fangapp.io"
+                "text": "サポート: support@fangapp.io"
               },
               {
                 "t": "p",
-                "text": "Legal: legal@fangapp.io"
+                "text": "法務: legal@fangapp.io"
               }
             ]
           }
@@ -2241,11 +2241,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "2. What Are Cookies?"
+            "text": "2. クッキーとは何か"
           },
           {
             "t": "p",
-            "text": "Cookies are small text files stored on your browser or device when you visit or interact with online applications. They help websites and applications recognize unique devices, preserve secure sessions, remember user choices, analyze system performance, and support content recommendation frameworks."
+            "text": "クッキーとは、オンラインアプリを利用した際にブラウザやデバイスに保存される小さなテキストファイルです。これにより、ウェブサイトやアプリが各デバイスを識別し、安全なセッションを維持し、ユーザーの設定を記憶し、システムの動作状況を分析し、コンテンツのおすすめ機能を支えることができます。"
           },
           {
             "t": "div",
@@ -2253,22 +2253,22 @@
             "blocks": [
               {
                 "t": "p",
-                "text": "Similar tracking technologies utilized across our ecosystem include:"
+                "text": "当社のエコシステムで利用される類似の追跡技術には、以下が含まれます。"
               },
               {
                 "t": "ul",
                 "cls": "list-disc pl-6 space-y-1",
                 "items": [
-                  "Software Development Kits (SDKs): Embedded mobile code blocks that track app stability and event interactions;",
-                  "Pixels and Web Beacons: Small graphic strings used to monitor user actions and measure marketing campaign conversions;",
-                  "Local Storage: Browser database storage used to cache platform preferences and session parameters."
+                  "ソフトウェア開発キット（SDK）: アプリの安定性やイベント操作を追跡するために組み込まれたモバイルコード;",
+                  "ピクセルおよびウェブビーコン: ユーザーの行動を監視し、マーケティングキャンペーンの成果を測定するために使用される小さな画像データ;",
+                  "ローカルストレージ: プラットフォームの設定情報やセッション情報を一時保存するためのブラウザ内のデータベース。"
                 ]
               }
             ]
           },
           {
             "t": "p",
-            "text": "For clarity across this document, all such tracking methods are collectively referred to as “Cookies.”"
+            "text": "本ポリシー内では、わかりやすくするため、これらの追跡手法をまとめて「クッキー」と呼びます。"
           }
         ]
       },
@@ -2279,11 +2279,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "3. Types of Cookies We Use"
+            "text": "3. 当社が使用するクッキーの種類"
           },
           {
             "t": "p",
-            "text": "FANG deploys Cookies across the following functional classifications:"
+            "text": "FANGは、以下の機能別分類に基づいてクッキーを使用しています。"
           },
           {
             "t": "div",
@@ -2292,11 +2292,11 @@
               {
                 "t": "h3",
                 "cls": "font-semibold text-lg",
-                "text": "3.1 Strictly Necessary Cookies"
+                "text": "3.1 必須クッキー"
               },
               {
                 "t": "p",
-                "text": "These Cookies are essential for our application to operate safely and correctly."
+                "text": "これらのクッキーは、当社アプリが安全かつ正常に動作するために不可欠なものです。"
               },
               {
                 "t": "div",
@@ -2304,23 +2304,23 @@
                 "blocks": [
                   {
                     "t": "p",
-                    "text": "They are utilized to:"
+                    "text": "以下の目的で使用されます。"
                   },
                   {
                     "t": "ul",
                     "cls": "list-disc pl-6 space-y-1",
                     "items": [
-                      "Authenticate user profiles and maintain active login sessions;",
-                      "Keep track of virtual wallet balances and coin allocations;",
-                      "Detect, investigate, and prevent automated script abuse, malicious bots, or security threats;",
-                      "Ensure core platform navigation paths function properly."
+                      "ユーザープロフィールの認証、およびログイン状態の維持;",
+                      "仮想ウォレットの残高およびコイン付与状況の管理;",
+                      "自動スクリプトの悪用、悪意のあるボット、セキュリティ上の脅威の検出、調査、防止;",
+                      "プラットフォームの基本的な操作が正しく機能するようにすること。"
                     ]
                   }
                 ]
               },
               {
                 "t": "p",
-                "text": "Note: Disabling necessary cookies via your browser settings will break core account actions and checkout flows."
+                "text": "注記: ブラウザ設定で必須クッキーを無効にすると、アカウントの基本操作や決済処理が正しく動作しなくなります。"
               }
             ]
           },
@@ -2331,11 +2331,11 @@
               {
                 "t": "h3",
                 "cls": "font-semibold text-lg",
-                "text": "3.2 Functionality Cookies"
+                "text": "3.2 機能クッキー"
               },
               {
                 "t": "p",
-                "text": "These Cookies preserve your custom application choices to improve usability."
+                "text": "これらのクッキーは、使いやすさを向上させるため、あなたのアプリ内での設定を保存します。"
               },
               {
                 "t": "div",
@@ -2343,15 +2343,15 @@
                 "blocks": [
                   {
                     "t": "p",
-                    "text": "They are utilized to:"
+                    "text": "以下の目的で使用されます。"
                   },
                   {
                     "t": "ul",
                     "cls": "list-disc pl-6 space-y-1",
                     "items": [
-                      "Save structural display choices (such as light or dark mode preferences);",
-                      "Maintain specific reading configurations (including text sizing, font choices, and chapter page positions);",
-                      "Remember preferred language settings and system location parameters."
+                      "表示に関する設定（ライトモードやダークモードの設定など）の保存;",
+                      "文字サイズ、フォント、章の表示位置などの読書設定の保持;",
+                      "希望する言語設定やシステムの地域設定の記憶。"
                     ]
                   }
                 ]
@@ -2365,11 +2365,11 @@
               {
                 "t": "h3",
                 "cls": "font-semibold text-lg",
-                "text": "3.3 Analytics Cookies"
+                "text": "3.3 分析クッキー"
               },
               {
                 "t": "p",
-                "text": "These Cookies track how readers navigate and interact with our reading environment."
+                "text": "これらのクッキーは、読者が読書環境内でどのように操作し、関わっているかを追跡します。"
               },
               {
                 "t": "div",
@@ -2377,22 +2377,22 @@
                 "blocks": [
                   {
                     "t": "p",
-                    "text": "They gather data regarding:"
+                    "text": "以下に関するデータを収集します。"
                   },
                   {
                     "t": "ul",
                     "cls": "list-disc pl-6 space-y-1",
                     "items": [
-                      "Daily pages viewed, reading session durations, and genre preferences;",
-                      "App features utilized and specific book engagement statistics;",
-                      "System crash events, performance lag alerts, and technical loading failures."
+                      "日々の閲覧ページ数、読書時間、ジャンルの好み;",
+                      "利用されたアプリ機能、および特定の作品に対する利用統計;",
+                      "システムのクラッシュ、動作の遅延、技術的な読み込みエラー。"
                     ]
                   }
                 ]
               },
               {
                 "t": "p",
-                "text": "We use this anonymized data strictly to optimize platform speeds, resolve backend bugs, and improve overall content delivery algorithms."
+                "text": "当社は、これらの匿名化されたデータを、プラットフォームの速度最適化、バックエンドの不具合解消、コンテンツ配信アルゴリズムの改善のためのみに使用します。"
               }
             ]
           },
@@ -2403,7 +2403,7 @@
               {
                 "t": "h3",
                 "cls": "font-semibold text-lg",
-                "text": "3.4 Advertising and Marketing Cookies"
+                "text": "3.4 広告・マーケティングクッキー"
               },
               {
                 "t": "div",
@@ -2411,15 +2411,15 @@
                 "blocks": [
                   {
                     "t": "p",
-                    "text": "These tracking tools evaluate promotion performance. They are utilized to:"
+                    "text": "これらの追跡ツールは、プロモーションの効果を評価します。以下の目的で使用されます。"
                   },
                   {
                     "t": "ul",
                     "cls": "list-disc pl-6 space-y-1",
                     "items": [
-                      "Track how users find our website through external ad campaigns;",
-                      "Recommend tailored book genres based on historical library additions;",
-                      "Prevent showing identical, repetitive promotional banners to the same user profile."
+                      "外部の広告経由でユーザーが当社サイトにアクセスした経路の追跡;",
+                      "過去のライブラリ追加履歴に基づく、作品ジャンルのおすすめ表示;",
+                      "同一ユーザーに対して同じ内容の広告バナーが繰り返し表示されることの防止。"
                     ]
                   }
                 ]
@@ -2435,24 +2435,24 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "4. Third-Party Technologies"
+            "text": "4. 第三者の技術"
           },
           {
             "t": "p",
-            "text": "FANG partners with secure external networks to support our platform infrastructure. These verified providers deploy tracking scripts to handle specialized operations:"
+            "text": "FANGは、プラットフォーム基盤を支えるため、安全な外部ネットワークと提携しています。これらの認証済み事業者は、特定の処理のために追跡用スクリプトを使用します。"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Payment Gateways: Systems like Stripe and PayPal use security cookies to analyze device risk metrics, process secure checkout screens, and mitigate payment fraud;",
-              "Cloud Infrastructure: Enterprise hosting networks use server cache cookies to balance text delivery traffic and keep loading speeds lightning-fast;",
-              "Social Identity Links: Providers like Apple, Google, and Facebook deploy secure authentication cookies to connect your social login profile seamlessly."
+              "決済ゲートウェイ: StripeやPayPalなどのシステムは、デバイスのリスク分析、安全な決済画面の処理、不正決済の防止のためにセキュリティクッキーを使用します;",
+              "クラウド基盤: 企業向けホスティングネットワークは、テキスト配信トラフィックの分散および高速な読み込みの維持のため、サーバーキャッシュクッキーを使用します;",
+              "ソーシャルログイン連携: Apple、Google、Facebookなどの事業者は、ソーシャルログインのプロフィールをスムーズに連携させるため、安全な認証クッキーを使用します。"
             ]
           },
           {
             "t": "p",
-            "text": "All third-party cookie activity is governed directly by the respective tracking policies of those independent providers."
+            "text": "第三者によるクッキーの利用については、それぞれの事業者が独自に定める追跡方針に直接従います。"
           }
         ]
       },
@@ -2463,23 +2463,23 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "5. Managing Cookie Preferences"
+            "text": "5. クッキー設定の管理"
           },
           {
             "t": "p",
-            "text": "You have the complete right to control or restrict how Cookies are stored on your device:"
+            "text": "あなたは、クッキーがデバイスにどのように保存されるかを管理または制限する完全な権利を有します。"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Browser Rules: You can adjust your desktop or mobile browser configurations to block all third-party tracking or alert you when a new cookie is sent;",
-              "Device Settings: You can modify operating system settings on your mobile device to toggle off targeted advertising tracking or reset unique identifier keys."
+              "ブラウザ設定: すべての第三者による追跡をブロックしたり、新しいクッキーが送信された際に通知を受け取るよう、デスクトップまたはモバイルブラウザの設定を変更することができます;",
+              "デバイス設定: ターゲティング広告の追跡をオフにしたり、固有の識別情報をリセットしたりするため、モバイルデバイスのOS設定を変更することができます。"
             ]
           },
           {
             "t": "p",
-            "text": "Please be aware that restricting non-essential tracking will change how easily the platform remembers your custom layout settings."
+            "text": "必須でない追跡を制限すると、プラットフォームがあなたの表示設定を記憶しやすさに影響が出る場合があることをご了承ください。"
           }
         ]
       },
@@ -2490,11 +2490,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "6. Cookie Consent Management"
+            "text": "6. クッキーに関する同意の管理"
           },
           {
             "t": "p",
-            "text": "In strict accordance with global digital privacy laws, FANG will request explicit user consent through an interface banner before initializing any non-essential analytical or marketing tracking cookies. You may access your preferences to update or withdraw consent configurations at any time."
+            "text": "国際的なデジタルプライバシー法に厳格に従い、FANGは、必須でない分析用またはマーケティング用の追跡クッキーを使用する前に、画面上のバナーを通じて明示的なユーザーの同意を求めます。同意設定は、いつでも更新または取り消すことができます。"
           }
         ]
       },
@@ -2505,11 +2505,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "7. Changes to This Cookie Policy"
+            "text": "7. 本クッキーポリシーの変更"
           },
           {
             "t": "p",
-            "text": "We may update this Cookie Policy periodically to match infrastructure updates or regulatory changes. If a material shift occurs, we will notify our reading community via prominent in-app notification alerts, layout dashboard banners, or direct email announcements."
+            "text": "当社は、基盤の更新や法規制の変更に応じて、本クッキーポリシーを随時更新することがあります。重大な変更がある場合は、アプリ内の目立つ通知、ダッシュボードのバナー、またはメールによる直接のお知らせにより、読者コミュニティへ通知します。"
           }
         ]
       },
@@ -2520,11 +2520,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "8. Contact Us"
+            "text": "8. お問い合わせ"
           },
           {
             "t": "p",
-            "text": "If you have any technical questions or data-compliance concerns regarding our tracking policies, please reach out to us:"
+            "text": "当社の追跡方針に関する技術的なご質問やデータの取り扱いに関するご不明点がある場合は、以下までご連絡ください。"
           },
           {
             "t": "div",
@@ -2532,11 +2532,11 @@
             "blocks": [
               {
                 "t": "p",
-                "text": "Email: legal@fangapp.io"
+                "text": "メール: legal@fangapp.io"
               },
               {
                 "t": "p",
-                "text": "Corporate Office: FANG / IFO DIGITAL MEDIA, LLC"
+                "text": "法人所在地: FANG / IFO DIGITAL MEDIA, LLC"
               },
               {
                 "t": "p",
@@ -2548,7 +2548,7 @@
               },
               {
                 "t": "p",
-                "text": "United States"
+                "text": "アメリカ合衆国"
               }
             ]
           }

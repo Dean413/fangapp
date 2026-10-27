@@ -11,6 +11,7 @@ import { getCurrentUser } from "@/lib/auth/session";
 import { publicUrl, s3Client, storageReady, UPLOAD_BUCKET } from "@/lib/storage";
 import { readJson, reply } from "@/lib/auth/rules";
 import { msg } from "@/lib/i18n";
+import { logError } from "@/lib/log";
 
 const MAX_BYTES = 3 * 1024 * 1024;
 
@@ -29,7 +30,7 @@ export async function POST(request: NextRequest) {
     if (!user) return reply(401, "signInFirst");
 
     if (!storageReady()) {
-        console.error("Photo upload is not set up: AWS settings missing (lib/storage.ts)");
+        logError("Photo upload is not set up: AWS settings missing (lib/storage.ts)");
         return reply(503, "coverUnavailable");
     }
 
@@ -58,7 +59,7 @@ export async function POST(request: NextRequest) {
         );
         return reply(200, "coverSaved", { cover_url: url });
     } catch (error) {
-        console.error("Cover upload failed:", error);
+        logError("Cover upload failed:", error);
         return reply(500, "couldntSaveCover");
     }
 }

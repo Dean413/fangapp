@@ -6,6 +6,7 @@ import { hashPassword } from "@/lib/auth/token";
 import { RESET_SESSION_COOKIE_PATH, resetPasswordWithSession } from "@/lib/auth/emailCode";
 import { newPasswordProblem, readJson, reply } from "@/lib/auth/rules";
 import { translateMsg } from "@/lib/i18n";
+import { logError } from "@/lib/log";
 
 export async function POST(request: NextRequest) {
     const body = await readJson(request);
@@ -25,7 +26,7 @@ export async function POST(request: NextRequest) {
         response.cookies.set("reset_session", "", { path: RESET_SESSION_COOKIE_PATH, maxAge: 0 });
         return response;
     } catch (error) {
-        console.error("Reset password error:", error);
+        logError("Reset password error:", error);
         return reply(500, "failedUpdatePassword");
     }
 }

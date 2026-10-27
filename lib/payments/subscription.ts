@@ -6,6 +6,7 @@ import { dbPool } from "@/lib/db";
 import { withTransaction } from "@/lib/auth/transaction";
 import { VIP_PLAN_INFO, isVipPlan } from "@/lib/vipRates";
 import { stripeGet } from "./stripe";
+import { logError } from "@/lib/log";
 
 type Provider = "stripe" | "paypal";
 
@@ -27,13 +28,13 @@ export async function creditVipPeriod(args: {
         const billing = found[0];
         const plan: unknown = billing?.plan;
         if (!billing || !isVipPlan(plan)) {
-            console.error("VIP charge for an unknown subscription", provider, subscriptionId);
+            logError("VIP charge for an unknown subscription", provider, subscriptionId);
             return "ignored";
         }
         const info = VIP_PLAN_INFO[plan];
         // What was charged must be exactly the plan price
         if (amountCents !== info.priceCents || String(currency).toLowerCase() !== "usd") {
-            console.error("VIP charge amount mismatch", provider, subscriptionId, amountCents, currency);
+            logError("VIP charge amount mismatch", provider, subscriptionId, amountCents, currency);
             return "ignored";
         }
 

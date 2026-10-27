@@ -8,6 +8,7 @@ import { issueCode } from "@/lib/auth/emailCode";
 import { isClosedAccount } from "@/lib/auth/loginLimit";
 import { sendCodeEmail } from "@/lib/auth/email";
 import { isEmail, normalizeEmail, readJson, reply } from "@/lib/auth/rules";
+import { logError } from "@/lib/log";
 
 export async function POST(request: NextRequest) {
     const body = await readJson(request);
@@ -26,7 +27,7 @@ export async function POST(request: NextRequest) {
         if ("code" in issued) await sendCodeEmail("reset_password", email, issued.code);
         return reply(200, SENT, { sent: true });
     } catch (error) {
-        console.error("Forgot password error:", error);
+        logError("Forgot password error:", error);
         return reply(500, "couldntSendCode");
     }
 }

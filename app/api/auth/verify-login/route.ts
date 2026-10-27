@@ -10,6 +10,7 @@ import { isClosedAccount } from "@/lib/auth/loginLimit";
 import { startSession } from "@/lib/auth/session";
 import { prepareReader } from "@/lib/auth/account";
 import { normalizeEmail, readJson, reply } from "@/lib/auth/rules";
+import { logError } from "@/lib/log";
 
 const MESSAGES = {
     wrong: { status: 400, code: "WRONG_CODE", message: "codeIncorrect" },
@@ -42,7 +43,7 @@ export async function POST(request: NextRequest) {
         await prepareReader(user.id);
         return reply(200, "signedIn", { user: { id: user.id, email: user.email } });
     } catch (error) {
-        console.error("Two-factor sign-in error:", error);
+        logError("Two-factor sign-in error:", error);
         return reply(500, "somethingWrongRetry");
     }
 }

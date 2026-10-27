@@ -98,7 +98,7 @@ const NavBar = () => {
     const isActive = (path: string) => path === "/" ? pathname === "/" : pathname === path || pathname.startsWith(`${path}/`);
     // Phones: the search bar under the top bar shows only where readers look for books (home, genres, the reader)
     const segments = pathname.split("/").filter(Boolean);
-    const showSearch = pathname === "/" || (segments[0] === "stories" && (segments.length <= 2 || segments[segments.length - 1] === "reader"));
+    const showSearch = pathname === "/" || segments[0] === "library" || (segments[0] === "stories" && (segments.length <= 2 || segments[segments.length - 1] === "reader"));
     const user = useAuthStore((s) => s.user);
     const { openSignIn, openSignUp, openForgotPassword, closeAll } = useAuthModals();
     const loading = useAuthStore((s) => s.loading);
@@ -350,11 +350,7 @@ const NavBar = () => {
             </div>
 
             {/* Phones: search under the top bar, only on the pages where readers look for books */}
-            {showSearch && (
-                <div className="mx-auto w-[90%] pb-3 md:hidden">
-                    <SearchBar value={search} onChange={setSearch} />
-                </div>
-            )}
+            {showSearch && panel === null && (<div className="mx-auto w-[90%] pb-3 md:hidden"><SearchBar value={search} onChange={setSearch} /></div>)}
 
             {/* ── MENU DRAWER (hamburger): slides in from the left over the whole screen ── */}
             {panel === "nav" && (
@@ -405,7 +401,7 @@ const NavBar = () => {
             {/* ── MY ACCOUNT SHEET (avatar, signed in): under the top bar ── */}
             {panel === "account" && user && (
                 <div className="absolute left-0 top-full w-full lg:hidden">
-                    <div onClick={() => setPanel(null)} className="absolute left-0 top-0 h-[100dvh] w-full bg-black/40" />
+                    <div onClick={() => setPanel(null)} className="absolute left-0 top-0 h-dvh w-full bg-black/40" />
 
                     <div
                         role="dialog"

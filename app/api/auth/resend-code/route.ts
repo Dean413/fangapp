@@ -8,6 +8,7 @@ import { issueCode, waitMessage } from "@/lib/auth/emailCode";
 import { isClosedAccount } from "@/lib/auth/loginLimit";
 import { sendCodeEmail } from "@/lib/auth/email";
 import { normalizeEmail, readJson, reply } from "@/lib/auth/rules";
+import { logError } from "@/lib/log";
 
 export async function POST(request: NextRequest) {
     const body = await readJson(request);
@@ -29,7 +30,7 @@ export async function POST(request: NextRequest) {
         await sendCodeEmail("verify_email", email, issued.code);
         return reply(200, "newCodeSent", { sent: true });
     } catch (error) {
-        console.error("Resend code error:", error);
+        logError("Resend code error:", error);
         return reply(500, "couldntSendCode");
     }
 }

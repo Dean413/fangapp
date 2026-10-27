@@ -8,6 +8,7 @@ import { backTo, clearStateCookie, facebookProfile, readState } from "@/lib/auth
 import { prepareReader, signInWithProvider } from "@/lib/auth/account";
 import { getCurrentUser, startSession } from "@/lib/auth/session";
 import { linkProvider } from "@/lib/settings";
+import { logError } from "@/lib/log";
 
 export async function GET(request: NextRequest) {
     const saved = readState(request, "facebook");
@@ -42,7 +43,7 @@ export async function GET(request: NextRequest) {
         await prepareReader(result.user.id);
         return finish();
     } catch (error) {
-        console.error("Facebook sign-in error:", error);
+        logError("Facebook sign-in error:", error);
         const noEmail = error instanceof Error && error.message === "FACEBOOK_NO_EMAIL";
         return finish(noEmail ? "facebook_no_email" : "facebook_failed");
     }

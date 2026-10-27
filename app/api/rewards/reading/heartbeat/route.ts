@@ -5,6 +5,7 @@ import { getCurrentUser } from "@/lib/auth/session";
 import { grantReadingGem, READING_GEM, recordReadingBeat } from "@/lib/readingReward";
 import { getWalletBalance } from "@/lib/wallet";
 import { reply } from "@/lib/auth/rules";
+import { logError } from "@/lib/log";
 
 export async function POST() {
     const user = await getCurrentUser();
@@ -18,7 +19,7 @@ export async function POST() {
             try {
                 gem = await grantReadingGem(user.id);
             } catch (error) {
-                console.error("Reading gem error:", error);
+                logError("Reading gem error:", error);
             }
         }
 
@@ -28,7 +29,7 @@ export async function POST() {
             wallet: gem ? await getWalletBalance(user.id) : undefined,
         });
     } catch (error) {
-        console.error("Reading signal error:", error);
+        logError("Reading signal error:", error);
         return reply(500, "somethingWrong");
     }
 }

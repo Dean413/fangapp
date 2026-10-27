@@ -10,6 +10,7 @@ import { isClosedAccount } from "@/lib/auth/loginLimit";
 import { startSession } from "@/lib/auth/session";
 import { prepareReader } from "@/lib/auth/account";
 import { normalizeEmail, readJson, reply } from "@/lib/auth/rules";
+import { logError } from "@/lib/log";
 
 const MESSAGES = {
     wrong: { status: 400, code: "WRONG_CODE", message: "codeIncorrect" },
@@ -48,7 +49,7 @@ export async function POST(request: NextRequest) {
 
         return reply(200, "emailConfirmed", { user: { id: user.id, email: user.email } });
     } catch (error) {
-        console.error("Verify email error:", error);
+        logError("Verify email error:", error);
         return reply(500, "somethingWrongRetry");
     }
 }

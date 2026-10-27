@@ -2,6 +2,7 @@
 import "server-only";
 import type { PoolClient } from "pg";
 import { dbPool } from "@/lib/db";
+import { logError } from "@/lib/log";
 
 export async function withTransaction<T>(fn: (client: PoolClient) => Promise<T>): Promise<T> {
     const client = await dbPool.connect();
@@ -14,7 +15,7 @@ export async function withTransaction<T>(fn: (client: PoolClient) => Promise<T>)
         try {
             await client.query("ROLLBACK");
         } catch (rollbackErr) {
-            console.error("Rollback failed (connection likely already lost):", rollbackErr);
+            logError("Rollback failed (connection likely already lost):", rollbackErr);
         }
         throw err;
     } finally {

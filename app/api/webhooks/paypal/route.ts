@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { PAYMENT_CONFIG } from "@/lib/payments/config";
 import { paypalBase, paypalToken } from "@/lib/payments/paypal";
 import { creditVipPeriod, setBillingStatus } from "@/lib/payments/subscription";
+import { logError } from "@/lib/log";
 
 const ok = () => NextResponse.json({ received: true });
 
@@ -81,7 +82,7 @@ export async function POST(request: NextRequest) {
 
         return ok();
     } catch (error) {
-        console.error("PayPal webhook error:", error);
+        logError("PayPal webhook error:", error);
         return NextResponse.json({ message: "Try again" }, { status: 500 }); // PayPal will retry
     }
 }

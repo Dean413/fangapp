@@ -1,6 +1,7 @@
 import "server-only";
 import { dbPool as db } from "@/lib/db";
 import { msg } from "@/lib/i18n";
+import { logError } from "@/lib/log";
 const WINDOW_MINUTES = 15;
 const MAX_IN_WINDOW = 10;
 const MAX_PER_DAY = 30;
@@ -26,7 +27,7 @@ function tidyOldRows() {
     db.query(
         `DELETE FROM login_attempts
          WHERE NOT EXISTS (SELECT 1 FROM unnest(tries) AS t WHERE t > now() - interval '1 day')`
-    ).catch((error: unknown) => console.error("login_attempts cleanup failed:", error));
+    ).catch((error: unknown) => logError("login_attempts cleanup failed:", error));
 }
 
 // Counts a sign-in try for this email. Returns null if it may go ahead,

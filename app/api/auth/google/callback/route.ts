@@ -7,6 +7,7 @@ import { backTo, clearStateCookie, googleProfile, readState } from "@/lib/auth/o
 import { prepareReader, signInWithProvider } from "@/lib/auth/account";
 import { getCurrentUser, startSession } from "@/lib/auth/session";
 import { linkProvider } from "@/lib/settings";
+import { logError } from "@/lib/log";
 
 export async function GET(request: NextRequest) {
     const saved = readState(request, "google");
@@ -41,7 +42,7 @@ export async function GET(request: NextRequest) {
         await prepareReader(result.user.id);
         return finish();
     } catch (error) {
-        console.error("Google sign-in error:", error);
+        logError("Google sign-in error:", error);
         const unverified = error instanceof Error && error.message === "GOOGLE_EMAIL_NOT_VERIFIED";
         return finish(unverified ? "google_unverified" : "google_failed");
     }

@@ -7,6 +7,7 @@ import { dbPool } from "@/lib/db";
 import { issueCode, waitMessage } from "@/lib/auth/emailCode";
 import { sendCodeEmail } from "@/lib/auth/email";
 import { normalizeEmail, readJson, reply } from "@/lib/auth/rules";
+import { logError } from "@/lib/log";
 
 export async function POST(request: NextRequest) {
     const body = await readJson(request);
@@ -29,7 +30,7 @@ export async function POST(request: NextRequest) {
         }
         return reply(200, "newCodeSent");
     } catch (error) {
-        console.error("Sign-in code resend error:", error);
+        logError("Sign-in code resend error:", error);
         return reply(500, "couldNotResendCode");
     }
 }

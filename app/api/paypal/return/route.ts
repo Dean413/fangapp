@@ -9,6 +9,7 @@ import { PAYMENT_CONFIG } from "@/lib/payments/config";
 import { creditPayment } from "@/lib/payments/credit";
 import { paypalBase, paypalToken } from "@/lib/payments/paypal";
 import { creditVipPeriod } from "@/lib/payments/subscription";
+import { logError } from "@/lib/log";
 
 // Where readers land after paying (change to your wallet page)
 const WALLET_PATH = "/profile/wallet";
@@ -38,7 +39,7 @@ export async function GET(request: NextRequest) {
             const sub = await res.json();
             if (!res.ok) return back("failed");
             if (sub.custom_id !== String(billing.id) || sub.plan_id !== PAYMENT_CONFIG.paypalPlans[billing.plan as "weekly" | "monthly"]) {
-                console.error("PayPal subscription does not match", billing.id);
+                logError("PayPal subscription does not match", billing.id);
                 return back("failed");
             }
             if (sub.status !== "ACTIVE") return back("cancelled"); // not approved
@@ -97,14 +98,14 @@ export async function GET(request: NextRequest) {
             Math.round(Number(capture?.amount?.value) * 100) === p.price_cents;
 
         if (!paidOk) {
-            console.error("PayPal capture not completed for payment", p.id, data?.status, capture?.status);
+            logError("PayPal capture not completed for payment", p.id, data?.status, capture?.status);
             return back("failed");
         }
 
         await creditPayment(p.id, capture.id ?? null);
         return back("success");
     } catch (error) {
-        console.error("PayPal return error:", error);
+        logError("PayPal return error:", error);
         return back("failed");
     }
 }

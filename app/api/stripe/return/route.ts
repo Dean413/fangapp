@@ -7,6 +7,7 @@ import { PAYMENT_CONFIG } from "@/lib/payments/config";
 import { creditPayment } from "@/lib/payments/credit";
 import { stripeGet } from "@/lib/payments/stripe";
 import { creditVipPeriod, linkStripeSubscription } from "@/lib/payments/subscription";
+import { logError } from "@/lib/log";
 
 // Where readers land after paying (change to your wallet page)
 const WALLET_PATH = "/profile/wallet";
@@ -69,14 +70,14 @@ export async function GET(request: NextRequest) {
             session.amount_total === p.price_cents &&
             String(session.currency).toLowerCase() === "usd";
         if (!matches) {
-            console.error("Stripe session does not match payment", p.id);
+            logError("Stripe session does not match payment", p.id);
             return back("failed");
         }
 
         await creditPayment(p.id, typeof session.payment_intent === "string" ? session.payment_intent : null);
         return back("success");
     } catch (error) {
-        console.error("Stripe return error:", error);
+        logError("Stripe return error:", error);
         return back("failed");
     }
 }

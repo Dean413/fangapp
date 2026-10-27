@@ -6,11 +6,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { AUTH_CONFIG } from "@/lib/auth/authConfig";
 import { getCurrentUser } from "@/lib/auth/session";
 import { backTo, facebookAuthUrl, newState, setStateCookie } from "@/lib/auth/oauth";
+import { logError } from "@/lib/log";
 
 export async function GET(request: NextRequest) {
     const next = request.nextUrl.searchParams.get("next") ?? "/";
     if (!(AUTH_CONFIG.facebookAppId && AUTH_CONFIG.facebookAppSecret)) {
-        console.error("Facebook sign-in is not set up in lib/auth/config.ts");
+        logError("Facebook sign-in is not set up in lib/auth/config.ts");
         return NextResponse.redirect(backTo(request, next, "facebook_failed"));
     }
 

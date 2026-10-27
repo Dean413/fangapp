@@ -8,6 +8,7 @@ import { getTranslations } from "next-intl/server";
 import CodeEmail, { type CodeEmailKind } from "@/components/email/verificationCodeEmail";
 import { AUTH_CONFIG } from "@/lib/auth/authConfig";
 import { getRequestLocale } from "@/lib/i18n";
+import { logError } from "@/lib/log";
 
 const MINUTES: Record<CodeEmailKind, number> = {
     verify_email: 15,
@@ -62,7 +63,7 @@ export async function sendCodeEmail(kind: CodeEmailKind, to: string, code: strin
     });
 
     if (error) {
-        console.error("Code email failed:", error);
+        logError("Code email failed:", error);
         throw new Error(error.message);
     }
 }

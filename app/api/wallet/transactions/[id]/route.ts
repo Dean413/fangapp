@@ -3,6 +3,7 @@
 import { getCurrentUser } from "@/lib/auth/session";
 import { getTransaction } from "@/lib/transaction";
 import { reply } from "@/lib/auth/rules";
+import { logError } from "@/lib/log";
 
 export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
     const user = await getCurrentUser();
@@ -14,7 +15,7 @@ export async function GET(_: Request, { params }: { params: Promise<{ id: string
         if (!transaction) return reply(404, "transactionNotFound");
         return reply(200, "OK", { transaction });
     } catch (error) {
-        console.error("Transaction error:", error);
+        logError("Transaction error:", error);
         return reply(500, "couldntLoadTransaction");
     }
 }

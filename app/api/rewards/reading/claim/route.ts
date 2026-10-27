@@ -7,6 +7,7 @@ import { claimReadingReward } from "@/lib/readingReward";
 import { getWalletBalance } from "@/lib/wallet";
 import { readJson, reply } from "@/lib/auth/rules";
 import { msg } from "@/lib/i18n";
+import { logError } from "@/lib/log";
 
 const MESSAGES = {
     UNKNOWN: "rewardUnknown",
@@ -31,7 +32,7 @@ export async function POST(request: NextRequest) {
             wallet: await getWalletBalance(user.id),
         });
     } catch (error) {
-        console.error("Reading reward claim error:", error);
+        logError("Reading reward claim error:", error);
         return reply(500, "couldntClaimReward");
     }
 }

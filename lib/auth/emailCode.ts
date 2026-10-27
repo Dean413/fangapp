@@ -5,6 +5,7 @@ import { dbPool as db } from "@/lib/db";
 import { withTransaction } from "@/lib/auth/transaction";
 import { AUTH_CONFIG } from "@/lib/auth/authConfig";
 import { msg } from "@/lib/i18n";
+import { logError } from "@/lib/log";
 
 export type CodePurpose = "verify_email" | "reset_password" | "login_2fa" | "change_email" | "delete_account";
 export type CodeCheck = "ok" | "wrong" | "expired" | "too_many";
@@ -73,7 +74,7 @@ function tidyOldRows() {
         `DELETE FROM email_codes
          WHERE expires_at < now() - interval '1 day'
            AND NOT EXISTS (SELECT 1 FROM unnest(send_times) AS t WHERE t > now() - interval '1 day')`
-    ).catch((error: unknown) => console.error("email_codes cleanup failed:", error));
+    ).catch((error: unknown) => logError("email_codes cleanup failed:", error));
 }
 
 // Makes a new code for the account and returns it to email.

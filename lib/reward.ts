@@ -10,7 +10,8 @@ import "server-only";
 import { dbPool } from "@/lib/db";
 import { withTransaction } from "@/lib/auth/transaction";
 
-export const CHECKIN_REWARDS = [5, 10, 15, 20, 25, 30, 35]; // Day 1 … Day 7
+export const CHECKIN_REWARDS = [5, 10, 15, 20, 25, 30, 50]; // Day 1 … Day 7
+export const CHECKIN_GEMS = [0, 0, 0, 0, 0, 0, 2]; // extra gems per day (gems never expire)
 export const REWARD_EXPIRY_DAYS = 2;
 
 export type CheckinStatus = {
@@ -21,6 +22,7 @@ export type CheckinStatus = {
     nextClaimAt: string | null;  // when the next claim opens (null when it's open now)
     serverNow: string;           // the server's time, so the countdown is right whatever the reader's clock says
     rewards: number[];
+    gems: number[];              // extra gems per day (0 = none)
 };
 
 type Row = { streak_day: number; last_claim_at: Date; now: Date; open: boolean; alive: boolean } | undefined;
@@ -29,6 +31,7 @@ function toStatus(row: Row, now: Date): CheckinStatus {
     let claimedDays = 0;
     let canClaim = true;
     let nextClaimAt: string | null = null;
+
 
     if (row) {
         if (!row.open) {
@@ -52,6 +55,7 @@ function toStatus(row: Row, now: Date): CheckinStatus {
         nextClaimAt,
         serverNow: now.toISOString(),
         rewards: CHECKIN_REWARDS,
+        gems: CHECKIN_GEMS,
     };
 }
 
@@ -69,7 +73,7 @@ export async function getCheckinStatus(userId: string): Promise<CheckinStatus> {
 }
 
 export type ClaimResult =
-    | { ok: true; day: number; coins: number; status: CheckinStatus }
+    | { ok: true; day: number; coins: number; gems: number; status: CheckinStatus }
     | { ok: false; status: CheckinStatus };
 
 // Claims today's check-in. Safe against double clicks and several tabs at once:
@@ -104,7 +108,21 @@ export async function claimCheckin(userId: string): Promise<ClaimResult> {
              VALUES ($1, $2, 'coin', 'bonus', $3, 'daily_checkin', 'checkin_day', $4)`,
             [userId, lot[0].id, coins, String(day)]
         );
-        return { day, coins };
+        const gems = CHECKIN_GEMS[day - 1] ?? 0;
+        if (gems > 0) {
+            const { rows: gemLot } = await client.query(
+                `INSERT INTO wallet_lots (user_id, currency, kind, amount, remaining, source, expires_at)
+                 VALUES ($1, 'gem', 'earned', $2, $2, 'daily_checkin', NULL)
+                 RETURNING id`,
+                [userId, gems]
+            );
+            await client.query(
+                `INSERT INTO wallet_ledger (user_id, lot_id, currency, kind, delta, reason, ref_type, ref_id)
+                 VALUES ($1, $2, 'gem', 'earned', $3, 'daily_checkin', 'checkin_day', $4)`,
+                [userId, gemLot[0].id, gems, String(day)]
+            );
+        }
+        return { day, coins, gems };
     });
 
     const status = await getCheckinStatus(userId);

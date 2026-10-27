@@ -5,6 +5,7 @@ import { prepareReader } from "@/lib/auth/account";
 import { getReaderProfile } from "@/lib/readerProfile";
 import { getWalletBalance } from "@/lib/wallet";
 import { reply } from "@/lib/auth/rules";
+import { logError } from "@/lib/log";
 
 export async function GET() {
     try {
@@ -36,7 +37,7 @@ export async function GET() {
             },
         });
     } catch (error) {
-        console.error("Current user error:", error);
+        logError("Current user error:", error);
         return reply(500, "somethingWrong", { user: null });
     }
 }

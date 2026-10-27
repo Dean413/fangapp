@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { SectionTitle } from "./earn-card";
 import Image from "next/image";
-import { ClipboardCheck } from "lucide-react";
+import { Check, ClipboardCheck, Gem, Gift } from "lucide-react";
 import { toast } from "@/lib/store/toastStore";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useTranslations } from "next-intl";
@@ -17,9 +17,10 @@ type CheckinStatus = {
     nextClaimAt: string | null;
     serverNow: string;
     rewards: number[];
+    gems?: number[]; // extra gems per day (0 = none), e.g. the 7th day
 };
 
-const DEFAULT_REWARDS = [5, 10, 15, 20, 25, 30, 35];
+const DEFAULT_REWARDS = [5, 10, 15, 20, 25, 30, 50];
 // Give up on a request the server hasn't answered after this long
 const TIMEOUT_MS = 15000;
 
@@ -152,7 +153,11 @@ export default function DailyCheckIn() {
         return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
     };
 
-    const rewards = (status?.rewards ?? DEFAULT_REWARDS).map((coins, i) => ({ day: i + 1, coins }));
+    const rewards = (status?.rewards ?? DEFAULT_REWARDS).map((coins, i) => ({
+        day: i + 1,
+        coins,
+        gems: status?.gems?.[i] ?? 0,
+    }));
     const claimedDays = status?.claimedDays ?? 0;
     const canClaim = Boolean(status?.canClaim) && !claiming;
     // Load failed: the button becomes "Try again"
@@ -161,47 +166,51 @@ export default function DailyCheckIn() {
     return (
         <div className="w-full">
             <SectionTitle title={
-                <div className="flex gap-2">
+                <div className="flex items-center gap-2">
                     <ClipboardCheck className="text-red-500" />
-                    <p>{t("dailyCheckin")}</p>
+                    <p>{t("dailyCheckinLoop", { days: rewards.length })}</p>
                 </div>
             } />
-            <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-3 my-4">
+            <div className="grid grid-cols-4 md:grid-cols-7 gap-3 my-4">
                 {rewards.map((item) => {
                     const isCompleted = item.day <= claimedDays;
                     const isCurrent = item.day === claimedDays + 1;
-                    const isLocked = item.day > claimedDays + 1;
+                    const isLast = item.day === rewards.length;
                     return (
-                        <div key={item.day} className={`p-3 rounded-xl border text-center space-y-2
-                            ${isCompleted ? "bg-white dark:bg-dark-card border-gray-300 dark:border-neutral-700" : ""}
-                            ${isCurrent ? "bg-red-100 dark:bg-red-500/15 border-red-400" : ""}
-                            ${isLocked ? "bg-white dark:bg-dark-card border-gray-200 dark:border-dark-border opacity-70" : ""}`}>
-                            <p className="text-xs text-gray-400 dark:text-neutral-500 uppercase">{t("day")}</p>
-                            <p className="text-lg font-bold">{item.day}</p>
+                        <div key={item.day} className={`flex flex-col items-center gap-2 rounded-xl border px-1 py-3 text-center
+                            ${isCurrent
+                                ? "border-red-400 bg-red-50 dark:bg-red-500/15"
+                                : "border-gray-100 bg-white dark:border-dark-border dark:bg-dark-card"}`}>
+                            <p className={`text-xs ${isCurrent ? "text-red-600 dark:text-red-400" : "text-gray-500 dark:text-neutral-400"}`}>
+                                {t("day")} {item.day}
+                            </p>
 
-                            <div className="flex justify-center">
+                            <div className="flex h-8 items-center justify-center">
                                 {isCompleted ? (
-                                    <div className="w-6 h-6 rounded-full bg-red-500 flex items-center justify-center text-white text-xs">✓</div>
+                                    <div className="flex h-7 w-7 items-center justify-center rounded-full bg-amber-400 text-white">
+                                        <Check size={16} strokeWidth={3} />
+                                    </div>
+                                ) : isLast ? (
+                                    <Gift size={28} className="text-amber-500" />
                                 ) : (
                                     <Image
-                                        src="/fang_pictures/balance.png"
+                                        src="/fang_pictures/coin-topup.png"
                                         alt={t("reward")}
-                                        width={14}
-                                        height={14}
+                                        width={28}
+                                        height={28}
                                     />
                                 )}
                             </div>
 
-                            <p className="text-sm">
-                                <span className="text-green-500">+ {item.coins}</span>
-                            </p>
+                            <p className="text-sm font-bold text-gray-900 dark:text-white">+{item.coins}</p>
+
                         </div>
                     );
                 })}
             </div>
 
             <button type="button" onClick={canRetry ? loadStatus : handleClaim} disabled={!canClaim && !canRetry}
-                className={`w-full py-3 rounded-xl text-white ${canClaim || canRetry ? "bg-red-500" : "bg-gray-400 dark:bg-neutral-700 cursor-not-allowed"}`}>
+                className={`w-full rounded-xl py-3 font-semibold text-white ${canClaim || canRetry ? "bg-red-600 hover:bg-red-700" : "bg-gray-400 dark:bg-neutral-700 cursor-not-allowed"}`}>
                 {signedOut && !status ? (
                     <span>{t("signInToClaim")}</span>
                 ) : !status && loading ? (
@@ -213,15 +222,7 @@ export default function DailyCheckIn() {
                 ) : claiming ? (
                     <span>{t("claiming")}</span>
                 ) : status.canClaim ? (
-                    <div className="flex items-center justify-center gap-2">
-                        <span>{t("claimToday", { coins: status.nextCoins })}</span>
-                        <Image
-                            src="/fang_pictures/balance.png"
-                            alt="coin"
-                            width={16}
-                            height={16}
-                        />
-                    </div>
+                    <span>{t("claimRewardToday", { coins: status.nextCoins })}</span>
                 ) : (
                     <span>{t("nextClaimIn", { time: formatTime(remainingTime) })}</span>
                 )}

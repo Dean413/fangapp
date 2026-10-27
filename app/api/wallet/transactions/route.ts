@@ -5,6 +5,7 @@ import { NextRequest } from "next/server";
 import { getCurrentUser } from "@/lib/auth/session";
 import { TX_FILTERS, cleanDay, listTransactions, type TxFilter } from "@/lib/transaction";
 import { reply } from "@/lib/auth/rules";
+import { logError } from "@/lib/log";
 
 export async function GET(request: NextRequest) {
     const user = await getCurrentUser();
@@ -21,7 +22,7 @@ export async function GET(request: NextRequest) {
     try {
         return reply(200, "OK", { filter, ...(await listTransactions(user.id, filter, before, { from, to })) });
     } catch (error) {
-        console.error("Transactions error:", error);
+        logError("Transactions error:", error);
         return reply(500, "couldntLoadTransactions");
     }
 }

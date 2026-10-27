@@ -13,6 +13,7 @@ import { BIO_MAX, MAX_GENRES, USERNAME_RULE, getReaderProfile } from "@/lib/read
 import { cleanName, newPublicId } from "@/lib/auth/account";
 import { readJson, reply } from "@/lib/auth/rules";
 import { msg } from "@/lib/i18n";
+import { logError } from "@/lib/log";
 
 export async function POST(request: NextRequest) {
     const user = await getCurrentUser();
@@ -112,7 +113,7 @@ export async function POST(request: NextRequest) {
         if (error instanceof Error && "code" in error && (error as { code?: string }).code === "23505") {
             return reply(409, "usernameTaken", { field: "username" });
         }
-        console.error("Profile save error:", error);
+        logError("Profile save error:", error);
         return reply(500, "couldntSaveProfile");
     }
 }

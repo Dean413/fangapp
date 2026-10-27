@@ -17,6 +17,7 @@ import { sendCodeEmail } from "@/lib/auth/email";
 import { startSession } from "@/lib/auth/session";
 import { prepareReader } from "@/lib/auth/account";
 import { normalizeEmail, readJson, reply } from "@/lib/auth/rules";
+import { logError } from "@/lib/log";
 
 // A real bcrypt hash of a random value, checked when there's no account (or no password)
 let dummyHash: Promise<string> | null = null;
@@ -64,7 +65,7 @@ export async function POST(request: NextRequest) {
                 const issued = await issueCode(user.id, "verify_email");
                 if ("code" in issued) await sendCodeEmail("verify_email", user.email, issued.code);
             } catch (emailError) {
-                console.error("Verification code email error:", emailError);
+                logError("Verification code email error:", emailError);
             }
             return reply(403, "confirmEmail", { code: "EMAIL_NOT_VERIFIED", email: user.email });
         }
@@ -75,7 +76,7 @@ export async function POST(request: NextRequest) {
                 const issued = await issueCode(user.id, "login_2fa");
                 if ("code" in issued) await sendCodeEmail("login_2fa", user.email, issued.code);
             } catch (emailError) {
-                console.error("Sign-in code email error:", emailError);
+                logError("Sign-in code email error:", emailError);
             }
             return reply(403, "enterEmailCode", { code: "TWO_FACTOR_REQUIRED", email: user.email });
         }
@@ -85,7 +86,7 @@ export async function POST(request: NextRequest) {
 
         return reply(200, "signedIn", { user: { id: user.id, email: user.email } });
     } catch (error) {
-        console.error("Login error:", error);
+        logError("Login error:", error);
         return reply(500, "somethingWrongRetry");
     }
 }

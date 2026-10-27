@@ -6,6 +6,7 @@ import { issueCode } from "@/lib/auth/emailCode";
 import { sendCodeEmail } from "@/lib/auth/email";
 import { cleanName, createReaderProfile } from "@/lib/auth/account";
 import { isEmail, newPasswordProblem, normalizeEmail, readJson, reply } from "@/lib/auth/rules";
+import { logError } from "@/lib/log";
 
 export async function POST(request: NextRequest) {
     const body = await readJson(request);
@@ -56,7 +57,7 @@ export async function POST(request: NextRequest) {
             try {
                 await sendCodeEmail("verify_email", email, issued.code);
             } catch (emailError) {
-                console.error("Verification code email error:", emailError);
+                logError("Verification code email error:", emailError);
             }
         }
 
@@ -65,7 +66,7 @@ export async function POST(request: NextRequest) {
         if (error instanceof Error && error.message === "EMAIL_ALREADY_EXISTS") {
             return reply(409, "emailExists", { code: "EMAIL_EXISTS" });
         }
-        console.error("Signup error:", error);
+        logError("Signup error:", error);
         return reply(500, "cantCreateAccount");
     }
 }

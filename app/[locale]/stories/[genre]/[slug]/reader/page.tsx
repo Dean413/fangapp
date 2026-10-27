@@ -15,13 +15,14 @@ import ReplyPanel from "@/components/book-controls/reply";
 import ChapterContent from "@/components/reader/chapter-content";
 import ReportBookDialog from "@/components/book-controls/report-book";
 import ReviewPrompt from "@/components/reviews/reviewPrompt";
-import { ChapterSkeleton, ReaderSkeleton } from "@/components/skeleton";
+import { BookGridSkeleton, ChapterSkeleton, ReaderSkeleton } from "@/components/skeleton";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useAuthModals } from "@/lib/store/auth-card-store";
 import { useLocale, useTranslations } from "next-intl";
 import { fetchYouMayLike } from "@/lib/fetchYouMayLike";
 import { languageForLocale } from "@/lib/language";
 import { BookGrid, SectionHeader } from "@/hooks/bookData";
+import { BookCard as YouMayLikeCard } from "@/components/home/youMayLike";
 import { toast } from "@/lib/store/toastStore";
 import ViewTracker from "@/components/book-controls/view-tracker";
 
@@ -529,7 +530,15 @@ export default function ReaderPage() {
                 {/* YOU MAY LIKE (site theme, not the reading theme) */}
                 <section className="w-full md:w-[90%] mx-auto px-4 md:px-2 pb-10 md:pb-14 text-gray-800 dark:text-neutral-200">
                     <SectionHeader title={t("youMayLike")} href={`/stories/${likeGenre}`} />
-                    <BookGrid data={books} loading={booksLoading} />
+                    {booksLoading ? (
+                        <BookGridSkeleton />
+                    ) : (
+                        <div className="grid grid-cols-3 gap-x-3 gap-y-5 sm:grid-cols-2 sm:gap-3 md:gap-5 lg:grid-cols-3">
+                            {books.slice(0, 6).map((item) => (
+                                <YouMayLikeCard key={item.id} book={{ ...item, blurb: item.summary }} />
+                            ))}
+                        </div>
+                    )}
                 </section>
             </div>
 

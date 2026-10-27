@@ -205,7 +205,7 @@
     ]
   },
   "communityGuidelines": {
-    "title": "FANG Community Guidelines & Policy",
+    "title": "FANG Topluluk Kuralları ve Politikası",
     "blocks": [
       {
         "t": "div",
@@ -218,19 +218,19 @@
           },
           {
             "t": "p",
-            "text": "Effective Date: August 18, 2026"
+            "text": "Geçerlilik Tarihi: 18 Ağustos 2026"
           },
           {
             "t": "p",
-            "text": "FANG is a premier digital storytelling platform engineered for readers who enjoy immersive serialization and writers who cultivate highly engaged fan communities. FANG supports creative freedom across complex adult fiction tracks, including Dark Romance, Werewolf, Vampire, Mafia, Billionaire, Thrillers, and emotionally addictive narrative arcs."
+            "text": "FANG, sürükleyici bölümler halinde hikâyelerden hoşlanan okuyucular ve son derece bağlı hayran toplulukları oluşturan yazarlar için geliştirilmiş önde gelen bir dijital hikâye anlatım platformudur. FANG, Karanlık Romantizm, Kurt Adam, Vampir, Mafya, Milyarder, Gerilim ve duygusal olarak bağımlılık yapan anlatı türleri dahil olmak üzere karmaşık yetişkin kurgu alanlarında yaratıcı özgürlüğü destekler."
           },
           {
             "t": "p",
-            "text": "These Community Guidelines and Content Policies outline the exact structural boundaries governing permitted user behavior, content moderation thresholds, and media restrictions across our ecosystem. By accessing or publishing content on FANG, you explicitly agree to adhere to these guidelines alongside our core Terms of Use and Privacy Policy."
+            "text": "Bu Topluluk Kuralları ve İçerik Politikaları, ekosistemimizde izin verilen kullanıcı davranışını, içerik denetim eşiklerini ve medya kısıtlamalarını yöneten kesin yapısal sınırları açıklar. FANG'a erişerek veya FANG'da içerik yayınlayarak, temel Kullanım Şartlarımız ve Gizlilik Politikamızla birlikte bu kurallara uymayı açıkça kabul edersin."
           },
           {
             "t": "p",
-            "text": "The FANG platform is operated by IFO DIGITAL MEDIA, LLC, 1111B S Governors Ave STE 52111, Dover, DE 19904, United States. Support Desk: support@fangapp.io | Legal Operations: legal@fangapp.io"
+            "text": "FANG platformu, IFO DIGITAL MEDIA, LLC, 1111B S Governors Ave STE 52111, Dover, DE 19904, Amerika Birleşik Devletleri tarafından işletilmektedir. Destek Masası: support@fangapp.io | Hukuk İşlemleri: legal@fangapp.io"
           }
         ]
       },
@@ -241,11 +241,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "1. Creative Freedom Framework"
+            "text": "1. Yaratıcı Özgürlük Çerçevesi"
           },
           {
             "t": "p",
-            "text": "FANG proudly champions a highly expansive catalog of fictional storytelling. We understand that high-stakes creative literature frequently incorporates emotionally intense, complex, dramatic, or dark themes. Fictional conflict, character obsession, narrative manipulation, and stylized genre violence do not automatically violate our structural boundaries. However, content will be systematically restricted, demonetized, or permanently removed if it crosses defined legal, safety, compliance, or payment gateway operational thresholds."
+            "text": "FANG, gurur verici bir şekilde son derece kapsamlı bir kurgusal hikâye anlatımı kataloğunu destekler. Yüksek riskli yaratıcı edebiyatın genellikle duygusal olarak yoğun, karmaşık, dramatik veya karanlık temalar içerdiğini anlıyoruz. Kurgusal çatışma, karakter takıntısı, anlatı manipülasyonu ve türe özgü stilize şiddet, yapısal sınırlarımızı otomatik olarak ihlal etmez. Ancak içerik, tanımlanmış yasal, güvenlik, uyumluluk veya ödeme sağlayıcısı operasyonel eşiklerini aşarsa sistematik olarak kısıtlanacak, para kazanma özelliği kaldırılacak veya kalıcı olarak kaldırılacaktır."
           }
         ]
       },
@@ -256,19 +256,19 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "2. Book Titles and Metadata Standards"
+            "text": "2. Kitap Başlıkları ve Meta Veri Standartları"
           },
           {
             "t": "p",
-            "text": "Book titles and text metadata profiles must accurately represent the creative work and remain entirely appropriate for public distribution storefronts."
+            "text": "Kitap başlıkları ve metin meta veri profilleri, yaratıcı eseri doğru şekilde temsil etmeli ve kamuya açık dağıtım mağazaları için tamamen uygun olmalıdır."
           },
           {
             "t": "p",
-            "text": "Permitted Metadata: Seductive or dramatic titles, mature romance branding, and standard genre terminology (e.g., The Alpha’s Obsession, Claimed by the Mafia King, Bound to the Vampire Lord)."
+            "text": "İzin Verilen Meta Veriler: Baştan çıkarıcı veya dramatik başlıklar, yetişkin romantizm markalaması ve standart tür terminolojisi (örneğin, The Alpha's Obsession, Claimed by the Mafia King, Bound to the Vampire Lord)."
           },
           {
             "t": "p",
-            "text": "Prohibited Metadata: Titles containing explicit pornographic phrasing, real-world slurs, hate speech, or terms directly promoting the exploitation of minors, or text deliberately designed to infringe existing copyrighted trademarks or established commercial brands."
+            "text": "Yasaklanan Meta Veriler: Açık pornografik ifadeler, gerçek dünyaya ait aşağılayıcı sözcükler, nefret söylemi veya reşit olmayanların istismarını doğrudan teşvik eden terimler içeren başlıklar, ya da mevcut telif haklı markaları veya kurulu ticari markaları ihlal etmek üzere kasıtlı olarak tasarlanmış metinler."
           }
         ]
       },
@@ -279,19 +279,19 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "3. Book Cover and Media Art Regulations"
+            "text": "3. Kitap Kapağı ve Medya Görseli Kuralları"
           },
           {
             "t": "p",
-            "text": "Book covers and associated storefront media assets must remain strictly suitable for public display across global mobile distribution marketplaces."
+            "text": "Kitap kapakları ve ilgili mağaza medya içerikleri, küresel mobil dağıtım pazarlarında halka açık gösterim için kesinlikle uygun kalmalıdır."
           },
           {
             "t": "p",
-            "text": "Permitted Artwork: Romantic embracing, stylized kissing scenes, fantasy weapons within fictional contexts, artistic blood elements within horror configurations, shirtless characters, and dark aesthetic illustrations."
+            "text": "İzin Verilen Görseller: Romantik sarılma sahneleri, stilize öpüşme sahneleri, kurgusal bağlamlarda fantastik silahlar, korku temalarında sanatsal kan unsurları, üstsüz karakterler ve karanlık estetik illüstrasyonlar."
           },
           {
             "t": "p",
-            "text": "Prohibited Artwork: Explicit graphic nudity, visible genitals or nipples, graphic representations of sexual acts, real-world extreme gore, or graphic self-harm depictions. Any cover utilizing copyright-infringing source graphics or unauthorized celebrity likenesses will be instantly removed."
+            "text": "Yasaklanan Görseller: Açık grafik çiplaklık, görünür cinsel organlar veya meme uçları, cinsel eylemlerin grafik gösterimi, gerçek dünyaya ait aşırı şiddet görüntüleri veya grafik kendine zarar verme tasvirleri. Telif hakkını ihlal eden kaynak görseller veya izinsiz ünlü benzerlikleri kullanan her kapak anında kaldırılacaktır."
           }
         ]
       },
@@ -302,43 +302,43 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "4. Story Content Thresholds"
+            "text": "4. Hikâye İçeriği Eşikleri"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "4.1 Permitted Fiction Formats"
+            "text": "4.1 İzin Verilen Kurgu Biçimleri"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Mature romance and complex character interactions;",
-              "Atmospheric dark romance, high-stakes psychological tension, and emotional drama;",
-              "Stylized fantasy combat, supernatural action sequences, and werewolf/vampire lore;",
-              "Narrative sexual tension and non-graphic intimate scenes;",
-              "Diverse LGBTQ+ relationships and comprehensive speculative fiction."
+              "Yetişkin romantizm ve karmaşık karakter etkileşimleri;",
+              "Atmosferik karanlık romantizm, yüksek riskli psikolojik gerilim ve duygusal drama;",
+              "Stilize fantastik dövüş sahneleri, doğaüstü aksiyon sahneleri ve kurt adam/vampir mitolojisi;",
+              "Anlatısal cinsel gerilim ve grafik olmayan samimi sahneler;",
+              "Çeşitli LGBTQ+ ilişkileri ve kapsamlı spekülatif kurgu."
             ]
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "4.2 Prohibited Content Categories"
+            "text": "4.2 Yasaklanan İçerik Kategorileri"
           },
           {
             "t": "p",
-            "text": "In strict alignment with global legal frameworks and our merchant processor compliance rules, FANG maintains a zero-tolerance policy toward the following text or media configurations:"
+            "text": "Küresel yasal çerçevelerle ve ödeme sağlayıcılarımızın uyumluluk kurallarıyla sıkı uyum içinde, FANG aşağıdaki metin veya medya içeriklerine karşı sıfır tolerans politikası sürdürür:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Any representation of sexual content, exploitation, or abuse involving minors;",
-              "Real-world terrorist propaganda, violent extremism, or hate group recruitment text;",
-              "Detailed instructional guides for executing serious real-world criminal acts or manufacturing illegal weapons;",
-              "Non-consensual explicit sexual exploitation, graphic sexual violence, or bestiality;",
-              "Extreme real-world gore or graphic physical mutilation presented for shock value;",
-              "The promotion, encouragement, or instructional tracking of suicide or self-harm actions."
+              "Reşit olmayanları içeren herhangi bir cinsel içerik, istismar veya kötüye kullanım tasviri;",
+              "Gerçek dünyaya ait terörist propaganda, şiddet içeren aşırılıkçılık veya nefret grubu üyeliğine davet metinleri;",
+              "Ciddi gerçek dünya suçlarının işlenmesi veya yasadışı silah üretimi için ayrıntılı talimat kılavuzları;",
+              "Rıza dışı açık cinsel istismar, grafik cinsel şiddet veya hayvanlarla cinsel ilişki;",
+              "Şok etkisi için sunulan aşırı gerçek dünya şiddeti veya grafik fiziksel sakatlanma tasvirleri;",
+              "İntihar veya kendine zarar verme eylemlerinin teşviki, cesaretlendirilmesi veya talimat niteliğinde anlatımı."
             ]
           }
         ]
@@ -350,23 +350,23 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "5. Content Moderation & Programmatic Enforcement"
+            "text": "5. İçerik Denetimi ve Otomatik Uygulama"
           },
           {
             "t": "p",
-            "text": "To maintain absolute platform safety, FANG utilizes a multi-layered compliance verification network."
+            "text": "Platform güvenliğini tam olarak sağlamak için FANG, çok katmanlı bir uyumluluk doğrulama ağı kullanır."
           },
           {
             "t": "p",
-            "text": "User Reporting: Every story page across the platform features an active “Report Book” interface button, allowing readers to flag content for intellectual property theft, safety violations, or policy infractions."
+            "text": "Kullanıcı Bildirimleri: Platformdaki her hikâye sayfasında, okuyucuların fikri mülkiyet hırsızlığı, güvenlik ihlalleri veya politika ihlalleri için içerik işaretleyebilmesini sağlayan aktif bir «Kitabı Bildir» arayüz düğmesi bulunur."
           },
           {
             "t": "p",
-            "text": "Programmatic Controls: Our backend servers actively analyze these user signals. Stories that accumulate verified reporting thresholds are programmatically isolated, hidden from public storefront navigation, and automatically demonetized pending manual human review."
+            "text": "Otomatik Kontroller: Arka uç sunucularımız bu kullanıcı sinyallerini aktif olarak analiz eder. Doğrulanmış bildirim eşiklerine ulaşan hikâyeler otomatik olarak izole edilir, genel mağaza gezinmesinden gizlenir ve manuel inceleme beklenirken otomatik olarak para kazanma özelliğinden çıkarılır."
           },
           {
             "t": "p",
-            "text": "Keyword Scanning: Newly published manuscripts are automatically scanned via text-matching string filters to block known high-risk extremist phrases or malicious configurations before publication occurs."
+            "text": "Anahtar Kelime Taraması: Yeni yayınlanan el yazmaları, yayınlanmadan önce bilinen yüksek riskli aşırılıkçı ifadeleri veya kötü amaçlı içerikleri engellemek için metin eşleştirme filtreleriyle otomatik olarak taranır."
           }
         ]
       },
@@ -377,15 +377,15 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "6. Intellectual Property, Plagiarism & AI Controls"
+            "text": "6. Fikri Mülkiyet, Aşırma ve Yapay Zekâ Kontrolleri"
           },
           {
             "t": "p",
-            "text": "Copyright Infringement: FANG strictly prohibits plagiarism, unauthorized text translations, or the reposting of stolen novels from alternative publishing networks. Systemic violations will result in permanent account deactivation and the complete forfeiture of monetization privileges."
+            "text": "Telif Hakkı İhlali: FANG, aşırmayı, izinsiz metin çevirilerini veya başka yayın ağlarından çalınan romanların yeniden yayınlanmasını kesinlikle yasaklar. Sistematik ihlaller, hesabın kalıcı olarak devre dışı bırakılmasına ve para kazanma ayrıcalıklarının tamamen kaybedilmesine yol açar."
           },
           {
             "t": "p",
-            "text": "Artificial Intelligence (AI) Parameters: Creators may utilize generative software utilities as creative tools, provided that the uploader possesses all necessary commercial usage rights for the source materials. AI-assisted content must completely comply with our core content safety rules, must be meaningfully curated or edited, and must not consist of mass-generated automated spam text designed to manipulate platform metrics. Unedited AI spam text is programmatically excluded from platform contract rewards."
+            "text": "Yapay Zekâ (YZ) Parametreleri: Yazarlar, kaynak materyaller için gerekli tüm ticari kullanım haklarına sahip olmaları koşuluyla üretken yazılım araçlarını yaratıcı araçlar olarak kullanabilirler. YZ destekli içerik, temel içerik güvenliği kurallarımıza tamamen uymalı, anlamlı şekilde düzenlenmiş veya editlenmiş olmalı ve platform metriklerini manipüle etmek için toplu üretilmiş otomatik spam metinlerden oluşmamalıdır. Düzenlenmemiş YZ spam metni, platform sözleşme ödüllerinden otomatik olarak hariç tutulur."
           }
         ]
       },
@@ -396,19 +396,19 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "7. Reviews, Comments, and Community Interaction"
+            "text": "7. Değerlendirmeler, Yorumlar ve Topluluk Etkileşimi"
           },
           {
             "t": "p",
-            "text": "We are committed to maintaining a supportive, professional digital arena for our writing and reading communities. We do not permit:"
+            "text": "Yazar ve okuyucu topluluklarımız için destekleyici, profesyonel bir dijital alan sürdürmeye kararlıyız. Şunlara izin vermiyoruz:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Targeted harassment, doxxing, personal threats, or malicious bullying;",
-              "Coordinated review manipulation or fraudulent engagement tracking;",
-              "Hate speech targeting individuals based on race, religion, orientation, or protected status."
+              "Hedefli taciz, doxxing, kişisel tehditler veya kötü niyetli zorbalık;",
+              "Koordineli değerlendirme manipülasyonu veya sahte etkileşim takibi;",
+              "Irk, din, cinsel yönelim veya korunan bir statü nedeniyle kişileri hedef alan nefret söylemi."
             ]
           }
         ]
@@ -420,7 +420,7 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "8. Corporate Contact Information"
+            "text": "8. Kurumsal İletişim Bilgileri"
           },
           {
             "t": "p",
@@ -436,15 +436,15 @@
           },
           {
             "t": "p",
-            "text": "United States"
+            "text": "Amerika Birleşik Devletleri"
           },
           {
             "t": "p",
-            "text": "User Support: support@fangapp.io"
+            "text": "Kullanıcı Desteği: support@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Legal Infrastructure: legal@fangapp.io"
+            "text": "Hukuk Birimi: legal@fangapp.io"
           },
           {
             "t": "p",
@@ -456,7 +456,7 @@
     ]
   },
   "dmca": {
-    "title": "DMCA Guidelines",
+    "title": "DMCA Yönergeleri",
     "blocks": [
       {
         "t": "div",
@@ -469,31 +469,31 @@
           },
           {
             "t": "p",
-            "text": "Effective Date: August 18, 2026"
+            "text": "Geçerlilik Tarihi: 18 Ağustos 2026"
           },
           {
             "t": "p",
-            "text": "DMCA Designated Agent Registration ID: DMCA-1073241"
+            "text": "DMCA Belirlenmiş Temsilci Kayıt Numarası: DMCA-1073241"
           },
           {
             "t": "p",
-            "text": "FANG respects intellectual property rights and expects all readers, writers, publishers, editors, and platform partners to do the same. We are committed to maintaining a lawful, creator-focused, and fair digital storytelling ecosystem. FANG strictly prohibits the publication of content that infringes upon third-party copyrights, trademarks, patents, or proprietary rights."
+            "text": "FANG, fikri mülkiyet haklarına saygı gösterir ve tüm okuyucuların, yazarların, yayıncıların, editörlerin ve platform ortaklarının da aynısını yapmasını bekler. Yasal, yazar odaklı ve adil bir dijital hikâye anlatım ekosistemi sürdürmeye kararlıyız. FANG, üçüncü tarafların telif haklarını, markalarını, patentlerini veya mülkiyet haklarını ihlal eden içeriklerin yayınlanmasını kesinlikle yasaklar."
           },
           {
             "t": "p",
-            "text": "This Copyright Policy details the specific procedures through which intellectual property owners may report alleged digital infringement, and outlines how platform users may respond to claims submitted against their hosted content. FANG operates in compliance with the Digital Millennium Copyright Act (“DMCA”) Safe Harbor provisions applicable to online digital service providers."
+            "text": "Bu Telif Hakkı Politikası, fikri mülkiyet sahiplerinin iddia edilen dijital ihlalleri bildirebileceği belirli prosedürleri detaylandırır ve platform kullanıcılarının barındırılan içeriklerine karşı sunulan iddialara nasıl yanıt verebileceğini açıklar. FANG, çevrimiçi dijital hizmet sağlayıcılara uygulanabilir Digital Millennium Copyright Act («DMCA») Güvenli Liman hükümlerine uygun olarak faaliyet gösterir."
           },
           {
             "t": "p",
-            "text": "The FANG service infrastructure is operated by IFO DIGITAL MEDIA, LLC, 1111B S Governors Ave STE 52111, Dover, DE 19904, United States."
+            "text": "FANG hizmet altyapısı, IFO DIGITAL MEDIA, LLC, 1111B S Governors Ave STE 52111, Dover, DE 19904, Amerika Birleşik Devletleri tarafından işletilmektedir."
           },
           {
             "t": "p",
-            "text": "Support Desk: support@fangapp.io"
+            "text": "Destek Masası: support@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Legal Operations: legal@fangapp.io"
+            "text": "Hukuk İşlemleri: legal@fangapp.io"
           }
         ]
       },
@@ -504,15 +504,15 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "1. Protocol for Reporting Copyright Infringement"
+            "text": "1. Telif Hakkı İhlalini Bildirme Prosedürü"
           },
           {
             "t": "p",
-            "text": "If you have a good-faith belief that creative materials available across the FANG service infringe upon your original copyright or intellectual property rights, you may submit a formal written copyright complaint (“DMCA Notice”) directly to our legal department."
+            "text": "FANG hizmetinde bulunan yaratıcı materyallerin özgün telif hakkını veya fikri mülkiyet haklarını ihlal ettiğine iyi niyetle inanıyorsan, doğrudan hukuk departmanımıza resmi, yazılı bir telif hakkı şikâyeti («DMCA Bildirimi») gönderebilirsin."
           },
           {
             "t": "p",
-            "text": "Your notice must contain specific, comprehensive details enabling us to verify your claim and locate the disputed material. Where legally appropriate and mandated, FANG may share a copy of your complaint, including your provided contact information, with the specific platform user who uploaded the reported story files."
+            "text": "Bildirimin, iddianı doğrulamamızı ve tartışmalı materyali bulmamızı sağlayacak özel, kapsamlı ayrıntılar içermelidir. Yasal olarak uygun ve gerekli olduğunda, FANG şikâyetinin bir kopyasını, verdiğin iletişim bilgileri dahil, bildirilen hikâye dosyalarını yükleyen belirli platform kullanıcısıyla paylaşabilir."
           }
         ]
       },
@@ -523,74 +523,74 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "2. Statutory Criteria for a Valid DMCA Notice"
+            "text": "2. Geçerli Bir DMCA Bildirimi İçin Yasal Kriterler"
           },
           {
             "t": "p",
-            "text": "To evaluate and process your copyright claim quickly, your written notice must include the following components:"
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "a) Identification of the Protected Work"
-          },
-          {
-            "t": "p",
-            "text": "A description of the original copyrighted work or proprietary intellectual property you claim has been actively infringed."
+            "text": "Telif hakkı talebini hızlıca değerlendirip işleme almamız için, yazılı bildirimin aşağıdaki bileşenleri içermesi gerekir:"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "b) Identification of the Infringing Material"
+            "text": "a) Korunan Eserin Tanımlanması"
           },
           {
             "t": "p",
-            "text": "The specific story title, chapter numbers (if applicable), author username, and the direct URL link or inside-application location parameters necessary to isolate the content."
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "c) Claimant Contact Details"
-          },
-          {
-            "t": "p",
-            "text": "Your full legal name, active email address, physical mailing address, and telephone number."
+            "text": "Aktif olarak ihlal edildiğini iddia ettiğin özgün telif hakkı korumalı eser veya mülkiyete tabi fikri mülkiyetin açıklaması."
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "d) Supporting Verification Records"
+            "text": "b) İhlal Eden Materyalin Tanımlanması"
           },
           {
             "t": "p",
-            "text": "Copies of formal copyright registration certificates, original timestamped publication logs, historical creative drafts, or relevant distribution licensing agreements."
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "e) Good-Faith Affirmation"
-          },
-          {
-            "t": "p",
-            "text": "An explicit statement that you have a good-faith belief that the disputed use of the intellectual property is not authorized by the copyright owner, its legal agent, or current federal statutes."
+            "text": "İçeriği belirlemek için gerekli olan belirli hikâye başlığı, bölüm numaraları (varsa), yazar kullanıcı adı ve doğrudan URL bağlantısı veya uygulama içi konum parametreleri."
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "f) Perjury Declaration"
+            "text": "c) Talep Sahibinin İletişim Bilgileri"
           },
           {
             "t": "p",
-            "text": "A statement made under penalty of perjury that the data provided within your notice is entirely accurate, and that you are the copyright holder or are legally authorized to act on behalf of the owner."
+            "text": "Tam yasal adın, aktif e-posta adresin, fiziksel posta adresin ve telefon numaran."
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "g) Authorized Signature"
+            "text": "d) Destekleyici Doğrulama Kayıtları"
           },
           {
             "t": "p",
-            "text": "A physical or verified electronic signature of the copyright owner or an authorized legal representative."
+            "text": "Resmi telif hakkı tescil belgelerinin kopyaları, zaman damgalı özgün yayın kayıtları, geçmiş yaratıcı taslaklar veya ilgili dağıtım lisans sözleşmeleri."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "e) İyi Niyet Beyanı"
+          },
+          {
+            "t": "p",
+            "text": "Fikri mülkiyetin tartışmalı kullanımının telif hakkı sahibi, yasal temsilcisi veya mevcut federal yasalar tarafından yetkilendirilmediğine iyi niyetle inandığına dair açık bir beyan."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "f) Yalan Beyan Cezasına İlişkin Bildirim"
+          },
+          {
+            "t": "p",
+            "text": "Bildiriminde sağlanan verilerin tamamen doğru olduğunu ve telif hakkı sahibi olduğunu veya sahibi adına hareket etmek için yasal olarak yetkili olduğunu, yalan beyan cezası altında beyan eden bir ifade."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "g) Yetkili İmza"
+          },
+          {
+            "t": "p",
+            "text": "Telif hakkı sahibinin veya yetkili bir yasal temsilcinin fiziksel veya doğrulanmış elektronik imzası."
           }
         ]
       },
@@ -601,27 +601,27 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "3. Submission Channels for Copyright Complaints"
+            "text": "3. Telif Hakkı Şikâyetleri İçin Gönderim Kanalları"
           },
           {
             "t": "p",
-            "text": "Please route your completed, signed DMCA Notice directly to our compliance office:"
+            "text": "Lütfen tamamlanmış, imzalanmış DMCA Bildirimini doğrudan uyumluluk ofisimize gönder:"
           },
           {
             "t": "p",
-            "text": "Department: FANG Legal Infrastructure"
+            "text": "Departman: FANG Hukuk Birimi"
           },
           {
             "t": "p",
-            "text": "Email Channel: legal@fangapp.io"
+            "text": "E-posta Kanalı: legal@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Subject Header: DMCA Notice - [Insert Story Title]"
+            "text": "Konu Başlığı: DMCA Bildirimi - [Hikâye Başlığını Ekleyin]"
           },
           {
             "t": "p",
-            "text": "Note: FANG reserves the right to request additional identification documentation or text logs before executing removal actions if the initial notice lacks sufficient details."
+            "text": "Not: İlk bildirimde yeterli ayrıntı bulunmaması durumunda, kaldırma işlemlerini gerçekleştirmeden önce FANG, ek kimlik belgeleri veya metin kayıtları talep etme hakkını saklı tutar."
           }
         ]
       },
@@ -632,30 +632,30 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "4. Counter-Notification Process"
+            "text": "4. Karşı Bildirim Süreci"
           },
           {
             "t": "p",
-            "text": "If your published writing has been removed or hidden due to a copyright complaint, and you believe this action occurred as a result of a mistake, misidentification, or a fair-use protection, you may file a formal counter-notification."
+            "text": "Yayınlanan eserin bir telif hakkı şikâyeti nedeniyle kaldırıldığını veya gizlendiğini ve bu işlemin bir hata, yanlış tanımlama veya adil kullanım koruması sonucu gerçekleştiğine inanıyorsan, resmi bir karşı bildirim sunabilirsin."
           },
           {
             "t": "p",
-            "text": "Your counter-notice must be submitted in writing to legal@fangapp.io and must contain:"
+            "text": "Karşı bildiriminiz yazılı olarak legal@fangapp.io adresine gönderilmeli ve şunları içermelidir:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Your full legal name, telephone number, physical address, and email details",
-              "A description of the material that was hidden or removed and its original platform location prior to isolation",
-              "A statement made under penalty of perjury that you have a good-faith belief that the content was removed or disabled due to mistake or misidentification",
-              "An explicit statement consenting to the jurisdiction of the Federal District Court for the judicial district in which your address is located (or Delaware, if operating outside the United States), and that you will accept service of process from the original complaining party",
-              "Your physical or verified electronic signature"
+              "Tam yasal adın, telefon numaran, fiziksel adresin ve e-posta bilgilerin",
+              "Gizlenen veya kaldırılan materyalin açıklaması ve izolasyon öncesindeki orijinal platform konumu",
+              "İçeriğin bir hata veya yanlış tanımlama nedeniyle kaldırıldığına veya devre dışı bırakıldığına iyi niyetle inandığına dair, yalan beyan cezası altında yapılan bir bildirim",
+              "Adresinizin bulunduğu yargı bölgesindeki Federal Bölge Mahkemesi'nin yetkisine (veya Amerika Birleşik Devletleri dışında faaliyet gösteriyorsan Delaware'in yetkisine) açıkça rıza gösterdiğine ve orijinal şikâyetçi taraftan tebligat kabul edeceğine dair bir beyan",
+              "Fiziksel veya doğrulanmış elektronik imzan"
             ]
           },
           {
             "t": "p",
-            "text": "Upon receipt of a valid counter-notification, FANG will forward it to the original complainant. If the copyright owner does not file a court action seeking a restraining order against the content within ten (10) business days, our system is authorized under safe harbor rules to restore the hidden material to public view."
+            "text": "Geçerli bir karşı bildirim alındığında, FANG bunu orijinal şikâyetçiye iletir. Telif hakkı sahibi, on (10) iş günü içinde içeriğe karşı bir tedbir kararı talep eden bir mahkeme davası açmazsa, sistemimiz güvenli liman kuralları kapsamında gizlenen materyali kamuya açık hâle getirmeye yetkilidir."
           }
         ]
       },
@@ -666,20 +666,20 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "5. Automated Content Integrity & Repeat Infringer Policy"
+            "text": "5. Otomatik İçerik Bütünlüğü ve Tekrarlayan İhlal Politikası"
           },
           {
             "t": "p",
-            "text": "In alignment with our automated Acceptable Use Policy (AUP) controls, FANG enforces a zero-tolerance policy against repeat infringers and systemic plagiarism:"
+            "text": "Otomatik Kabul Edilebilir Kullanım Politikası (AUP) kontrollerimizle uyumlu olarak, FANG tekrarlayan ihlal edenlere ve sistematik aşırmaya karşı sıfır tolerans politikası uygular:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Systemic Violations: A repeat infringer includes any user profile that repeatedly uploads unauthorized content, accumulates multiple distinct valid DMCA notices, or attempts to circumvent platform digital locks.",
-              "Automated Enforcement: Users may flag copyright violations directly inside our reading interface via our native “Report Book” protocols. Our system programmatically tallies these signals to isolate, restrict, and automatically demonetize high-risk content pending formal review.",
-              "Account Deactivation: FANG reserves the absolute right to suspend, restrict, or permanently terminate any user account or creator profile found in chronic violation of this section.",
-              "Forfeiture of Ledger Balances: In cases of severe, systemic plagiarism or deliberate copyright fraud, FANG reserves the right to permanently withhold accrued virtual coin earnings, promotional bonuses, and publisher rewards generated via the infringing material."
+              "Sistematik İhlaller: Tekrarlayan bir ihlal eden, tekrar tekrar izinsiz içerik yükleyen, birden fazla farklı geçerli DMCA bildirimi biriktiren veya platformun dijital kilitlerini atlatmaya çalışan her türlü kullanıcı profilini içerir.",
+              "Otomatik Uygulama: Kullanıcılar telif hakkı ihlallerini doğrudan okuma arayüzümüzde yerel «Kitabı Bildir» protokolleri aracılığıyla işaretleyebilir. Sistemimiz bu sinyalleri otomatik olarak sayarak yüksek riskli içeriği izole eder, kısıtlar ve resmi inceleme beklenirken otomatik olarak para kazanma özelliğinden çıkarır.",
+              "Hesap Devre Dışı Bırakma: FANG, bu bölümü kronik olarak ihlal eden herhangi bir kullanıcı hesabını veya yazar profilini askıya alma, kısıtlama veya kalıcı olarak sonlandırma hakkını mutlak olarak saklı tutar.",
+              "Hesap Bakiyelerinin Kaybedilmesi: Ciddi, sistematik aşırma veya kasıtlı telif hakkı sahtekârlığı durumlarında, FANG ihlal eden materyal aracılığıyla elde edilen birikmiş sanal jeton kazançlarını, promosyon bonuslarını ve yazar ödüllerini kalıcı olarak elinde tutma hakkını saklı tutar."
             ]
           }
         ]
@@ -691,11 +691,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "6. Protection Against Fraudulent and Abusive Claims"
+            "text": "6. Sahte ve Kötüye Kullanıma Yönelik İddialara Karşı Koruma"
           },
           {
             "t": "p",
-            "text": "Under Section 512(f) of the DMCA, any individual who knowingly materially misrepresents that online material is infringing can be held legally liable for damages, including court costs and attorneys' fees incurred by the alleged infringer or the platform provider. FANG will actively pursue account deactivation and legal remedies against any party who knowingly submits false, malicious, or misleading copyright notices to disrupt our creators."
+            "text": "DMCA'nın 512(f) Bölümü kapsamında, çevrimiçi materyalin ihlal ettiğini bilerek esaslı şekilde yanlış beyan eden herhangi bir kişi, iddia edilen ihlal eden veya platform sağlayıcısı tarafından yapılan mahkeme masrafları ve avukatlık ücretleri dahil olmak üzere zararlardan yasal olarak sorumlu tutulabilir. FANG, yazarlarımızı zarara uğratmak için bilerek sahte, kötü niyetli veya yanıltıcı telif hakkı bildirimleri sunan herhangi bir tarafa karşı hesap devre dışı bırakma ve yasal çözüm yollarını aktif olarak takip edecektir."
           }
         ]
       },
@@ -706,15 +706,15 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "7. Platform Neutrality Framework"
+            "text": "7. Platform Tarafsızlığı Çerçevesi"
           },
           {
             "t": "p",
-            "text": "FANG operates fundamentally as a neutral online service provider. We do not pre-screen all serialized manuscript text before publication, nor do we independently investigate the absolute copyright chain of every chapter uploaded by creators to FangWriters."
+            "text": "FANG, temelde tarafsız bir çevrimiçi hizmet sağlayıcısı olarak faaliyet gösterir. Yayından önce tüm bölümlü el yazması metinlerini ön incelemeden geçirmiyoruz ve FangWriters'a yazarlar tarafından yüklenen her bölümün kesin telif hakkı zincirini bağımsız olarak araştırmıyoruz."
           },
           {
             "t": "p",
-            "text": "Upon receipt of valid legal notices, we act immediately to review, isolate, or restrict access to the disputed material in complete compliance with federal safe harbor regulations. FANG reserves the right to temporarily disable access to or demonetize content at its sole discretion while an active copyright audit is ongoing."
+            "text": "Geçerli yasal bildirimler alındığında, federal güvenli liman düzenlemelerine tam uyum içinde, tartışmalı materyale erişimi incelemek, izole etmek veya kısıtlamak için hemen hareket ederiz. FANG, aktif bir telif hakkı denetimi sürerken içeriğe erişimi geçici olarak devre dışı bırakma veya kendi takdirine bağlı olarak para kazanma özelliğinden çıkarma hakkını saklı tutar."
           }
         ]
       },
@@ -725,15 +725,15 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "8. Artificial Intelligence (AI) Content Regulations"
+            "text": "8. Yapay Zekâ (YZ) İçerik Düzenlemeleri"
           },
           {
             "t": "p",
-            "text": "Platform uploaders bear 100% responsibility for ensuring that any AI-assisted or AI-generated text, artwork, or cover designs uploaded to the platform do not infringe upon the copyrights, trademarks, or publicity rights of third parties. The utilization of generative software tools does not transfer or remove liability from the uploader."
+            "text": "Platforma içerik yükleyenler, platforma yüklenen YZ destekli veya YZ tarafından oluşturulmuş herhangi bir metin, görsel veya kapak tasarımının üçüncü tarafların telif haklarını, markalarını veya tanıtım haklarını ihlal etmediğinden %100 sorumludur. Üretken yazılım araçlarının kullanılması, yükleyenin sorumluluğunu devretmez veya ortadan kaldırmaz."
           },
           {
             "t": "p",
-            "text": "FANG reserves the absolute right to remove AI-generated stories that trigger our automated content matching or user-reporting systems. Furthermore, unedited AI-generated text content does not guarantee corporate contract eligibility, bonus allocations, or custom platform marketing promotions."
+            "text": "FANG, otomatik içerik eşleştirme veya kullanıcı bildirim sistemlerimizi tetikleyen YZ tarafından oluşturulmuş hikâyeleri kaldırma hakkını mutlak olarak saklı tutar. Ayrıca, düzenlenmemiş YZ tarafından oluşturulmuş metin içeriği, kurumsal sözleşme uygunluğunu, bonus tahsislerini veya özel platform pazarlama promosyonlarını garanti etmez."
           }
         ]
       },
@@ -744,11 +744,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "9. International Rights Documentation"
+            "text": "9. Uluslararası Haklar Belgelendirmesi"
           },
           {
             "t": "p",
-            "text": "If you are logging an intellectual property complaint on behalf of an international publishing house, foreign literary agency, or corporate group, FANG may request official proof of legal authorization, corporate business registries, or localization power-of-attorney documentation. Any supporting records submitted in languages other than English must be accompanied by certified English translations to be evaluated."
+            "text": "Uluslararası bir yayınevi, yabancı edebiyat ajansı veya kurumsal grup adına bir fikri mülkiyet şikâyeti kaydediyorsan, FANG resmi yasal yetkilendirme kanıtı, kurumsal ticaret sicil kayıtları veya yerelleştirme için vekâlet belgelendirmesi talep edebilir. İngilizce dışında bir dilde sunulan tüm destekleyici kayıtlara, değerlendirilebilmeleri için onaylı İngilizce çeviriler eşlik etmelidir."
           }
         ]
       },
@@ -759,7 +759,7 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "10. Contact Information"
+            "text": "10. İletişim Bilgileri"
           },
           {
             "t": "p",
@@ -775,15 +775,15 @@
           },
           {
             "t": "p",
-            "text": "United States"
+            "text": "Amerika Birleşik Devletleri"
           },
           {
             "t": "p",
-            "text": "Reader Support: support@fangapp.io"
+            "text": "Okuyucu Desteği: support@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Legal Department: legal@fangapp.io"
+            "text": "Hukuk Departmanı: legal@fangapp.io"
           },
           {
             "t": "p",
@@ -795,7 +795,7 @@
     ]
   },
   "privacy": {
-    "title": "Privacy Policy",
+    "title": "Gizlilik Politikası",
     "blocks": [
       {
         "t": "div",
@@ -808,11 +808,11 @@
           },
           {
             "t": "p",
-            "text": "Effective Date: August 18, 2026"
+            "text": "Geçerlilik Tarihi: 18 Ağustos 2026"
           },
           {
             "t": "p",
-            "text": "FANG (“FANG,” “we,” “our,” or “us”) respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, store, share, and protect information when you use the FANG mobile application, website, writer portal, and related services (collectively, the “Services”). FANG is operated by IFO DIGITAL MEDIA, LLC."
+            "text": "FANG («FANG», «biz» veya «bize») gizliliğinize saygı gösterir ve kişisel bilgilerinizi korumaya kararlıdır. Bu Gizlilik Politikası, FANG mobil uygulamasını, web sitesini, yazar portalını ve ilgili hizmetleri (topluca «Hizmetler») kullandığınızda bilgileri nasıl topladığımızı, kullandığımızı, sakladığımızı, paylaştığımızı ve koruduğumuzu açıklar. FANG, IFO DIGITAL MEDIA, LLC tarafından işletilmektedir."
           }
         ]
       },
@@ -823,7 +823,7 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "1. Company Information"
+            "text": "1. Şirket Bilgileri"
           },
           {
             "t": "div",
@@ -843,62 +843,62 @@
               },
               {
                 "t": "p",
-                "text": "United States"
+                "text": "Amerika Birleşik Devletleri"
               },
               {
                 "t": "p",
-                "text": "Support: support@fangapp.io"
+                "text": "Destek: support@fangapp.io"
               },
               {
                 "t": "p",
-                "text": "Legal: legal@fangapp.io"
+                "text": "Hukuk: legal@fangapp.io"
               }
             ]
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Finality of Sale"
+            "text": "Satışın Nihai Olması"
           },
           {
             "t": "p",
-            "text": "All purchases of Coins completed on the FANG website or mobile applications are absolute, permanent, instant, and completely non-refundable."
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "No Cash Value"
-          },
-          {
-            "t": "p",
-            "text": "Coins possess zero real-world monetary value, are completely non-transferable, and can never be exchanged, redeemed, or reversed for fiat cash or external credit."
+            "text": "FANG web sitesinde veya mobil uygulamalarında yapılan tüm Jeton satın alımları kesin, kalıcı, anlık ve tamamen iade edilemezdir."
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Instant Consumption Waiver"
+            "text": "Nakit Değeri Yoktur"
           },
           {
             "t": "p",
-            "text": "Digital coin top-ups deliver instant database utility. The exact second Coins are credited to your user wallet profile, the contract of sale is fulfilled in its entirety. You explicitly waive any statutory right of withdrawal, consumer cooling-off periods, or transaction cancellations."
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "User Error Protection"
-          },
-          {
-            "t": "p",
-            "text": "FANG does not issue refunds, replacements, or credits for Coins purchased accidentally, Coins spent unlocking chapters inadvertently, or Coins lost due to an account password compromise resulting from user negligence."
+            "text": "Jetonların gerçek dünyada parasal değeri yoktur, tamamen devredilemezler ve nakit para veya harici bakiye karşılığında asla değiştirilemez, kullanılamaz veya geri alınamaz."
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Exceptional Technical Errors"
+            "text": "Anlık Tüketim Feragati"
           },
           {
             "t": "p",
-            "text": "If an authentic banking failure occurs where funds were cleared from your card but Coins were not delivered due to a system glitch, you must contact support@fangapp.io within forty-eight (48) hours with verified transaction logs. FANG may, at its sole discretion, issue digital Coin replacements."
+            "text": "Dijital jeton yüklemeleri anlık veritabanı yararı sağlar. Jetonlar kullanıcı cüzdan profilinize kredilendirildiği anda, satış sözleşmesi tamamen ifa edilmiş olur. Herhangi bir yasal geri çekme hakkından, tüketici soğuma süresinden veya işlem iptalinden açıkça feragat edersiniz."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Kullanıcı Hatası Koruması"
+          },
+          {
+            "t": "p",
+            "text": "FANG, yanlışlıkla satın alınan Jetonlar, yanlışlıkla bölüm açmak için harcanan Jetonlar veya kullanıcı ihmali sonucu hesap parolasının ele geçirilmesi nedeniyle kaybedilen Jetonlar için iade, değişim veya kredi vermez."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "İstisnai Teknik Hatalar"
+          },
+          {
+            "t": "p",
+            "text": "Kartınızdan tutar tahsil edildiği ancak bir sistem hatası nedeniyle Jetonların teslim edilmediği gerçek bir bankacılık hatası oluşursa, doğrulanmış işlem kayıtlarıyla kırk sekiz (48) saat içinde support@fangapp.io ile iletişime geçmelisiniz. FANG, kendi takdirine bağlı olarak dijital Jeton değişimi sağlayabilir."
           }
         ]
       },
@@ -909,70 +909,70 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "2. Information We Collect"
+            "text": "2. Topladığımız Bilgiler"
           },
           {
             "t": "p",
-            "text": "We collect information you provide directly to us, information collected automatically through your use of the Services, and information received from third-party providers."
+            "text": "Bize doğrudan sağladığınız bilgileri, Hizmetleri kullanımınız yoluyla otomatik olarak toplanan bilgileri ve üçüncü taraf sağlayıcılardan alınan bilgileri toplarız."
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "2.1 Information You Provide"
+            "text": "2.1 Sağladığınız Bilgiler"
           },
           {
             "t": "p",
-            "text": "When you create an account or interact with FANG, we may collect:"
+            "text": "Bir hesap oluşturduğunuzda veya FANG ile etkileşime girdiğinizde şunları toplayabiliriz:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Username, legal name, and email address;",
-              "Password or secure login credentials;",
-              "Profile pictures and biography details;",
-              "Comments, reviews, direct messages, and user-generated literary content;",
-              "Purchase, subscription history, and payout ledger preferences;",
-              "Customer support communications and basic account verification details."
+              "Kullanıcı adı, yasal ad ve e-posta adresi;",
+              "Parola veya güvenli oturum açma kimlik bilgileri;",
+              "Profil resimleri ve biyografi ayrıntıları;",
+              "Yorumlar, değerlendirmeler, doğrudan mesajlar ve kullanıcı tarafından oluşturulan edebi içerik;",
+              "Satın alma ve abonelik geçmişi ile ödeme kaydı tercihleri;",
+              "Müşteri desteği iletişimleri ve temel hesap doğrulama ayrıntıları."
             ]
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "2.2 Device Permissions"
+            "text": "2.2 Cihaz İzinleri"
           },
           {
             "t": "p",
-            "text": "Depending on the features you use, FANG may request access to your device’s camera, photo library, storage, and push notifications. You may choose to deny these permissions, though some platform features may become unavailable."
+            "text": "Kullandığınız özelliklere bağlı olarak, FANG cihazınızın kamerasına, fotoğraf kitaplığına, depolama alanına ve anlık bildirimlere erişim talep edebilir. Bu izinleri reddedebilirsiniz; ancak bazı platform özellikleri kullanılamayabilir."
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "2.3 Information Collected Automatically"
+            "text": "2.3 Otomatik Olarak Toplanan Bilgiler"
           },
           {
             "t": "p",
-            "text": "When you interact with our Services, we automatically collect:"
+            "text": "Hizmetlerimizle etkileşime girdiğinizde otomatik olarak şunları toplarız:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Device type, hardware model, browser version, and operating system;",
-              "Application version and unique device identifiers;",
-              "IP address, language settings, and local time zone;",
-              "Reading activity, preferences, view timestamps, and book interaction statistics;",
-              "Crash reports, system diagnostics, and account log dates."
+              "Cihaz türü, donanım modeli, tarayıcı sürümü ve işletim sistemi;",
+              "Uygulama sürümü ve benzersiz cihaz tanımlayıcıları;",
+              "IP adresi, dil ayarları ve yerel saat dilimi;",
+              "Okuma etkinliği, tercihler, görüntüleme zaman damgaları ve kitap etkileşim istatistikleri;",
+              "Çökme raporları, sistem tanılamaları ve hesap giriş tarihleri."
             ]
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "2.4 Information from Third Parties"
+            "text": "2.4 Üçüncü Taraflardan Alınan Bilgiler"
           },
           {
             "t": "p",
-            "text": "If you sign in or link your account through third-party services such as Apple, Google, Facebook, or X (Twitter), we may receive your username, email address, profile information, and basic authentication details from those systems."
+            "text": "Apple, Google, Facebook veya X (Twitter) gibi üçüncü taraf hizmetler aracılığıyla oturum açarsanız veya hesabınızı bağlarsanız, bu sistemlerden kullanıcı adınızı, e-posta adresinizi, profil bilgilerinizi ve temel kimlik doğrulama ayrıntılarınızı alabiliriz."
           }
         ]
       },
@@ -983,132 +983,23 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "3. How We Use Information"
+            "text": "3. Bilgileri Nasıl Kullanıyoruz"
           },
           {
             "t": "p",
-            "text": "We process your personal information to fulfill our business services, including to:"
+            "text": "Kişisel bilgilerinizi, şunlar dahil olmak üzere iş hizmetlerimizi yerine getirmek amacıyla işleriz:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Create, manage, and secure user and creator accounts;",
-              "Provide, maintain, and optimize platform functionality;",
-              "Personalize reading recommendations and content discovery tracking;",
-              "Securely process coin purchases, premium subscriptions, and creator payouts;",
-              "Deliver responsive customer support and technical troubleshooting;",
-              "Detect, investigate, and prevent fraud, platform abuse, spam, or security risks;",
-              "Ensure full compliance with relevant tax regulations, anti-money laundering (AML) laws, and legal mandates."
-            ]
-          }
-        ]
-      },
-      {
-        "t": "div",
-        "cls": "space-y-3",
-        "blocks": [
-          {
-            "t": "h2",
-            "cls": "font-bold text-xl",
-            "text": "4. Recommendations and Advertising"
-          },
-          {
-            "t": "p",
-            "text": "FANG uses data activity to recommend relevant stories, optimize creator visibility, and measure advertising performance. We may work with verified analytics and advertising partners who utilize cookies or SDKs to help evaluate platform trends. Where legally mandated by regional privacy laws, we will explicitly obtain your consent before processing data for target-advertising tracks."
-          }
-        ]
-      },
-      {
-        "t": "div",
-        "cls": "space-y-3",
-        "blocks": [
-          {
-            "t": "h2",
-            "cls": "font-bold text-xl",
-            "text": "5. Cookies and Similar Technologies"
-          },
-          {
-            "t": "p",
-            "text": "We use cookies, web beacons, and mobile SDKs to keep users safely signed in, remember system preferences, analyze user engagement, and support marketing tracking. You can manage or disable cookies through your browser settings, though doing so may prevent certain e-commerce and login features from functioning properly."
-          }
-        ]
-      },
-      {
-        "t": "div",
-        "cls": "space-y-3",
-        "blocks": [
-          {
-            "t": "h2",
-            "cls": "font-bold text-xl",
-            "text": "6. Sharing of Information"
-          },
-          {
-            "t": "p",
-            "text": "FANG does not sell personal information. We only disclose information under the following corporate guidelines:"
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "6.1 Service Providers and Platform Partners"
-          },
-          {
-            "t": "p",
-            "text": "We share data with verified third-party vendors who assist our core operations, including cloud hosting providers, analytics systems, communication tools, and our merchant payment infrastructure partners (such as Stripe and PayPal)."
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "6.2 Legal Compliance and Platform Protection"
-          },
-          {
-            "t": "p",
-            "text": "We may disclose information where required to comply with court orders, enforce our Terms of Service, defend against legal liabilities, protect public safety, or secure our infrastructure against active fraudulent or cyber threats."
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "6.3 Business Transfers"
-          },
-          {
-            "t": "p",
-            "text": "In the event of a corporate merger, acquisition, structural reorganization, or asset sale, user database information may be transferred as a part of standard corporate assets."
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "6.4 Public Platform Content"
-          },
-          {
-            "t": "p",
-            "text": "Information you intentionally place on public areas of the application including your username, public profile pictures, published novels, comments, book reviews, and community posts is visible to all users across the FANG ecosystem."
-          }
-        ]
-      },
-      {
-        "t": "div",
-        "cls": "space-y-3",
-        "blocks": [
-          {
-            "t": "h2",
-            "cls": "font-bold text-xl",
-            "text": "7. Payment Information"
-          },
-          {
-            "t": "p",
-            "text": "All commercial financial transactions are handled securely by authorized third-party payment gateways, including Apple App Store, Google Play, Stripe, and PayPal. FANG operates on a marketplace structure where consumer coin sales occur on fangapp.io and creator tools are managed separately through FangWriters.com."
-          },
-          {
-            "t": "p",
-            "text": "FANG does not store full credit card or bank account details on our servers. For accounting, fraud prevention, and audit tracking, we securely maintain:"
-          },
-          {
-            "t": "ul",
-            "cls": "list-disc pl-6 space-y-1",
-            "items": [
-              "Numerical transaction IDs and reference keys;",
-              "Platform purchase and subscription records;",
-              "Timestamps and order amounts."
+              "Kullanıcı ve yazar hesaplarını oluşturmak, yönetmek ve güvence altına almak;",
+              "Platform işlevselliğini sağlamak, sürdürmek ve optimize etmek;",
+              "Okuma önerilerini kişiselleştirmek ve içerik keşfi takibini sağlamak;",
+              "Jeton satın alımlarını, premium abonelikleri ve yazar ödemelerini güvenli bir şekilde işlemek;",
+              "Hızlı müşteri desteği ve teknik sorun çözümü sağlamak;",
+              "Dolandırıcılığı, platform kötüye kullanımını, spam'i veya güvenlik risklerini tespit etmek, incelemek ve önlemek;",
+              "İlgili vergi düzenlemelerine, kara para aklamayı önleme (AML) yasalarına ve yasal zorunluluklara tam uyumu sağlamak."
             ]
           }
         ]
@@ -1120,11 +1011,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "8. Data Retention"
+            "text": "4. Öneriler ve Reklamcılık"
           },
           {
             "t": "p",
-            "text": "We retain personal data only as long as necessary to provide platform availability, manage active accounts, resolve disputes, prevent ongoing fraud, or satisfy federal financial and legal reporting criteria."
+            "text": "FANG, ilgili hikâyeleri önermek, yazar görünürlüğünü optimize etmek ve reklam performansını ölçmek için veri etkinliğini kullanır. Platform eğilimlerini değerlendirmeye yardımcı olmak için çerezler veya SDK'lar kullanan doğrulanmış analitik ve reklam ortaklarıyla çalışabiliriz. Bölgesel gizlilik yasalarının gerektirdiği durumlarda, hedefli reklamcılık için veri işlemeden önce açıkça onayınızı alacağız."
           }
         ]
       },
@@ -1135,11 +1026,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "9. Account Deletion and User Rights"
+            "text": "5. Çerezler ve Benzer Teknolojiler"
           },
           {
             "t": "p",
-            "text": "You can request full account deletion at any time through available in-app software settings or by emailing support@fangapp.io. Please note that certain historical transaction data and ledger values may be permanently archived due to strict tax and legal auditing obligations. Deleting an account will immediately permanently terminate access to your purchased coin balances and premium digital libraries. Depending on your physical jurisdiction (such as under GDPR or CCPA frameworks), you have the right to access, correct, or completely delete your personal information, withdraw data consent, or restrict specific processing tracks."
+            "text": "Kullanıcıları güvenli bir şekilde oturum açık tutmak, sistem tercihlerini hatırlamak, kullanıcı etkileşimini analiz etmek ve pazarlama takibini desteklemek için çerezler, web işaretleri ve mobil SDK'lar kullanırız. Çerezleri tarayıcı ayarlarınız üzerinden yönetebilir veya devre dışı bırakabilirsiniz; ancak bunu yapmak belirli e-ticaret ve oturum açma özelliklerinin düzgün çalışmamasına neden olabilir."
           }
         ]
       },
@@ -1150,11 +1041,47 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "10. International Data Transfers"
+            "text": "6. Bilgilerin Paylaşılması"
           },
           {
             "t": "p",
-            "text": "FANG operates via globally distributed cloud servers, with primary operations running in the United States. By utilizing our services, you acknowledge that your personal information may be transferred and securely processed outside of your home country under data protection regulations that may vary from your local laws."
+            "text": "FANG kişisel bilgileri satmaz. Bilgileri yalnızca aşağıdaki kurumsal yönergeler kapsamında ifşa ederiz:"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "6.1 Hizmet Sağlayıcılar ve Platform Ortakları"
+          },
+          {
+            "t": "p",
+            "text": "Bulut barındırma sağlayıcıları, analitik sistemler, iletişim araçları ve ödeme altyapısı ortaklarımız (Stripe ve PayPal gibi) dahil olmak üzere temel operasyonlarımıza yardımcı olan doğrulanmış üçüncü taraf satıcılarla veri paylaşırız."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "6.2 Yasal Uyumluluk ve Platform Koruması"
+          },
+          {
+            "t": "p",
+            "text": "Mahkeme kararlarına uymak, Hizmet Şartlarımızı uygulamak, yasal sorumluluklara karşı savunma yapmak, kamu güvenliğini korumak veya altyapımızı aktif sahtekârlık veya siber tehditlere karşı güvence altına almak için gerekli olduğunda bilgileri ifşa edebiliriz."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "6.3 İş Transferleri"
+          },
+          {
+            "t": "p",
+            "text": "Bir şirket birleşmesi, satın alma, yapısal yeniden düzenleme veya varlık satışı durumunda, kullanıcı veritabanı bilgileri standart kurumsal varlıkların bir parçası olarak devredilebilir."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "6.4 Genel Platform İçeriği"
+          },
+          {
+            "t": "p",
+            "text": "Kullanıcı adınız, genel profil resimleriniz, yayınlanan romanlarınız, yorumlarınız, kitap değerlendirmeleriniz ve topluluk gönderileriniz dahil olmak üzere uygulamanın genel alanlarına kasıtlı olarak yerleştirdiğiniz bilgiler, FANG ekosistemindeki tüm kullanıcılar tarafından görülebilir."
           }
         ]
       },
@@ -1165,11 +1092,24 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "11. Security Protection"
+            "text": "7. Ödeme Bilgileri"
           },
           {
             "t": "p",
-            "text": "We implement administrative, technical, and physical security measures to guard your information against unauthorized access, loss, or manipulation. However, no method of data transmission across the internet can be guaranteed as 100% secure. You hold full responsibility for protecting your individual login profile credentials."
+            "text": "Tüm ticari finansal işlemler, Apple App Store, Google Play, Stripe ve PayPal dahil olmak üzere yetkili üçüncü taraf ödeme ağ geçitleri tarafından güvenli bir şekilde yönetilir. FANG, tüketici jeton satışlarının fangapp.io üzerinde gerçekleştiği ve yazar araçlarının FangWriters.com üzerinden ayrı olarak yönetildiği bir pazar yeri yapısında faaliyet gösterir."
+          },
+          {
+            "t": "p",
+            "text": "FANG, sunucularımızda tam kredi kartı veya banka hesabı bilgilerini saklamaz. Muhasebe, dolandırıcılık önleme ve denetim takibi amacıyla şunları güvenli bir şekilde tutarız:"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Sayısal işlem kimlikleri ve referans anahtarları;",
+              "Platform satın alma ve abonelik kayıtları;",
+              "Zaman damgaları ve sipariş tutarları."
+            ]
           }
         ]
       },
@@ -1180,11 +1120,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "12. Children’s Privacy"
+            "text": "8. Veri Saklama"
           },
           {
             "t": "p",
-            "text": "FANG is strictly an adult web novel platform. In full alignment with our Terms of Use, the Service is not directed toward or intended for children under the age of 18. We do not knowingly collect information from minors. If a parent or guardian believes data has been processed improperly, contact us immediately at support@fangapp.io."
+            "text": "Kişisel verileri, yalnızca platform kullanılabilirliğini sağlamak, aktif hesapları yönetmek, anlaşmazlıkları çözmek, devam eden dolandırıcılığı önlemek veya federal finansal ve yasal raporlama kriterlerini karşılamak için gerekli olduğu sürece saklarız."
           }
         ]
       },
@@ -1195,11 +1135,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "13. Third-Party Services"
+            "text": "9. Hesap Silme ve Kullanıcı Hakları"
           },
           {
             "t": "p",
-            "text": "Our Services natively interface with external systems, websites, or application links (such as developer tracking links and creator platforms like FangWriters.com). FANG holds no operational responsibility for the distinct privacy policies or data practices managed by third-party systems."
+            "text": "Uygulama içi kullanılabilir yazılım ayarları aracılığıyla veya support@fangapp.io adresine e-posta göndererek her zaman tam hesap silme talebinde bulunabilirsiniz. Belirli geçmiş işlem verilerinin ve kayıt değerlerinin, sıkı vergi ve yasal denetim yükümlülükleri nedeniyle kalıcı olarak arşivlenebileceğini lütfen unutmayın. Bir hesabın silinmesi, satın aldığınız jeton bakiyelerine ve premium dijital kütüphanelere erişimi anında ve kalıcı olarak sona erdirecektir. Fiziksel yargı bölgenize bağlı olarak (GDPR veya CCPA çerçeveleri kapsamında olduğu gibi), kişisel bilgilerinize erişme, düzeltme veya tamamen silme, veri rızasını geri çekme veya belirli işleme faaliyetlerini kısıtlama hakkına sahipsiniz."
           }
         ]
       },
@@ -1210,11 +1150,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "14. Marketing and Communication Alerts"
+            "text": "10. Uluslararası Veri Transferleri"
           },
           {
             "t": "p",
-            "text": "We may occasionally distribute service announcements, strict security warnings, database platform updates, and optional promotional email newsletters. You can easily opt out of promotional newsletters at any time by clicking the “Unsubscribe” links provided in our footers."
+            "text": "FANG, ana operasyonları Amerika Birleşik Devletleri'nde çalışan küresel olarak dağıtılmış bulut sunucuları aracılığıyla faaliyet gösterir. Hizmetlerimizi kullanarak, kişisel bilgilerinizin, yerel yasalarınızdan farklı olabilecek veri koruma düzenlemeleri kapsamında ülkeniz dışına aktarılabileceğini ve güvenli bir şekilde işlenebileceğini kabul edersiniz."
           }
         ]
       },
@@ -1225,11 +1165,71 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "15. Changes to This Privacy Policy"
+            "text": "11. Güvenlik Koruması"
           },
           {
             "t": "p",
-            "text": "We reserve the right to modify this Privacy Policy at any time. If material alterations occur, we will notify our community via prominent in-app update warnings, website layout announcements, or direct email alerts."
+            "text": "Bilgilerinizi yetkisiz erişime, kayba veya manipülasyona karşı korumak için idari, teknik ve fiziksel güvenlik önlemleri uygularız. Ancak internet üzerinden hiçbir veri iletim yöntemi %100 güvenli olarak garanti edilemez. Bireysel oturum açma kimlik bilgilerinizi korumaktan tamamen siz sorumlusunuz."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "12. Çocukların Gizliliği"
+          },
+          {
+            "t": "p",
+            "text": "FANG kesinlikle yetişkinler için bir web roman platformudur. Kullanım Şartlarımızla tam uyum içinde, Hizmet 18 yaşından küçük çocuklara yönelik değildir ve onlar için tasarlanmamıştır. Reşit olmayanlardan bilerek bilgi toplamayız. Bir ebeveyn veya vasi, verilerin uygunsuz şekilde işlendiğini düşünüyorsa, lütfen hemen support@fangapp.io adresinden bizimle iletişime geçsin."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "13. Üçüncü Taraf Hizmetleri"
+          },
+          {
+            "t": "p",
+            "text": "Hizmetlerimiz, geliştirici takip bağlantıları ve FangWriters.com gibi yazar platformları dahil olmak üzere harici sistemlerle, web siteleriyle veya uygulama bağlantılarıyla doğal olarak etkileşime girer. FANG, üçüncü taraf sistemler tarafından yönetilen farklı gizlilik politikaları veya veri uygulamaları konusunda hiçbir operasyonel sorumluluk taşımaz."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "14. Pazarlama ve İletişim Bildirimleri"
+          },
+          {
+            "t": "p",
+            "text": "Zaman zaman hizmet duyuruları, önemli güvenlik uyarıları, platform güncellemeleri ve isteğe bağlı promosyon e-posta bültenleri gönderebiliriz. Alt bilgilerimizde sağlanan «Aboneliği İptal Et» bağlantılarına tıklayarak promosyon bültenlerinden her zaman kolayca çıkabilirsiniz."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "15. Bu Gizlilik Politikasındaki Değişiklikler"
+          },
+          {
+            "t": "p",
+            "text": "Bu Gizlilik Politikasını her zaman değiştirme hakkını saklı tutarız. Önemli değişiklikler meydana gelirse, topluluğumuzu uygulama içi belirgin güncelleme uyarıları, web sitesi düzeni duyuruları veya doğrudan e-posta bildirimleriyle bilgilendireceğiz."
           }
         ]
       },
@@ -1240,11 +1240,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "16. Contact Us"
+            "text": "16. Bize Ulaşın"
           },
           {
             "t": "p",
-            "text": "If you have questions, requests, or concerns regarding this Privacy Policy or your information, please contact:"
+            "text": "Bu Gizlilik Politikası veya bilgileriniz hakkında sorularınız, talepleriniz veya kaygılarınız varsa, lütfen iletişime geçin:"
           },
           {
             "t": "p",
@@ -1260,15 +1260,15 @@
           },
           {
             "t": "p",
-            "text": "United States"
+            "text": "Amerika Birleşik Devletleri"
           },
           {
             "t": "p",
-            "text": "Support: support@fangapp.io"
+            "text": "Destek: support@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Legal: legal@fangapp.io"
+            "text": "Hukuk: legal@fangapp.io"
           },
           {
             "t": "p",
@@ -1280,7 +1280,7 @@
     ]
   },
   "refund": {
-    "title": "Refund Policy",
+    "title": "İade Politikası",
     "blocks": [
       {
         "t": "div",
@@ -1293,15 +1293,15 @@
           },
           {
             "t": "p",
-            "text": "Effective Date: August 18, 2026"
+            "text": "Geçerlilik Tarihi: 18 Ağustos 2026"
           },
           {
             "t": "p",
-            "text": "Thank you for supporting writers and creators on FANG. The FANG platform is operated by IFO DIGITAL MEDIA, LLC."
+            "text": "FANG'daki yazarları ve içerik üreticilerini desteklediğiniz için teşekkür ederiz. FANG platformu IFO DIGITAL MEDIA, LLC tarafından işletilmektedir."
           },
           {
             "t": "p",
-            "text": "This Refund Policy outlines the professional financial parameters governing all virtual currency transactions and digital VIP memberships completed across the FANG platform ecosystem. By initiating any transaction or premium purchase on our platform, you explicitly acknowledge and agree to the comprehensive terms outlined below."
+            "text": "Bu İade Politikası, FANG platform ekosisteminde tamamlanan tüm sanal para işlemlerini ve dijital VIP üyeliklerini yöneten profesyonel finansal parametreleri açıklar. Platformumuzda herhangi bir işlem veya premium satın alma başlatarak, aşağıda belirtilen kapsamlı şartları açıkça kabul ve onaylarsınız."
           }
         ]
       },
@@ -1312,31 +1312,31 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "1. Terms of Sale for Virtual Currency (Coins)"
+            "text": "1. Sanal Para (Jeton) Satış Şartları"
           },
           {
             "t": "p",
-            "text": "FANG utilizes digital currency (“Coins”) to enable users to systematically unlock premium chapters, exclusive stories, and specialized platform features."
+            "text": "FANG, kullanıcıların premium bölümleri, özel hikâyeleri ve özelleştirilmiş platform özelliklerini sistematik olarak açabilmesi için dijital para («Jeton») kullanır."
           },
           {
             "t": "p",
-            "text": "Finality of Sale: All virtual currency bundle purchases completed on our web portal or mobile applications are absolute, permanent, instant, and entirely non-refundable."
+            "text": "Satışın Kesinliği: Web portalımızda veya mobil uygulamalarımızda tamamlanan tüm sanal para paketi satın alımları kesin, kalıcı, anlık ve tamamen iade edilemezdir."
           },
           {
             "t": "p",
-            "text": "No Cash Value: Coins possess zero real-world monetary value, are completely non-transferable, and can never be exchanged, redeemed, or reversed for fiat cash or external financial credit."
+            "text": "Nakit Değeri Yoktur: Jetonların gerçek dünyada parasal değeri yoktur, tamamen devredilemezler ve nakit para veya harici finansal bakiye karşılığında asla değiştirilemez, kullanılamaz veya geri alınamaz."
           },
           {
             "t": "p",
-            "text": "Instant Consumption Waiver: Digital coin top-ups deliver immediate database utility. The exact second Coins are credited to your user wallet profile, the contract of sale is fulfilled in its entirety. You explicitly waive any statutory right of withdrawal, consumer cooling-off periods, or transaction cancellations."
+            "text": "Anlık Tüketim Feragati: Dijital jeton yüklemeleri anlık veritabanı yararı sağlar. Jetonlar kullanıcı cüzdan profilinize kredilendirildiği anda, satış sözleşmesi tamamen ifa edilmiş olur. Herhangi bir yasal geri çekme hakkından, tüketici soğuma süresinden veya işlem iptalinden açıkça feragat edersiniz."
           },
           {
             "t": "p",
-            "text": "User Error Protection: FANG does not issue refunds, replacements, or account credits for Coins purchased accidentally, Coins spent unlocking chapters inadvertently, or balances lost due to credentials compromised via user negligence."
+            "text": "Kullanıcı Hatası Koruması: FANG, yanlışlıkla satın alınan Jetonlar, yanlışlıkla bölüm açmak için harcanan Jetonlar veya kullanıcı ihmali nedeniyle ele geçirilen kimlik bilgileri sonucu kaybedilen bakiyeler için iade, değişim veya hesap kredisi vermez."
           },
           {
             "t": "p",
-            "text": "Exceptional Technical Failures: If a verifiable payment infrastructure failure occurs where funds are successfully cleared from your payment card but digital Coins are not delivered due to a database glitch, you must contact support@fangapp.io within forty-eight (48) hours with verified transaction logs. FANG reserves the right, at its sole discretion, to credit replacement digital Coins after account audit completion."
+            "text": "İstisnai Teknik Hatalar: Ödeme kartınızdan tutar başarıyla tahsil edildiği ancak bir veritabanı hatası nedeniyle dijital Jetonların teslim edilmediği doğrulanabilir bir ödeme altyapısı hatası oluşursa, doğrulanmış işlem kayıtlarıyla kırk sekiz (48) saat içinde support@fangapp.io ile iletişime geçmelisiniz. FANG, kendi takdirine bağlı olarak, hesap denetimi tamamlandıktan sonra yedek dijital Jeton kredilendirme hakkını saklı tutar."
           }
         ]
       },
@@ -1347,27 +1347,27 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "2. Digital VIP Memberships and Billing Cycles"
+            "text": "2. Dijital VIP Üyelikleri ve Faturalandırma Döngüleri"
           },
           {
             "t": "p",
-            "text": "FANG offers recurring weekly & monthly subscription options providing premium platform access."
+            "text": "FANG, premium platform erişimi sağlayan tekrarlayan haftalık ve aylık abonelik seçenekleri sunar."
           },
           {
             "t": "p",
-            "text": "No Prorated Credits: We do not issue prorated refunds or partial credits for unused days within an active monthly billing period."
+            "text": "Oranlı Kredi Yoktur: Aktif bir aylık faturalandırma döneminde kullanılmayan günler için oranlı iade veya kısmi kredi vermeyiz."
           },
           {
             "t": "p",
-            "text": "Cancellation Parameters: You may cancel your VIP subscription at any time through your respective Apple account settings, Google Play settings, or website account settings. Deleting the FANG application from your device does not cancel your recurring subscription."
+            "text": "İptal Koşulları: VIP aboneliğinizi her zaman ilgili Apple hesap ayarlarınız, Google Play ayarlarınız veya web sitesi hesap ayarlarınız aracılığıyla iptal edebilirsiniz. FANG uygulamasını cihazınızdan silmek, tekrarlayan aboneliğinizi iptal etmez."
           },
           {
             "t": "p",
-            "text": "App Deletion Rules: Uninstalling or deleting the FANG application from your device does not cancel or suspend your active recurring VIP billing configuration."
+            "text": "Uygulama Silme Kuralları: FANG uygulamasını cihazınızdan kaldırmak veya silmek, aktif tekrarlayan VIP faturalandırma yapılandırmanızı iptal etmez veya askıya almaz."
           },
           {
             "t": "p",
-            "text": "Access Preservation: Upon successful cancellation, premium VIP features will remain active on your profile until the conclusion of the current paid billing cycle."
+            "text": "Erişimin Korunması: Başarılı bir iptalin ardından, premium VIP özellikleri mevcut ücretli faturalandırma döngüsü sona erene kadar profilinizde aktif kalacaktır."
           }
         ]
       },
@@ -1378,23 +1378,23 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "3. Payment Integrity and Account Verification"
+            "text": "3. Ödeme Bütünlüğü ve Hesap Doğrulama"
           },
           {
             "t": "p",
-            "text": "To safeguard our payment systems and protect our network against fraudulent activity, FANG enforces strict transaction verification standards:"
+            "text": "Ödeme sistemlerimizi korumak ve ağımızı dolandırıcılık faaliyetlerine karşı güvence altına almak için FANG, sıkı işlem doğrulama standartları uygular:"
           },
           {
             "t": "p",
-            "text": "Account Suspension Flags: If an official transaction dispute, chargeback request, or payment reversal is initiated through a credit card issuer or bank without first utilizing our dedicated internal support channel, our platform systems reserve the right to immediately suspend or permanently close the associated user account."
+            "text": "Hesap Askıya Alma Göstergeleri: Önce özel iç destek kanalımızı kullanmadan bir kredi kartı düzenleyicisi veya banka aracılığıyla resmi bir işlem itirazı, ters ibraz talebi veya ödeme iadesi başlatılırsa, platform sistemlerimiz ilgili kullanıcı hesabını hemen askıya alma veya kalıcı olarak kapatma hakkını saklı tutar."
           },
           {
             "t": "p",
-            "text": "Forfeiture of Ledger Data: In the event of an account closure resulting from billing abuse, all remaining virtual Coin balances, accumulated promotional bonuses, unlocked reading access records, and account data histories are instantly and permanently forfeited."
+            "text": "Hesap Verilerinin Kaybedilmesi: Faturalandırma kötüye kullanımı sonucu bir hesabın kapatılması durumunda, kalan tüm sanal Jeton bakiyeleri, birikmiş promosyon bonusları, açılmış okuma erişim kayıtları ve hesap veri geçmişleri anında ve kalıcı olarak kaybedilir."
           },
           {
             "t": "p",
-            "text": "Hardware Restrictions: To preserve platform infrastructure integrity, FANG reserves the right to programmatically block related hardware device IDs and associated network addresses involved in repeated transaction disputes."
+            "text": "Donanım Kısıtlamaları: Platform altyapısının bütünlüğünü korumak için FANG, tekrarlanan işlem anlaşmazlıklarına dahil olan ilgili donanım cihaz kimliklerini ve ilişkili ağ adreslerini otomatik olarak engelleme hakkını saklı tutar."
           }
         ]
       },
@@ -1405,15 +1405,15 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "4. Jurisdiction-Specific Consumer Provisions"
+            "text": "4. Yargı Bölgesine Özel Tüketici Hükümleri"
           },
           {
             "t": "p",
-            "text": "Certain global regions enforce mandatory statutory protections regarding digital software and consumption content transactions. If consumer protection laws in your local jurisdiction legally override our standard platform policy, our direct refund liability will strictly adapt to the absolute minimum parameters required by those regional mandates."
+            "text": "Belirli küresel bölgeler, dijital yazılım ve tüketim içeriği işlemleri konusunda zorunlu yasal korumalar uygular. Yerel yargı bölgenizdeki tüketici koruma yasaları yasal olarak standart platform politikamızın önüne geçerse, doğrudan iade sorumluluğumuz bu bölgesel zorunluluklar tarafından gerektirilen kesin minimum parametrelere sıkı sıkıya uyum sağlayacaktır."
           },
           {
             "t": "p",
-            "text": "Note: Any purchase cleared through the Apple App Store or Google Play Store payment infrastructures must be handled directly through their respective platform support desks, in accordance with their individual consumer refund guidelines."
+            "text": "Not: Apple App Store veya Google Play Store ödeme altyapıları aracılığıyla tamamlanan herhangi bir satın alma, bu platformların kendi tüketici iade yönergeleri doğrultusunda doğrudan ilgili destek masaları aracılığıyla ele alınmalıdır."
           }
         ]
       },
@@ -1424,11 +1424,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "5. Policy Updates"
+            "text": "5. Politika Güncellemeleri"
           },
           {
             "t": "p",
-            "text": "FANG reserves the right to modify or replace this Refund Policy at any time. Continued use of our primary domain or application features following the publication of any text amendments constitutes official acceptance of the updated terms."
+            "text": "FANG, bu İade Politikasını her zaman değiştirme veya değiştirme hakkını saklı tutar. Herhangi bir metin değişikliğinin yayınlanmasının ardından ana alan adımızın veya uygulama özelliklerinin kullanımına devam edilmesi, güncellenmiş şartların resmi olarak kabul edildiği anlamına gelir."
           }
         ]
       },
@@ -1439,11 +1439,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "6. Corporate Contact Information"
+            "text": "6. Kurumsal İletişim Bilgileri"
           },
           {
             "t": "p",
-            "text": "For operational questions regarding missing delivery data or platform technical bugs, please contact our legal and support structures directly."
+            "text": "Eksik teslimat verileri veya platform teknik hatalarıyla ilgili operasyonel sorular için lütfen doğrudan hukuk ve destek birimlerimizle iletişime geçin."
           },
           {
             "t": "p",
@@ -1459,15 +1459,15 @@
           },
           {
             "t": "p",
-            "text": "United States"
+            "text": "Amerika Birleşik Devletleri"
           },
           {
             "t": "p",
-            "text": "Customer Support: support@fangapp.io"
+            "text": "Müşteri Desteği: support@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Legal Infrastructure: legal@fangapp.io"
+            "text": "Hukuk Birimi: legal@fangapp.io"
           },
           {
             "t": "p",
@@ -1479,7 +1479,7 @@
     ]
   },
   "terms": {
-    "title": "Terms of Use and Service",
+    "title": "Kullanım ve Hizmet Şartları",
     "blocks": [
       {
         "t": "div",
@@ -1492,7 +1492,7 @@
           },
           {
             "t": "p",
-            "text": "Effective Date: August 18, 2026"
+            "text": "Geçerlilik Tarihi: 18 Ağustos 2026"
           }
         ]
       },
@@ -1503,19 +1503,19 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "1. Acceptance of Terms"
+            "text": "1. Şartların Kabulü"
           },
           {
             "t": "p",
-            "text": "These Terms of Use and Service (“Terms”) govern your access to and use of the FANG platform, including the FANG mobile application, website, writer portal, content, tools, services, and related features (collectively, the “Service”)."
+            "text": "Bu Kullanım ve Hizmet Şartları («Şartlar»), FANG mobil uygulaması, web sitesi, yazar portalı, içerik, araçlar, hizmetler ve ilgili özellikler (topluca «Hizmet») dahil olmak üzere FANG platformuna erişiminizi ve kullanımınızı yönetir."
           },
           {
             "t": "p",
-            "text": "The Service is operated by IFO DIGITAL MEDIA, LLC (“FANG,” “we,” “us,” or “our”)."
+            "text": "Hizmet, IFO DIGITAL MEDIA, LLC («FANG», «biz» veya «bize») tarafından işletilmektedir."
           },
           {
             "t": "p",
-            "text": "By accessing or using the Service, you agree to these Terms and our Privacy Policy. If you do not agree to these Terms, you must discontinue use of the Service immediately. We may update or modify these Terms from time to time. Continued use of the Service after changes become effective constitutes acceptance of the revised Terms."
+            "text": "Hizmete erişerek veya Hizmeti kullanarak, bu Şartları ve Gizlilik Politikamızı kabul edersiniz. Bu Şartları kabul etmiyorsanız, Hizmeti kullanmayı hemen bırakmalısınız. Bu Şartları zaman zaman güncelleyebilir veya değiştirebiliriz. Değişikliklerin yürürlüğe girmesinden sonra Hizmetin kullanımına devam edilmesi, revize edilmiş Şartların kabul edildiği anlamına gelir."
           }
         ]
       },
@@ -1526,7 +1526,7 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "2. Company Information"
+            "text": "2. Şirket Bilgileri"
           },
           {
             "t": "p",
@@ -1542,15 +1542,15 @@
           },
           {
             "t": "p",
-            "text": "United States"
+            "text": "Amerika Birleşik Devletleri"
           },
           {
             "t": "p",
-            "text": "Support: support@fangapp.io"
+            "text": "Destek: support@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Legal: legal@fangapp.io"
+            "text": "Hukuk: legal@fangapp.io"
           }
         ]
       },
@@ -1561,28 +1561,28 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "3. Eligibility"
+            "text": "3. Uygunluk"
           },
           {
             "t": "p",
-            "text": "FANG is an online storytelling and reading platform that allows users to read, publish, and interact with digital literary content. You must be at least 18 years old or legal majority in your jurisdiction to use the Service."
+            "text": "FANG, kullanıcıların dijital edebi içerikleri okumasına, yayınlamasına ve bunlarla etkileşime girmesine olanak tanıyan çevrimiçi bir hikâye anlatımı ve okuma platformudur. Hizmeti kullanmak için en az 18 yaşında olmanız veya yargı bölgenizde yasal reşit olmanız gerekmektedir."
           },
           {
             "t": "p",
-            "text": "By using the Service, you represent and warrant that:"
+            "text": "Hizmeti kullanarak şunları beyan ve garanti edersiniz:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "You are legally capable of entering binding agreements;",
-              "You comply with applicable laws and regulations;",
-              "You have not previously been suspended or permanently banned from FANG."
+              "Bağlayıcı sözleşmeler yapmaya yasal olarak muktedirsiniz;",
+              "Geçerli yasa ve düzenlemelere uyuyorsunuz;",
+              "Daha önce FANG'dan askıya alınmadınız veya kalıcı olarak yasaklanmadınız."
             ]
           },
           {
             "t": "p",
-            "text": "You must be at least 18 years old, or the age of legal majority in your jurisdiction, to use the Service."
+            "text": "Hizmeti kullanmak için en az 18 yaşında olmanız veya yargı bölgenizde yasal reşit olmanız gerekmektedir."
           }
         ]
       },
@@ -1593,41 +1593,41 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "4. Accounts and Registration"
+            "text": "4. Hesaplar ve Kayıt"
           },
           {
             "t": "p",
-            "text": "Some features of the Service require account registration. You agree to provide accurate and current information and keep your account information updated."
+            "text": "Hizmetin bazı özellikleri hesap kaydı gerektirir. Doğru ve güncel bilgiler sağlamayı ve hesap bilgilerinizi güncel tutmayı kabul edersiniz."
           },
           {
             "t": "p",
-            "text": "You are responsible for:"
+            "text": "Şunlardan sorumlusunuz:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Maintaining the confidentiality of your login credentials;",
-              "Activities occurring under your account;",
-              "Any unauthorized use resulting from failure to secure your account."
+              "Oturum açma kimlik bilgilerinizin gizliliğini korumak;",
+              "Hesabınız altında gerçekleşen etkinlikler;",
+              "Hesabınızı güvence altına almamanızdan kaynaklanan herhangi bir yetkisiz kullanım."
             ]
           },
           {
             "t": "p",
-            "text": "You may not:"
+            "text": "Şunları yapamazsınız:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Sell or transfer your account;",
-              "Impersonate another person;",
-              "Create accounts using false information."
+              "Hesabınızı satmak veya devretmek;",
+              "Başka bir kişinin kimliğine bürünmek;",
+              "Yanlış bilgi kullanarak hesap oluşturmak."
             ]
           },
           {
             "t": "p",
-            "text": "FANG reserves the right to suspend or terminate accounts that violate these Terms."
+            "text": "FANG, bu Şartları ihlal eden hesapları askıya alma veya sonlandırma hakkını saklı tutar."
           }
         ]
       },
@@ -1638,117 +1638,52 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "5. Coins, Payments, and Subscriptions"
+            "text": "5. Jetonlar, Ödemeler ve Abonelikler"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "5.1 Coins and Virtual Currency"
+            "text": "5.1 Jetonlar ve Sanal Para"
           },
           {
             "t": "p",
-            "text": "FANG may offer virtual currency (“Coins”) used to unlock stories, chapters, premium content, or platform features."
+            "text": "FANG, hikâyeleri, bölümleri, premium içerikleri veya platform özelliklerini açmak için kullanılan sanal para («Jeton») sunabilir."
           },
           {
             "t": "p",
-            "text": "Coins may be obtained through:"
+            "text": "Jetonlar şu yollarla edinilebilir:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Purchases;",
-              "Promotional campaigns;",
-              "Reward systems;",
-              "Advertising incentives."
+              "Satın alımlar;",
+              "Promosyon kampanyaları;",
+              "Ödül sistemleri;",
+              "Reklam teşvikleri."
             ]
           },
           {
             "t": "p",
-            "text": "Coins hold no cash value, are non-transferable, and are non-refundable except where required by law. FANG reserves the right to modify coin pricing, availability, or functionality at any time."
+            "text": "Jetonların nakit değeri yoktur, devredilemezler ve yasa gerektirmedikçe iade edilemezler. FANG, jeton fiyatlandırmasını, kullanılabilirliğini veya işlevselliğini her zaman değiştirme hakkını saklı tutar."
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "5.2 Subscriptions"
+            "text": "5.2 Abonelikler"
           },
           {
             "t": "p",
-            "text": "FANG may offer recurring subscription plans with premium benefits. Subscriptions automatically renew unless canceled before the renewal date. Payments may be processed through the Apple App Store, Google Play, Stripe, or other Authorized Payment providers."
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "5.3 Cancellation and Refunds"
-          },
-          {
-            "t": "p",
-            "text": "Subscriptions may be canceled through Apple account Settings, Google Play Settings, FANG account settings, or by contacting support@fangapp.io. Deleting the app does not cancel subscriptions. All purchases are final unless otherwise required by applicable law or platform policies."
-          }
-        ]
-      },
-      {
-        "t": "div",
-        "cls": "space-y-3",
-        "blocks": [
-          {
-            "t": "h2",
-            "cls": "font-bold text-xl",
-            "text": "6. User Content"
-          },
-          {
-            "t": "p",
-            "text": "Users may upload stories, comments, reviews, images, and other materials (“User Content”). You retain ownership of your User Content. By uploading or publishing content on FANG, you grant FANG a worldwide, non-exclusive, royalty-free, sublicensable license to host, store, display, publish, reproduce, translate, adapt, promote, and distribute content solely for operation, improvement, marketing, and promotion of the Service. You are solely responsible for your User Content and the consequences of publishing it."
-          }
-        ]
-      },
-      {
-        "t": "div",
-        "cls": "space-y-3",
-        "blocks": [
-          {
-            "t": "h2",
-            "cls": "font-bold text-xl",
-            "text": "7. Prohibited Conduct and Acceptable Use Policy (AUP)"
-          },
-          {
-            "t": "p",
-            "text": "You strictly agree not to use the platform to upload, publish, link to, or share any content that:"
-          },
-          {
-            "t": "ul",
-            "cls": "list-disc pl-6 space-y-1",
-            "items": [
-              "Promotes, facilitates, or encourages violent extremism, terrorism, or hate speech;",
-              "Involves the unauthorized use of intellectual property (IP), including plagiarism, copyright infringement, pirated novels, or trademark violations;",
-              "Exploits or harms minors in any way;",
-              "Contains unlawful pornography or sexually explicit content;",
-              "Harasses, threatens, defames, or abuses others;",
-              "Contains malware, viruses, or malicious software code."
-            ]
-          },
-          {
-            "t": "p",
-            "text": "Furthermore, you agree not to:"
-          },
-          {
-            "t": "ul",
-            "cls": "list-disc pl-6 space-y-1",
-            "items": [
-              "Use bots, automated scripts, or scraping tools to access the service;",
-              "Reverse engineer, decompile, or interfere with platform functionality;",
-              "Circumvent any platform security or content protection measures;",
-              "Utilize the Service for unauthorized commercial activities."
-            ]
+            "text": "FANG, premium avantajlara sahip tekrarlayan abonelik planları sunabilir. Abonelikler, yenileme tarihinden önce iptal edilmedikçe otomatik olarak yenilenir. Ödemeler Apple App Store, Google Play, Stripe veya diğer Yetkili Ödeme sağlayıcıları aracılığıyla işlenebilir."
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "7.1 Automated AUP Enforcement"
+            "text": "5.3 İptal ve İadeler"
           },
           {
             "t": "p",
-            "text": "We maintain a zero-tolerance policy for violations of this section. FANG utilizes automated, programmatic content detection software alongside active user-reporting mechanisms (“Report Book” features) to scan, monitor, and analyze content. We reserve the absolute right to automatically demonetize, restrict access to, hide, or permanently remove any user account or User Content that violates our Acceptable Use Policy without prior notice."
+            "text": "Abonelikler, Apple hesap Ayarları, Google Play Ayarları, FANG hesap ayarları aracılığıyla veya support@fangapp.io ile iletişime geçerek iptal edilebilir. Uygulamayı silmek abonelikleri iptal etmez. Geçerli yasa veya platform politikaları gerektirmedikçe tüm satın alımlar nihaidir."
           }
         ]
       },
@@ -1759,11 +1694,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "8. Intellectual Property"
+            "text": "6. Kullanıcı İçeriği"
           },
           {
             "t": "p",
-            "text": "All platform software, branding, logos, interfaces, graphics, and platform materials are owned by or licensed to FANG and are protected under applicable intellectual property laws. You may not reproduce, distribute, modify, or commercially exploit any portion of the Service without prior written permission from FANG. Copyright complaints and infringement claims are handled under the FANG Copyright Policy & DMCA Guidelines."
+            "text": "Kullanıcılar hikâyeler, yorumlar, değerlendirmeler, görseller ve diğer materyalleri («Kullanıcı İçeriği») yükleyebilir. Kullanıcı İçeriğinizin sahipliğini elinizde tutarsınız. FANG'da içerik yükleyerek veya yayınlayarak, FANG'a içeriği yalnızca Hizmetin işletilmesi, geliştirilmesi, pazarlanması ve tanıtılması amacıyla barındırma, saklama, görüntüleme, yayınlama, çoğaltma, çevirme, uyarlama, tanıtma ve dağıtma konusunda dünya çapında, münhasır olmayan, telif ücretsiz ve alt lisanslanabilir bir lisans verirsiniz. Kullanıcı İçeriğinizden ve yayınlanmasının sonuçlarından yalnızca siz sorumlusunuz."
           }
         ]
       },
@@ -1774,23 +1709,88 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "9. FangWriters Program"
+            "text": "7. Yasaklanan Davranışlar ve Kabul Edilebilir Kullanım Politikası (AUP)"
           },
           {
             "t": "p",
-            "text": "FANG operates a multi-entity marketplace framework. While readers interact with content on fangapp.io, independent creators and authors publish content, manage rights, and track monetization metrics exclusively via our dedicated writers platform located at FangWriters.com."
-          },
-          {
-            "t": "p",
-            "text": "Participation in our Writer Program or creator monetization tracks requires separate electronic agreements and compliance with specialized eligibility requirements. FANG retains absolute editorial discretion to:"
+            "text": "Platformu, aşağıdaki içerikleri yüklemek, yayınlamak, bağlantı vermek veya paylaşmak için kullanmayacağınızı kesinlikle kabul edersiniz:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Approve or reject writer application profiles;",
-              "Modify platform monetization parameters and coin allocation percentages;",
-              "Immediately suspend or remove stories that violate our platform safety standards or Acceptable Use Policy."
+              "Şiddet içeren aşırılıkçılığı, terörizmi veya nefret söylemini destekleyen, kolaylaştıran veya teşvik eden;",
+              "Aşırma, telif hakkı ihlali, korsan romanlar veya marka ihlalleri dahil olmak üzere fikri mülkiyetin (IP) izinsiz kullanımını içeren;",
+              "Reşit olmayanları herhangi bir şekilde istismar eden veya onlara zarar veren;",
+              "Yasadışı pornografi veya cinsel içerikli materyaller içeren;",
+              "Başkalarını taciz eden, tehdit eden, karalayan veya kötüye kullanan;",
+              "Kötü amaçlı yazılım, virüs veya zararlı yazılım kodu içeren."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Ayrıca, aşağıdakileri yapmayacağınızı kabul edersiniz:"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Hizmete erişmek için botlar, otomatik betikler veya veri kazıma araçları kullanmak;",
+              "Platform işlevselliğini tersine mühendislik yapmak, derlemeyi geri almak veya müdahale etmek;",
+              "Herhangi bir platform güvenliği veya içerik koruma önlemini atlatmak;",
+              "Hizmeti yetkisiz ticari faaliyetler için kullanmak."
+            ]
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "7.1 Otomatik AUP Uygulaması"
+          },
+          {
+            "t": "p",
+            "text": "Bu bölümün ihlallerine karşı sıfır tolerans politikası uygularız. FANG, içeriği taramak, izlemek ve analiz etmek için aktif kullanıcı bildirim mekanizmalarıyla («Kitabı Bildir» özellikleri) birlikte otomatik, programatik içerik tespit yazılımı kullanır. Kabul Edilebilir Kullanım Politikamızı ihlal eden herhangi bir kullanıcı hesabını veya Kullanıcı İçeriğini önceden bildirimde bulunmadan otomatik olarak para kazanma özelliğinden çıkarma, erişimi kısıtlama, gizleme veya kalıcı olarak kaldırma hakkını mutlak olarak saklı tutarız."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "8. Fikri Mülkiyet"
+          },
+          {
+            "t": "p",
+            "text": "Tüm platform yazılımı, markalama, logolar, arayüzler, grafikler ve platform materyalleri FANG'a aittir veya FANG'a lisanslıdır ve geçerli fikri mülkiyet yasaları kapsamında korunmaktadır. FANG'dan önceden yazılı izin almadan Hizmetin hiçbir bölümünü çoğaltamaz, dağıtamaz, değiştiremez veya ticari olarak kullanamazsınız. Telif hakkı şikâyetleri ve ihlal iddiaları, FANG Telif Hakkı Politikası ve DMCA Yönergeleri kapsamında işleme alınır."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "9. FangWriters Programı"
+          },
+          {
+            "t": "p",
+            "text": "FANG, çok varlıklı bir pazar yeri çerçevesi içinde faaliyet gösterir. Okuyucular fangapp.io üzerinde içerikle etkileşime girerken, bağımsız içerik üreticileri ve yazarlar içerik yayınlar, hakları yönetir ve para kazanma metriklerini yalnızca FangWriters.com'da bulunan özel yazar platformumuz aracılığıyla takip ederler."
+          },
+          {
+            "t": "p",
+            "text": "Yazar Programımıza veya içerik üreticisi para kazanma modellerine katılım, ayrı elektronik sözleşmeler ve özel uygunluk gereksinimlerine uyum gerektirir. FANG, aşağıdaki hususlarda mutlak editoryal takdir hakkını saklı tutar:"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Yazar başvuru profillerini onaylamak veya reddetmek;",
+              "Platform para kazanma parametrelerini ve jeton tahsis oranlarını değiştirmek;",
+              "Platform güvenlik standartlarımızı veya Kabul Edilebilir Kullanım Politikamızı ihlal eden hikâyeleri hemen askıya almak veya kaldırmak."
             ]
           }
         ]
@@ -1802,11 +1802,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "10. Privacy"
+            "text": "10. Gizlilik"
           },
           {
             "t": "p",
-            "text": "Your use of the Service is also governed by the FANG Privacy Policy. By using the Service, you consent to the collection and use of information as described in the Privacy Policy."
+            "text": "Hizmeti kullanımınız ayrıca FANG Gizlilik Politikası tarafından yönetilir. Hizmeti kullanarak, Gizlilik Politikasında açıklandığı şekilde bilgilerin toplanmasına ve kullanılmasına onay verirsiniz."
           }
         ]
       },
@@ -1817,11 +1817,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "11. Third-Party Services"
+            "text": "11. Üçüncü Taraf Hizmetleri"
           },
           {
             "t": "p",
-            "text": "The Service may contain links to third-party websites, services, advertisements, or payment providers. FANG is not responsible for the availability, content, products, or practices of third-party services. Your use of third-party services is at your own risk."
+            "text": "Hizmet, üçüncü taraf web sitelerine, hizmetlere, reklamlara veya ödeme sağlayıcılarına bağlantılar içerebilir. FANG, üçüncü taraf hizmetlerin kullanılabilirliği, içeriği, ürünleri veya uygulamalarından sorumlu değildir. Üçüncü taraf hizmetlerini kullanmanız kendi sorumluluğunuzdadır."
           }
         ]
       },
@@ -1832,11 +1832,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "12. Service Availability"
+            "text": "12. Hizmet Kullanılabilirliği"
           },
           {
             "t": "p",
-            "text": "FANG may modify, suspend, limit, or discontinue any portion of the Service at any time. We do not guarantee uninterrupted or error-free operation of the Service. Temporary outages, maintenance interruptions, or technical failures may occur."
+            "text": "FANG, Hizmetin herhangi bir bölümünü her zaman değiştirebilir, askıya alabilir, sınırlayabilir veya sona erdirebilir. Hizmetin kesintisiz veya hatasız çalışacağını garanti etmiyoruz. Geçici kesintiler, bakım kesintileri veya teknik arızalar meydana gelebilir."
           }
         ]
       },
@@ -1847,11 +1847,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "13. Termination"
+            "text": "13. Sonlandırma"
           },
           {
             "t": "p",
-            "text": "FANG may suspend or terminate your access to the Service at any time for violations of these Terms, fraudulent activity, platform abuse, illegal conduct, or repeated copyright infringement. You may request account deletion at any time by contacting support@fangapp.io."
+            "text": "FANG, bu Şartların ihlali, dolandırıcılık faaliyeti, platform kötüye kullanımı, yasadışı davranış veya tekrarlayan telif hakkı ihlali nedeniyle Hizmete erişiminizi her zaman askıya alabilir veya sonlandırabilir. support@fangapp.io ile iletişime geçerek her zaman hesap silme talebinde bulunabilirsiniz."
           }
         ]
       },
@@ -1862,11 +1862,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "14. Disclaimer"
+            "text": "14. Sorumluluk Reddi"
           },
           {
             "t": "p",
-            "text": "THE SERVICE IS PROVIDED “AS IS” AND “AS AVAILABLE”. TO THE MAXIMUM EXTENT PERMITTED BY LAW, FANG DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, CONTINUOUS AVAILABILITY, SECURITY, OR ERROR-FREE OPERATION. USE OF THE SERVICE IS AT YOUR OWN RISK."
+            "text": "HİZMET «OLDUĞU GİBİ» VE «MEVCUT OLDUĞU ŞEKİLDE» SUNULMAKTADIR. YASALARIN İZİN VERDİĞİ AZAMİ ÖLÇÜDE, FANG, TİCARİ ELVERİŞLİLİK, BELİRLİ BİR AMACA UYGUNLUK, İHLAL ETMEME, SÜREKLİ KULLANILABİLİRLİK, GÜVENLİK VEYA HATASIZ ÇALIŞMA DAHİL OLMAK ÜZERE AÇIK VEYA ZIMNİ TÜM GARANTİLERİ REDDEDER. HİZMETİN KULLANIMI KENDİ SORUMLULUĞUNUZDADIR."
           }
         ]
       },
@@ -1877,11 +1877,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "15. Limitation of Liability"
+            "text": "15. Sorumluluğun Sınırlandırılması"
           },
           {
             "t": "p",
-            "text": "TO THE MAXIMUM EXTENT PERMITTED BY LAW, FANG SHALL NOT BE LIABLE FOR INDIRECT, INCIDENTAL, CONSEQUENTIAL, OR SPECIAL DAMAGES, OR FOR LOSS OF PROFITS, LOSS OF DATA, OR BUSINESS INTERRUPTION. FANG’S TOTAL LIABILITY SHALL NOT EXCEED THE AMOUNT PAID BY YOU TO FANG DURING THE SIX MONTHS PRECEDING THE CLAIM."
+            "text": "YASALARIN İZİN VERDİĞİ AZAMİ ÖLÇÜDE, FANG DOLAYLI, ARIZİ, SONUÇSAL VEYA ÖZEL ZARARLARDAN YA DA KÂR KAYBI, VERİ KAYBI VEYA İŞ KESİNTİSİNDEN SORUMLU OLMAYACAKTIR. FANG'IN TOPLAM SORUMLULUĞU, TALEPTEN ÖNCEKİ ALTI AY İÇİNDE FANG'A ÖDEDİĞİNİZ TUTARI AŞMAYACAKTIR."
           }
         ]
       },
@@ -1892,11 +1892,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "16. Indemnification"
+            "text": "16. Tazminat"
           },
           {
             "t": "p",
-            "text": "You agree to defend, indemnify, and hold harmless FANG, its affiliates, employees, partners, and licensors from claims, liabilities, damages, losses, and expenses arising from your use of the Service, your User Content, your violation of these Terms, or your violation of third-party rights."
+            "text": "Hizmeti kullanımınızdan, Kullanıcı İçeriğinizden, bu Şartları ihlalinizden veya üçüncü taraf haklarını ihlalinizden kaynaklanan talepler, sorumluluklar, zararlar, kayıplar ve giderlere karşı FANG'ı, bağlı kuruluşlarını, çalışanlarını, ortaklarını ve lisans verenlerini savunmayı, tazmin etmeyi ve zarar görmemelerini sağlamayı kabul edersiniz."
           }
         ]
       },
@@ -1907,11 +1907,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "17. Governing Law and Disputes"
+            "text": "17. Geçerli Hukuk ve Anlaşmazlıklar"
           },
           {
             "t": "p",
-            "text": "These Terms shall be governed by the laws of the State of Delaware, United States, without regard to conflict of law principles. Before initiating formal legal proceedings, you agree to attempt informal resolution by contacting legal@fangapp.io. To the maximum extent permitted by law, disputes shall be resolved individually, and class actions or class arbitrations are waived."
+            "text": "Bu Şartlar, kanun ihtilafı ilkeleri dikkate alınmaksızın, Amerika Birleşik Devletleri Delaware Eyaleti yasalarına tabi olacaktır. Resmi yasal işlemler başlatmadan önce, legal@fangapp.io ile iletişime geçerek gayri resmi çözüm yolu denemeyi kabul edersiniz. Yasaların izin verdiği azami ölçüde, anlaşmazlıklar bireysel olarak çözülecek ve toplu davalar veya toplu tahkimden feragat edilecektir."
           }
         ]
       },
@@ -1922,11 +1922,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "18. Electronic Communications"
+            "text": "18. Elektronik İletişim"
           },
           {
             "t": "p",
-            "text": "By using the Service, you consent to receive electronic communications from FANG. Electronic notices, agreements, and records satisfy legal communication requirements."
+            "text": "Hizmeti kullanarak, FANG'dan elektronik iletişim almayı kabul edersiniz. Elektronik bildirimler, sözleşmeler ve kayıtlar, yasal iletişim gereksinimlerini karşılar."
           }
         ]
       },
@@ -1937,11 +1937,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "19. Force Majeure"
+            "text": "19. Mücbir Sebep"
           },
           {
             "t": "p",
-            "text": "FANG shall not be liable for delays or failures caused by events beyond reasonable control, including natural disasters, internet outages, cyberattacks, government actions, power failures, wars, or labor disputes."
+            "text": "FANG, doğal afetler, internet kesintileri, siber saldırılar, hükümet eylemleri, elektrik kesintileri, savaşlar veya işçi anlaşmazlıkları dahil olmak üzere makul kontrolün dışındaki olaylardan kaynaklanan gecikmeler veya başarısızlıklardan sorumlu olmayacaktır."
           }
         ]
       },
@@ -1952,11 +1952,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "20. Miscellaneous"
+            "text": "20. Çeşitli Hükümler"
           },
           {
             "t": "p",
-            "text": "If any provision of these Terms is found unenforceable, the remaining provisions remain effective. Failure to enforce any provision shall not constitute a waiver. These Terms constitute the complete agreement between you and FANG regarding the use of the Service."
+            "text": "Bu Şartların herhangi bir hükmünün uygulanamaz bulunması durumunda, kalan hükümler geçerliliğini sürdürür. Herhangi bir hükmün uygulanmaması, o hükümden feragat edildiği anlamına gelmez. Bu Şartlar, Hizmetin kullanımı konusunda sizinle FANG arasındaki tam anlaşmayı oluşturur."
           }
         ]
       },
@@ -1967,7 +1967,7 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "21. Contact Information"
+            "text": "21. İletişim Bilgileri"
           },
           {
             "t": "p",
@@ -1983,15 +1983,15 @@
           },
           {
             "t": "p",
-            "text": "United States"
+            "text": "Amerika Birleşik Devletleri"
           },
           {
             "t": "p",
-            "text": "Support: support@fangapp.io"
+            "text": "Destek: support@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Legal: legal@fangapp.io"
+            "text": "Hukuk: legal@fangapp.io"
           },
           {
             "t": "p",
@@ -2003,7 +2003,7 @@
     ]
   },
   "faq": {
-    "title": "FANG Faq",
+    "title": "FANG Sıkça Sorulan Sorular",
     "blocks": [
       {
         "t": "div",
@@ -2012,24 +2012,24 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "1. Virtual Currency & Content Access"
+            "text": "1. Sanal Para ve İçerik Erişimi"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: What is the difference between Normal Coins and Bonus Coins?"
+            "text": "S: Normal Jetonlar ve Bonus Jetonlar arasındaki fark nedir?"
           },
           {
             "t": "p",
-            "text": "<b>A:</b>"
+            "text": "<b>C:</b>"
           },
           {
             "t": "p",
-            "text": "<b>Normal Coins:</b> Acquired via direct standard wallet top-ups on our platform. These coins have no expiration date and can be used to unlock premium content tiers across the FANG application interface."
+            "text": "<b>Normal Jetonlar:</b> Platformumuzdaki doğrudan standart cüzdan yüklemeleri yoluyla edinilir. Bu jetonların son kullanma tarihi yoktur ve FANG uygulama arayüzünde premium içerik katmanlarını açmak için kullanılabilir."
           },
           {
             "t": "p",
-            "text": "<b>Bonus Coins:</b> Promotional currency granted through daily check-in rewards, video ad engagement tasks, or specific platform reading events. Bonus Coins carry a structural expiration window of exactly two (2) days from the credit timestamp and should be utilized within that timeframe."
+            "text": "<b>Bonus Jetonlar:</b> Günlük giriş ödülleri, video reklam görevleri veya belirli platform okuma etkinlikleri aracılığıyla verilen promosyon para birimidir. Bonus Jetonların, kredilendirme zaman damgasından itibaren tam olarak iki (2) gün süren bir son kullanma süresi vardır ve bu süre içinde kullanılmalıdır."
           },
           {
             "t": "br"
@@ -2037,11 +2037,11 @@
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: How much does a premium chapter cost to unlock?"
+            "text": "S: Bir premium bölümü açmanın maliyeti nedir?"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> Premium text content scales dynamically based on the story’s depth and placement structure within the book’s volume arc. Early premium launch chapters require 25 Coins, middle progression chapters adjust to 35 Coins, and final high-tension climax chapters scale to 45 Coins."
+            "text": "<b>C:</b> Premium metin içeriğinin fiyatı, hikâyenin derinliğine ve kitabın cilt akışındaki konumuna göre dinamik olarak değişir. Erken premium bölümler 25 Jeton gerektirir, orta ilerleme bölümleri 35 Jetona, yüksek gerilimli final bölümleri ise 45 Jetona kadar çıkar."
           },
           {
             "t": "br"
@@ -2049,11 +2049,11 @@
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: Why do I receive extra promotional rewards when buying packages directly on the FANG Web Portal?"
+            "text": "S: Paketleri doğrudan FANG Web Portalı üzerinden satın aldığımda neden ekstra promosyon ödülleri alıyorum?"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> Processing transactions directly through our native secure web checkout infrastructure minimizes processing overhead compared to third-party app stores. We route these efficiency savings directly back to our community by granting up to 60% extra promotional Bonus Coins for packages cleared through our direct web gateway."
+            "text": "<b>C:</b> İşlemlerin doğrudan kendi güvenli web ödeme altyapımız üzerinden gerçekleştirilmesi, üçüncü taraf uygulama mağazalarına kıyasla işlem maliyetlerini en aza indirir. Bu verimlilik tasarruflarını, doğrudan web ağ geçidimiz üzerinden tamamlanan paketlerde %60'a kadar ekstra promosyon Bonus Jeton sağlayarak doğrudan topluluğumuza geri yönlendiriyoruz."
           },
           {
             "t": "br"
@@ -2061,11 +2061,11 @@
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: Can I access my virtual balance across multiple mobile devices?"
+            "text": "S: Sanal bakiyeme birden fazla mobil cihazdan erişebilir miyim?"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> Yes. Your virtual balance is linked directly to your authenticated, unified FANG account profile. The moment your account updates, your coin balances and reading history will automatically sync across any authorized device interface where you log in."
+            "text": "<b>C:</b> Evet. Sanal bakiyeniz, doğrulanmış ve birleştirilmiş FANG hesap profilinize doğrudan bağlıdır. Hesabınız güncellendiği anda, jeton bakiyeniz ve okuma geçmişiniz, oturum açtığınız her yetkili cihazda otomatik olarak senkronize edilir."
           }
         ]
       },
@@ -2076,16 +2076,16 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "2. Billing, Subscriptions & Cancellations"
+            "text": "2. Faturalandırma, Abonelikler ve İptaller"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: Can I request a refund if I purchase a coin bundle accidentally?"
+            "text": "S: Yanlışlıkla bir jeton paketi satın alırsam iade talep edebilir miyim?"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> No. In accordance with our global Terms of Sale, all virtual currency transactions completed across the FANG platform deliver immediate database utility and are absolute, final, and non-refundable. We do not issue cash refunds, ledger reversals, or promotional credits for inadvertent user choices or unused balances."
+            "text": "<b>C:</b> Hayır. Küresel Satış Şartlarımıza uygun olarak, FANG platformunda tamamlanan tüm sanal para işlemleri anlık veritabanı yararı sağlar ve kesin, nihai ve iade edilemezdir. İstemeden yapılan kullanıcı seçimleri veya kullanılmayan bakiyeler için nakit iade, defter düzeltmesi veya promosyon kredisi vermeyiz."
           },
           {
             "t": "br"
@@ -2093,11 +2093,11 @@
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: What global payment channels are currently accepted on the platform?"
+            "text": "S: Platformda şu anda hangi küresel ödeme kanalları kabul ediliyor?"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> We support all major international credit/debit card merchant systems (including Visa, Mastercard, American Express, and Discover), encrypted mobile checkout wallets (Apple Pay and Google Pay), and authorized payment partner portals. All financial transactions are settled securely in USD currency."
+            "text": "<b>C:</b> Visa, Mastercard, American Express ve Discover dahil olmak üzere tüm büyük uluslararası kredi/banka kartı sistemlerini, şifrelenmiş mobil ödeme cüzdanlarını (Apple Pay ve Google Pay) ve yetkili ödeme ortağı portallarını destekliyoruz. Tüm finansal işlemler güvenli bir şekilde USD para birimiyle sonuçlandırılır."
           },
           {
             "t": "br"
@@ -2105,18 +2105,18 @@
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: How do the FANG VIP membership plans and passes operate?"
+            "text": "S: FANG VIP üyelik planları ve geçişleri nasıl çalışır?"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> VIP plans offer premium, enhanced reading environments tailored to your binging preferences across two distinct structural tiers:"
+            "text": "<b>C:</b> VIP planları, iki farklı seviyede okuma tercihlerinize uygun premium, gelişmiş okuma ortamları sunar:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "<b>Weekly VIP ($9.99 / week):</b> Grants full weekly access including daily promotional bonus coin distribution drops, completely reduced ad layout profiles, early chapter access privileges, small top-up account bonus triggers, and an exclusive VIP profile status badge.",
-              "<b>Monthly VIP ($29.99 / month):</b> Our designated best-value framework granting much larger daily coin distribution rewards, maximized top-up bonus multipliers, enhanced premium chapter discounts, entry into platform exclusive content events, maximum monthly coin value utility, and priority tier access to trending premium stories."
+              "<b>Haftalık VIP (9,99 $ / hafta):</b> Günlük promosyon bonus jeton dağıtımları, tamamen azaltılmış reklam düzenleri, erken bölüm erişim ayrıcalıkları, küçük hesap yükleme bonusları ve özel bir VIP profil durum rozeti dahil olmak üzere tam haftalık erişim sağlar.",
+              "<b>Aylık VIP (29,99 $ / ay):</b> Belirlediğimiz en iyi değer paketimiz, çok daha büyük günlük jeton dağıtım ödülleri, maksimize edilmiş yükleme bonus çarpanları, gelişmiş premium bölüm indirimleri, platforma özel içerik etkinliklerine katılım, maksimum aylık jeton değeri ve trend olan premium hikâyelere öncelikli erişim sağlar."
             ]
           },
           {
@@ -2125,11 +2125,11 @@
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: How do I terminate my recurring VIP membership?"
+            "text": "S: Tekrarlayan VIP üyeliğimi nasıl sonlandırırım?"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> You can cancel your active membership at any time. If you initialized your subscription inside our mobile software interfaces, cancellations must be managed directly within your Apple App Store or Google Play Store account subscription panels. If you subscribed directly on our web platform, you can disable the auto-renewal toggle within your native Account Settings menu. All cancellations must be logged at least 24 hours prior to the next billing cycle timestamp to prevent automated renewal charges."
+            "text": "<b>C:</b> Aktif üyeliğinizi her zaman iptal edebilirsiniz. Aboneliğinizi mobil yazılım arayüzlerimiz içinde başlattıysanız, iptaller doğrudan Apple App Store veya Google Play Store hesabınızın abonelik panellerinde yönetilmelidir. Doğrudan web platformumuz üzerinden abone olduysanız, yerel Hesap Ayarları menünüzdeki otomatik yenileme düğmesini devre dışı bırakabilirsiniz. Otomatik yenileme ücretlerini önlemek için tüm iptallerin bir sonraki faturalandırma döngüsünden en az 24 saat önce kaydedilmesi gerekir."
           }
         ]
       },
@@ -2140,16 +2140,16 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "3. Account Safety & Technical Support"
+            "text": "3. Hesap Güvenliği ve Teknik Destek"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: What happens if a user bypasses support and initiates a formal bank dispute?"
+            "text": "S: Bir kullanıcı desteği atlayıp resmi bir banka anlaşmazlığı başlatırsa ne olur?"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> FANG maintains strict protection mechanisms against payment abuse and unauthorized chargebacks. If an official transaction dispute or chargeback is initiated through a credit card issuer or banking institution without first utilizing our standard dispute desk, our backend system reserves the right to immediately suspend or permanently close the associated account profile to safeguard system integrity."
+            "text": "<b>C:</b> FANG, ödeme kötüye kullanımına ve yetkisiz ters ibrazlara karşı sıkı koruma mekanizmaları sürdürür. Önce standart anlaşmazlık masamızı kullanmadan bir kredi kartı düzenleyicisi veya bankacılık kurumu aracılığıyla resmi bir işlem itirazı veya ters ibraz başlatılırsa, arka uç sistemimiz sistem bütünlüğünü korumak için ilgili hesap profilini hemen askıya alma veya kalıcı olarak kapatma hakkını saklı tutar."
           },
           {
             "t": "br"
@@ -2157,18 +2157,18 @@
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: I completed a coin purchase but my wallet hasn’t updated. What steps should I take?"
+            "text": "S: Bir jeton satın alımı tamamladım ancak cüzdanım güncellenmedi. Hangi adımları izlemeliyim?"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> Brief network or database latency can occasionally delay transaction synchronization. We recommend closing and fully restarting your application interface. If your coin balance does not reflect your transaction within 1 hour, please forward a digital copy of your official Stripe, Apple, or Google payment confirmation receipt directly to our team at support@fangapp.io so our technical support engineers can manually verify the ledger entry and credit your account."
+            "text": "<b>C:</b> Kısa süreli ağ veya veritabanı gecikmeleri, işlem senkronizasyonunu bazen geciktirebilir. Uygulama arayüzünüzü kapatıp tamamen yeniden başlatmanızı öneririz. Jeton bakiyeniz 1 saat içinde işleminizi yansıtmıyorsa, lütfen resmi Stripe, Apple veya Google ödeme onay makbuzunuzun dijital bir kopyasını doğrudan support@fangapp.io adresinden ekibimize gönderin; böylece teknik destek mühendislerimiz kayıt girişini manuel olarak doğrulayıp hesabınıza kredi yükleyebilir."
           }
         ]
       }
     ]
   },
   "cookies": {
-    "title": "Cookie Policy",
+    "title": "Çerez Politikası",
     "blocks": [
       {
         "t": "div",
@@ -2181,15 +2181,15 @@
           },
           {
             "t": "p",
-            "text": "Effective Date: August 18, 2026"
+            "text": "Geçerlilik Tarihi: 18 Ağustos 2026"
           },
           {
             "t": "p",
-            "text": "FANG (“FANG,” “we,” “our,” or “us”) uses cookies and similar tracking technologies (“Cookies”) to operate, improve, secure, and personalize the FANG platform, including our mobile applications, website, writer portal, and related services (collectively, the “Services”)."
+            "text": "FANG («FANG», «biz» veya «bize»), mobil uygulamalarımız, web sitemiz, yazar portalımız ve ilgili hizmetler (topluca «Hizmetler») dahil olmak üzere FANG platformunu işletmek, geliştirmek, güvence altına almak ve kişiselleştirmek için çerezler ve benzer takip teknolojileri («Çerezler») kullanır."
           },
           {
             "t": "p",
-            "text": "This Cookie Policy explains what Cookies are, how we use them, how third-party services interface with our platform, and how you can manage your preferences. FANG is operated by IFO DIGITAL MEDIA, LLC."
+            "text": "Bu Çerez Politikası, Çerezlerin ne olduğunu, bunları nasıl kullandığımızı, üçüncü taraf hizmetlerin platformumuzla nasıl etkileşime girdiğini ve tercihlerinizi nasıl yönetebileceğinizi açıklar. FANG, IFO DIGITAL MEDIA, LLC tarafından işletilmektedir."
           }
         ]
       },
@@ -2200,7 +2200,7 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "1. Company Information"
+            "text": "1. Şirket Bilgileri"
           },
           {
             "t": "div",
@@ -2220,15 +2220,15 @@
               },
               {
                 "t": "p",
-                "text": "United States"
+                "text": "Amerika Birleşik Devletleri"
               },
               {
                 "t": "p",
-                "text": "Support: support@fangapp.io"
+                "text": "Destek: support@fangapp.io"
               },
               {
                 "t": "p",
-                "text": "Legal: legal@fangapp.io"
+                "text": "Hukuk: legal@fangapp.io"
               }
             ]
           }
@@ -2241,11 +2241,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "2. What Are Cookies?"
+            "text": "2. Çerezler Nedir?"
           },
           {
             "t": "p",
-            "text": "Cookies are small text files stored on your browser or device when you visit or interact with online applications. They help websites and applications recognize unique devices, preserve secure sessions, remember user choices, analyze system performance, and support content recommendation frameworks."
+            "text": "Çerezler, çevrimiçi uygulamaları ziyaret ettiğinizde veya onlarla etkileşime girdiğinizde tarayıcınızda veya cihazınızda saklanan küçük metin dosyalarıdır. Web sitelerinin ve uygulamaların benzersiz cihazları tanımasına, güvenli oturumları sürdürmesine, kullanıcı tercihlerini hatırlamasına, sistem performansını analiz etmesine ve içerik önerisi sistemlerini desteklemesine yardımcı olurlar."
           },
           {
             "t": "div",
@@ -2253,22 +2253,22 @@
             "blocks": [
               {
                 "t": "p",
-                "text": "Similar tracking technologies utilized across our ecosystem include:"
+                "text": "Ekosistemimizde kullanılan benzer takip teknolojileri şunları içerir:"
               },
               {
                 "t": "ul",
                 "cls": "list-disc pl-6 space-y-1",
                 "items": [
-                  "Software Development Kits (SDKs): Embedded mobile code blocks that track app stability and event interactions;",
-                  "Pixels and Web Beacons: Small graphic strings used to monitor user actions and measure marketing campaign conversions;",
-                  "Local Storage: Browser database storage used to cache platform preferences and session parameters."
+                  "Yazılım Geliştirme Kitleri (SDK'lar): Uygulama kararlılığını ve olay etkileşimlerini izleyen yerleşik mobil kod blokları;",
+                  "Pikseller ve Web İşaretleri: Kullanıcı eylemlerini izlemek ve pazarlama kampanyası dönüşümlerini ölçmek için kullanılan küçük grafik dizileri;",
+                  "Yerel Depolama: Platform tercihlerini ve oturum parametrelerini önbelleğe almak için kullanılan tarayıcı veritabanı depolaması."
                 ]
               }
             ]
           },
           {
             "t": "p",
-            "text": "For clarity across this document, all such tracking methods are collectively referred to as “Cookies.”"
+            "text": "Bu belge boyunca netlik sağlamak için, tüm bu takip yöntemleri topluca «Çerezler» olarak adlandırılır."
           }
         ]
       },
@@ -2279,11 +2279,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "3. Types of Cookies We Use"
+            "text": "3. Kullandığımız Çerez Türleri"
           },
           {
             "t": "p",
-            "text": "FANG deploys Cookies across the following functional classifications:"
+            "text": "FANG, Çerezleri aşağıdaki işlevsel kategorilerde kullanır:"
           },
           {
             "t": "div",
@@ -2292,11 +2292,11 @@
               {
                 "t": "h3",
                 "cls": "font-semibold text-lg",
-                "text": "3.1 Strictly Necessary Cookies"
+                "text": "3.1 Kesinlikle Gerekli Çerezler"
               },
               {
                 "t": "p",
-                "text": "These Cookies are essential for our application to operate safely and correctly."
+                "text": "Bu Çerezler, uygulamamızın güvenli ve doğru şekilde çalışması için gereklidir."
               },
               {
                 "t": "div",
@@ -2304,23 +2304,23 @@
                 "blocks": [
                   {
                     "t": "p",
-                    "text": "They are utilized to:"
+                    "text": "Şu amaçlarla kullanılırlar:"
                   },
                   {
                     "t": "ul",
                     "cls": "list-disc pl-6 space-y-1",
                     "items": [
-                      "Authenticate user profiles and maintain active login sessions;",
-                      "Keep track of virtual wallet balances and coin allocations;",
-                      "Detect, investigate, and prevent automated script abuse, malicious bots, or security threats;",
-                      "Ensure core platform navigation paths function properly."
+                      "Kullanıcı profillerini doğrulamak ve aktif oturum açma oturumlarını sürdürmek;",
+                      "Sanal cüzdan bakiyelerini ve jeton tahsislerini takip etmek;",
+                      "Otomatik betik kötüye kullanımını, kötü amaçlı botları veya güvenlik tehditlerini tespit etmek, incelemek ve önlemek;",
+                      "Temel platform gezinme yollarının düzgün çalışmasını sağlamak."
                     ]
                   }
                 ]
               },
               {
                 "t": "p",
-                "text": "Note: Disabling necessary cookies via your browser settings will break core account actions and checkout flows."
+                "text": "Not: Gerekli çerezleri tarayıcı ayarlarınız üzerinden devre dışı bırakmak, temel hesap işlemlerini ve ödeme akışlarını bozar."
               }
             ]
           },
@@ -2331,11 +2331,11 @@
               {
                 "t": "h3",
                 "cls": "font-semibold text-lg",
-                "text": "3.2 Functionality Cookies"
+                "text": "3.2 İşlevsellik Çerezleri"
               },
               {
                 "t": "p",
-                "text": "These Cookies preserve your custom application choices to improve usability."
+                "text": "Bu Çerezler, kullanılabilirliği artırmak için özelleştirilmiş uygulama tercihlerinizi korur."
               },
               {
                 "t": "div",
@@ -2343,15 +2343,15 @@
                 "blocks": [
                   {
                     "t": "p",
-                    "text": "They are utilized to:"
+                    "text": "Şu amaçlarla kullanılırlar:"
                   },
                   {
                     "t": "ul",
                     "cls": "list-disc pl-6 space-y-1",
                     "items": [
-                      "Save structural display choices (such as light or dark mode preferences);",
-                      "Maintain specific reading configurations (including text sizing, font choices, and chapter page positions);",
-                      "Remember preferred language settings and system location parameters."
+                      "Yapısal görüntüleme tercihlerini kaydetmek (açık veya karanlık mod tercihleri gibi);",
+                      "Belirli okuma yapılandırmalarını korumak (metin boyutu, yazı tipi seçimleri ve bölüm sayfası konumları dahil);",
+                      "Tercih edilen dil ayarlarını ve sistem konum parametrelerini hatırlamak."
                     ]
                   }
                 ]
@@ -2365,11 +2365,11 @@
               {
                 "t": "h3",
                 "cls": "font-semibold text-lg",
-                "text": "3.3 Analytics Cookies"
+                "text": "3.3 Analitik Çerezler"
               },
               {
                 "t": "p",
-                "text": "These Cookies track how readers navigate and interact with our reading environment."
+                "text": "Bu Çerezler, okuyucuların okuma ortamımızda nasıl gezindiğini ve etkileşimde bulunduğunu izler."
               },
               {
                 "t": "div",
@@ -2377,22 +2377,22 @@
                 "blocks": [
                   {
                     "t": "p",
-                    "text": "They gather data regarding:"
+                    "text": "Şu konularda veri toplarlar:"
                   },
                   {
                     "t": "ul",
                     "cls": "list-disc pl-6 space-y-1",
                     "items": [
-                      "Daily pages viewed, reading session durations, and genre preferences;",
-                      "App features utilized and specific book engagement statistics;",
-                      "System crash events, performance lag alerts, and technical loading failures."
+                      "Günlük görüntülenen sayfalar, okuma oturumu süreleri ve tür tercihleri;",
+                      "Kullanılan uygulama özellikleri ve belirli kitap etkileşim istatistikleri;",
+                      "Sistem çökme olayları, performans gecikme uyarıları ve teknik yükleme hataları."
                     ]
                   }
                 ]
               },
               {
                 "t": "p",
-                "text": "We use this anonymized data strictly to optimize platform speeds, resolve backend bugs, and improve overall content delivery algorithms."
+                "text": "Bu anonimleştirilmiş verileri kesinlikle platform hızlarını optimize etmek, arka uç hatalarını çözmek ve genel içerik sunum algoritmalarını geliştirmek için kullanırız."
               }
             ]
           },
@@ -2403,7 +2403,7 @@
               {
                 "t": "h3",
                 "cls": "font-semibold text-lg",
-                "text": "3.4 Advertising and Marketing Cookies"
+                "text": "3.4 Reklam ve Pazarlama Çerezleri"
               },
               {
                 "t": "div",
@@ -2411,15 +2411,15 @@
                 "blocks": [
                   {
                     "t": "p",
-                    "text": "These tracking tools evaluate promotion performance. They are utilized to:"
+                    "text": "Bu takip araçları promosyon performansını değerlendirir. Şu amaçlarla kullanılırlar:"
                   },
                   {
                     "t": "ul",
                     "cls": "list-disc pl-6 space-y-1",
                     "items": [
-                      "Track how users find our website through external ad campaigns;",
-                      "Recommend tailored book genres based on historical library additions;",
-                      "Prevent showing identical, repetitive promotional banners to the same user profile."
+                      "Kullanıcıların web sitemizi harici reklam kampanyaları aracılığıyla nasıl bulduğunu takip etmek;",
+                      "Geçmiş kütüphane eklemelerine dayanarak kişiselleştirilmiş kitap türleri önermek;",
+                      "Aynı kullanıcı profiline aynı, tekrarlayan promosyon banner'larının gösterilmesini önlemek."
                     ]
                   }
                 ]
@@ -2435,24 +2435,24 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "4. Third-Party Technologies"
+            "text": "4. Üçüncü Taraf Teknolojileri"
           },
           {
             "t": "p",
-            "text": "FANG partners with secure external networks to support our platform infrastructure. These verified providers deploy tracking scripts to handle specialized operations:"
+            "text": "FANG, platform altyapımızı desteklemek için güvenli harici ağlarla ortaklık kurar. Bu doğrulanmış sağlayıcılar, özel işlemleri yürütmek için takip betikleri kullanır:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Payment Gateways: Systems like Stripe and PayPal use security cookies to analyze device risk metrics, process secure checkout screens, and mitigate payment fraud;",
-              "Cloud Infrastructure: Enterprise hosting networks use server cache cookies to balance text delivery traffic and keep loading speeds lightning-fast;",
-              "Social Identity Links: Providers like Apple, Google, and Facebook deploy secure authentication cookies to connect your social login profile seamlessly."
+              "Ödeme Ağ Geçitleri: Stripe ve PayPal gibi sistemler, cihaz risk ölçütlerini analiz etmek, güvenli ödeme ekranlarını işlemek ve ödeme dolandırıcılığını azaltmak için güvenlik çerezleri kullanır;",
+              "Bulut Altyapısı: Kurumsal barındırma ağları, metin teslim trafiğini dengelemek ve yükleme hızlarını son derece hızlı tutmak için sunucu önbellek çerezleri kullanır;",
+              "Sosyal Kimlik Bağlantıları: Apple, Google ve Facebook gibi sağlayıcılar, sosyal oturum açma profilinizi sorunsuz bir şekilde bağlamak için güvenli kimlik doğrulama çerezleri kullanır."
             ]
           },
           {
             "t": "p",
-            "text": "All third-party cookie activity is governed directly by the respective tracking policies of those independent providers."
+            "text": "Tüm üçüncü taraf çerez etkinlikleri, bu bağımsız sağlayıcıların kendi takip politikaları tarafından doğrudan yönetilir."
           }
         ]
       },
@@ -2463,23 +2463,23 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "5. Managing Cookie Preferences"
+            "text": "5. Çerez Tercihlerinin Yönetimi"
           },
           {
             "t": "p",
-            "text": "You have the complete right to control or restrict how Cookies are stored on your device:"
+            "text": "Çerezlerin cihazınızda nasıl saklandığını kontrol etme veya kısıtlama konusunda tam hakkınız vardır:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Browser Rules: You can adjust your desktop or mobile browser configurations to block all third-party tracking or alert you when a new cookie is sent;",
-              "Device Settings: You can modify operating system settings on your mobile device to toggle off targeted advertising tracking or reset unique identifier keys."
+              "Tarayıcı Kuralları: Tüm üçüncü taraf takibini engellemek veya yeni bir çerez gönderildiğinde sizi uyarmak için masaüstü veya mobil tarayıcı yapılandırmalarınızı ayarlayabilirsiniz;",
+              "Cihaz Ayarları: Hedefli reklam takibini kapatmak veya benzersiz tanımlayıcı anahtarları sıfırlamak için mobil cihazınızdaki işletim sistemi ayarlarını değiştirebilirsiniz."
             ]
           },
           {
             "t": "p",
-            "text": "Please be aware that restricting non-essential tracking will change how easily the platform remembers your custom layout settings."
+            "text": "Temel olmayan takibi kısıtlamanın, platformun özelleştirilmiş düzen ayarlarınızı ne kadar kolay hatırladığını değiştireceğini lütfen unutmayın."
           }
         ]
       },
@@ -2490,11 +2490,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "6. Cookie Consent Management"
+            "text": "6. Çerez Onayı Yönetimi"
           },
           {
             "t": "p",
-            "text": "In strict accordance with global digital privacy laws, FANG will request explicit user consent through an interface banner before initializing any non-essential analytical or marketing tracking cookies. You may access your preferences to update or withdraw consent configurations at any time."
+            "text": "Küresel dijital gizlilik yasalarına sıkı sıkıya uyarak, FANG, temel olmayan herhangi bir analitik veya pazarlama takip çerezini başlatmadan önce bir arayüz banner'ı aracılığıyla açık kullanıcı onayı talep edecektir. Onay yapılandırmalarını güncellemek veya geri çekmek için tercihlerinize her zaman erişebilirsiniz."
           }
         ]
       },
@@ -2505,11 +2505,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "7. Changes to This Cookie Policy"
+            "text": "7. Bu Çerez Politikasındaki Değişiklikler"
           },
           {
             "t": "p",
-            "text": "We may update this Cookie Policy periodically to match infrastructure updates or regulatory changes. If a material shift occurs, we will notify our reading community via prominent in-app notification alerts, layout dashboard banners, or direct email announcements."
+            "text": "Bu Çerez Politikasını, altyapı güncellemeleri veya düzenleyici değişikliklerle uyumlu olarak periyodik olarak güncelleyebiliriz. Önemli bir değişiklik meydana gelirse, okuyucu topluluğumuzu uygulama içi belirgin bildirim uyarıları, düzen panosu banner'ları veya doğrudan e-posta duyurularıyla bilgilendireceğiz."
           }
         ]
       },
@@ -2520,11 +2520,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "8. Contact Us"
+            "text": "8. Bize Ulaşın"
           },
           {
             "t": "p",
-            "text": "If you have any technical questions or data-compliance concerns regarding our tracking policies, please reach out to us:"
+            "text": "Takip politikalarımızla ilgili herhangi bir teknik sorunuz veya veri uyumluluğu kaygınız varsa, lütfen bizimle iletişime geçin:"
           },
           {
             "t": "div",
@@ -2532,11 +2532,11 @@
             "blocks": [
               {
                 "t": "p",
-                "text": "Email: legal@fangapp.io"
+                "text": "E-posta: legal@fangapp.io"
               },
               {
                 "t": "p",
-                "text": "Corporate Office: FANG / IFO DIGITAL MEDIA, LLC"
+                "text": "Kurumsal Ofis: FANG / IFO DIGITAL MEDIA, LLC"
               },
               {
                 "t": "p",
@@ -2548,7 +2548,7 @@
               },
               {
                 "t": "p",
-                "text": "United States"
+                "text": "Amerika Birleşik Devletleri"
               }
             ]
           }

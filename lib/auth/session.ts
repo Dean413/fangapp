@@ -5,7 +5,9 @@
 //    so a ban, a deleted account or a password reset ends the login within 30 minutes
 import "server-only";
 import { cookies } from "next/headers";
+import * as Sentry from "@sentry/nextjs";
 import { dbPool } from "@/lib/db";
+import { logError } from "@/lib/log";
 import {
     ACCESS_MINUTES,
     REFRESH_DAYS,
@@ -32,6 +34,7 @@ export async function startSession(user: TokenUser) {
     const store = await cookies();
     store.set(ACCESS_COOKIE, await generateAccessToken(user), { ...baseCookie, maxAge: ACCESS_MINUTES * 60 });
     store.set(REFRESH_COOKIE, await generateRefreshToken(user), { ...baseCookie, maxAge: REFRESH_DAYS * 24 * 60 * 60 });
+    Sentry.setUser({ id: user.id, email: user.email });
 }
 
 // Signs out on this browser
@@ -43,6 +46,7 @@ export async function endSession() {
     } catch {
         // Server components can't change cookies; the next route handler call will
     }
+    Sentry.setUser(null);
 }
 
 // Records that the reader is using the app (at most once every 5 minutes), so the admin shows them as active.
@@ -52,7 +56,7 @@ function touchLastActive(userId: string) {
         `UPDATE users SET last_active_at = now()
          WHERE id = $1 AND (last_active_at IS NULL OR last_active_at < now() - interval '5 minutes')`,
         [userId]
-    ).catch((err: unknown) => console.error("last_active_at update failed:", err));
+    ).catch((err: unknown) => logError("last_active_at update failed:", err));
 }
 
 // The account as it is now in the database, for a login renewal
@@ -77,6 +81,7 @@ export async function getCurrentUser(): Promise<TokenUser | null> {
             const claims = await verifyAccessToken(access);
             if (canUseReaderApp(claims.role)) {
                 touchLastActive(claims.id);
+                Sentry.setUser({ id: claims.id, email: claims.email });
                 return { id: claims.id, email: claims.email, role: claims.role };
             }
         } catch {
@@ -114,5 +119,6 @@ export async function getCurrentUser(): Promise<TokenUser | null> {
         // Server components can't change cookies; the next route handler call will
     }
     touchLastActive(user.id);
+    Sentry.setUser({ id: user.id, email: user.email });
     return user;
 }

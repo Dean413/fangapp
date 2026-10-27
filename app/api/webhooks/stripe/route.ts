@@ -6,6 +6,7 @@ import crypto from "crypto";
 import { dbPool } from "@/lib/db";
 import { PAYMENT_CONFIG } from "@/lib/payments/config";
 import { creditPayment } from "@/lib/payments/credit";
+import { logError } from "@/lib/log";
 import {
     creditVipPeriod,
     linkStripeSubscription,
@@ -63,7 +64,7 @@ export async function POST(request: NextRequest) {
 
             // What was actually paid must match what we asked for
             if (obj.amount_total !== p.price_cents || String(obj.currency).toLowerCase() !== "usd") {
-                console.error("Stripe amount mismatch for payment", p.id);
+                logError("Stripe amount mismatch for payment", p.id);
                 return ok();
             }
             await creditPayment(p.id, typeof obj.payment_intent === "string" ? obj.payment_intent : null);
@@ -107,7 +108,7 @@ export async function POST(request: NextRequest) {
 
         return ok();
     } catch (error) {
-        console.error("Stripe webhook error:", error);
+        logError("Stripe webhook error:", error);
         return NextResponse.json({ message: "Try again" }, { status: 500 }); // Stripe will retry
     }
 }

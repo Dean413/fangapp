@@ -7,6 +7,7 @@ import { checkCode, createResetSession, RESET_SESSION_COOKIE_PATH, RESET_SESSION
 import { isClosedAccount } from "@/lib/auth/loginLimit";
 import { normalizeEmail, readJson, reply } from "@/lib/auth/rules";
 import { translateMsg } from "@/lib/i18n";
+import { logError } from "@/lib/log";
 
 const MESSAGES = {
     wrong: { status: 400, message: "codeIncorrect" },
@@ -39,7 +40,7 @@ export async function POST(request: NextRequest) {
         });
         return response;
     } catch (error) {
-        console.error("Verify reset code error:", error);
+        logError("Verify reset code error:", error);
         return reply(500, "somethingWrongRetry");
     }
 }

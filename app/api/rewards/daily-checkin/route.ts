@@ -6,6 +6,7 @@ import { claimCheckin, getCheckinStatus } from "@/lib/reward";
 import { getWalletBalance } from "@/lib/wallet";
 import { reply } from "@/lib/auth/rules";
 import { msg } from "@/lib/i18n";
+import { logError } from "@/lib/log";
 
 export async function GET() {
     const user = await getCurrentUser();
@@ -13,7 +14,7 @@ export async function GET() {
     try {
         return reply(200, "OK", { status: await getCheckinStatus(user.id) });
     } catch (error) {
-        console.error("Check-in status error:", error);
+        logError("Check-in status error:", error);
         return reply(500, "couldntLoadCheckin");
     }
 }
@@ -30,10 +31,11 @@ export async function POST() {
             day: result.day,
             coins: result.coins,
             status: result.status,
+            gems: result.gems,
             wallet: await getWalletBalance(user.id),
         });
     } catch (error) {
-        console.error("Check-in claim error:", error);
+        logError("Check-in claim error:", error);
         return reply(500, "couldntClaimReward");
     }
 }

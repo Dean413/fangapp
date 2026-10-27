@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import Image from "next/image";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useTranslations } from "next-intl";
@@ -79,77 +79,101 @@ export default function CoinCard(_props: CardProps) {
                             <p></p>
                         </div>
 
-                        <div className="space-y-4 md:space-y-0 dark:space-y-0">
+                        <div className="flex flex-col gap-4 md:gap-0">
                             {coinPackages.map((item) => {
                                 const vipBonus = Math.floor((item.coins * vipPercent) / 100);
                                 const total = item.coins + item.bonus + vipBonus;
                                 return (
-                                    <div
-                                        key={item.coins}
-                                        className={`bg-white dark:bg-dark-card rounded-2xl dark:rounded-none border border-gray-100 dark:border-0 shadow-sm dark:shadow-none py-4 px-4 flex items-center justify-between gap-3 md:rounded-none md:border-0 md:border-b md:border-gray-100 md:dark:border-dark-border md:shadow-none md:grid ${cols} md:items-center md:gap-4 md:px-6 md:py-5 md:last:border-b-0`}
-                                    >
-                                        {/* Coin + amount + label beside the amount */}
-                                        <div className="flex items-center gap-3 md:gap-4 min-w-0 flex-1">
-                                            <Image
-                                                src="/fang_pictures/coin-topup.png"
-                                                alt="coin"
-                                                width={30}
-                                                height={30}
-                                                className="shrink-0"
-                                            />
-
-                                            <div className="min-w-0">
-                                                <div className="flex items-center gap-2 flex-wrap">
-                                                    <h3 className="font-semibold whitespace-nowrap">
-                                                        {item.coins}
-                                                    </h3>
+                                    <Fragment key={item.coins}>
+                                        {/* PHONE: one card per package */}
+                                        <div className="md:hidden rounded-2xl border border-gray-100 bg-white p-5 shadow-sm dark:border-dark-border dark:bg-dark-card dark:shadow-none">
+                                            {/* Coins and price */}
+                                            <div className="flex items-center justify-between gap-3">
+                                                <div className="flex min-w-0 items-center gap-2.5">
+                                                    <Image
+                                                        src="/fang_pictures/coin-topup.png"
+                                                        alt="coin"
+                                                        width={32}
+                                                        height={32}
+                                                        className="shrink-0"
+                                                    />
+                                                    <h3 className="text-2xl font-semibold whitespace-nowrap">{item.coins}</h3>
+                                                    <span className="text-base text-gray-500 dark:text-neutral-300">{t("coinsUnit")}</span>
                                                     {item.badge && (
                                                         <span className={`${item.badge === "BEST VALUE" ? "bg-neutral-900 dark:bg-neutral-600" : "bg-red-600"} text-white text-[8px] py-0.5 px-1 rounded-sm whitespace-nowrap`}>
                                                             {t(item.badge === "BEST VALUE" ? "bestValue" : "popular")}
                                                         </span>
                                                     )}
                                                 </div>
+                                                <div className="shrink-0 text-2xl font-bold">${item.price}</div>
+                                            </div>
 
-                                                {/* Mobile: the details the PC row shows in its own columns */}
-                                                <div className="md:hidden mt-1 flex flex-wrap gap-x-2 gap-y-0.5 text-xs">
-                                                    <span className="text-[#F0A500]">+{item.bonus}</span>
-                                                    {isVip && (
-                                                        <span className="text-red-500 font-semibold">+{vipBonus}</span>
-                                                    )}
-                                                    <span className="text-gray-500 dark:text-neutral-300">{total}</span>
+                                            {/* Bonus and VIP bonus side by side */}
+                                            <div className="mt-5 grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <p className="text-sm text-gray-500 dark:text-neutral-300">{t("baseBonus")}</p>
+                                                    <p className="mt-1 text-xl font-semibold text-[#F0A500]">+{item.bonus}</p>
                                                 </div>
+                                                {isVip && (
+                                                    <div>
+                                                        <p className="text-sm text-red-600 dark:text-red-400">{t("vipBonusPercent", { percent: vipPercent })}</p>
+                                                        <p className="mt-1 text-xl font-semibold text-red-600 dark:text-red-400">+{vipBonus}</p>
+                                                    </div>
+                                                )}
                                             </div>
-                                        </div>
 
-                                        {/* PC: just the numbers */}
-                                        <div className="hidden md:block text-sm text-[#F0A500]">
-                                            +{item.bonus}
-                                        </div>
-
-                                        {isVip && (
-                                            <div className="hidden md:block text-sm text-red-500 font-semibold">
-                                                +{vipBonus}
-                                            </div>
-                                        )}
-
-                                        <div className="hidden md:block text-sm text-gray-500 dark:text-neutral-300">
-                                            {total}
-                                        </div>
-
-                                        {/* Mobile: price and button together on the right. PC: separate columns */}
-                                        <div className="flex flex-col items-end gap-2 shrink-0 md:contents">
-                                            <div className="font-semibold text-base md:text-lg">
-                                                ${item.price}
+                                            {/* Total */}
+                                            <div className="mt-4 flex items-center justify-between gap-3 border-t border-gray-100 pt-4 dark:border-dark-border">
+                                                <span className="text-sm text-gray-500 dark:text-neutral-300">{t("totalCoins")}</span>
+                                                <span className="text-lg font-bold">{total.toLocaleString()} {t("coinsUnit")}</span>
                                             </div>
 
                                             <button
                                                 type="button"
                                                 onClick={() => openTopUp(item)}
-                                                className="bg-red-600 hover:bg-red-600 dark:bg-red-800 dark:hover:bg-red-600 transition text-white px-2 py-1 text-sm md:text-base md:py-1 rounded-sm dark:rounded-md md:w-full md:justify-self-end">
+                                                className="mt-4 w-full rounded-xl bg-red-600 py-3 text-base font-semibold text-white transition hover:bg-red-700 dark:bg-red-800 dark:hover:bg-red-600">
                                                 {t("tabTopUp")}
                                             </button>
                                         </div>
-                                    </div>
+
+                                        {/* PC: the table row, unchanged */}
+                                        <div className={`hidden md:grid ${cols} items-center gap-4 px-6 py-5 border-b border-gray-100 dark:border-dark-border last:border-b-0`}>
+                                            <div className="flex items-center gap-4 min-w-0">
+                                                <Image
+                                                    src="/fang_pictures/coin-topup.png"
+                                                    alt="coin"
+                                                    width={30}
+                                                    height={30}
+                                                    className="shrink-0"
+                                                />
+                                                <div className="flex items-center gap-2 flex-wrap min-w-0">
+                                                    <h3 className="font-semibold whitespace-nowrap">{item.coins}</h3>
+                                                    {item.badge && (
+                                                        <span className={`${item.badge === "BEST VALUE" ? "bg-neutral-900 dark:bg-neutral-600" : "bg-red-600"} text-white text-[8px] py-0.5 px-1 rounded-sm whitespace-nowrap`}>
+                                                            {t(item.badge === "BEST VALUE" ? "bestValue" : "popular")}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            <div className="text-sm text-[#F0A500]">+{item.bonus}</div>
+
+                                            {isVip && (
+                                                <div className="text-sm text-red-500 font-semibold">+{vipBonus}</div>
+                                            )}
+
+                                            <div className="text-sm text-gray-500 dark:text-neutral-300">{total}</div>
+
+                                            <div className="font-semibold text-base md:text-lg">${item.price}</div>
+
+                                            <button
+                                                type="button"
+                                                onClick={() => openTopUp(item)}
+                                                className="bg-red-600 hover:bg-red-600 dark:bg-red-800 dark:hover:bg-red-600 transition text-white px-2 py-1 text-base rounded-sm dark:rounded-md w-full justify-self-end">
+                                                {t("tabTopUp")}
+                                            </button>
+                                        </div>
+                                    </Fragment>
                                 );
                             })}
                         </div>

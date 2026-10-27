@@ -10,6 +10,7 @@ import { getVipStatus } from "@/lib/vip";
 import { stripePost } from "@/lib/payments/stripe";
 import { paypalBase, paypalToken } from "@/lib/payments/paypal";
 import { setBillingStatus, resumeBilling } from "@/lib/payments/subscription";
+import { logError } from "@/lib/log";
 
 async function billingWithStatus(userId: any, status: "active" | "cancelled") {
     const { rows } = await dbPool.query(
@@ -111,7 +112,7 @@ export async function POST(request: NextRequest) {
         await resumeBilling(billing.provider, billing.provider_subscription_id);
         return NextResponse.json({ ok: true });
     } catch (error) {
-        console.error("VIP subscription change error:", error);
+        logError("VIP subscription change error:", error);
         return NextResponse.json({ message: "Couldn't change it. Please try again." }, { status: 500 });
     }
 }

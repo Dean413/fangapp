@@ -14,7 +14,7 @@ const FALLBACK_COVER = "/fang_pictures/bookFace.png";
 
 type TaggedBook = HomeBook & { tags?: string[] };
 
-function BookCard({ book }: { book: HomeBook }) {
+export function BookCard({ book }: { book: HomeBook }) {
     // Genre and tag names in the site's language
     const tr = useOptionNames();
     const genre = book.genre;
@@ -24,13 +24,15 @@ function BookCard({ book }: { book: HomeBook }) {
         <Link
             href={bookHref(book)}
             className="group flex min-w-0 flex-col gap-2 sm:flex-row sm:gap-3 sm:rounded-lg sm:bg-white sm:p-2.5 sm:shadow-sm sm:transition sm:hover:bg-gray-50 dark:sm:bg-dark-card dark:sm:shadow-none dark:sm:hover:bg-dark-raised">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-                src={book.image || FALLBACK_COVER}
-                onError={(e) => { e.currentTarget.src = FALLBACK_COVER; }}
-                alt={book.title}
-                className="w-full aspect-3/4 shrink-0 rounded-md object-cover sm:w-20 sm:rounded"
-            />
+            <div className="relative w-full aspect-3/4 shrink-0 overflow-hidden rounded-md bg-gray-100 sm:w-20 sm:self-start sm:rounded dark:bg-neutral-800">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                    src={book.image || FALLBACK_COVER}
+                    onError={(e) => { e.currentTarget.src = FALLBACK_COVER; }}
+                    alt={book.title}
+                    className="absolute inset-0 h-full w-full object-cover"
+                />
+            </div>
             <div className="min-w-0 flex-1 sm:py-1">
                 <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-gray-900 sm:line-clamp-1 dark:text-white">
                     {book.title}
@@ -54,7 +56,7 @@ function BookCard({ book }: { book: HomeBook }) {
                 )}
 
                 {book.blurb && (
-                    <p className="mt-1.5 hidden line-clamp-2 text-xs leading-snug text-gray-600 sm:block dark:text-neutral-300">
+                    <p className="mt-1.5 line-clamp-2 text-xs leading-snug text-gray-600 max-sm:hidden dark:text-neutral-300">
                         {book.blurb}
                     </p>
                 )}

@@ -205,7 +205,7 @@
     ]
   },
   "communityGuidelines": {
-    "title": "FANG Community Guidelines & Policy",
+    "title": "Diretrizes e Política da Comunidade FANG",
     "blocks": [
       {
         "t": "div",
@@ -218,19 +218,19 @@
           },
           {
             "t": "p",
-            "text": "Effective Date: August 18, 2026"
+            "text": "Data de vigência: 18 de agosto de 2026"
           },
           {
             "t": "p",
-            "text": "FANG is a premier digital storytelling platform engineered for readers who enjoy immersive serialization and writers who cultivate highly engaged fan communities. FANG supports creative freedom across complex adult fiction tracks, including Dark Romance, Werewolf, Vampire, Mafia, Billionaire, Thrillers, and emotionally addictive narrative arcs."
+            "text": "FANG é uma plataforma digital de narrativas de primeira linha, criada para leitores que adoram histórias seriadas imersivas e para escritores que cultivam comunidades de fãs altamente engajadas. A FANG apoia a liberdade criativa em gêneros de ficção adulta complexos, incluindo Dark Romance, Lobisomens, Vampiros, Máfia, Bilionários, Thrillers e tramas emocionalmente viciantes."
           },
           {
             "t": "p",
-            "text": "These Community Guidelines and Content Policies outline the exact structural boundaries governing permitted user behavior, content moderation thresholds, and media restrictions across our ecosystem. By accessing or publishing content on FANG, you explicitly agree to adhere to these guidelines alongside our core Terms of Use and Privacy Policy."
+            "text": "Estas Diretrizes da Comunidade e Políticas de Conteúdo descrevem os limites estruturais exatos que regem o comportamento permitido dos usuários, os limiares de moderação de conteúdo e as restrições de mídia em todo o nosso ecossistema. Ao acessar ou publicar conteúdo na FANG, você concorda expressamente em cumprir estas diretrizes juntamente com nossos Termos de Uso e Política de Privacidade."
           },
           {
             "t": "p",
-            "text": "The FANG platform is operated by IFO DIGITAL MEDIA, LLC, 1111B S Governors Ave STE 52111, Dover, DE 19904, United States. Support Desk: support@fangapp.io | Legal Operations: legal@fangapp.io"
+            "text": "A plataforma FANG é operada pela IFO DIGITAL MEDIA, LLC, 1111B S Governors Ave STE 52111, Dover, DE 19904, Estados Unidos. Central de suporte: support@fangapp.io | Operações jurídicas: legal@fangapp.io"
           }
         ]
       },
@@ -241,11 +241,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "1. Creative Freedom Framework"
+            "text": "1. Estrutura de Liberdade Criativa"
           },
           {
             "t": "p",
-            "text": "FANG proudly champions a highly expansive catalog of fictional storytelling. We understand that high-stakes creative literature frequently incorporates emotionally intense, complex, dramatic, or dark themes. Fictional conflict, character obsession, narrative manipulation, and stylized genre violence do not automatically violate our structural boundaries. However, content will be systematically restricted, demonetized, or permanently removed if it crosses defined legal, safety, compliance, or payment gateway operational thresholds."
+            "text": "A FANG apoia com orgulho um catálogo extremamente amplo de narrativas de ficção. Entendemos que a literatura criativa de alto impacto frequentemente incorpora temas emocionalmente intensos, complexos, dramáticos ou sombrios. Conflitos fictícios, obsessão por personagens, manipulação narrativa e violência estilizada típica do gênero não violam automaticamente nossos limites estruturais. No entanto, o conteúdo será sistematicamente restringido, desmonetizado ou removido permanentemente se exceder os limites legais, de segurança, de conformidade ou operacionais dos provedores de pagamento definidos."
           }
         ]
       },
@@ -256,19 +256,19 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "2. Book Titles and Metadata Standards"
+            "text": "2. Padrões de Títulos de Livros e Metadados"
           },
           {
             "t": "p",
-            "text": "Book titles and text metadata profiles must accurately represent the creative work and remain entirely appropriate for public distribution storefronts."
+            "text": "Os títulos dos livros e os perfis de metadados de texto devem representar com precisão a obra criativa e permanecer totalmente apropriados para as vitrines de distribuição pública."
           },
           {
             "t": "p",
-            "text": "Permitted Metadata: Seductive or dramatic titles, mature romance branding, and standard genre terminology (e.g., The Alpha’s Obsession, Claimed by the Mafia King, Bound to the Vampire Lord)."
+            "text": "Metadados permitidos: Títulos sedutores ou dramáticos, identidade visual de romance adulto e terminologia padrão de gênero (por exemplo, The Alpha's Obsession, Claimed by the Mafia King, Bound to the Vampire Lord)."
           },
           {
             "t": "p",
-            "text": "Prohibited Metadata: Titles containing explicit pornographic phrasing, real-world slurs, hate speech, or terms directly promoting the exploitation of minors, or text deliberately designed to infringe existing copyrighted trademarks or established commercial brands."
+            "text": "Metadados proibidos: Títulos que contenham linguagem pornográfica explícita, insultos do mundo real, discurso de ódio ou termos que promovam diretamente a exploração de menores, ou textos deliberadamente criados para infringir marcas protegidas por direitos autorais ou marcas comerciais já estabelecidas."
           }
         ]
       },
@@ -279,19 +279,19 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "3. Book Cover and Media Art Regulations"
+            "text": "3. Regras para Capas de Livros e Material Gráfico"
           },
           {
             "t": "p",
-            "text": "Book covers and associated storefront media assets must remain strictly suitable for public display across global mobile distribution marketplaces."
+            "text": "As capas dos livros e os materiais gráficos associados à vitrine devem ser totalmente adequados para exibição pública nos marketplaces globais de distribuição mobile."
           },
           {
             "t": "p",
-            "text": "Permitted Artwork: Romantic embracing, stylized kissing scenes, fantasy weapons within fictional contexts, artistic blood elements within horror configurations, shirtless characters, and dark aesthetic illustrations."
+            "text": "Material gráfico permitido: Abraços românticos, cenas de beijo estilizadas, armas de fantasia em contextos fictícios, elementos artísticos de sangue em configurações de terror, personagens sem camisa e ilustrações de estética sombria."
           },
           {
             "t": "p",
-            "text": "Prohibited Artwork: Explicit graphic nudity, visible genitals or nipples, graphic representations of sexual acts, real-world extreme gore, or graphic self-harm depictions. Any cover utilizing copyright-infringing source graphics or unauthorized celebrity likenesses will be instantly removed."
+            "text": "Material gráfico proibido: Nudez gráfica explícita, genitais ou mamilos visíveis, representações gráficas de atos sexuais, violência extrema gráfica do mundo real ou representações gráficas de autolesão. Qualquer capa que utilize imagens de origem que violem direitos autorais ou imagens não autorizadas de celebridades será removida imediatamente."
           }
         ]
       },
@@ -302,43 +302,43 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "4. Story Content Thresholds"
+            "text": "4. Limites de Conteúdo das Histórias"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "4.1 Permitted Fiction Formats"
+            "text": "4.1 Formatos de Ficção Permitidos"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Mature romance and complex character interactions;",
-              "Atmospheric dark romance, high-stakes psychological tension, and emotional drama;",
-              "Stylized fantasy combat, supernatural action sequences, and werewolf/vampire lore;",
-              "Narrative sexual tension and non-graphic intimate scenes;",
-              "Diverse LGBTQ+ relationships and comprehensive speculative fiction."
+              "Romance adulto e interações complexas entre personagens;",
+              "Dark romance atmosférico, tensão psicológica intensa e drama emocional;",
+              "Combate de fantasia estilizado, sequências de ação sobrenatural e mitologia de lobisomens/vampiros;",
+              "Tensão sexual narrativa e cenas íntimas não gráficas;",
+              "Relações LGBTQ+ diversas e ficção especulativa abrangente."
             ]
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "4.2 Prohibited Content Categories"
+            "text": "4.2 Categorias de Conteúdo Proibido"
           },
           {
             "t": "p",
-            "text": "In strict alignment with global legal frameworks and our merchant processor compliance rules, FANG maintains a zero-tolerance policy toward the following text or media configurations:"
+            "text": "Em estrita conformidade com os marcos legais globais e as regras de conformidade de nossos processadores de pagamento, a FANG mantém uma política de tolerância zero em relação às seguintes configurações de texto ou mídia:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Any representation of sexual content, exploitation, or abuse involving minors;",
-              "Real-world terrorist propaganda, violent extremism, or hate group recruitment text;",
-              "Detailed instructional guides for executing serious real-world criminal acts or manufacturing illegal weapons;",
-              "Non-consensual explicit sexual exploitation, graphic sexual violence, or bestiality;",
-              "Extreme real-world gore or graphic physical mutilation presented for shock value;",
-              "The promotion, encouragement, or instructional tracking of suicide or self-harm actions."
+              "Qualquer representação de conteúdo sexual, exploração ou abuso envolvendo menores;",
+              "Propaganda terrorista do mundo real, extremismo violento ou textos de recrutamento para grupos de ódio;",
+              "Guias instrutivos detalhados para a execução de crimes graves do mundo real ou fabricação de armas ilegais;",
+              "Exploração sexual explícita não consensual, violência sexual gráfica ou bestialidade;",
+              "Violência extrema gráfica do mundo real ou mutilação física gráfica apresentada para fins de choque;",
+              "A promoção, incentivo ou instrução para ações de suicídio ou autolesão."
             ]
           }
         ]
@@ -350,23 +350,23 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "5. Content Moderation & Programmatic Enforcement"
+            "text": "5. Moderação de Conteúdo e Aplicação Automática"
           },
           {
             "t": "p",
-            "text": "To maintain absolute platform safety, FANG utilizes a multi-layered compliance verification network."
+            "text": "Para manter a segurança absoluta da plataforma, a FANG utiliza uma rede de verificação de conformidade em múltiplas camadas."
           },
           {
             "t": "p",
-            "text": "User Reporting: Every story page across the platform features an active “Report Book” interface button, allowing readers to flag content for intellectual property theft, safety violations, or policy infractions."
+            "text": "Denúncia pelos usuários: Toda página de história na plataforma possui um botão ativo de «Denunciar Livro», permitindo que os leitores sinalizem conteúdos por roubo de propriedade intelectual, violações de segurança ou infrações às políticas."
           },
           {
             "t": "p",
-            "text": "Programmatic Controls: Our backend servers actively analyze these user signals. Stories that accumulate verified reporting thresholds are programmatically isolated, hidden from public storefront navigation, and automatically demonetized pending manual human review."
+            "text": "Controles automáticos: Nossos servidores de backend analisam ativamente esses sinais dos usuários. Histórias que acumulam limites verificados de denúncias são isoladas automaticamente, ocultadas da navegação pública na vitrine e desmonetizadas automaticamente até uma revisão manual."
           },
           {
             "t": "p",
-            "text": "Keyword Scanning: Newly published manuscripts are automatically scanned via text-matching string filters to block known high-risk extremist phrases or malicious configurations before publication occurs."
+            "text": "Varredura de palavras-chave: Manuscritos recém-publicados são automaticamente escaneados por meio de filtros de correspondência de texto, para bloquear frases extremistas de alto risco conhecidas ou configurações maliciosas antes da publicação."
           }
         ]
       },
@@ -377,15 +377,15 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "6. Intellectual Property, Plagiarism & AI Controls"
+            "text": "6. Propriedade Intelectual, Plágio e Controles de IA"
           },
           {
             "t": "p",
-            "text": "Copyright Infringement: FANG strictly prohibits plagiarism, unauthorized text translations, or the reposting of stolen novels from alternative publishing networks. Systemic violations will result in permanent account deactivation and the complete forfeiture of monetization privileges."
+            "text": "Violação de direitos autorais: A FANG proíbe estritamente o plágio, traduções de texto não autorizadas ou a republicação de romances roubados de outras redes de publicação. Violações sistemáticas resultarão na desativação permanente da conta e na perda total dos privilégios de monetização."
           },
           {
             "t": "p",
-            "text": "Artificial Intelligence (AI) Parameters: Creators may utilize generative software utilities as creative tools, provided that the uploader possesses all necessary commercial usage rights for the source materials. AI-assisted content must completely comply with our core content safety rules, must be meaningfully curated or edited, and must not consist of mass-generated automated spam text designed to manipulate platform metrics. Unedited AI spam text is programmatically excluded from platform contract rewards."
+            "text": "Parâmetros de Inteligência Artificial (IA): Os criadores podem utilizar ferramentas de software generativo como instrumentos criativos, desde que quem publica o conteúdo possua todos os direitos comerciais necessários sobre os materiais de origem. O conteúdo assistido por IA deve cumprir totalmente nossas regras essenciais de segurança de conteúdo, deve ser significativamente curado ou editado, e não deve consistir em texto spam gerado em massa de forma automatizada, criado para manipular as métricas da plataforma. Texto spam gerado por IA sem edição é automaticamente excluído das recompensas contratuais da plataforma."
           }
         ]
       },
@@ -396,19 +396,19 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "7. Reviews, Comments, and Community Interaction"
+            "text": "7. Avaliações, Comentários e Interação na Comunidade"
           },
           {
             "t": "p",
-            "text": "We are committed to maintaining a supportive, professional digital arena for our writing and reading communities. We do not permit:"
+            "text": "Estamos comprometidos em manter um espaço digital de apoio e profissional para nossas comunidades de escritores e leitores. Não permitimos:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Targeted harassment, doxxing, personal threats, or malicious bullying;",
-              "Coordinated review manipulation or fraudulent engagement tracking;",
-              "Hate speech targeting individuals based on race, religion, orientation, or protected status."
+              "Assédio direcionado, doxxing, ameaças pessoais ou bullying malicioso;",
+              "Manipulação coordenada de avaliações ou rastreamento fraudulento de engajamento;",
+              "Discurso de ódio direcionado a indivíduos com base em raça, religião, orientação ou outro status protegido."
             ]
           }
         ]
@@ -420,7 +420,7 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "8. Corporate Contact Information"
+            "text": "8. Informações de Contato Corporativo"
           },
           {
             "t": "p",
@@ -436,15 +436,15 @@
           },
           {
             "t": "p",
-            "text": "United States"
+            "text": "Estados Unidos"
           },
           {
             "t": "p",
-            "text": "User Support: support@fangapp.io"
+            "text": "Suporte ao usuário: support@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Legal Infrastructure: legal@fangapp.io"
+            "text": "Departamento Jurídico: legal@fangapp.io"
           },
           {
             "t": "p",
@@ -456,7 +456,7 @@
     ]
   },
   "dmca": {
-    "title": "DMCA Guidelines",
+    "title": "Diretrizes DMCA",
     "blocks": [
       {
         "t": "div",
@@ -469,31 +469,31 @@
           },
           {
             "t": "p",
-            "text": "Effective Date: August 18, 2026"
+            "text": "Data de vigência: 18 de agosto de 2026"
           },
           {
             "t": "p",
-            "text": "DMCA Designated Agent Registration ID: DMCA-1073241"
+            "text": "ID de Registro do Agente Designado DMCA: DMCA-1073241"
           },
           {
             "t": "p",
-            "text": "FANG respects intellectual property rights and expects all readers, writers, publishers, editors, and platform partners to do the same. We are committed to maintaining a lawful, creator-focused, and fair digital storytelling ecosystem. FANG strictly prohibits the publication of content that infringes upon third-party copyrights, trademarks, patents, or proprietary rights."
+            "text": "A FANG respeita os direitos de propriedade intelectual e espera que todos os leitores, escritores, editoras, editores e parceiros da plataforma façam o mesmo. Estamos comprometidos em manter um ecossistema de narrativas digitais legal, justo e focado nos criadores. A FANG proíbe estritamente a publicação de conteúdo que infrinja direitos autorais, marcas registradas, patentes ou direitos de propriedade de terceiros."
           },
           {
             "t": "p",
-            "text": "This Copyright Policy details the specific procedures through which intellectual property owners may report alleged digital infringement, and outlines how platform users may respond to claims submitted against their hosted content. FANG operates in compliance with the Digital Millennium Copyright Act (“DMCA”) Safe Harbor provisions applicable to online digital service providers."
+            "text": "Esta Política de Direitos Autorais detalha os procedimentos específicos pelos quais os detentores de propriedade intelectual podem denunciar supostas infrações digitais, e explica como os usuários da plataforma podem responder a reclamações apresentadas contra seu conteúdo hospedado. A FANG opera em conformidade com as disposições de porto seguro do Digital Millennium Copyright Act («DMCA») aplicáveis a provedores de serviços digitais online."
           },
           {
             "t": "p",
-            "text": "The FANG service infrastructure is operated by IFO DIGITAL MEDIA, LLC, 1111B S Governors Ave STE 52111, Dover, DE 19904, United States."
+            "text": "A infraestrutura de serviços da FANG é operada pela IFO DIGITAL MEDIA, LLC, 1111B S Governors Ave STE 52111, Dover, DE 19904, Estados Unidos."
           },
           {
             "t": "p",
-            "text": "Support Desk: support@fangapp.io"
+            "text": "Central de suporte: support@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Legal Operations: legal@fangapp.io"
+            "text": "Operações jurídicas: legal@fangapp.io"
           }
         ]
       },
@@ -504,15 +504,15 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "1. Protocol for Reporting Copyright Infringement"
+            "text": "1. Protocolo para Denunciar Violação de Direitos Autorais"
           },
           {
             "t": "p",
-            "text": "If you have a good-faith belief that creative materials available across the FANG service infringe upon your original copyright or intellectual property rights, you may submit a formal written copyright complaint (“DMCA Notice”) directly to our legal department."
+            "text": "Se você acredita, em boa-fé, que materiais criativos disponíveis no serviço FANG violam seus direitos autorais originais ou seus direitos de propriedade intelectual, você pode enviar uma reclamação formal e por escrito sobre direitos autorais («Notificação DMCA») diretamente ao nosso departamento jurídico."
           },
           {
             "t": "p",
-            "text": "Your notice must contain specific, comprehensive details enabling us to verify your claim and locate the disputed material. Where legally appropriate and mandated, FANG may share a copy of your complaint, including your provided contact information, with the specific platform user who uploaded the reported story files."
+            "text": "Sua notificação deve conter detalhes específicos e abrangentes que nos permitam verificar sua reclamação e localizar o material em disputa. Quando legalmente apropriado e exigido, a FANG pode compartilhar uma cópia da sua reclamação, incluindo as informações de contato fornecidas, com o usuário específico da plataforma que enviou os arquivos da história denunciada."
           }
         ]
       },
@@ -523,74 +523,74 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "2. Statutory Criteria for a Valid DMCA Notice"
+            "text": "2. Critérios Legais para uma Notificação DMCA Válida"
           },
           {
             "t": "p",
-            "text": "To evaluate and process your copyright claim quickly, your written notice must include the following components:"
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "a) Identification of the Protected Work"
-          },
-          {
-            "t": "p",
-            "text": "A description of the original copyrighted work or proprietary intellectual property you claim has been actively infringed."
+            "text": "Para avaliar e processar sua reclamação de direitos autorais rapidamente, sua notificação escrita deve incluir os seguintes componentes:"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "b) Identification of the Infringing Material"
+            "text": "a) Identificação da Obra Protegida"
           },
           {
             "t": "p",
-            "text": "The specific story title, chapter numbers (if applicable), author username, and the direct URL link or inside-application location parameters necessary to isolate the content."
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "c) Claimant Contact Details"
-          },
-          {
-            "t": "p",
-            "text": "Your full legal name, active email address, physical mailing address, and telephone number."
+            "text": "Uma descrição da obra original protegida por direitos autorais ou da propriedade intelectual que você alega ter sido ativamente violada."
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "d) Supporting Verification Records"
+            "text": "b) Identificação do Material Infrator"
           },
           {
             "t": "p",
-            "text": "Copies of formal copyright registration certificates, original timestamped publication logs, historical creative drafts, or relevant distribution licensing agreements."
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "e) Good-Faith Affirmation"
-          },
-          {
-            "t": "p",
-            "text": "An explicit statement that you have a good-faith belief that the disputed use of the intellectual property is not authorized by the copyright owner, its legal agent, or current federal statutes."
+            "text": "O título específico da história, os números dos capítulos (se aplicável), o nome de usuário do autor e o link URL direto ou os parâmetros de localização dentro do aplicativo necessários para identificar o conteúdo."
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "f) Perjury Declaration"
+            "text": "c) Dados de Contato do Reclamante"
           },
           {
             "t": "p",
-            "text": "A statement made under penalty of perjury that the data provided within your notice is entirely accurate, and that you are the copyright holder or are legally authorized to act on behalf of the owner."
+            "text": "Seu nome legal completo, endereço de e-mail ativo, endereço postal físico e número de telefone."
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "g) Authorized Signature"
+            "text": "d) Registros de Verificação de Suporte"
           },
           {
             "t": "p",
-            "text": "A physical or verified electronic signature of the copyright owner or an authorized legal representative."
+            "text": "Cópias de certificados formais de registro de direitos autorais, registros originais de publicação com data e hora, rascunhos criativos históricos ou acordos relevantes de licenciamento de distribuição."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "e) Declaração de Boa-Fé"
+          },
+          {
+            "t": "p",
+            "text": "Uma declaração explícita de que você acredita, em boa-fé, que o uso em disputa da propriedade intelectual não é autorizado pelo titular dos direitos autorais, por seu representante legal ou pelas leis federais vigentes."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "f) Declaração sob Pena de Perjúrio"
+          },
+          {
+            "t": "p",
+            "text": "Uma declaração feita sob pena de perjúrio de que os dados fornecidos em sua notificação são totalmente precisos, e que você é o titular dos direitos autorais ou está legalmente autorizado a agir em nome do titular."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "g) Assinatura Autorizada"
+          },
+          {
+            "t": "p",
+            "text": "Uma assinatura física ou eletrônica verificada do titular dos direitos autorais ou de um representante legal autorizado."
           }
         ]
       },
@@ -601,27 +601,27 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "3. Submission Channels for Copyright Complaints"
+            "text": "3. Canais para Envio de Reclamações de Direitos Autorais"
           },
           {
             "t": "p",
-            "text": "Please route your completed, signed DMCA Notice directly to our compliance office:"
+            "text": "Por favor, envie sua Notificação DMCA completa e assinada diretamente ao nosso escritório de conformidade:"
           },
           {
             "t": "p",
-            "text": "Department: FANG Legal Infrastructure"
+            "text": "Departamento: Infraestrutura Jurídica da FANG"
           },
           {
             "t": "p",
-            "text": "Email Channel: legal@fangapp.io"
+            "text": "Canal de e-mail: legal@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Subject Header: DMCA Notice - [Insert Story Title]"
+            "text": "Assunto: Notificação DMCA - [Insira o Título da História]"
           },
           {
             "t": "p",
-            "text": "Note: FANG reserves the right to request additional identification documentation or text logs before executing removal actions if the initial notice lacks sufficient details."
+            "text": "Observação: A FANG se reserva o direito de solicitar documentação de identificação adicional ou registros de texto antes de realizar ações de remoção, caso a notificação inicial não contenha detalhes suficientes."
           }
         ]
       },
@@ -632,30 +632,30 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "4. Counter-Notification Process"
+            "text": "4. Processo de Contranotificação"
           },
           {
             "t": "p",
-            "text": "If your published writing has been removed or hidden due to a copyright complaint, and you believe this action occurred as a result of a mistake, misidentification, or a fair-use protection, you may file a formal counter-notification."
+            "text": "Se a sua obra publicada foi removida ou ocultada devido a uma reclamação de direitos autorais, e você acredita que isso ocorreu em decorrência de um erro, identificação incorreta ou proteção de uso justo, você pode registrar uma contranotificação formal."
           },
           {
             "t": "p",
-            "text": "Your counter-notice must be submitted in writing to legal@fangapp.io and must contain:"
+            "text": "Sua contranotificação deve ser enviada por escrito para legal@fangapp.io e deve conter:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Your full legal name, telephone number, physical address, and email details",
-              "A description of the material that was hidden or removed and its original platform location prior to isolation",
-              "A statement made under penalty of perjury that you have a good-faith belief that the content was removed or disabled due to mistake or misidentification",
-              "An explicit statement consenting to the jurisdiction of the Federal District Court for the judicial district in which your address is located (or Delaware, if operating outside the United States), and that you will accept service of process from the original complaining party",
-              "Your physical or verified electronic signature"
+              "Seu nome legal completo, número de telefone, endereço físico e dados de e-mail",
+              "Uma descrição do material que foi ocultado ou removido e sua localização original na plataforma antes do isolamento",
+              "Uma declaração feita sob pena de perjúrio de que você acredita, em boa-fé, que o conteúdo foi removido ou desativado devido a um erro ou identificação incorreta",
+              "Uma declaração explícita consentindo com a jurisdição do Tribunal Distrital Federal do distrito judicial onde seu endereço está localizado (ou de Delaware, caso você esteja operando fora dos Estados Unidos), e de que você aceitará a notificação de processo da parte reclamante original",
+              "Sua assinatura física ou eletrônica verificada"
             ]
           },
           {
             "t": "p",
-            "text": "Upon receipt of a valid counter-notification, FANG will forward it to the original complainant. If the copyright owner does not file a court action seeking a restraining order against the content within ten (10) business days, our system is authorized under safe harbor rules to restore the hidden material to public view."
+            "text": "Ao receber uma contranotificação válida, a FANG a enviará ao reclamante original. Se o titular dos direitos autorais não apresentar uma ação judicial buscando uma ordem de restrição contra o conteúdo dentro de dez (10) dias úteis, nosso sistema está autorizado, sob as regras de porto seguro, a restaurar a visibilidade pública do material oculto."
           }
         ]
       },
@@ -666,20 +666,20 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "5. Automated Content Integrity & Repeat Infringer Policy"
+            "text": "5. Integridade Automática de Conteúdo e Política para Infratores Reincidentes"
           },
           {
             "t": "p",
-            "text": "In alignment with our automated Acceptable Use Policy (AUP) controls, FANG enforces a zero-tolerance policy against repeat infringers and systemic plagiarism:"
+            "text": "Em conformidade com nossos controles automatizados da Política de Uso Aceitável (AUP), a FANG aplica uma política de tolerância zero contra infratores reincidentes e plágio sistemático:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Systemic Violations: A repeat infringer includes any user profile that repeatedly uploads unauthorized content, accumulates multiple distinct valid DMCA notices, or attempts to circumvent platform digital locks.",
-              "Automated Enforcement: Users may flag copyright violations directly inside our reading interface via our native “Report Book” protocols. Our system programmatically tallies these signals to isolate, restrict, and automatically demonetize high-risk content pending formal review.",
-              "Account Deactivation: FANG reserves the absolute right to suspend, restrict, or permanently terminate any user account or creator profile found in chronic violation of this section.",
-              "Forfeiture of Ledger Balances: In cases of severe, systemic plagiarism or deliberate copyright fraud, FANG reserves the right to permanently withhold accrued virtual coin earnings, promotional bonuses, and publisher rewards generated via the infringing material."
+              "Violações sistemáticas: Um infrator reincidente inclui qualquer perfil de usuário que envie repetidamente conteúdo não autorizado, acumule múltiplas notificações DMCA válidas e distintas, ou tente contornar as proteções digitais da plataforma.",
+              "Aplicação automática: Os usuários podem sinalizar violações de direitos autorais diretamente dentro da nossa interface de leitura por meio dos nossos protocolos nativos de «Denunciar Livro». Nosso sistema contabiliza automaticamente esses sinais para isolar, restringir e desmonetizar automaticamente conteúdo de alto risco até uma revisão formal.",
+              "Desativação de conta: A FANG reserva-se o direito absoluto de suspender, restringir ou encerrar permanentemente qualquer conta de usuário ou perfil de criador que se encontre em violação crônica desta seção.",
+              "Perda de saldos registrados: Em casos de plágio grave e sistemático ou fraude deliberada de direitos autorais, a FANG reserva-se o direito de reter permanentemente os ganhos de moedas virtuais acumulados, bônus promocionais e recompensas de autores gerados por meio do material infrator."
             ]
           }
         ]
@@ -691,11 +691,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "6. Protection Against Fraudulent and Abusive Claims"
+            "text": "6. Proteção Contra Reclamações Fraudulentas e Abusivas"
           },
           {
             "t": "p",
-            "text": "Under Section 512(f) of the DMCA, any individual who knowingly materially misrepresents that online material is infringing can be held legally liable for damages, including court costs and attorneys' fees incurred by the alleged infringer or the platform provider. FANG will actively pursue account deactivation and legal remedies against any party who knowingly submits false, malicious, or misleading copyright notices to disrupt our creators."
+            "text": "Nos termos da Seção 512(f) do DMCA, qualquer pessoa que, com conhecimento, represente de forma substancialmente falsa que um material online é infrator pode ser legalmente responsabilizada por danos, incluindo custas judiciais e honorários advocatícios incorridos pelo suposto infrator ou pelo provedor da plataforma. A FANG buscará ativamente a desativação de contas e medidas legais contra qualquer parte que, com conhecimento, envie notificações de direitos autorais falsas, maliciosas ou enganosas para prejudicar nossos criadores."
           }
         ]
       },
@@ -706,15 +706,15 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "7. Platform Neutrality Framework"
+            "text": "7. Estrutura de Neutralidade da Plataforma"
           },
           {
             "t": "p",
-            "text": "FANG operates fundamentally as a neutral online service provider. We do not pre-screen all serialized manuscript text before publication, nor do we independently investigate the absolute copyright chain of every chapter uploaded by creators to FangWriters."
+            "text": "A FANG opera fundamentalmente como um provedor neutro de serviços online. Não pré-selecionamos todo o texto dos manuscritos seriados antes da publicação, nem investigamos de forma independente a cadeia completa de direitos autorais de cada capítulo enviado por criadores ao FangWriters."
           },
           {
             "t": "p",
-            "text": "Upon receipt of valid legal notices, we act immediately to review, isolate, or restrict access to the disputed material in complete compliance with federal safe harbor regulations. FANG reserves the right to temporarily disable access to or demonetize content at its sole discretion while an active copyright audit is ongoing."
+            "text": "Ao receber notificações legais válidas, agimos imediatamente para revisar, isolar ou restringir o acesso ao material em disputa, em total conformidade com as regulamentações federais de porto seguro. A FANG reserva-se o direito de desativar temporariamente o acesso ou desmonetizar o conteúdo a seu exclusivo critério enquanto uma auditoria de direitos autorais estiver em andamento."
           }
         ]
       },
@@ -725,15 +725,15 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "8. Artificial Intelligence (AI) Content Regulations"
+            "text": "8. Regulamentos sobre Conteúdo de Inteligência Artificial (IA)"
           },
           {
             "t": "p",
-            "text": "Platform uploaders bear 100% responsibility for ensuring that any AI-assisted or AI-generated text, artwork, or cover designs uploaded to the platform do not infringe upon the copyrights, trademarks, or publicity rights of third parties. The utilization of generative software tools does not transfer or remove liability from the uploader."
+            "text": "Os usuários que enviam conteúdo à plataforma são 100% responsáveis por garantir que qualquer texto, arte ou design de capa assistido ou gerado por IA enviado à plataforma não infrinja direitos autorais, marcas registradas ou direitos de imagem de terceiros. A utilização de ferramentas de software generativo não transfere nem remove a responsabilidade de quem envia o conteúdo."
           },
           {
             "t": "p",
-            "text": "FANG reserves the absolute right to remove AI-generated stories that trigger our automated content matching or user-reporting systems. Furthermore, unedited AI-generated text content does not guarantee corporate contract eligibility, bonus allocations, or custom platform marketing promotions."
+            "text": "A FANG reserva-se o direito absoluto de remover histórias geradas por IA que acionem nossos sistemas automatizados de correspondência de conteúdo ou de denúncia de usuários. Além disso, conteúdo de texto gerado por IA sem edição não garante elegibilidade para contratos corporativos, atribuição de bônus ou promoções de marketing personalizadas da plataforma."
           }
         ]
       },
@@ -744,11 +744,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "9. International Rights Documentation"
+            "text": "9. Documentação de Direitos Internacionais"
           },
           {
             "t": "p",
-            "text": "If you are logging an intellectual property complaint on behalf of an international publishing house, foreign literary agency, or corporate group, FANG may request official proof of legal authorization, corporate business registries, or localization power-of-attorney documentation. Any supporting records submitted in languages other than English must be accompanied by certified English translations to be evaluated."
+            "text": "Se você estiver registrando uma reclamação de propriedade intelectual em nome de uma editora internacional, agência literária estrangeira ou grupo corporativo, a FANG pode solicitar prova oficial de autorização legal, registros comerciais corporativos ou documentação de procuração para localização. Quaisquer registros de suporte enviados em idiomas diferentes do inglês devem ser acompanhados de traduções certificadas para o inglês para serem avaliados."
           }
         ]
       },
@@ -759,7 +759,7 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "10. Contact Information"
+            "text": "10. Informações de Contato"
           },
           {
             "t": "p",
@@ -775,15 +775,15 @@
           },
           {
             "t": "p",
-            "text": "United States"
+            "text": "Estados Unidos"
           },
           {
             "t": "p",
-            "text": "Reader Support: support@fangapp.io"
+            "text": "Suporte ao leitor: support@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Legal Department: legal@fangapp.io"
+            "text": "Departamento Jurídico: legal@fangapp.io"
           },
           {
             "t": "p",
@@ -795,7 +795,7 @@
     ]
   },
   "privacy": {
-    "title": "Privacy Policy",
+    "title": "Política de Privacidade",
     "blocks": [
       {
         "t": "div",
@@ -808,11 +808,11 @@
           },
           {
             "t": "p",
-            "text": "Effective Date: August 18, 2026"
+            "text": "Data de vigência: 18 de agosto de 2026"
           },
           {
             "t": "p",
-            "text": "FANG (“FANG,” “we,” “our,” or “us”) respects your privacy and is committed to protecting your personal information. This Privacy Policy explains how we collect, use, store, share, and protect information when you use the FANG mobile application, website, writer portal, and related services (collectively, the “Services”). FANG is operated by IFO DIGITAL MEDIA, LLC."
+            "text": "A FANG («FANG», «nós» ou «nos») respeita sua privacidade e está comprometida em proteger suas informações pessoais. Esta Política de Privacidade explica como coletamos, usamos, armazenamos, compartilhamos e protegemos as informações quando você utiliza o aplicativo móvel da FANG, o site, o portal de escritores e os serviços relacionados (coletivamente, os «Serviços»). A FANG é operada pela IFO DIGITAL MEDIA, LLC."
           }
         ]
       },
@@ -823,7 +823,7 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "1. Company Information"
+            "text": "1. Informações da Empresa"
           },
           {
             "t": "div",
@@ -843,62 +843,62 @@
               },
               {
                 "t": "p",
-                "text": "United States"
+                "text": "Estados Unidos"
               },
               {
                 "t": "p",
-                "text": "Support: support@fangapp.io"
+                "text": "Suporte: support@fangapp.io"
               },
               {
                 "t": "p",
-                "text": "Legal: legal@fangapp.io"
+                "text": "Jurídico: legal@fangapp.io"
               }
             ]
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Finality of Sale"
+            "text": "Caráter Definitivo da Venda"
           },
           {
             "t": "p",
-            "text": "All purchases of Coins completed on the FANG website or mobile applications are absolute, permanent, instant, and completely non-refundable."
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "No Cash Value"
-          },
-          {
-            "t": "p",
-            "text": "Coins possess zero real-world monetary value, are completely non-transferable, and can never be exchanged, redeemed, or reversed for fiat cash or external credit."
+            "text": "Todas as compras de Moedas realizadas no site ou nos aplicativos móveis da FANG são absolutas, permanentes, instantâneas e totalmente não reembolsáveis."
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Instant Consumption Waiver"
+            "text": "Sem Valor em Dinheiro"
           },
           {
             "t": "p",
-            "text": "Digital coin top-ups deliver instant database utility. The exact second Coins are credited to your user wallet profile, the contract of sale is fulfilled in its entirety. You explicitly waive any statutory right of withdrawal, consumer cooling-off periods, or transaction cancellations."
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "User Error Protection"
-          },
-          {
-            "t": "p",
-            "text": "FANG does not issue refunds, replacements, or credits for Coins purchased accidentally, Coins spent unlocking chapters inadvertently, or Coins lost due to an account password compromise resulting from user negligence."
+            "text": "As Moedas não possuem valor monetário no mundo real, são completamente intransferíveis e nunca podem ser trocadas, resgatadas ou revertidas por dinheiro ou crédito externo."
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Exceptional Technical Errors"
+            "text": "Renúncia por Consumo Instantâneo"
           },
           {
             "t": "p",
-            "text": "If an authentic banking failure occurs where funds were cleared from your card but Coins were not delivered due to a system glitch, you must contact support@fangapp.io within forty-eight (48) hours with verified transaction logs. FANG may, at its sole discretion, issue digital Coin replacements."
+            "text": "As recargas digitais de moedas fornecem utilidade imediata no banco de dados. No exato momento em que as Moedas são creditadas no seu perfil de carteira de usuário, o contrato de venda é integralmente cumprido. Você renuncia expressamente a qualquer direito legal de desistência, período de reflexão do consumidor ou cancelamento da transação."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Proteção contra Erro do Usuário"
+          },
+          {
+            "t": "p",
+            "text": "A FANG não emite reembolsos, substituições ou créditos para Moedas compradas acidentalmente, Moedas gastas inadvertidamente para desbloquear capítulos, ou Moedas perdidas devido ao comprometimento da senha da conta resultante de negligência do usuário."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "Erros Técnicos Excepcionais"
+          },
+          {
+            "t": "p",
+            "text": "Se ocorrer uma falha bancária autêntica em que os valores foram debitados do seu cartão, mas as Moedas não foram entregues devido a uma falha no sistema, você deve contatar support@fangapp.io dentro de quarenta e oito (48) horas com os registros de transação verificados. A FANG poderá, a seu exclusivo critério, emitir Moedas digitais substitutas."
           }
         ]
       },
@@ -909,70 +909,70 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "2. Information We Collect"
+            "text": "2. Informações que Coletamos"
           },
           {
             "t": "p",
-            "text": "We collect information you provide directly to us, information collected automatically through your use of the Services, and information received from third-party providers."
+            "text": "Coletamos informações que você nos fornece diretamente, informações coletadas automaticamente por meio do uso dos Serviços e informações recebidas de provedores terceiros."
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "2.1 Information You Provide"
+            "text": "2.1 Informações que Você Fornece"
           },
           {
             "t": "p",
-            "text": "When you create an account or interact with FANG, we may collect:"
+            "text": "Ao criar uma conta ou interagir com a FANG, podemos coletar:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Username, legal name, and email address;",
-              "Password or secure login credentials;",
-              "Profile pictures and biography details;",
-              "Comments, reviews, direct messages, and user-generated literary content;",
-              "Purchase, subscription history, and payout ledger preferences;",
-              "Customer support communications and basic account verification details."
+              "Nome de usuário, nome legal e endereço de e-mail;",
+              "Senha ou credenciais seguras de login;",
+              "Fotos de perfil e detalhes de biografia;",
+              "Comentários, avaliações, mensagens diretas e conteúdo literário gerado pelo usuário;",
+              "Histórico de compras e assinaturas, e preferências de registro de pagamentos;",
+              "Comunicações com o suporte ao cliente e dados básicos de verificação de conta."
             ]
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "2.2 Device Permissions"
+            "text": "2.2 Permissões do Dispositivo"
           },
           {
             "t": "p",
-            "text": "Depending on the features you use, FANG may request access to your device’s camera, photo library, storage, and push notifications. You may choose to deny these permissions, though some platform features may become unavailable."
+            "text": "Dependendo dos recursos que você utiliza, a FANG pode solicitar acesso à câmera, biblioteca de fotos, armazenamento e notificações push do seu dispositivo. Você pode optar por negar essas permissões, embora algumas funcionalidades da plataforma possam ficar indisponíveis."
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "2.3 Information Collected Automatically"
+            "text": "2.3 Informações Coletadas Automaticamente"
           },
           {
             "t": "p",
-            "text": "When you interact with our Services, we automatically collect:"
+            "text": "Ao interagir com nossos Serviços, coletamos automaticamente:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Device type, hardware model, browser version, and operating system;",
-              "Application version and unique device identifiers;",
-              "IP address, language settings, and local time zone;",
-              "Reading activity, preferences, view timestamps, and book interaction statistics;",
-              "Crash reports, system diagnostics, and account log dates."
+              "Tipo de dispositivo, modelo de hardware, versão do navegador e sistema operacional;",
+              "Versão do aplicativo e identificadores exclusivos do dispositivo;",
+              "Endereço IP, configurações de idioma e fuso horário local;",
+              "Atividade de leitura, preferências, registros de data e hora de visualização e estatísticas de interação com livros;",
+              "Relatórios de falhas, diagnósticos do sistema e datas de acesso à conta."
             ]
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "2.4 Information from Third Parties"
+            "text": "2.4 Informações de Terceiros"
           },
           {
             "t": "p",
-            "text": "If you sign in or link your account through third-party services such as Apple, Google, Facebook, or X (Twitter), we may receive your username, email address, profile information, and basic authentication details from those systems."
+            "text": "Se você entrar ou vincular sua conta por meio de serviços de terceiros, como Apple, Google, Facebook ou X (Twitter), podemos receber seu nome de usuário, endereço de e-mail, informações de perfil e dados básicos de autenticação desses sistemas."
           }
         ]
       },
@@ -983,132 +983,23 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "3. How We Use Information"
+            "text": "3. Como Usamos as Informações"
           },
           {
             "t": "p",
-            "text": "We process your personal information to fulfill our business services, including to:"
+            "text": "Processamos suas informações pessoais para cumprir nossos serviços comerciais, incluindo para:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Create, manage, and secure user and creator accounts;",
-              "Provide, maintain, and optimize platform functionality;",
-              "Personalize reading recommendations and content discovery tracking;",
-              "Securely process coin purchases, premium subscriptions, and creator payouts;",
-              "Deliver responsive customer support and technical troubleshooting;",
-              "Detect, investigate, and prevent fraud, platform abuse, spam, or security risks;",
-              "Ensure full compliance with relevant tax regulations, anti-money laundering (AML) laws, and legal mandates."
-            ]
-          }
-        ]
-      },
-      {
-        "t": "div",
-        "cls": "space-y-3",
-        "blocks": [
-          {
-            "t": "h2",
-            "cls": "font-bold text-xl",
-            "text": "4. Recommendations and Advertising"
-          },
-          {
-            "t": "p",
-            "text": "FANG uses data activity to recommend relevant stories, optimize creator visibility, and measure advertising performance. We may work with verified analytics and advertising partners who utilize cookies or SDKs to help evaluate platform trends. Where legally mandated by regional privacy laws, we will explicitly obtain your consent before processing data for target-advertising tracks."
-          }
-        ]
-      },
-      {
-        "t": "div",
-        "cls": "space-y-3",
-        "blocks": [
-          {
-            "t": "h2",
-            "cls": "font-bold text-xl",
-            "text": "5. Cookies and Similar Technologies"
-          },
-          {
-            "t": "p",
-            "text": "We use cookies, web beacons, and mobile SDKs to keep users safely signed in, remember system preferences, analyze user engagement, and support marketing tracking. You can manage or disable cookies through your browser settings, though doing so may prevent certain e-commerce and login features from functioning properly."
-          }
-        ]
-      },
-      {
-        "t": "div",
-        "cls": "space-y-3",
-        "blocks": [
-          {
-            "t": "h2",
-            "cls": "font-bold text-xl",
-            "text": "6. Sharing of Information"
-          },
-          {
-            "t": "p",
-            "text": "FANG does not sell personal information. We only disclose information under the following corporate guidelines:"
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "6.1 Service Providers and Platform Partners"
-          },
-          {
-            "t": "p",
-            "text": "We share data with verified third-party vendors who assist our core operations, including cloud hosting providers, analytics systems, communication tools, and our merchant payment infrastructure partners (such as Stripe and PayPal)."
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "6.2 Legal Compliance and Platform Protection"
-          },
-          {
-            "t": "p",
-            "text": "We may disclose information where required to comply with court orders, enforce our Terms of Service, defend against legal liabilities, protect public safety, or secure our infrastructure against active fraudulent or cyber threats."
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "6.3 Business Transfers"
-          },
-          {
-            "t": "p",
-            "text": "In the event of a corporate merger, acquisition, structural reorganization, or asset sale, user database information may be transferred as a part of standard corporate assets."
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "6.4 Public Platform Content"
-          },
-          {
-            "t": "p",
-            "text": "Information you intentionally place on public areas of the application including your username, public profile pictures, published novels, comments, book reviews, and community posts is visible to all users across the FANG ecosystem."
-          }
-        ]
-      },
-      {
-        "t": "div",
-        "cls": "space-y-3",
-        "blocks": [
-          {
-            "t": "h2",
-            "cls": "font-bold text-xl",
-            "text": "7. Payment Information"
-          },
-          {
-            "t": "p",
-            "text": "All commercial financial transactions are handled securely by authorized third-party payment gateways, including Apple App Store, Google Play, Stripe, and PayPal. FANG operates on a marketplace structure where consumer coin sales occur on fangapp.io and creator tools are managed separately through FangWriters.com."
-          },
-          {
-            "t": "p",
-            "text": "FANG does not store full credit card or bank account details on our servers. For accounting, fraud prevention, and audit tracking, we securely maintain:"
-          },
-          {
-            "t": "ul",
-            "cls": "list-disc pl-6 space-y-1",
-            "items": [
-              "Numerical transaction IDs and reference keys;",
-              "Platform purchase and subscription records;",
-              "Timestamps and order amounts."
+              "Criar, gerenciar e proteger contas de usuários e criadores;",
+              "Fornecer, manter e otimizar a funcionalidade da plataforma;",
+              "Personalizar recomendações de leitura e acompanhar a descoberta de conteúdo;",
+              "Processar com segurança compras de moedas, assinaturas premium e pagamentos a criadores;",
+              "Oferecer suporte ao cliente responsivo e solução de problemas técnicos;",
+              "Detectar, investigar e prevenir fraudes, abuso da plataforma, spam ou riscos de segurança;",
+              "Garantir total conformidade com as regulamentações fiscais relevantes, leis de combate à lavagem de dinheiro (AML) e exigências legais."
             ]
           }
         ]
@@ -1120,11 +1011,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "8. Data Retention"
+            "text": "4. Recomendações e Publicidade"
           },
           {
             "t": "p",
-            "text": "We retain personal data only as long as necessary to provide platform availability, manage active accounts, resolve disputes, prevent ongoing fraud, or satisfy federal financial and legal reporting criteria."
+            "text": "A FANG utiliza dados de atividade para recomendar histórias relevantes, otimizar a visibilidade dos criadores e medir o desempenho publicitário. Podemos trabalhar com parceiros de análise e publicidade verificados que utilizam cookies ou SDKs para ajudar a avaliar as tendências da plataforma. Quando exigido legalmente por leis regionais de privacidade, obteremos expressamente seu consentimento antes de processar dados para fins de publicidade direcionada."
           }
         ]
       },
@@ -1135,11 +1026,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "9. Account Deletion and User Rights"
+            "text": "5. Cookies e Tecnologias Similares"
           },
           {
             "t": "p",
-            "text": "You can request full account deletion at any time through available in-app software settings or by emailing support@fangapp.io. Please note that certain historical transaction data and ledger values may be permanently archived due to strict tax and legal auditing obligations. Deleting an account will immediately permanently terminate access to your purchased coin balances and premium digital libraries. Depending on your physical jurisdiction (such as under GDPR or CCPA frameworks), you have the right to access, correct, or completely delete your personal information, withdraw data consent, or restrict specific processing tracks."
+            "text": "Utilizamos cookies, web beacons e SDKs móveis para manter os usuários conectados com segurança, lembrar preferências do sistema, analisar o engajamento do usuário e apoiar o rastreamento de marketing. Você pode gerenciar ou desativar os cookies nas configurações do seu navegador, embora isso possa impedir que determinados recursos de comércio eletrônico e de login funcionem corretamente."
           }
         ]
       },
@@ -1150,11 +1041,47 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "10. International Data Transfers"
+            "text": "6. Compartilhamento de Informações"
           },
           {
             "t": "p",
-            "text": "FANG operates via globally distributed cloud servers, with primary operations running in the United States. By utilizing our services, you acknowledge that your personal information may be transferred and securely processed outside of your home country under data protection regulations that may vary from your local laws."
+            "text": "A FANG não vende informações pessoais. Só divulgamos informações de acordo com as seguintes diretrizes corporativas:"
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "6.1 Prestadores de Serviço e Parceiros da Plataforma"
+          },
+          {
+            "t": "p",
+            "text": "Compartilhamos dados com fornecedores terceiros verificados que auxiliam nossas operações principais, incluindo provedores de hospedagem em nuvem, sistemas de análise, ferramentas de comunicação e nossos parceiros de infraestrutura de pagamento (como Stripe e PayPal)."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "6.2 Conformidade Legal e Proteção da Plataforma"
+          },
+          {
+            "t": "p",
+            "text": "Podemos divulgar informações quando exigido para cumprir ordens judiciais, aplicar nossos Termos de Serviço, nos defender contra responsabilidades legais, proteger a segurança pública ou proteger nossa infraestrutura contra ameaças cibernéticas ou fraudulentas ativas."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "6.3 Transferências Comerciais"
+          },
+          {
+            "t": "p",
+            "text": "Em caso de fusão corporativa, aquisição, reorganização estrutural ou venda de ativos, as informações do banco de dados de usuários podem ser transferidas como parte dos ativos corporativos padrão."
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "6.4 Conteúdo Público da Plataforma"
+          },
+          {
+            "t": "p",
+            "text": "As informações que você coloca intencionalmente em áreas públicas do aplicativo, incluindo seu nome de usuário, fotos de perfil públicas, romances publicados, comentários, avaliações de livros e postagens na comunidade, são visíveis para todos os usuários do ecossistema FANG."
           }
         ]
       },
@@ -1165,11 +1092,24 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "11. Security Protection"
+            "text": "7. Informações de Pagamento"
           },
           {
             "t": "p",
-            "text": "We implement administrative, technical, and physical security measures to guard your information against unauthorized access, loss, or manipulation. However, no method of data transmission across the internet can be guaranteed as 100% secure. You hold full responsibility for protecting your individual login profile credentials."
+            "text": "Todas as transações financeiras comerciais são processadas de forma segura por gateways de pagamento de terceiros autorizados, incluindo Apple App Store, Google Play, Stripe e PayPal. A FANG opera em uma estrutura de marketplace, onde as vendas de moedas aos consumidores ocorrem em fangapp.io e as ferramentas de criadores são gerenciadas separadamente por meio do FangWriters.com."
+          },
+          {
+            "t": "p",
+            "text": "A FANG não armazena dados completos de cartão de crédito ou conta bancária em nossos servidores. Para fins de contabilidade, prevenção de fraudes e auditoria, mantemos de forma segura:"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "IDs numéricos de transação e chaves de referência;",
+              "Registros de compras e assinaturas da plataforma;",
+              "Registros de data e hora e valores dos pedidos."
+            ]
           }
         ]
       },
@@ -1180,11 +1120,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "12. Children’s Privacy"
+            "text": "8. Retenção de Dados"
           },
           {
             "t": "p",
-            "text": "FANG is strictly an adult web novel platform. In full alignment with our Terms of Use, the Service is not directed toward or intended for children under the age of 18. We do not knowingly collect information from minors. If a parent or guardian believes data has been processed improperly, contact us immediately at support@fangapp.io."
+            "text": "Retemos dados pessoais apenas pelo tempo necessário para garantir a disponibilidade da plataforma, gerenciar contas ativas, resolver disputas, prevenir fraudes em andamento ou atender a critérios federais de relatórios financeiros e legais."
           }
         ]
       },
@@ -1195,11 +1135,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "13. Third-Party Services"
+            "text": "9. Exclusão de Conta e Direitos do Usuário"
           },
           {
             "t": "p",
-            "text": "Our Services natively interface with external systems, websites, or application links (such as developer tracking links and creator platforms like FangWriters.com). FANG holds no operational responsibility for the distinct privacy policies or data practices managed by third-party systems."
+            "text": "Você pode solicitar a exclusão completa da sua conta a qualquer momento por meio das configurações disponíveis no aplicativo ou enviando um e-mail para support@fangapp.io. Observe que determinados dados históricos de transações e valores de registro podem ser arquivados permanentemente devido a obrigações rigorosas de auditoria fiscal e legal. A exclusão de uma conta encerrará imediata e permanentemente o acesso aos seus saldos de moedas adquiridas e bibliotecas digitais premium. Dependendo da sua jurisdição física (como sob os marcos do GDPR ou CCPA), você tem o direito de acessar, corrigir ou excluir completamente suas informações pessoais, retirar o consentimento de dados ou restringir atividades de processamento específicas."
           }
         ]
       },
@@ -1210,11 +1150,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "14. Marketing and Communication Alerts"
+            "text": "10. Transferências Internacionais de Dados"
           },
           {
             "t": "p",
-            "text": "We may occasionally distribute service announcements, strict security warnings, database platform updates, and optional promotional email newsletters. You can easily opt out of promotional newsletters at any time by clicking the “Unsubscribe” links provided in our footers."
+            "text": "A FANG opera por meio de servidores em nuvem distribuídos globalmente, com operações principais nos Estados Unidos. Ao utilizar nossos serviços, você reconhece que suas informações pessoais podem ser transferidas e processadas com segurança fora do seu país de origem, sob regulamentações de proteção de dados que podem variar das leis locais."
           }
         ]
       },
@@ -1225,11 +1165,71 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "15. Changes to This Privacy Policy"
+            "text": "11. Proteção de Segurança"
           },
           {
             "t": "p",
-            "text": "We reserve the right to modify this Privacy Policy at any time. If material alterations occur, we will notify our community via prominent in-app update warnings, website layout announcements, or direct email alerts."
+            "text": "Implementamos medidas de segurança administrativas, técnicas e físicas para proteger suas informações contra acesso não autorizado, perda ou manipulação. No entanto, nenhum método de transmissão de dados pela internet pode ser garantido como 100% seguro. Você é totalmente responsável por proteger as credenciais do seu perfil de login individual."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "12. Privacidade de Menores"
+          },
+          {
+            "t": "p",
+            "text": "A FANG é estritamente uma plataforma de romances web para adultos. Em plena conformidade com nossos Termos de Uso, o Serviço não é direcionado nem destinado a crianças com menos de 18 anos. Não coletamos intencionalmente informações de menores. Se um responsável acreditar que os dados foram processados de forma inadequada, contate-nos imediatamente em support@fangapp.io."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "13. Serviços de Terceiros"
+          },
+          {
+            "t": "p",
+            "text": "Nossos Serviços se conectam nativamente a sistemas externos, sites ou links de aplicativos (como links de rastreamento de desenvolvedores e plataformas de criadores como FangWriters.com). A FANG não possui qualquer responsabilidade operacional pelas políticas de privacidade distintas ou práticas de dados gerenciadas por sistemas de terceiros."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "14. Avisos de Marketing e Comunicação"
+          },
+          {
+            "t": "p",
+            "text": "Podemos ocasionalmente enviar anúncios de serviço, avisos de segurança importantes, atualizações da plataforma e boletins promocionais opcionais por e-mail. Você pode facilmente cancelar a inscrição nos boletins promocionais a qualquer momento clicando nos links de «Cancelar inscrição» fornecidos em nossos rodapés."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "15. Alterações a esta Política de Privacidade"
+          },
+          {
+            "t": "p",
+            "text": "Reservamo-nos o direito de modificar esta Política de Privacidade em qualquer momento. Se ocorrerem alterações materiais, notificaremos nossa comunidade por meio de avisos destacados de atualização no aplicativo, anúncios no layout do site ou alertas diretos por e-mail."
           }
         ]
       },
@@ -1240,11 +1240,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "16. Contact Us"
+            "text": "16. Fale Conosco"
           },
           {
             "t": "p",
-            "text": "If you have questions, requests, or concerns regarding this Privacy Policy or your information, please contact:"
+            "text": "Se você tiver dúvidas, solicitações ou preocupações sobre esta Política de Privacidade ou suas informações, entre em contato:"
           },
           {
             "t": "p",
@@ -1260,15 +1260,15 @@
           },
           {
             "t": "p",
-            "text": "United States"
+            "text": "Estados Unidos"
           },
           {
             "t": "p",
-            "text": "Support: support@fangapp.io"
+            "text": "Suporte: support@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Legal: legal@fangapp.io"
+            "text": "Jurídico: legal@fangapp.io"
           },
           {
             "t": "p",
@@ -1280,7 +1280,7 @@
     ]
   },
   "refund": {
-    "title": "Refund Policy",
+    "title": "Política de Reembolso",
     "blocks": [
       {
         "t": "div",
@@ -1293,15 +1293,15 @@
           },
           {
             "t": "p",
-            "text": "Effective Date: August 18, 2026"
+            "text": "Data de vigência: 18 de agosto de 2026"
           },
           {
             "t": "p",
-            "text": "Thank you for supporting writers and creators on FANG. The FANG platform is operated by IFO DIGITAL MEDIA, LLC."
+            "text": "Agradecemos por apoiar escritores e criadores na FANG. A plataforma FANG é operada pela IFO DIGITAL MEDIA, LLC."
           },
           {
             "t": "p",
-            "text": "This Refund Policy outlines the professional financial parameters governing all virtual currency transactions and digital VIP memberships completed across the FANG platform ecosystem. By initiating any transaction or premium purchase on our platform, you explicitly acknowledge and agree to the comprehensive terms outlined below."
+            "text": "Esta Política de Reembolso descreve os parâmetros financeiros profissionais que regem todas as transações de moeda virtual e assinaturas VIP digitais realizadas em todo o ecossistema da plataforma FANG. Ao iniciar qualquer transação ou compra premium em nossa plataforma, você reconhece e concorda expressamente com os termos abrangentes descritos abaixo."
           }
         ]
       },
@@ -1312,31 +1312,31 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "1. Terms of Sale for Virtual Currency (Coins)"
+            "text": "1. Termos de Venda para Moeda Virtual (Moedas)"
           },
           {
             "t": "p",
-            "text": "FANG utilizes digital currency (“Coins”) to enable users to systematically unlock premium chapters, exclusive stories, and specialized platform features."
+            "text": "A FANG utiliza moeda digital («Moedas») para permitir que os usuários desbloqueiem sistematicamente capítulos premium, histórias exclusivas e recursos especializados da plataforma."
           },
           {
             "t": "p",
-            "text": "Finality of Sale: All virtual currency bundle purchases completed on our web portal or mobile applications are absolute, permanent, instant, and entirely non-refundable."
+            "text": "Caráter definitivo da venda: Todas as compras de pacotes de moeda virtual realizadas em nosso portal web ou aplicativos móveis são absolutas, permanentes, instantâneas e totalmente não reembolsáveis."
           },
           {
             "t": "p",
-            "text": "No Cash Value: Coins possess zero real-world monetary value, are completely non-transferable, and can never be exchanged, redeemed, or reversed for fiat cash or external financial credit."
+            "text": "Sem valor em dinheiro: As Moedas não possuem valor monetário no mundo real, são completamente intransferíveis e nunca podem ser trocadas, resgatadas ou revertidas por dinheiro ou crédito financeiro externo."
           },
           {
             "t": "p",
-            "text": "Instant Consumption Waiver: Digital coin top-ups deliver immediate database utility. The exact second Coins are credited to your user wallet profile, the contract of sale is fulfilled in its entirety. You explicitly waive any statutory right of withdrawal, consumer cooling-off periods, or transaction cancellations."
+            "text": "Renúncia por consumo instantâneo: As recargas digitais de moedas fornecem utilidade imediata no banco de dados. No exato momento em que as Moedas são creditadas no seu perfil de carteira de usuário, o contrato de venda é integralmente cumprido. Você renuncia expressamente a qualquer direito legal de desistência, período de reflexão do consumidor ou cancelamento da transação."
           },
           {
             "t": "p",
-            "text": "User Error Protection: FANG does not issue refunds, replacements, or account credits for Coins purchased accidentally, Coins spent unlocking chapters inadvertently, or balances lost due to credentials compromised via user negligence."
+            "text": "Proteção contra erro do usuário: A FANG não emite reembolsos, substituições ou créditos de conta para Moedas compradas acidentalmente, Moedas gastas inadvertidamente para desbloquear capítulos, ou saldos perdidos devido a credenciais comprometidas por negligência do usuário."
           },
           {
             "t": "p",
-            "text": "Exceptional Technical Failures: If a verifiable payment infrastructure failure occurs where funds are successfully cleared from your payment card but digital Coins are not delivered due to a database glitch, you must contact support@fangapp.io within forty-eight (48) hours with verified transaction logs. FANG reserves the right, at its sole discretion, to credit replacement digital Coins after account audit completion."
+            "text": "Falhas técnicas excepcionais: Se ocorrer uma falha verificável na infraestrutura de pagamento, na qual os valores sejam debitados com sucesso do seu cartão de pagamento, mas as Moedas digitais não forem entregues devido a uma falha no banco de dados, você deve contatar support@fangapp.io dentro de quarenta e oito (48) horas com os registros de transação verificados. A FANG reserva-se o direito, a seu exclusivo critério, de creditar Moedas digitais substitutas após a conclusão da auditoria da conta."
           }
         ]
       },
@@ -1347,27 +1347,27 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "2. Digital VIP Memberships and Billing Cycles"
+            "text": "2. Assinaturas VIP Digitais e Ciclos de Cobrança"
           },
           {
             "t": "p",
-            "text": "FANG offers recurring weekly & monthly subscription options providing premium platform access."
+            "text": "A FANG oferece opções de assinatura recorrente semanal e mensal, proporcionando acesso premium à plataforma."
           },
           {
             "t": "p",
-            "text": "No Prorated Credits: We do not issue prorated refunds or partial credits for unused days within an active monthly billing period."
+            "text": "Sem créditos proporcionais: Não emitimos reembolsos proporcionais ou créditos parciais para dias não utilizados dentro de um período de cobrança mensal ativo."
           },
           {
             "t": "p",
-            "text": "Cancellation Parameters: You may cancel your VIP subscription at any time through your respective Apple account settings, Google Play settings, or website account settings. Deleting the FANG application from your device does not cancel your recurring subscription."
+            "text": "Parâmetros de cancelamento: Você pode cancelar sua assinatura VIP a qualquer momento por meio das configurações da sua conta Apple, das configurações do Google Play ou das configurações da conta no site. Excluir o aplicativo FANG do seu dispositivo não cancela sua assinatura recorrente."
           },
           {
             "t": "p",
-            "text": "App Deletion Rules: Uninstalling or deleting the FANG application from your device does not cancel or suspend your active recurring VIP billing configuration."
+            "text": "Regras de exclusão do aplicativo: Desinstalar ou excluir o aplicativo FANG do seu dispositivo não cancela ou suspende sua configuração de cobrança VIP recorrente ativa."
           },
           {
             "t": "p",
-            "text": "Access Preservation: Upon successful cancellation, premium VIP features will remain active on your profile until the conclusion of the current paid billing cycle."
+            "text": "Preservação do acesso: Após o cancelamento bem-sucedido, os recursos premium VIP permanecerão ativos no seu perfil até a conclusão do ciclo de cobrança pago atual."
           }
         ]
       },
@@ -1378,23 +1378,23 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "3. Payment Integrity and Account Verification"
+            "text": "3. Integridade de Pagamento e Verificação de Conta"
           },
           {
             "t": "p",
-            "text": "To safeguard our payment systems and protect our network against fraudulent activity, FANG enforces strict transaction verification standards:"
+            "text": "Para proteger nossos sistemas de pagamento e nossa rede contra atividades fraudulentas, a FANG aplica padrões rigorosos de verificação de transações:"
           },
           {
             "t": "p",
-            "text": "Account Suspension Flags: If an official transaction dispute, chargeback request, or payment reversal is initiated through a credit card issuer or bank without first utilizing our dedicated internal support channel, our platform systems reserve the right to immediately suspend or permanently close the associated user account."
+            "text": "Indicadores de suspensão de conta: Se uma disputa formal de transação, solicitação de contestação ou reversão de pagamento for iniciada por meio de uma emissora de cartão de crédito ou banco sem primeiro utilizar nosso canal interno dedicado de suporte, nossos sistemas de plataforma reservam-se o direito de suspender imediatamente ou encerrar permanentemente a conta de usuário associada."
           },
           {
             "t": "p",
-            "text": "Forfeiture of Ledger Data: In the event of an account closure resulting from billing abuse, all remaining virtual Coin balances, accumulated promotional bonuses, unlocked reading access records, and account data histories are instantly and permanently forfeited."
+            "text": "Perda de dados de registro: Em caso de encerramento de conta resultante de abuso de cobrança, todos os saldos de Moedas virtuais restantes, bônus promocionais acumulados, registros de acesso de leitura desbloqueados e históricos de dados da conta são perdidos de forma imediata e permanente."
           },
           {
             "t": "p",
-            "text": "Hardware Restrictions: To preserve platform infrastructure integrity, FANG reserves the right to programmatically block related hardware device IDs and associated network addresses involved in repeated transaction disputes."
+            "text": "Restrições de hardware: Para preservar a integridade da infraestrutura da plataforma, a FANG reserva-se o direito de bloquear automaticamente os IDs de dispositivos de hardware relacionados e os endereços de rede associados envolvidos em disputas de transação repetidas."
           }
         ]
       },
@@ -1405,15 +1405,15 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "4. Jurisdiction-Specific Consumer Provisions"
+            "text": "4. Disposições para Consumidores Específicas por Jurisdição"
           },
           {
             "t": "p",
-            "text": "Certain global regions enforce mandatory statutory protections regarding digital software and consumption content transactions. If consumer protection laws in your local jurisdiction legally override our standard platform policy, our direct refund liability will strictly adapt to the absolute minimum parameters required by those regional mandates."
+            "text": "Certas regiões globais aplicam proteções legais obrigatórias relacionadas a transações de software digital e conteúdo de consumo. Se as leis de proteção ao consumidor na sua jurisdição local legalmente substituírem nossa política padrão da plataforma, nossa responsabilidade direta de reembolso se adaptará estritamente aos parâmetros mínimos absolutos exigidos por essas determinações regionais."
           },
           {
             "t": "p",
-            "text": "Note: Any purchase cleared through the Apple App Store or Google Play Store payment infrastructures must be handled directly through their respective platform support desks, in accordance with their individual consumer refund guidelines."
+            "text": "Observação: Qualquer compra processada por meio das infraestruturas de pagamento da Apple App Store ou Google Play Store deve ser tratada diretamente por meio dos respectivos canais de suporte dessas plataformas, de acordo com suas próprias diretrizes de reembolso ao consumidor."
           }
         ]
       },
@@ -1424,11 +1424,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "5. Policy Updates"
+            "text": "5. Atualizações da Política"
           },
           {
             "t": "p",
-            "text": "FANG reserves the right to modify or replace this Refund Policy at any time. Continued use of our primary domain or application features following the publication of any text amendments constitutes official acceptance of the updated terms."
+            "text": "A FANG reserva-se o direito de modificar ou substituir esta Política de Reembolso em qualquer momento. O uso continuado do nosso domínio principal ou dos recursos do aplicativo após a publicação de quaisquer alterações de texto constitui aceitação oficial dos termos atualizados."
           }
         ]
       },
@@ -1439,11 +1439,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "6. Corporate Contact Information"
+            "text": "6. Informações de Contato Corporativo"
           },
           {
             "t": "p",
-            "text": "For operational questions regarding missing delivery data or platform technical bugs, please contact our legal and support structures directly."
+            "text": "Para questões operacionais relacionadas a dados de entrega ausentes ou falhas técnicas da plataforma, entre em contato diretamente com nossas estruturas jurídica e de suporte."
           },
           {
             "t": "p",
@@ -1459,15 +1459,15 @@
           },
           {
             "t": "p",
-            "text": "United States"
+            "text": "Estados Unidos"
           },
           {
             "t": "p",
-            "text": "Customer Support: support@fangapp.io"
+            "text": "Atendimento ao cliente: support@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Legal Infrastructure: legal@fangapp.io"
+            "text": "Departamento Jurídico: legal@fangapp.io"
           },
           {
             "t": "p",
@@ -1479,7 +1479,7 @@
     ]
   },
   "terms": {
-    "title": "Terms of Use and Service",
+    "title": "Termos de Uso e Serviço",
     "blocks": [
       {
         "t": "div",
@@ -1492,7 +1492,7 @@
           },
           {
             "t": "p",
-            "text": "Effective Date: August 18, 2026"
+            "text": "Data de vigência: 18 de agosto de 2026"
           }
         ]
       },
@@ -1503,19 +1503,19 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "1. Acceptance of Terms"
+            "text": "1. Aceitação dos Termos"
           },
           {
             "t": "p",
-            "text": "These Terms of Use and Service (“Terms”) govern your access to and use of the FANG platform, including the FANG mobile application, website, writer portal, content, tools, services, and related features (collectively, the “Service”)."
+            "text": "Estes Termos de Uso e Serviço («Termos») regem seu acesso e uso da plataforma FANG, incluindo o aplicativo móvel FANG, o site, o portal de escritores, conteúdo, ferramentas, serviços e recursos relacionados (coletivamente, o «Serviço»)."
           },
           {
             "t": "p",
-            "text": "The Service is operated by IFO DIGITAL MEDIA, LLC (“FANG,” “we,” “us,” or “our”)."
+            "text": "O Serviço é operado pela IFO DIGITAL MEDIA, LLC («FANG», «nós» ou «nos»)."
           },
           {
             "t": "p",
-            "text": "By accessing or using the Service, you agree to these Terms and our Privacy Policy. If you do not agree to these Terms, you must discontinue use of the Service immediately. We may update or modify these Terms from time to time. Continued use of the Service after changes become effective constitutes acceptance of the revised Terms."
+            "text": "Ao acessar ou usar o Serviço, você concorda com estes Termos e com nossa Política de Privacidade. Se você não concordar com estes Termos, deve interromper imediatamente o uso do Serviço. Podemos atualizar ou modificar estes Termos periodicamente. O uso continuado do Serviço após a entrada em vigor das alterações constitui aceitação dos Termos revisados."
           }
         ]
       },
@@ -1526,7 +1526,7 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "2. Company Information"
+            "text": "2. Informações da Empresa"
           },
           {
             "t": "p",
@@ -1542,15 +1542,15 @@
           },
           {
             "t": "p",
-            "text": "United States"
+            "text": "Estados Unidos"
           },
           {
             "t": "p",
-            "text": "Support: support@fangapp.io"
+            "text": "Suporte: support@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Legal: legal@fangapp.io"
+            "text": "Jurídico: legal@fangapp.io"
           }
         ]
       },
@@ -1561,28 +1561,28 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "3. Eligibility"
+            "text": "3. Elegibilidade"
           },
           {
             "t": "p",
-            "text": "FANG is an online storytelling and reading platform that allows users to read, publish, and interact with digital literary content. You must be at least 18 years old or legal majority in your jurisdiction to use the Service."
+            "text": "A FANG é uma plataforma online de narrativas e leitura que permite que os usuários leiam, publiquem e interajam com conteúdo literário digital. Você deve ter pelo menos 18 anos de idade, ou a maioridade legal da sua jurisdição, para usar o Serviço."
           },
           {
             "t": "p",
-            "text": "By using the Service, you represent and warrant that:"
+            "text": "Ao usar o Serviço, você declara e garante que:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "You are legally capable of entering binding agreements;",
-              "You comply with applicable laws and regulations;",
-              "You have not previously been suspended or permanently banned from FANG."
+              "Você é legalmente capaz de celebrar acordos vinculantes;",
+              "Você cumpre as leis e regulamentações aplicáveis;",
+              "Você não foi anteriormente suspenso ou banido permanentemente da FANG."
             ]
           },
           {
             "t": "p",
-            "text": "You must be at least 18 years old, or the age of legal majority in your jurisdiction, to use the Service."
+            "text": "Você deve ter pelo menos 18 anos de idade, ou a maioridade legal da sua jurisdição, para usar o Serviço."
           }
         ]
       },
@@ -1593,41 +1593,41 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "4. Accounts and Registration"
+            "text": "4. Contas e Cadastro"
           },
           {
             "t": "p",
-            "text": "Some features of the Service require account registration. You agree to provide accurate and current information and keep your account information updated."
+            "text": "Alguns recursos do Serviço exigem o cadastro de uma conta. Você concorda em fornecer informações precisas e atuais e manter as informações da sua conta atualizadas."
           },
           {
             "t": "p",
-            "text": "You are responsible for:"
+            "text": "Você é responsável por:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Maintaining the confidentiality of your login credentials;",
-              "Activities occurring under your account;",
-              "Any unauthorized use resulting from failure to secure your account."
+              "Manter a confidencialidade de suas credenciais de login;",
+              "Atividades realizadas em sua conta;",
+              "Qualquer uso não autorizado resultante da falha em proteger sua conta."
             ]
           },
           {
             "t": "p",
-            "text": "You may not:"
+            "text": "Você não pode:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Sell or transfer your account;",
-              "Impersonate another person;",
-              "Create accounts using false information."
+              "Vender ou transferir sua conta;",
+              "Se passar por outra pessoa;",
+              "Criar contas usando informações falsas."
             ]
           },
           {
             "t": "p",
-            "text": "FANG reserves the right to suspend or terminate accounts that violate these Terms."
+            "text": "A FANG reserva-se o direito de suspender ou encerrar contas que violem estes Termos."
           }
         ]
       },
@@ -1638,117 +1638,52 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "5. Coins, Payments, and Subscriptions"
+            "text": "5. Moedas, Pagamentos e Assinaturas"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "5.1 Coins and Virtual Currency"
+            "text": "5.1 Moedas e Moeda Virtual"
           },
           {
             "t": "p",
-            "text": "FANG may offer virtual currency (“Coins”) used to unlock stories, chapters, premium content, or platform features."
+            "text": "A FANG pode oferecer moeda virtual («Moedas») usada para desbloquear histórias, capítulos, conteúdo premium ou recursos da plataforma."
           },
           {
             "t": "p",
-            "text": "Coins may be obtained through:"
+            "text": "As Moedas podem ser obtidas por meio de:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Purchases;",
-              "Promotional campaigns;",
-              "Reward systems;",
-              "Advertising incentives."
+              "Compras;",
+              "Campanhas promocionais;",
+              "Sistemas de recompensa;",
+              "Incentivos publicitários."
             ]
           },
           {
             "t": "p",
-            "text": "Coins hold no cash value, are non-transferable, and are non-refundable except where required by law. FANG reserves the right to modify coin pricing, availability, or functionality at any time."
+            "text": "As Moedas não possuem valor em dinheiro, são intransferíveis e não reembolsáveis, exceto quando exigido por lei. A FANG reserva-se o direito de modificar o preço, a disponibilidade ou a funcionalidade das moedas em qualquer momento."
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "5.2 Subscriptions"
+            "text": "5.2 Assinaturas"
           },
           {
             "t": "p",
-            "text": "FANG may offer recurring subscription plans with premium benefits. Subscriptions automatically renew unless canceled before the renewal date. Payments may be processed through the Apple App Store, Google Play, Stripe, or other Authorized Payment providers."
-          },
-          {
-            "t": "p",
-            "cls": "font-semibold",
-            "text": "5.3 Cancellation and Refunds"
-          },
-          {
-            "t": "p",
-            "text": "Subscriptions may be canceled through Apple account Settings, Google Play Settings, FANG account settings, or by contacting support@fangapp.io. Deleting the app does not cancel subscriptions. All purchases are final unless otherwise required by applicable law or platform policies."
-          }
-        ]
-      },
-      {
-        "t": "div",
-        "cls": "space-y-3",
-        "blocks": [
-          {
-            "t": "h2",
-            "cls": "font-bold text-xl",
-            "text": "6. User Content"
-          },
-          {
-            "t": "p",
-            "text": "Users may upload stories, comments, reviews, images, and other materials (“User Content”). You retain ownership of your User Content. By uploading or publishing content on FANG, you grant FANG a worldwide, non-exclusive, royalty-free, sublicensable license to host, store, display, publish, reproduce, translate, adapt, promote, and distribute content solely for operation, improvement, marketing, and promotion of the Service. You are solely responsible for your User Content and the consequences of publishing it."
-          }
-        ]
-      },
-      {
-        "t": "div",
-        "cls": "space-y-3",
-        "blocks": [
-          {
-            "t": "h2",
-            "cls": "font-bold text-xl",
-            "text": "7. Prohibited Conduct and Acceptable Use Policy (AUP)"
-          },
-          {
-            "t": "p",
-            "text": "You strictly agree not to use the platform to upload, publish, link to, or share any content that:"
-          },
-          {
-            "t": "ul",
-            "cls": "list-disc pl-6 space-y-1",
-            "items": [
-              "Promotes, facilitates, or encourages violent extremism, terrorism, or hate speech;",
-              "Involves the unauthorized use of intellectual property (IP), including plagiarism, copyright infringement, pirated novels, or trademark violations;",
-              "Exploits or harms minors in any way;",
-              "Contains unlawful pornography or sexually explicit content;",
-              "Harasses, threatens, defames, or abuses others;",
-              "Contains malware, viruses, or malicious software code."
-            ]
-          },
-          {
-            "t": "p",
-            "text": "Furthermore, you agree not to:"
-          },
-          {
-            "t": "ul",
-            "cls": "list-disc pl-6 space-y-1",
-            "items": [
-              "Use bots, automated scripts, or scraping tools to access the service;",
-              "Reverse engineer, decompile, or interfere with platform functionality;",
-              "Circumvent any platform security or content protection measures;",
-              "Utilize the Service for unauthorized commercial activities."
-            ]
+            "text": "A FANG pode oferecer planos de assinatura recorrente com benefícios premium. As assinaturas renovam-se automaticamente, a menos que sejam canceladas antes da data de renovação. Os pagamentos podem ser processados por meio da Apple App Store, Google Play, Stripe ou outros provedores de pagamento autorizados."
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "7.1 Automated AUP Enforcement"
+            "text": "5.3 Cancelamento e Reembolsos"
           },
           {
             "t": "p",
-            "text": "We maintain a zero-tolerance policy for violations of this section. FANG utilizes automated, programmatic content detection software alongside active user-reporting mechanisms (“Report Book” features) to scan, monitor, and analyze content. We reserve the absolute right to automatically demonetize, restrict access to, hide, or permanently remove any user account or User Content that violates our Acceptable Use Policy without prior notice."
+            "text": "As assinaturas podem ser canceladas por meio das Configurações da conta Apple, Configurações do Google Play, configurações da conta FANG, ou entrando em contato com support@fangapp.io. Excluir o aplicativo não cancela as assinaturas. Todas as compras são definitivas, exceto quando exigido de outra forma pela lei aplicável ou pelas políticas da plataforma."
           }
         ]
       },
@@ -1759,11 +1694,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "8. Intellectual Property"
+            "text": "6. Conteúdo do Usuário"
           },
           {
             "t": "p",
-            "text": "All platform software, branding, logos, interfaces, graphics, and platform materials are owned by or licensed to FANG and are protected under applicable intellectual property laws. You may not reproduce, distribute, modify, or commercially exploit any portion of the Service without prior written permission from FANG. Copyright complaints and infringement claims are handled under the FANG Copyright Policy & DMCA Guidelines."
+            "text": "Os usuários podem enviar histórias, comentários, avaliações, imagens e outros materiais («Conteúdo do Usuário»). Você mantém a propriedade do seu Conteúdo do Usuário. Ao enviar ou publicar conteúdo na FANG, você concede à FANG uma licença mundial, não exclusiva, isenta de royalties e sublicenciável para hospedar, armazenar, exibir, publicar, reproduzir, traduzir, adaptar, promover e distribuir conteúdo exclusivamente para a operação, melhoria, marketing e promoção do Serviço. Você é o único responsável pelo seu Conteúdo do Usuário e pelas consequências de sua publicação."
           }
         ]
       },
@@ -1774,23 +1709,88 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "9. FangWriters Program"
+            "text": "7. Conduta Proibida e Política de Uso Aceitável (AUP)"
           },
           {
             "t": "p",
-            "text": "FANG operates a multi-entity marketplace framework. While readers interact with content on fangapp.io, independent creators and authors publish content, manage rights, and track monetization metrics exclusively via our dedicated writers platform located at FangWriters.com."
-          },
-          {
-            "t": "p",
-            "text": "Participation in our Writer Program or creator monetization tracks requires separate electronic agreements and compliance with specialized eligibility requirements. FANG retains absolute editorial discretion to:"
+            "text": "Você concorda estritamente em não usar a plataforma para enviar, publicar, criar links ou compartilhar qualquer conteúdo que:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Approve or reject writer application profiles;",
-              "Modify platform monetization parameters and coin allocation percentages;",
-              "Immediately suspend or remove stories that violate our platform safety standards or Acceptable Use Policy."
+              "Promova, facilite ou incentive extremismo violento, terrorismo ou discurso de ódio;",
+              "Envolva o uso não autorizado de propriedade intelectual (PI), incluindo plágio, violação de direitos autorais, romances pirateados ou violações de marca;",
+              "Explore ou prejudique menores de qualquer forma;",
+              "Contenha pornografia ilegal ou conteúdo sexualmente explícito;",
+              "Assedie, ameace, difame ou abuse de outras pessoas;",
+              "Contenha malware, vírus ou código de software malicioso."
+            ]
+          },
+          {
+            "t": "p",
+            "text": "Além disso, você concorda em não:"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Usar bots, scripts automatizados ou ferramentas de scraping para acessar o serviço;",
+              "Realizar engenharia reversa, descompilar ou interferir na funcionalidade da plataforma;",
+              "Contornar quaisquer medidas de segurança da plataforma ou de proteção de conteúdo;",
+              "Utilizar o Serviço para atividades comerciais não autorizadas."
+            ]
+          },
+          {
+            "t": "p",
+            "cls": "font-semibold",
+            "text": "7.1 Aplicação Automática da AUP"
+          },
+          {
+            "t": "p",
+            "text": "Mantemos uma política de tolerância zero para violações desta seção. A FANG utiliza software automático de detecção de conteúdo junto com mecanismos ativos de denúncia por usuários (recursos de «Denunciar Livro») para escanear, monitorar e analisar conteúdo. Reservamo-nos o direito absoluto de desmonetizar, restringir o acesso, ocultar ou remover permanentemente, de forma automática e sem aviso prévio, qualquer conta de usuário ou Conteúdo do Usuário que viole nossa Política de Uso Aceitável."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "8. Propriedade Intelectual"
+          },
+          {
+            "t": "p",
+            "text": "Todo o software da plataforma, identidade visual, logotipos, interfaces, gráficos e materiais da plataforma são de propriedade da FANG ou licenciados para a FANG, e são protegidos pelas leis de propriedade intelectual aplicáveis. Você não pode reproduzir, distribuir, modificar ou explorar comercialmente qualquer parte do Serviço sem a permissão prévia por escrito da FANG. Reclamações sobre direitos autorais e alegações de infração são tratadas de acordo com a Política de Direitos Autorais e as Diretrizes DMCA da FANG."
+          }
+        ]
+      },
+      {
+        "t": "div",
+        "cls": "space-y-3",
+        "blocks": [
+          {
+            "t": "h2",
+            "cls": "font-bold text-xl",
+            "text": "9. Programa FangWriters"
+          },
+          {
+            "t": "p",
+            "text": "A FANG opera uma estrutura de marketplace com múltiplas entidades. Enquanto os leitores interagem com o conteúdo em fangapp.io, criadores e autores independentes publicam conteúdo, gerenciam direitos e acompanham as métricas de monetização exclusivamente por meio da nossa plataforma dedicada para escritores, localizada em FangWriters.com."
+          },
+          {
+            "t": "p",
+            "text": "A participação em nosso Programa de Escritores ou nas trilhas de monetização de criadores requer acordos eletrônicos separados e conformidade com requisitos de elegibilidade especializados. A FANG mantém discrição editorial absoluta para:"
+          },
+          {
+            "t": "ul",
+            "cls": "list-disc pl-6 space-y-1",
+            "items": [
+              "Aprovar ou rejeitar perfis de candidatura de escritores;",
+              "Modificar os parâmetros de monetização da plataforma e os percentuais de alocação de moedas;",
+              "Suspender ou remover imediatamente histórias que violem nossos padrões de segurança da plataforma ou nossa Política de Uso Aceitável."
             ]
           }
         ]
@@ -1802,11 +1802,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "10. Privacy"
+            "text": "10. Privacidade"
           },
           {
             "t": "p",
-            "text": "Your use of the Service is also governed by the FANG Privacy Policy. By using the Service, you consent to the collection and use of information as described in the Privacy Policy."
+            "text": "O uso do Serviço também é regido pela Política de Privacidade da FANG. Ao usar o Serviço, você consente com a coleta e o uso de informações conforme descrito na Política de Privacidade."
           }
         ]
       },
@@ -1817,11 +1817,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "11. Third-Party Services"
+            "text": "11. Serviços de Terceiros"
           },
           {
             "t": "p",
-            "text": "The Service may contain links to third-party websites, services, advertisements, or payment providers. FANG is not responsible for the availability, content, products, or practices of third-party services. Your use of third-party services is at your own risk."
+            "text": "O Serviço pode conter links para sites, serviços, anúncios ou provedores de pagamento de terceiros. A FANG não é responsável pela disponibilidade, conteúdo, produtos ou práticas dos serviços de terceiros. O uso que você fizer dos serviços de terceiros é de sua exclusiva responsabilidade."
           }
         ]
       },
@@ -1832,11 +1832,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "12. Service Availability"
+            "text": "12. Disponibilidade do Serviço"
           },
           {
             "t": "p",
-            "text": "FANG may modify, suspend, limit, or discontinue any portion of the Service at any time. We do not guarantee uninterrupted or error-free operation of the Service. Temporary outages, maintenance interruptions, or technical failures may occur."
+            "text": "A FANG pode modificar, suspender, limitar ou descontinuar qualquer parte do Serviço em qualquer momento. Não garantimos a operação ininterrupta ou livre de erros do Serviço. Podem ocorrer interrupções temporárias, interrupções de manutenção ou falhas técnicas."
           }
         ]
       },
@@ -1847,11 +1847,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "13. Termination"
+            "text": "13. Rescisão"
           },
           {
             "t": "p",
-            "text": "FANG may suspend or terminate your access to the Service at any time for violations of these Terms, fraudulent activity, platform abuse, illegal conduct, or repeated copyright infringement. You may request account deletion at any time by contacting support@fangapp.io."
+            "text": "A FANG pode suspender ou encerrar seu acesso ao Serviço em qualquer momento por violações destes Termos, atividade fraudulenta, abuso da plataforma, conduta ilegal ou violação reiterada de direitos autorais. Você pode solicitar a exclusão da conta a qualquer momento entrando em contato com support@fangapp.io."
           }
         ]
       },
@@ -1862,11 +1862,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "14. Disclaimer"
+            "text": "14. Isenção de Responsabilidade"
           },
           {
             "t": "p",
-            "text": "THE SERVICE IS PROVIDED “AS IS” AND “AS AVAILABLE”. TO THE MAXIMUM EXTENT PERMITTED BY LAW, FANG DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, CONTINUOUS AVAILABILITY, SECURITY, OR ERROR-FREE OPERATION. USE OF THE SERVICE IS AT YOUR OWN RISK."
+            "text": "O SERVIÇO É FORNECIDO «COMO ESTÁ» E «CONFORME DISPONÍVEL». NA MÁXIMA EXTENSÃO PERMITIDA POR LEI, A FANG RENUNCIA A TODAS AS GARANTIAS, EXPRESSAS OU IMPLÍCITAS, INCLUINDO COMERCIABILIDADE, ADEQUAÇÃO A UM PROPÓSITO ESPECÍFICO, NÃO VIOLAÇÃO, DISPONIBILIDADE CONTÍNUA, SEGURANÇA OU OPERAÇÃO LIVRE DE ERROS. O USO DO SERVIÇO É DE SUA EXCLUSIVA RESPONSABILIDADE."
           }
         ]
       },
@@ -1877,11 +1877,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "15. Limitation of Liability"
+            "text": "15. Limitação de Responsabilidade"
           },
           {
             "t": "p",
-            "text": "TO THE MAXIMUM EXTENT PERMITTED BY LAW, FANG SHALL NOT BE LIABLE FOR INDIRECT, INCIDENTAL, CONSEQUENTIAL, OR SPECIAL DAMAGES, OR FOR LOSS OF PROFITS, LOSS OF DATA, OR BUSINESS INTERRUPTION. FANG’S TOTAL LIABILITY SHALL NOT EXCEED THE AMOUNT PAID BY YOU TO FANG DURING THE SIX MONTHS PRECEDING THE CLAIM."
+            "text": "NA MÁXIMA EXTENSÃO PERMITIDA POR LEI, A FANG NÃO SERÁ RESPONSÁVEL POR DANOS INDIRETOS, INCIDENTAIS, CONSEQUENCIAIS OU ESPECIAIS, NEM POR PERDA DE LUCROS, PERDA DE DADOS OU INTERRUPÇÃO DE NEGÓCIOS. A RESPONSABILIDADE TOTAL DA FANG NÃO EXCEDERÁ O VALOR PAGO POR VOCÊ À FANG DURANTE OS SEIS MESES ANTERIORES À RECLAMAÇÃO."
           }
         ]
       },
@@ -1892,11 +1892,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "16. Indemnification"
+            "text": "16. Indenização"
           },
           {
             "t": "p",
-            "text": "You agree to defend, indemnify, and hold harmless FANG, its affiliates, employees, partners, and licensors from claims, liabilities, damages, losses, and expenses arising from your use of the Service, your User Content, your violation of these Terms, or your violation of third-party rights."
+            "text": "Você concorda em defender, indenizar e isentar de responsabilidade a FANG, suas afiliadas, funcionários, parceiros e licenciantes de reclamações, responsabilidades, danos, perdas e despesas decorrentes do seu uso do Serviço, do seu Conteúdo do Usuário, da sua violação destes Termos ou da sua violação dos direitos de terceiros."
           }
         ]
       },
@@ -1907,11 +1907,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "17. Governing Law and Disputes"
+            "text": "17. Lei Aplicável e Disputas"
           },
           {
             "t": "p",
-            "text": "These Terms shall be governed by the laws of the State of Delaware, United States, without regard to conflict of law principles. Before initiating formal legal proceedings, you agree to attempt informal resolution by contacting legal@fangapp.io. To the maximum extent permitted by law, disputes shall be resolved individually, and class actions or class arbitrations are waived."
+            "text": "Estes Termos serão regidos pelas leis do Estado de Delaware, Estados Unidos, sem considerar princípios de conflito de leis. Antes de iniciar processos legais formais, você concorda em tentar uma resolução informal entrando em contato com legal@fangapp.io. Na máxima extensão permitida por lei, as disputas serão resolvidas individualmente, e ações coletivas ou arbitragens coletivas são renunciadas."
           }
         ]
       },
@@ -1922,11 +1922,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "18. Electronic Communications"
+            "text": "18. Comunicações Eletrônicas"
           },
           {
             "t": "p",
-            "text": "By using the Service, you consent to receive electronic communications from FANG. Electronic notices, agreements, and records satisfy legal communication requirements."
+            "text": "Ao usar o Serviço, você consente em receber comunicações eletrônicas da FANG. Avisos, acordos e registros eletrônicos atendem aos requisitos legais de comunicação."
           }
         ]
       },
@@ -1937,11 +1937,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "19. Force Majeure"
+            "text": "19. Força Maior"
           },
           {
             "t": "p",
-            "text": "FANG shall not be liable for delays or failures caused by events beyond reasonable control, including natural disasters, internet outages, cyberattacks, government actions, power failures, wars, or labor disputes."
+            "text": "A FANG não será responsável por atrasos ou falhas causados por eventos além de controle razoável, incluindo desastres naturais, interrupções de internet, ataques cibernéticos, ações governamentais, falhas de energia, guerras ou disputas trabalhistas."
           }
         ]
       },
@@ -1952,11 +1952,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "20. Miscellaneous"
+            "text": "20. Disposições Gerais"
           },
           {
             "t": "p",
-            "text": "If any provision of these Terms is found unenforceable, the remaining provisions remain effective. Failure to enforce any provision shall not constitute a waiver. These Terms constitute the complete agreement between you and FANG regarding the use of the Service."
+            "text": "Se qualquer disposição destes Termos for considerada inexequível, as demais disposições permanecerão em vigor. A não aplicação de qualquer disposição não constituirá renúncia a ela. Estes Termos constituem o acordo completo entre você e a FANG em relação ao uso do Serviço."
           }
         ]
       },
@@ -1967,7 +1967,7 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "21. Contact Information"
+            "text": "21. Informações de Contato"
           },
           {
             "t": "p",
@@ -1983,15 +1983,15 @@
           },
           {
             "t": "p",
-            "text": "United States"
+            "text": "Estados Unidos"
           },
           {
             "t": "p",
-            "text": "Support: support@fangapp.io"
+            "text": "Suporte: support@fangapp.io"
           },
           {
             "t": "p",
-            "text": "Legal: legal@fangapp.io"
+            "text": "Jurídico: legal@fangapp.io"
           },
           {
             "t": "p",
@@ -2003,7 +2003,7 @@
     ]
   },
   "faq": {
-    "title": "FANG Faq",
+    "title": "Perguntas Frequentes da FANG",
     "blocks": [
       {
         "t": "div",
@@ -2012,24 +2012,24 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "1. Virtual Currency & Content Access"
+            "text": "1. Moeda Virtual e Acesso ao Conteúdo"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: What is the difference between Normal Coins and Bonus Coins?"
+            "text": "P: Qual é a diferença entre Moedas Normais e Moedas Bônus?"
           },
           {
             "t": "p",
-            "text": "<b>A:</b>"
+            "text": "<b>R:</b>"
           },
           {
             "t": "p",
-            "text": "<b>Normal Coins:</b> Acquired via direct standard wallet top-ups on our platform. These coins have no expiration date and can be used to unlock premium content tiers across the FANG application interface."
+            "text": "<b>Moedas Normais:</b> Adquiridas por meio de recargas padrão diretas na carteira em nossa plataforma. Essas moedas não têm data de validade e podem ser usadas para desbloquear níveis de conteúdo premium em toda a interface do aplicativo FANG."
           },
           {
             "t": "p",
-            "text": "<b>Bonus Coins:</b> Promotional currency granted through daily check-in rewards, video ad engagement tasks, or specific platform reading events. Bonus Coins carry a structural expiration window of exactly two (2) days from the credit timestamp and should be utilized within that timeframe."
+            "text": "<b>Moedas Bônus:</b> Moeda promocional concedida por meio de recompensas diárias de check-in, tarefas de engajamento com anúncios em vídeo ou eventos específicos de leitura da plataforma. As Moedas Bônus possuem um prazo de validade estrutural de exatamente dois (2) dias a partir do momento do crédito e devem ser utilizadas dentro desse período."
           },
           {
             "t": "br"
@@ -2037,11 +2037,11 @@
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: How much does a premium chapter cost to unlock?"
+            "text": "P: Quanto custa desbloquear um capítulo premium?"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> Premium text content scales dynamically based on the story’s depth and placement structure within the book’s volume arc. Early premium launch chapters require 25 Coins, middle progression chapters adjust to 35 Coins, and final high-tension climax chapters scale to 45 Coins."
+            "text": "<b>R:</b> O conteúdo premium varia dinamicamente de acordo com a profundidade da história e sua posição dentro do arco do volume do livro. Os primeiros capítulos premium exigem 25 Moedas, os capítulos intermediários chegam a 35 Moedas, e os capítulos finais, de maior tensão, chegam a até 45 Moedas."
           },
           {
             "t": "br"
@@ -2049,11 +2049,11 @@
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: Why do I receive extra promotional rewards when buying packages directly on the FANG Web Portal?"
+            "text": "P: Por que recebo recompensas promocionais extras ao comprar pacotes diretamente no Portal Web da FANG?"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> Processing transactions directly through our native secure web checkout infrastructure minimizes processing overhead compared to third-party app stores. We route these efficiency savings directly back to our community by granting up to 60% extra promotional Bonus Coins for packages cleared through our direct web gateway."
+            "text": "<b>R:</b> Processar transações diretamente por meio de nossa infraestrutura nativa e segura de pagamento web minimiza os custos de processamento em comparação com lojas de aplicativos de terceiros. Repassamos essa economia de eficiência diretamente para nossa comunidade, concedendo até 60% de Moedas Bônus promocionais extras para pacotes concluídos por meio do nosso gateway web direto."
           },
           {
             "t": "br"
@@ -2061,11 +2061,11 @@
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: Can I access my virtual balance across multiple mobile devices?"
+            "text": "P: Posso acessar meu saldo virtual em vários dispositivos móveis?"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> Yes. Your virtual balance is linked directly to your authenticated, unified FANG account profile. The moment your account updates, your coin balances and reading history will automatically sync across any authorized device interface where you log in."
+            "text": "<b>R:</b> Sim. Seu saldo virtual está vinculado diretamente ao seu perfil de conta FANG autenticado e unificado. No momento em que sua conta for atualizada, seu saldo de moedas e histórico de leitura serão sincronizados automaticamente em qualquer dispositivo autorizado em que você fizer login."
           }
         ]
       },
@@ -2076,16 +2076,16 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "2. Billing, Subscriptions & Cancellations"
+            "text": "2. Cobrança, Assinaturas e Cancelamentos"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: Can I request a refund if I purchase a coin bundle accidentally?"
+            "text": "P: Posso solicitar um reembolso se comprar um pacote de moedas acidentalmente?"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> No. In accordance with our global Terms of Sale, all virtual currency transactions completed across the FANG platform deliver immediate database utility and are absolute, final, and non-refundable. We do not issue cash refunds, ledger reversals, or promotional credits for inadvertent user choices or unused balances."
+            "text": "<b>R:</b> Não. De acordo com nossos Termos de Venda globais, todas as transações de moeda virtual concluídas na plataforma FANG fornecem utilidade imediata no banco de dados e são absolutas, finais e não reembolsáveis. Não emitimos reembolsos em dinheiro, reversões de registro ou créditos promocionais para escolhas inadvertidas do usuário ou saldos não utilizados."
           },
           {
             "t": "br"
@@ -2093,11 +2093,11 @@
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: What global payment channels are currently accepted on the platform?"
+            "text": "P: Quais canais de pagamento globais são atualmente aceitos na plataforma?"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> We support all major international credit/debit card merchant systems (including Visa, Mastercard, American Express, and Discover), encrypted mobile checkout wallets (Apple Pay and Google Pay), and authorized payment partner portals. All financial transactions are settled securely in USD currency."
+            "text": "<b>R:</b> Oferecemos suporte a todos os principais sistemas internacionais de cartão de crédito/débito (incluindo Visa, Mastercard, American Express e Discover), carteiras de pagamento móvel criptografadas (Apple Pay e Google Pay) e portais de parceiros de pagamento autorizados. Todas as transações financeiras são liquidadas de forma segura em dólares americanos (USD)."
           },
           {
             "t": "br"
@@ -2105,18 +2105,18 @@
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: How do the FANG VIP membership plans and passes operate?"
+            "text": "P: Como funcionam os planos e passes de assinatura VIP da FANG?"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> VIP plans offer premium, enhanced reading environments tailored to your binging preferences across two distinct structural tiers:"
+            "text": "<b>R:</b> Os planos VIP oferecem ambientes de leitura premium e aprimorados, adaptados às suas preferências de leitura intensiva, em dois níveis distintos:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "<b>Weekly VIP ($9.99 / week):</b> Grants full weekly access including daily promotional bonus coin distribution drops, completely reduced ad layout profiles, early chapter access privileges, small top-up account bonus triggers, and an exclusive VIP profile status badge.",
-              "<b>Monthly VIP ($29.99 / month):</b> Our designated best-value framework granting much larger daily coin distribution rewards, maximized top-up bonus multipliers, enhanced premium chapter discounts, entry into platform exclusive content events, maximum monthly coin value utility, and priority tier access to trending premium stories."
+              "<b>VIP Semanal (US$ 9,99 / semana):</b> Concede acesso semanal completo, incluindo distribuições diárias de moedas bônus promocionais, perfis de anúncios completamente reduzidos, privilégios de acesso antecipado a capítulos, pequenos bônus em recargas da conta e um emblema exclusivo de status de perfil VIP.",
+              "<b>VIP Mensal (US$ 29,99 / mês):</b> Nosso plano designado como o de melhor valor, concedendo recompensas diárias de moedas muito maiores, multiplicadores de bônus de recarga maximizados, descontos aprimorados em capítulos premium, acesso a eventos de conteúdo exclusivo da plataforma, utilidade máxima mensal do valor das moedas e acesso prioritário a histórias premium em alta."
             ]
           },
           {
@@ -2125,11 +2125,11 @@
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: How do I terminate my recurring VIP membership?"
+            "text": "P: Como cancelo minha assinatura VIP recorrente?"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> You can cancel your active membership at any time. If you initialized your subscription inside our mobile software interfaces, cancellations must be managed directly within your Apple App Store or Google Play Store account subscription panels. If you subscribed directly on our web platform, you can disable the auto-renewal toggle within your native Account Settings menu. All cancellations must be logged at least 24 hours prior to the next billing cycle timestamp to prevent automated renewal charges."
+            "text": "<b>R:</b> Você pode cancelar sua assinatura ativa em qualquer momento. Se você iniciou sua assinatura em nossas interfaces de software móvel, os cancelamentos devem ser gerenciados diretamente nos painéis de assinatura da sua conta Apple App Store ou Google Play Store. Se você se inscreveu diretamente em nossa plataforma web, pode desativar a renovação automática no menu de Configurações da Conta nativo. Todos os cancelamentos devem ser registrados pelo menos 24 horas antes do próximo ciclo de cobrança para evitar cobranças automáticas de renovação."
           }
         ]
       },
@@ -2140,16 +2140,16 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "3. Account Safety & Technical Support"
+            "text": "3. Segurança da Conta e Suporte Técnico"
           },
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: What happens if a user bypasses support and initiates a formal bank dispute?"
+            "text": "P: O que acontece se um usuário ignorar o suporte e iniciar uma disputa bancária formal?"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> FANG maintains strict protection mechanisms against payment abuse and unauthorized chargebacks. If an official transaction dispute or chargeback is initiated through a credit card issuer or banking institution without first utilizing our standard dispute desk, our backend system reserves the right to immediately suspend or permanently close the associated account profile to safeguard system integrity."
+            "text": "<b>R:</b> A FANG mantém mecanismos rigorosos de proteção contra abuso de pagamento e contestações não autorizadas. Se uma disputa formal de transação ou contestação for iniciada por meio de uma emissora de cartão de crédito ou instituição bancária sem primeiro utilizar nosso canal padrão de resolução de disputas, nosso sistema de backend reserva-se o direito de suspender imediatamente ou encerrar permanentemente o perfil de conta associado para proteger a integridade do sistema."
           },
           {
             "t": "br"
@@ -2157,18 +2157,18 @@
           {
             "t": "p",
             "cls": "font-semibold",
-            "text": "Q: I completed a coin purchase but my wallet hasn’t updated. What steps should I take?"
+            "text": "P: Concluí uma compra de moedas, mas minha carteira não foi atualizada. Quais passos devo seguir?"
           },
           {
             "t": "p",
-            "text": "<b>A:</b> Brief network or database latency can occasionally delay transaction synchronization. We recommend closing and fully restarting your application interface. If your coin balance does not reflect your transaction within 1 hour, please forward a digital copy of your official Stripe, Apple, or Google payment confirmation receipt directly to our team at support@fangapp.io so our technical support engineers can manually verify the ledger entry and credit your account."
+            "text": "<b>R:</b> Breves atrasos de rede ou do banco de dados podem ocasionalmente retardar a sincronização de transações. Recomendamos fechar e reiniciar completamente a interface do aplicativo. Se o seu saldo de moedas não refletir a transação dentro de 1 hora, envie uma cópia digital do seu recibo oficial de confirmação de pagamento do Stripe, Apple ou Google diretamente para nossa equipe em support@fangapp.io, para que nossos engenheiros de suporte técnico possam verificar manualmente o registro e creditar sua conta."
           }
         ]
       }
     ]
   },
   "cookies": {
-    "title": "Cookie Policy",
+    "title": "Política de Cookies",
     "blocks": [
       {
         "t": "div",
@@ -2181,15 +2181,15 @@
           },
           {
             "t": "p",
-            "text": "Effective Date: August 18, 2026"
+            "text": "Data de vigência: 18 de agosto de 2026"
           },
           {
             "t": "p",
-            "text": "FANG (“FANG,” “we,” “our,” or “us”) uses cookies and similar tracking technologies (“Cookies”) to operate, improve, secure, and personalize the FANG platform, including our mobile applications, website, writer portal, and related services (collectively, the “Services”)."
+            "text": "A FANG («FANG», «nós» ou «nos») utiliza cookies e tecnologias de rastreamento similares («Cookies») para operar, melhorar, proteger e personalizar a plataforma FANG, incluindo nossos aplicativos móveis, site, portal de escritores e serviços relacionados (coletivamente, os «Serviços»)."
           },
           {
             "t": "p",
-            "text": "This Cookie Policy explains what Cookies are, how we use them, how third-party services interface with our platform, and how you can manage your preferences. FANG is operated by IFO DIGITAL MEDIA, LLC."
+            "text": "Esta Política de Cookies explica o que são os Cookies, como os utilizamos, como os serviços de terceiros se conectam à nossa plataforma e como você pode gerenciar suas preferências. A FANG é operada pela IFO DIGITAL MEDIA, LLC."
           }
         ]
       },
@@ -2200,7 +2200,7 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "1. Company Information"
+            "text": "1. Informações da Empresa"
           },
           {
             "t": "div",
@@ -2220,15 +2220,15 @@
               },
               {
                 "t": "p",
-                "text": "United States"
+                "text": "Estados Unidos"
               },
               {
                 "t": "p",
-                "text": "Support: support@fangapp.io"
+                "text": "Suporte: support@fangapp.io"
               },
               {
                 "t": "p",
-                "text": "Legal: legal@fangapp.io"
+                "text": "Jurídico: legal@fangapp.io"
               }
             ]
           }
@@ -2241,11 +2241,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "2. What Are Cookies?"
+            "text": "2. O Que São Cookies?"
           },
           {
             "t": "p",
-            "text": "Cookies are small text files stored on your browser or device when you visit or interact with online applications. They help websites and applications recognize unique devices, preserve secure sessions, remember user choices, analyze system performance, and support content recommendation frameworks."
+            "text": "Cookies são pequenos arquivos de texto armazenados no seu navegador ou dispositivo quando você visita ou interage com aplicativos online. Eles ajudam sites e aplicativos a reconhecer dispositivos exclusivos, manter sessões seguras, lembrar as escolhas do usuário, analisar o desempenho do sistema e apoiar os sistemas de recomendação de conteúdo."
           },
           {
             "t": "div",
@@ -2253,22 +2253,22 @@
             "blocks": [
               {
                 "t": "p",
-                "text": "Similar tracking technologies utilized across our ecosystem include:"
+                "text": "Tecnologias de rastreamento similares utilizadas em nosso ecossistema incluem:"
               },
               {
                 "t": "ul",
                 "cls": "list-disc pl-6 space-y-1",
                 "items": [
-                  "Software Development Kits (SDKs): Embedded mobile code blocks that track app stability and event interactions;",
-                  "Pixels and Web Beacons: Small graphic strings used to monitor user actions and measure marketing campaign conversions;",
-                  "Local Storage: Browser database storage used to cache platform preferences and session parameters."
+                  "Kits de Desenvolvimento de Software (SDKs): Blocos de código móvel incorporados que rastreiam a estabilidade do aplicativo e interações de eventos;",
+                  "Pixels e Web Beacons: Pequenos elementos gráficos usados para monitorar as ações do usuário e medir as conversões de campanhas de marketing;",
+                  "Armazenamento Local: Armazenamento no banco de dados do navegador usado para armazenar em cache preferências da plataforma e parâmetros de sessão."
                 ]
               }
             ]
           },
           {
             "t": "p",
-            "text": "For clarity across this document, all such tracking methods are collectively referred to as “Cookies.”"
+            "text": "Para maior clareza neste documento, todos esses métodos de rastreamento são denominados coletivamente «Cookies»."
           }
         ]
       },
@@ -2279,11 +2279,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "3. Types of Cookies We Use"
+            "text": "3. Tipos de Cookies que Utilizamos"
           },
           {
             "t": "p",
-            "text": "FANG deploys Cookies across the following functional classifications:"
+            "text": "A FANG implementa Cookies nas seguintes classificações funcionais:"
           },
           {
             "t": "div",
@@ -2292,11 +2292,11 @@
               {
                 "t": "h3",
                 "cls": "font-semibold text-lg",
-                "text": "3.1 Strictly Necessary Cookies"
+                "text": "3.1 Cookies Estritamente Necessários"
               },
               {
                 "t": "p",
-                "text": "These Cookies are essential for our application to operate safely and correctly."
+                "text": "Esses Cookies são essenciais para que nosso aplicativo funcione de forma segura e correta."
               },
               {
                 "t": "div",
@@ -2304,23 +2304,23 @@
                 "blocks": [
                   {
                     "t": "p",
-                    "text": "They are utilized to:"
+                    "text": "Eles são utilizados para:"
                   },
                   {
                     "t": "ul",
                     "cls": "list-disc pl-6 space-y-1",
                     "items": [
-                      "Authenticate user profiles and maintain active login sessions;",
-                      "Keep track of virtual wallet balances and coin allocations;",
-                      "Detect, investigate, and prevent automated script abuse, malicious bots, or security threats;",
-                      "Ensure core platform navigation paths function properly."
+                      "Autenticar perfis de usuário e manter sessões de login ativas;",
+                      "Acompanhar os saldos da carteira virtual e as alocações de moedas;",
+                      "Detectar, investigar e prevenir abuso de scripts automatizados, bots maliciosos ou ameaças de segurança;",
+                      "Garantir o funcionamento adequado dos caminhos de navegação principais da plataforma."
                     ]
                   }
                 ]
               },
               {
                 "t": "p",
-                "text": "Note: Disabling necessary cookies via your browser settings will break core account actions and checkout flows."
+                "text": "Observação: Desativar os cookies necessários nas configurações do seu navegador interromperá as ações principais da conta e os fluxos de finalização de compra."
               }
             ]
           },
@@ -2331,11 +2331,11 @@
               {
                 "t": "h3",
                 "cls": "font-semibold text-lg",
-                "text": "3.2 Functionality Cookies"
+                "text": "3.2 Cookies de Funcionalidade"
               },
               {
                 "t": "p",
-                "text": "These Cookies preserve your custom application choices to improve usability."
+                "text": "Esses Cookies preservam suas escolhas personalizadas do aplicativo para melhorar a usabilidade."
               },
               {
                 "t": "div",
@@ -2343,15 +2343,15 @@
                 "blocks": [
                   {
                     "t": "p",
-                    "text": "They are utilized to:"
+                    "text": "Eles são utilizados para:"
                   },
                   {
                     "t": "ul",
                     "cls": "list-disc pl-6 space-y-1",
                     "items": [
-                      "Save structural display choices (such as light or dark mode preferences);",
-                      "Maintain specific reading configurations (including text sizing, font choices, and chapter page positions);",
-                      "Remember preferred language settings and system location parameters."
+                      "Salvar escolhas estruturais de exibição (como preferências de modo claro ou escuro);",
+                      "Manter configurações específicas de leitura (incluindo tamanho do texto, escolhas de fonte e posições das páginas dos capítulos);",
+                      "Lembrar as configurações de idioma preferidas e os parâmetros de localização do sistema."
                     ]
                   }
                 ]
@@ -2365,11 +2365,11 @@
               {
                 "t": "h3",
                 "cls": "font-semibold text-lg",
-                "text": "3.3 Analytics Cookies"
+                "text": "3.3 Cookies de Análise"
               },
               {
                 "t": "p",
-                "text": "These Cookies track how readers navigate and interact with our reading environment."
+                "text": "Esses Cookies rastreiam como os leitores navegam e interagem com nosso ambiente de leitura."
               },
               {
                 "t": "div",
@@ -2377,22 +2377,22 @@
                 "blocks": [
                   {
                     "t": "p",
-                    "text": "They gather data regarding:"
+                    "text": "Eles coletam dados sobre:"
                   },
                   {
                     "t": "ul",
                     "cls": "list-disc pl-6 space-y-1",
                     "items": [
-                      "Daily pages viewed, reading session durations, and genre preferences;",
-                      "App features utilized and specific book engagement statistics;",
-                      "System crash events, performance lag alerts, and technical loading failures."
+                      "Páginas visualizadas diariamente, durações das sessões de leitura e preferências de gênero;",
+                      "Recursos do aplicativo utilizados e estatísticas específicas de engajamento com livros;",
+                      "Eventos de falha do sistema, alertas de lentidão de desempenho e falhas técnicas de carregamento."
                     ]
                   }
                 ]
               },
               {
                 "t": "p",
-                "text": "We use this anonymized data strictly to optimize platform speeds, resolve backend bugs, and improve overall content delivery algorithms."
+                "text": "Utilizamos esses dados anonimizados estritamente para otimizar a velocidade da plataforma, resolver falhas de backend e melhorar os algoritmos gerais de entrega de conteúdo."
               }
             ]
           },
@@ -2403,7 +2403,7 @@
               {
                 "t": "h3",
                 "cls": "font-semibold text-lg",
-                "text": "3.4 Advertising and Marketing Cookies"
+                "text": "3.4 Cookies de Publicidade e Marketing"
               },
               {
                 "t": "div",
@@ -2411,15 +2411,15 @@
                 "blocks": [
                   {
                     "t": "p",
-                    "text": "These tracking tools evaluate promotion performance. They are utilized to:"
+                    "text": "Essas ferramentas de rastreamento avaliam o desempenho das promoções. Elas são utilizadas para:"
                   },
                   {
                     "t": "ul",
                     "cls": "list-disc pl-6 space-y-1",
                     "items": [
-                      "Track how users find our website through external ad campaigns;",
-                      "Recommend tailored book genres based on historical library additions;",
-                      "Prevent showing identical, repetitive promotional banners to the same user profile."
+                      "Rastrear como os usuários encontram nosso site por meio de campanhas de anúncios externas;",
+                      "Recomendar gêneros de livros personalizados com base em adições históricas à biblioteca;",
+                      "Evitar exibir banners promocionais idênticos e repetitivos ao mesmo perfil de usuário."
                     ]
                   }
                 ]
@@ -2435,24 +2435,24 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "4. Third-Party Technologies"
+            "text": "4. Tecnologias de Terceiros"
           },
           {
             "t": "p",
-            "text": "FANG partners with secure external networks to support our platform infrastructure. These verified providers deploy tracking scripts to handle specialized operations:"
+            "text": "A FANG faz parcerias com redes externas seguras para apoiar a infraestrutura da nossa plataforma. Esses provedores verificados implementam scripts de rastreamento para lidar com operações especializadas:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Payment Gateways: Systems like Stripe and PayPal use security cookies to analyze device risk metrics, process secure checkout screens, and mitigate payment fraud;",
-              "Cloud Infrastructure: Enterprise hosting networks use server cache cookies to balance text delivery traffic and keep loading speeds lightning-fast;",
-              "Social Identity Links: Providers like Apple, Google, and Facebook deploy secure authentication cookies to connect your social login profile seamlessly."
+              "Gateways de Pagamento: Sistemas como Stripe e PayPal usam cookies de segurança para analisar métricas de risco do dispositivo, processar telas de pagamento seguras e mitigar fraudes de pagamento;",
+              "Infraestrutura em Nuvem: Redes de hospedagem corporativa usam cookies de cache de servidor para equilibrar o tráfego de entrega de texto e manter velocidades de carregamento extremamente rápidas;",
+              "Vinculações de Identidade Social: Provedores como Apple, Google e Facebook implementam cookies de autenticação seguros para conectar seu perfil de login social de forma integrada."
             ]
           },
           {
             "t": "p",
-            "text": "All third-party cookie activity is governed directly by the respective tracking policies of those independent providers."
+            "text": "Toda atividade de cookies de terceiros é regida diretamente pelas respectivas políticas de rastreamento desses provedores independentes."
           }
         ]
       },
@@ -2463,23 +2463,23 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "5. Managing Cookie Preferences"
+            "text": "5. Gerenciamento de Preferências de Cookies"
           },
           {
             "t": "p",
-            "text": "You have the complete right to control or restrict how Cookies are stored on your device:"
+            "text": "Você tem o direito total de controlar ou restringir como os Cookies são armazenados em seu dispositivo:"
           },
           {
             "t": "ul",
             "cls": "list-disc pl-6 space-y-1",
             "items": [
-              "Browser Rules: You can adjust your desktop or mobile browser configurations to block all third-party tracking or alert you when a new cookie is sent;",
-              "Device Settings: You can modify operating system settings on your mobile device to toggle off targeted advertising tracking or reset unique identifier keys."
+              "Regras do Navegador: Você pode ajustar as configurações do seu navegador de desktop ou móvel para bloquear todo rastreamento de terceiros ou ser alertado quando um novo cookie for enviado;",
+              "Configurações do Dispositivo: Você pode modificar as configurações do sistema operacional do seu dispositivo móvel para desativar o rastreamento de publicidade direcionada ou redefinir chaves de identificação exclusivas."
             ]
           },
           {
             "t": "p",
-            "text": "Please be aware that restricting non-essential tracking will change how easily the platform remembers your custom layout settings."
+            "text": "Esteja ciente de que restringir o rastreamento não essencial alterará a facilidade com que a plataforma lembra suas configurações de layout personalizadas."
           }
         ]
       },
@@ -2490,11 +2490,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "6. Cookie Consent Management"
+            "text": "6. Gerenciamento do Consentimento de Cookies"
           },
           {
             "t": "p",
-            "text": "In strict accordance with global digital privacy laws, FANG will request explicit user consent through an interface banner before initializing any non-essential analytical or marketing tracking cookies. You may access your preferences to update or withdraw consent configurations at any time."
+            "text": "Em estrita conformidade com as leis globais de privacidade digital, a FANG solicitará o consentimento explícito do usuário por meio de um banner na interface antes de inicializar quaisquer cookies de rastreamento analítico ou de marketing não essenciais. Você pode acessar suas preferências para atualizar ou retirar as configurações de consentimento em qualquer momento."
           }
         ]
       },
@@ -2505,11 +2505,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "7. Changes to This Cookie Policy"
+            "text": "7. Alterações a esta Política de Cookies"
           },
           {
             "t": "p",
-            "text": "We may update this Cookie Policy periodically to match infrastructure updates or regulatory changes. If a material shift occurs, we will notify our reading community via prominent in-app notification alerts, layout dashboard banners, or direct email announcements."
+            "text": "Podemos atualizar periodicamente esta Política de Cookies para corresponder a atualizações de infraestrutura ou alterações regulatórias. Se ocorrer uma alteração relevante, notificaremos nossa comunidade de leitores por meio de alertas de notificação destacados no aplicativo, banners no painel de layout ou avisos diretos por e-mail."
           }
         ]
       },
@@ -2520,11 +2520,11 @@
           {
             "t": "h2",
             "cls": "font-bold text-xl",
-            "text": "8. Contact Us"
+            "text": "8. Fale Conosco"
           },
           {
             "t": "p",
-            "text": "If you have any technical questions or data-compliance concerns regarding our tracking policies, please reach out to us:"
+            "text": "Se você tiver dúvidas técnicas ou preocupações de conformidade de dados relacionadas às nossas políticas de rastreamento, entre em contato conosco:"
           },
           {
             "t": "div",
@@ -2532,11 +2532,11 @@
             "blocks": [
               {
                 "t": "p",
-                "text": "Email: legal@fangapp.io"
+                "text": "E-mail: legal@fangapp.io"
               },
               {
                 "t": "p",
-                "text": "Corporate Office: FANG / IFO DIGITAL MEDIA, LLC"
+                "text": "Escritório Corporativo: FANG / IFO DIGITAL MEDIA, LLC"
               },
               {
                 "t": "p",
@@ -2548,7 +2548,7 @@
               },
               {
                 "t": "p",
-                "text": "United States"
+                "text": "Estados Unidos"
               }
             ]
           }

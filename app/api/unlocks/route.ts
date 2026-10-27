@@ -6,6 +6,7 @@ import { getCurrentUser } from "@/lib/auth/session";
 import { getChapter, getStoryBySlug } from "@/lib/stories";
 import { unlockChapter } from "@/lib/unlock";
 import { readJson, reply } from "@/lib/auth/rules";
+import { logError } from "@/lib/log";
 
 export async function POST(request: NextRequest) {
     const user = await getCurrentUser();
@@ -44,7 +45,7 @@ export async function POST(request: NextRequest) {
             wallet: result.ok ? result.wallet : undefined,
         });
     } catch (error) {
-        console.error("Unlock error:", error);
+        logError("Unlock error:", error);
         return reply(500, "couldntUnlock");
     }
 }

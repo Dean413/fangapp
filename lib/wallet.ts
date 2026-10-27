@@ -9,6 +9,7 @@
 import "server-only";
 import { dbPool } from "@/lib/db";
 import { withTransaction } from "@/lib/auth/transaction";
+import { logError } from "@/lib/log";
 
 export const SIGNUP_BONUS_COINS = 50;
 export const SIGNUP_BONUS_DAYS = 2;
@@ -40,7 +41,7 @@ export async function grantSignupBonusSafely(userId: string) {
     try {
         await grantSignupBonus(userId);
     } catch (error) {
-        console.error("Sign-up bonus failed:", error);
+        logError("Sign-up bonus failed:", error);
     }
 }
 

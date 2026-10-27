@@ -4,7 +4,7 @@ import { fetchYouMayLike } from "@/lib/fetchYouMayLike";
 import { languageForLocale } from "@/lib/language";
 import Footer from "@/components/footer";
 import { BookGrid, SectionHeader } from "@/hooks/bookData";
-import { ChapterListSkeleton, TextSkeleton } from "@/components/skeleton";
+import { BookGridSkeleton, ChapterListSkeleton, TextSkeleton } from "@/components/skeleton";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
@@ -14,9 +14,10 @@ import { useLibraryStore } from "@/lib/store/library-store";
 import { useAuthStore } from "@/lib/store/authStore";
 import BookReviews, { type ReviewSummary } from "@/components/reviews/bookReview";
 import Imprint from "@/components/imprint";
-import { BookOpen, Eye, Flag, Star } from "lucide-react";
+import { BookOpen, ChevronRight, Eye, Flag, Star } from "lucide-react";
 import ReportBookDialog from "@/components/book-controls/report-book";
 import { useOptionNames } from "@/hooks/useOptionName";
+import { BookCard as YouMayLikeCard } from "@/components/home/youMayLike";
 import ViewTracker from "@/components/book-controls/view-tracker";
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
@@ -308,7 +309,7 @@ export default function Page() {
                         <HeroSkeleton />
                     ) : book ? (
                         <>
-                            <div className="mt-5 md:mt-6 flex items-start gap-5 md:gap-10">
+                            <div className="mt-5 md:mt-6 flex items-center gap-5 md:gap-10">
                                 <Cover src={book.image} alt={book.title} />
                                 <div className="min-w-0 pt-1 md:pt-2">
                                     <h1 className="line-clamp-2 text-2xl md:text-[26px] font-bold text-white leading-tight">{book.title}</h1>
@@ -347,7 +348,7 @@ export default function Page() {
 
                             {/* Phones: stats in one row, then tags, buttons and Report, full width under the cover */}
                             <div className="md:hidden">
-                                <div className="mt-6 flex items-center justify-between gap-2 text-sm text-white/85">
+                                <div className="mt-6 flex items-center gap-2 text-sm text-white/85">
                                     <span className="flex items-center gap-1.5 whitespace-nowrap"><Eye size={18} />{t("views", { views: book.views ?? 0 })}</span>
                                     <span className="flex items-center gap-1.5 whitespace-nowrap"><BookOpen size={18} />{t("chapters", { count: chapterCount })}</span>
                                     {ratingText && (
@@ -401,18 +402,25 @@ export default function Page() {
                             <ChapterListSkeleton />
                         ) : (
                             <>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4">
+                                <div className="grid grid-cols-1 max-md:divide-y max-md:divide-gray-200 md:grid-cols-3 md:gap-4 dark:max-md:divide-neutral-800">
                                     {(showAll ? chapters : chapters.slice(0, 18)).map((chapter) => (
                                         // Locked chapters open too: the reader shows the preview and the unlock card
                                         <Link
                                             key={chapter.id}
                                             href={`${bookPath}/reader?chapter=${chapter.chapter_number}`}
-                                            className={`flex items-center gap-3 rounded p-2 text-sm hover:bg-gray-100 dark:hover:bg-dark-card ${chapter.isLocked ? "opacity-60" : ""}`}>
-                                            {chapter.isLocked && <FaLock className="text-xs text-gray-500 dark:text-neutral-400" />}
-                                            <span className="truncate">
+                                            className={`flex items-center gap-3 hover:bg-gray-100 dark:hover:bg-dark-card max-md:py-4 md:rounded md:p-2 text-sm ${chapter.isLocked ? "opacity-60" : ""} ${Number(chapter.chapter_number) === lastChapter ? "font-semibold text-red-600" : ""}`}>
+                                            {/* Desktop: lock on the left, in a fixed slot so every title lines up */}
+                                            <span className="flex w-4 shrink-0 items-center justify-center max-md:hidden">
+                                                {chapter.isLocked && <FaLock className="text-xs text-gray-500 dark:text-neutral-400" />}
+                                            </span>
+                                            <span className="min-w-0 flex-1 truncate max-md:text-base">
                                                 {chapter.title
                                                     ? t("chapterTitled", { chapter: chapter.chapter_number, title: chapter.title })
                                                     : b("chapterN", { chapter: chapter.chapter_number })}
+                                            </span>
+                                            {/* Phone: chevron, or the lock for locked chapters, on the right */}
+                                            <span className="shrink-0 text-gray-500 md:hidden dark:text-neutral-400">
+                                                {chapter.isLocked ? <FaLock size={16} /> : <ChevronRight size={18} />}
                                             </span>
                                         </Link>
                                     ))}
@@ -432,7 +440,15 @@ export default function Page() {
                 {/* YOU MAY LIKE */}
                 <section className="mt-10 md:mt-12">
                     <SectionHeader title={t("youMayLike")} href={`/stories/${book?.genreSlug || safeGenre}`} />
-                    <BookGrid data={books} loading={booksLoading} />
+                    {booksLoading ? (
+                        <BookGridSkeleton />
+                    ) : (
+                        <div className="grid grid-cols-3 gap-x-3 gap-y-5 sm:grid-cols-2 sm:gap-3 md:gap-5 lg:grid-cols-3">
+                            {books.slice(0, 6).map((item) => (
+                                <YouMayLikeCard key={item.id} book={{ ...item, blurb: item.summary }} />
+                            ))}
+                        </div>
+                    )}
                 </section>
 
                 {/* READER REVIEWS */}

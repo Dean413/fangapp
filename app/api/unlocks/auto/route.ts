@@ -5,6 +5,7 @@ import { getCurrentUser } from "@/lib/auth/session";
 import { getStoryBySlug } from "@/lib/stories";
 import { setAutoUnlock } from "@/lib/unlock";
 import { readJson, reply } from "@/lib/auth/rules";
+import { logError } from "@/lib/log";
 
 export async function POST(request: NextRequest) {
     const user = await getCurrentUser();
@@ -20,7 +21,7 @@ export async function POST(request: NextRequest) {
         await setAutoUnlock(user.id, String(story.id), body.enabled);
         return reply(200, body.enabled ? "autoUnlockOn" : "autoUnlockOff", { autoUnlock: body.enabled });
     } catch (error) {
-        console.error("Auto-unlock error:", error);
+        logError("Auto-unlock error:", error);
         return reply(500, "couldntChangeAutoUnlock");
     }
 }

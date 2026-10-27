@@ -6,6 +6,7 @@ import ProfileSidebar from "@/components/profile-components/profileSidebar";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useAuthModals } from "@/lib/store/auth-card-store";
 import { useTranslations } from "next-intl";
+import Footer from "@/components/footer";
 
 export default function ProfileLayout({ children, }: { children: React.ReactNode; }) {
     const { openSignUp } = useAuthModals()
@@ -30,7 +31,7 @@ export default function ProfileLayout({ children, }: { children: React.ReactNode
     }
 
     return (
-        <div className="w-full bg-gray-50 dark:bg-dark pb-20 md:pb-6">
+        <div className="w-full bg-gray-50 dark:bg-dark">
             <div className="flex gap-6">
                 {/* Sidebar */}
                 <aside className="hidden md:block w-64 shrink-0 border-r border-gray-100 dark:border-dark-border">
@@ -51,9 +52,10 @@ export default function ProfileLayout({ children, }: { children: React.ReactNode
             </div>
 
             {/* Mobile nav */}
-            <div className="md:hidden fixed bottom-0 left-0 right-0 z-50">
+            {/* <div className="md:hidden fixed bottom-0 left-0 right-0 z-50">
                 <MobileProfileNav />
-            </div>
+            </div> */}
+            <Footer />
         </div>
     );
 }
