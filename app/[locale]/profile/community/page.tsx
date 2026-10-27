@@ -1,4 +1,4 @@
-import CommunityComponent from "@/components/profile-components/community"
+import CommunityComponent from "@/components/profile-components/communityPage"
 
 
 const CommunityPage = () => {

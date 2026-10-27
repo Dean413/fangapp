@@ -50,13 +50,15 @@ const GenreBrowser = () => {
     const cache = useRef(new Map<string, StoryCard[]>()); // books per genre + language already loaded
     const latest = useRef(""); // the genre + language whose books should be on screen
 
-    // Genre list, once
+    // Genre pills from the admin's Genre curation, for the reader's language
     useEffect(() => {
-        fetch("/api/genres")
+        let alive = true;
+        fetch(`/api/genres?language=${encodeURIComponent(language)}`)
             .then((res) => res.json())
-            .then((res) => setGenres(res.data ?? []))
+            .then((res) => { if (alive) setGenres(res.data ?? []); })
             .catch((error) => console.log(error));
-    }, []);
+        return () => { alive = false; };
+    }, [language]);
 
     // Books for the picked genre in the reader's language (from the cache if already loaded)
     useEffect(() => {
@@ -75,9 +77,11 @@ const GenreBrowser = () => {
             setLoading(true);
             setFailed(false);
             try {
-                // "All" leaves genre out
+                // A genre = the admin's curated list for it, in the admin's order. "All" = every book, newest first.
                 const data = await fetchStories(
-                    selected ? { genre: selected, language, sort: "new", limit: 60 } : { language, sort: "new", limit: 60 }
+                    selected
+                        ? { genre: selected, language, curated: true, limit: 60 }
+                        : { language, sort: "new", limit: 60 }
                 );
                 cache.current.set(key, data);
                 if (latest.current === key) setBooks(data); // ignore answers for a genre / language no longer picked

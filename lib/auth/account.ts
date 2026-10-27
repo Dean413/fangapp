@@ -20,7 +20,7 @@ import { canUseReaderApp, type TokenUser } from "@/lib/auth/token";
 import { AUTH_CONFIG } from "@/lib/auth/authConfig";
 import { logError } from "@/lib/log";
 
-export type Provider = "google" | "facebook";
+export type Provider = "google" | "facebook" | "apple";
 
 export type ProviderProfile = {
     provider: Provider;

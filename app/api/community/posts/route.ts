@@ -6,7 +6,7 @@ import { publicUrl, s3Client, storageReady, UPLOAD_BUCKET } from "@/lib/storage"
 import { readJson, reply } from "@/lib/auth/rules";
 import { msg } from "@/lib/i18n";
 import { logError } from "@/lib/log";
-import { POST_MAX, createPost, getPost, listPosts, validId } from "@/lib/community";
+import { POLL_OPTION_MAX, POST_MAX, createPost, getPost, listPosts, validId } from "@/lib/community";
 
 const MAX_BYTES = 2 * 1024 * 1024;
 const TYPES: Record<string, string> = { "image/png": ".png", "image/jpeg": ".jpg", "image/webp": ".webp" };
@@ -19,18 +19,20 @@ function detectType(bytes: Buffer): string | null {
     return null;
 }
 
-// GET /api/community/posts?cursor=&author=&following=1
+// GET /api/community/posts?cursor=&author=&following=1&tag=
 export async function GET(request: NextRequest) {
     try {
         const user = await getCurrentUser();
         const sp = request.nextUrl.searchParams;
         const cursor = sp.get("cursor");
         const author = sp.get("author");
+        const tag = sp.get("tag");
         const following = sp.get("following") === "1" && !!user;
         const data = await listPosts(user?.id ?? null, {
             cursor: validId(cursor) ? cursor : null,
             author: author && /^[0-9a-f-]{36}$/i.test(author) ? author : null,
             following,
+            tag: tag && /^[A-Za-z0-9_]{2,30}$/.test(tag) ? tag : null,
         });
         return NextResponse.json(data);
     } catch (error) {
@@ -39,7 +41,7 @@ export async function GET(request: NextRequest) {
     }
 }
 
-// POST /api/community/posts  { body, image? (data URL) }
+// POST /api/community/posts  { body, image? (data URL), poll? { options: string[], days: 1|3|7 } }
 export async function POST(request: NextRequest) {
     const user = await getCurrentUser();
     if (!user) return reply(401, "signInFirst");
@@ -49,6 +51,22 @@ export async function POST(request: NextRequest) {
     const image = typeof input?.image === "string" ? input.image : "";
     if (body.length > POST_MAX) return reply(400, msg("postTooLong", { max: POST_MAX }));
     if (!body && !image) return reply(400, "postEmpty");
+
+    let poll: { options: string[]; days: number } | null = null;
+    const rawPoll = input?.poll;
+    if (rawPoll && typeof rawPoll === "object") {
+        const p = rawPoll as { options?: unknown; days?: unknown };
+        const options = Array.isArray(p.options)
+            ? p.options.map((o) => (typeof o === "string" ? o.trim() : "")).filter(Boolean)
+            : [];
+        const days = [1, 3, 7].includes(Number(p.days)) ? Number(p.days) : 3;
+        const distinct = new Set(options.map((o) => o.toLowerCase())).size === options.length;
+        if (options.length < 2 || options.length > 4 || !distinct || options.some((o) => o.length > POLL_OPTION_MAX)) {
+            return reply(400, "pollInvalid");
+        }
+        if (!body) return reply(400, "pollQuestionRequired");
+        poll = { options, days };
+    }
 
     let imageUrl: string | null = null;
     if (image) {
@@ -76,7 +94,7 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-        const result = await createPost(user.id, body, imageUrl);
+        const result = await createPost(user.id, body, imageUrl, poll);
         if (result.error) return reply(429, result.error);
         const post = await getPost(user.id, result.id);
         return NextResponse.json({ post });

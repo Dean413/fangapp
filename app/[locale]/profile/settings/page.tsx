@@ -23,14 +23,16 @@ import { useTheme } from "next-themes";
 import { toast } from "@/lib/store/toastStore";
 import { FaFacebookF, FaFile, FaShieldHalved, FaUserPen, FaUserShield } from "react-icons/fa6";
 import { FiLifeBuoy, FiLink } from "react-icons/fi";
-import { FaInfoCircle, FaQuestionCircle } from "react-icons/fa";
+import { FaApple, FaInfoCircle, FaQuestionCircle } from "react-icons/fa";
 import { useLocale, useTranslations } from "next-intl";
 import AutoRenewRow from "@/components/profile-components/settings/auto-renew-row";
 import TwoFactorCard from "@/components/authCards/twoFactorCards";
+import { startAppleSignIn } from "@/app/api/auth/apple/apple-client";
 
 type T = (key: string, values?: Record<string, string | number>) => string;
 
-type Provider = "google" | "facebook";
+type Provider = "google" | "facebook" | "apple";
+const PROVIDER_NAMES: Record<Provider, string> = { google: "Google", facebook: "Facebook", apple: "Apple" };
 
 type AccountSettings = {
     email: string;
@@ -42,9 +44,9 @@ type AccountSettings = {
     isWriter: boolean;
     providers: Record<Provider, boolean>;
     notifications: NotificationSettings;
+
 };
 
-const PROVIDER_NAMES: Record<Provider, string> = { google: "Google", facebook: "Facebook" };
 
 const formatDate = (iso: string | null, locale: string) =>
     iso ? new Date(iso).toLocaleDateString(locale, { month: "long", day: "numeric", year: "numeric" }) : "—";
@@ -107,9 +109,13 @@ export default function SettingsPage() {
         window.history.replaceState(window.history.state, "", url.pathname + url.search + url.hash);
     }, []);
 
-    // Connect: the provider's sign-in page, in "link" mode, then back here
+    // Connect: Google/Facebook use the provider's sign-in page; Apple opens its popup. Both come back here in "link" mode
     const connect = (provider: Provider) => {
         const next = `${pathname}?linked=${provider}`;
+        if (provider === "apple") {
+            startAppleSignIn(next, true);
+            return;
+        }
         window.location.href = `/api/auth/${provider}/login?link=1&next=${encodeURIComponent(next)}`;
     };
 
@@ -245,6 +251,17 @@ export default function SettingsPage() {
                         <ToggleSwitch
                             enabled={Boolean(s?.providers.facebook)}
                             onChange={() => toggleProvider("facebook")}
+                        />
+                    }
+                />
+
+                <SettingRow icon={<FaApple size={22} />}
+                    title="Apple"
+                    description={s ? (s.providers.apple ? t("connected") : t("notConnected")) : "…"}
+                    action={
+                        <ToggleSwitch
+                            enabled={Boolean(s?.providers.apple)}
+                            onChange={() => toggleProvider("apple")}
                         />
                     }
                 />

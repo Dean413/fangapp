@@ -475,3 +475,63 @@ export async function searchStories(query: string, language: string | null, limi
     );
     return rows.map(toCard);
 }
+
+
+// ---------- Genres from the admin's Curation → Genre ----------
+const READER_TENANT = "fang"; // this app's tenant id in the admin
+const READER_PLATFORM = "Websites";
+
+// The genre pills: enabled genre curations for this language, in the admin's order. A genre with no live books is left out.
+export async function listCuratedGenres(language: string) {
+    const { rows } = await dbPool.query(
+        `
+        SELECT o.name, fang_slugify(o.name) AS slug
+        FROM curation_collections cc
+        JOIN metadata_options o ON o.id = cc.genre_option_id AND o.enabled
+        WHERE cc.section = 'genre' AND cc.enabled
+          AND cc.tenant = $1 AND cc.language = $2 AND cc.platform = $3
+          AND EXISTS (
+              SELECT 1 FROM curation_items i
+              JOIN stories s ON s.id = i.story_id
+              WHERE i.collection_id = cc.id
+                AND s.is_deleted = false
+                AND $1 = ANY(s.tenants)
+                AND EXISTS (SELECT 1 FROM chapters pc WHERE pc.story_id = s.id AND pc.status = '${PUBLISHED_CHAPTER_STATUS}')
+          )
+        ORDER BY cc.display_order, cc.created_at
+        `,
+        [READER_TENANT, language, READER_PLATFORM]
+    );
+    return rows.map((r) => ({ name: r.name as string, slug: r.slug as string }));
+}
+
+// One genre's books, in the order the admin set
+export async function listCuratedGenreBooks(genre: string, language: string, limit?: number): Promise<StoryCard[]> {
+    const params: any[] = [READER_TENANT, language, READER_PLATFORM, genre];
+    const where = visibility(params);
+    params.push(Math.min(Math.max(Number(limit) || 60, 1), 100));
+
+    const { rows } = await dbPool.query(
+        `
+        SELECT ${STORY_COLUMNS}, rv.rating
+        ${STORY_FROM}
+        JOIN curation_items i ON i.story_id = s.id
+        JOIN curation_collections cc ON cc.id = i.collection_id
+        JOIN metadata_options o ON o.id = cc.genre_option_id
+        LEFT JOIN LATERAL (
+            SELECT round(avg(r.rating), 1) AS rating
+            FROM book_reviews r WHERE r.story_id = s.id AND NOT r.hidden
+        ) rv ON true
+        WHERE cc.section = 'genre' AND cc.enabled AND o.enabled
+          AND cc.tenant = $1 AND cc.language = $2 AND cc.platform = $3
+          AND fang_slugify(o.name) = $4
+          AND $1 = ANY(s.tenants)
+          AND ${where.join(" AND ")}
+        ORDER BY i.position, i.created_at
+        LIMIT $${params.length}
+        `,
+        params
+    );
+
+    return rows.map((r) => ({ ...toCard(r), rating: r.rating != null ? Number(r.rating) : null }));
+}

@@ -3,6 +3,7 @@ import { FaFacebookF } from "react-icons/fa"
 import Input from "./input";
 import PasswordInput from "./passwordInput";
 import { useTranslations } from "next-intl";
+import { startAppleSignIn } from "@/app/api/auth/apple/apple-client";
 
 type Form = {
     strength?: {
@@ -54,7 +55,7 @@ const ReusableInput = ({ fullName, placeholder, label, showStrengthBar, email, s
                     <span className="font-medium md:text-sm text-xs">Facebook</span>
                 </button>
 
-                <button type="button" className=" border bg-gray-100 dark:bg-dark-raised border-gray-300 dark:border-neutral-700 rounded-3xl py-3 px-4 flex items-center justify-center md:gap-3 gap-1 hover:bg-gray-50 dark:hover:bg-neutral-800 transition">
+                <button type="button" onClick={() => startAppleSignIn(window.location.pathname + window.location.search)} className=" border bg-gray-100 dark:bg-dark-raised border-gray-300 dark:border-neutral-700 rounded-3xl py-3 px-4 flex items-center justify-center md:gap-3 gap-1 hover:bg-gray-50 dark:hover:bg-neutral-800 transition cursor-pointer">
                     <Image src="https://www.svgrepo.com/show/503173/apple-logo.svg" alt="apple-logo" width={20} height={20} />
                     <span className="font-medium md:text-sm text-xs">Apple</span>
                 </button>

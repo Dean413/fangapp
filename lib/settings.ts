@@ -10,8 +10,8 @@ import { withTransaction } from "@/lib/auth/transaction";
 import { comparePassword } from "@/lib/auth/token";
 import { clearLoginTries, takeLoginTry } from "@/lib/auth/loginLimit";
 
-export type Provider = "google" | "facebook";
-export const PROVIDERS: Provider[] = ["google", "facebook"];
+export type Provider = "google" | "facebook" | "apple";
+export const PROVIDERS: Provider[] = ["google", "facebook", "apple"];
 
 export type NotificationSettings = {
     newChapters: boolean;
@@ -57,7 +57,7 @@ export async function getAccountSettings(userId: string): Promise<AccountSetting
         passwordChangedAt: r.password_changed_at ? new Date(r.password_changed_at).toISOString() : null,
         twoFactor: r.two_factor_enabled === true,
         isWriter: r.role === "author",
-        providers: { google: linked.includes("google"), facebook: linked.includes("facebook") },
+        providers: { google: linked.includes("google"), facebook: linked.includes("facebook"), apple: linked.includes("apple") },
         notifications: r.notify_new_chapters == null
             ? DEFAULT_NOTIFICATIONS
             : {
@@ -224,10 +224,8 @@ export type DeleteResult = { ok: true; photos: string[] } | { ok: false; reason:
 // Closes the account and removes the reader's personal data, in one transaction.
 // Kept (needed by law / to stop sign-up bonus abuse): the account row with only email, dates and status,
 // and the coin records (wallet_lots, wallet_ledger), which are permanent financial records.
-// Removed: full name, username, bio, photo links, password, genres, library, reading history, reward
-// activity, notification switches, email codes, sign-in links, and (for readers) the old user_profiles copy.
-// Returns the photo addresses so the files can be deleted from storage afterwards.
-// Writers' accounts can't be deleted here (it's also their FangWriters account).
+// Removed: full name, username, bio, photo links, password, genres, library, reading history, reward activity,
+// community posts, comments, likes and poll votes, book reviews, replies and review likes, author follows,
 export async function deleteAccount(userId: string): Promise<DeleteResult> {
     return withTransaction(async (client) => {
         const { rows } = await client.query(`SELECT email, role FROM users WHERE id = $1 FOR UPDATE`, [userId]);
@@ -242,6 +240,13 @@ export async function deleteAccount(userId: string): Promise<DeleteResult> {
         const photos = [profile[0]?.avatar_url, profile[0]?.cover_url].filter(
             (u): u is string => typeof u === "string" && u.length > 0
         );
+
+        // Images on the reader's community posts are removed from storage too
+        const { rows: postImages } = await client.query(
+            `SELECT image_url FROM community_posts WHERE user_id = $1 AND image_url IS NOT NULL`,
+            [userId]
+        );
+        for (const p of postImages) if (typeof p.image_url === "string" && p.image_url) photos.push(p.image_url);
 
         // The account: closed, signed out everywhere, no password, no two-factor
         await client.query(
@@ -286,7 +291,32 @@ export async function deleteAccount(userId: string): Promise<DeleteResult> {
             await client.query(`DELETE FROM ${table} WHERE user_id = $1`, [userId]);
         }
         await client.query(`DELETE FROM login_attempts WHERE email = lower($1)`, [account.email]);
+        // Community: what the reader did on other people's posts
+        await client.query(`DELETE FROM community_poll_votes WHERE user_id = $1`, [userId]);
+        await client.query(`DELETE FROM community_likes WHERE user_id = $1`, [userId]);
+        await client.query(`DELETE FROM community_comments WHERE user_id = $1`, [userId]);
 
+        // Community: the reader's own posts, with everything others attached to them
+        const ownPosts = `SELECT id FROM community_posts WHERE user_id = $1`;
+        await client.query(`DELETE FROM community_poll_votes WHERE post_id IN (${ownPosts})`, [userId]);
+        await client.query(`DELETE FROM community_polls WHERE post_id IN (${ownPosts})`, [userId]);
+        await client.query(`DELETE FROM community_likes WHERE post_id IN (${ownPosts})`, [userId]);
+        await client.query(`DELETE FROM community_comments WHERE post_id IN (${ownPosts})`, [userId]);
+        await client.query(`DELETE FROM community_posts WHERE user_id = $1`, [userId]);
+
+        // Reviews: what the reader did on other people's reviews
+        await client.query(`DELETE FROM review_likes WHERE user_id = $1`, [userId]);
+        await client.query(`DELETE FROM review_replies WHERE user_id = $1`, [userId]);
+
+        // Reviews: the reader's own, with the replies and likes on them
+        const ownReviews = `SELECT id FROM book_reviews WHERE user_id = $1`;
+        await client.query(`DELETE FROM review_likes WHERE review_id IN (${ownReviews})`, [userId]);
+        await client.query(`DELETE FROM review_replies WHERE review_id IN (${ownReviews})`, [userId]);
+        await client.query(`DELETE FROM book_reviews WHERE user_id = $1`, [userId]);
+        await client.query(`DELETE FROM review_prompts WHERE user_id = $1`, [userId]);
+
+        // Authors the reader followed
+        await client.query(`DELETE FROM author_follows WHERE reader_id = $1`, [userId]);
         return { ok: true, photos } as const;
     });
 }
