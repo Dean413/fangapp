@@ -55,7 +55,7 @@ export default function ProfileLayout({ children, }: { children: React.ReactNode
             {/* <div className="md:hidden fixed bottom-0 left-0 right-0 z-50">
                 <MobileProfileNav />
             </div> */}
-            <Footer />
+
         </div>
     );
 }
