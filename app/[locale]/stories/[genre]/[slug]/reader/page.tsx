@@ -559,11 +559,11 @@ export default function ReaderPage() {
                         onClose={() => setOpenToc(false)}
                     />
                 )}
-
                 {openGift && (
                     <GiftCard
                         title={data?.story?.title}
                         image={coverImage}
+                        book={String(slug)}
                         onClose={() => setOpenGift(false)}
                     />
                 )}

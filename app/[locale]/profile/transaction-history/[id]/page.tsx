@@ -183,7 +183,7 @@ export default function TransactionDetails() {
                     </div>
 
                     {/* Help Section */}
-                    <div className="flex items-center justify-between gap-4 rounded-2xl border border-gray-200 bg-white p-5 dark:border-dark-border dark:bg-dark-card md:p-6">
+                    <div className="md:flex items-center justify-between gap-4 rounded-2xl border border-gray-200 bg-white p-5 dark:border-dark-border dark:bg-dark-card md:p-6">
                         <div>
                             <p className="text-sm font-semibold text-gray-800 dark:text-neutral-100">{t("helpTitle")}</p>
                             <p className="mt-1 text-xs text-gray-400 dark:text-neutral-500">{t("helpText")}</p>

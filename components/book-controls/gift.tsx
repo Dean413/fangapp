@@ -1,63 +1,127 @@
 "use client";
 
-import { Gem, GemIcon } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
-import { FaGem } from "react-icons/fa6"
-import { GiGemChain } from "react-icons/gi";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
+import { toast } from "@/lib/store/toastStore";
+import { useAuthStore } from "@/lib/store/authStore";
 
+const FALLBACK_COVER = "/fang_pictures/bookFace.png";
+const MAX_GEMS_PER_VOTE = 1000;
 
-
-
-
-type Gift = {
-    id: number;
-    label: string;
-    value: string;
-    icon: string;
-};
-
-const gifts: Gift[] = [
-    { id: 1, label: "10 Coins", value: "10 coins", icon: "/fang_pictures/balance.png" },
-    { id: 2, label: "flowers", value: "$0.49", icon: "/fang_pictures/gift-icons/bouquet-of-flowers.png" },
-    { id: 3, label: "cupcake", value: "$0.49", icon: "/fang_pictures/gift-icons/cupcake.png" },
-    { id: 4, label: "rocket", value: "$0.49", icon: "/fang_pictures/gift-icons/rocket.png" },
-    { id: 5, label: "pen", value: "10 coins", icon: "/fang_pictures/gift-icons/pen.png" },
-    { id: 6, label: "crown", value: "$0.49", icon: "/fang_pictures/gift-icons/crown.png" },
-    { id: 7, label: "candy", value: "$0.49", icon: "/fang_pictures/gift-icons/candy.png" },
-    { id: 8, label: "taco", value: "$0.49", icon: "/fang_pictures/gift-icons/taco.png" },
-    { id: 9, label: "hamburger", value: "10 coins", icon: "/fang_pictures/gift-icons/hamburger.png" },
-    { id: 10, label: "moon cake", value: "$0.49", icon: "/fang_pictures/gift-icons/moon-cake.png" },
-    { id: 11, label: "pizza", value: "$0.49", icon: "/fang_pictures/gift-icons/pizza.png" },
-    { id: 12, label: "ship", value: "$0.49", icon: "/fang_pictures/gift-icons/ship.png" },
-];
-
+type Gift = { id: number; slug: string; name: string; icon: string; coins: number };
 
 const rubyTasks = [
-    {
-        id: 1,
-        title: "readingTask",
-        amount: "+1",
-        desc: "readingTaskDesc",
-
-    },
-    {
-        id: 2,
-        title: "topUp",
-        amount: "+3",
-        desc: "topUpDesc",
-
-    }
+    { id: 1, title: "readingTask", amount: "+1", desc: "readingTaskDesc" },
+    { id: 2, title: "topUp", amount: "+3", desc: "topUpDesc" },
 ];
 
+type GiftCardProps = {
+    onClose: () => void;
+    title?: string;
+    image?: string;
+    book: string; // the book's slug
+};
 
-export default function GiftCard({ onClose, title, image }: any) {
-    const [ownedGems, setOwnedGems] = useState(5); // from API
-    const [selectedGems, setSelectedGems] = useState(0);
-    const [active, setActive] = useState("gifts");
-    const [selectedGift, setSelectedGift] = useState<Gift | null>(null);
+export default function GiftCard({ onClose, title, image, book }: GiftCardProps) {
     const t = useTranslations("Gift");
+    const user = useAuthStore((s) => s.user);
+    const wallet = user?.wallet;
+    // Gifts can only be paid with bought coins; votes with gems
+    const boughtCoins = wallet?.coins ?? 0;
+    const ownedGems = wallet?.gems ?? 0;
+
+    const [active, setActive] = useState<"gifts" | "ruby">("gifts");
+    const [gifts, setGifts] = useState<Gift[]>([]);
+    const [giftsLoading, setGiftsLoading] = useState(true);
+    const [selectedGift, setSelectedGift] = useState<Gift | null>(null);
+    const [selectedGems, setSelectedGems] = useState(0);
+    const [voters, setVoters] = useState<number | null>(null);
+    const [sending, setSending] = useState(false);
+    const busy = useRef(false); // blocks a second tap before the page re-draws
+
+    // The gifts on offer
+    useEffect(() => {
+        let alive = true;
+        fetch("/api/gifts", { cache: "no-store" })
+            .then((r) => (r.ok ? r.json() : null))
+            .then((data) => { if (alive && Array.isArray(data?.gifts)) setGifts(data.gifts); })
+            .catch(() => { })
+            .finally(() => { if (alive) setGiftsLoading(false); });
+        return () => { alive = false; };
+    }, []);
+
+    // This month's voters for the book
+    useEffect(() => {
+        if (!book) return;
+        let alive = true;
+        fetch(`/api/votes?book=${encodeURIComponent(book)}`, { cache: "no-store" })
+            .then((r) => (r.ok ? r.json() : null))
+            .then((data) => { if (alive && data?.votes) setVoters(Number(data.votes.voters) || 0); })
+            .catch(() => { });
+        return () => { alive = false; };
+    }, [book]);
+
+    // Keep the chosen number of gems within what the reader has
+    const maxGems = Math.min(ownedGems, MAX_GEMS_PER_VOTE);
+    useEffect(() => {
+        setSelectedGems((g) => Math.min(g, maxGems));
+    }, [maxGems]);
+
+    const applyWallet = (next: unknown) => {
+        const current = useAuthStore.getState().user;
+        if (current && next) useAuthStore.getState().setUser({ ...current, wallet: next as typeof current.wallet });
+    };
+
+    const post = async (url: string, body: object) => {
+        const res = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify(body),
+        });
+        const data = await res.json().catch(() => ({}));
+        if (data?.wallet) applyWallet(data.wallet);
+        return { ok: res.ok, data };
+    };
+
+    const sendGift = async () => {
+        if (busy.current || !selectedGift) return;
+        busy.current = true;
+        setSending(true);
+        try {
+            const { ok, data } = await post("/api/gifts", { book, gift: selectedGift.id });
+            if (!ok) return void toast.error(data.message || t("sendFailed"));
+            toast.success(data.message || t("giftSent", { gift: selectedGift.name }));
+            setSelectedGift(null);
+        } catch {
+            toast.error(t("sendFailed"));
+        } finally {
+            busy.current = false;
+            setSending(false);
+        }
+    };
+
+    const vote = async () => {
+        if (busy.current || selectedGems < 1) return;
+        busy.current = true;
+        setSending(true);
+        try {
+            const { ok, data } = await post("/api/votes", { book, gems: selectedGems });
+            if (!ok) return void toast.error(data.message || t("voteFailed"));
+            toast.success(data.message || t("votesSent", { count: selectedGems }));
+            if (data?.votes) setVoters(Number(data.votes.voters) || 0);
+            setSelectedGems(0);
+        } catch {
+            toast.error(t("voteFailed"));
+        } finally {
+            busy.current = false;
+            setSending(false);
+        }
+    };
+
+    const canAffordSelected = selectedGift ? boughtCoins >= selectedGift.coins : false;
 
     return (
         <div className="fixed inset-0 z-50 flex">
@@ -65,41 +129,44 @@ export default function GiftCard({ onClose, title, image }: any) {
             <div className="w-80 md:w-125 fixed md:right-15 right-5 top-1/2 -translate-y-1/2 bg-white dark:bg-dark-card rounded-xl shadow-xl z-50">
                 {/* Tabs */}
                 <div className="flex border-b border-gray-500 dark:border-neutral-600">
-                    <button onClick={() => setActive("ruby")}
+                    <button type="button" onClick={() => setActive("ruby")}
                         className={`w-1/2 py-5 text-sm font-semibold ${active === "ruby" ? "bg-red-200 dark:bg-red-500/25" : ""} text-black dark:text-white rounded-t-xl`}>
                         {t("ruby")}
                     </button>
 
-                    <button onClick={() => setActive("gifts")}
+                    <button type="button" onClick={() => setActive("gifts")}
                         className={`w-1/2 py-5 text-sm font-semibold ${active === "gifts" ? "bg-red-200 dark:bg-red-500/25" : ""} text-black dark:text-white rounded-t-xl`}>
                         {t("gifts")}
                     </button>
                 </div>
 
                 {/* Header */}
-                <div className="bg-red-100 dark:bg-red-500/15 px-4 py-3 font-semibold text-gray-800 dark:text-neutral-100">
-                    {t("fansContribution")}
+                <div className="flex items-center justify-between gap-3 bg-red-100 dark:bg-red-500/15 px-4 py-3 font-semibold text-gray-800 dark:text-neutral-100">
+                    <span>{t("fansContribution")}</span>
+                    {active === "gifts" && user && (
+                        <span className="text-xs font-medium text-gray-600 dark:text-neutral-300">
+                            {t("boughtCoins", { count: boughtCoins })}
+                        </span>
+                    )}
                 </div>
 
                 {/* Gifts */}
                 {active === "gifts" && (
-                    <div className="grid grid-cols-4 md:grid-cols-4 gap-1 md:gap-5 p-2 md:6">
-                        {gifts.map((gift) => (
-                            <div key={gift.id} onClick={() => setSelectedGift(gift)}
-                                className={`flex flex-col items-center justify-center p-3 rounded-lg border bg-white dark:bg-dark-card shadow-sm hover:shadow-md transition cursor-pointer
-                                ${selectedGift === gift ? "bg-red-100 dark:bg-red-500/15 border-red-500" : "border-gray-200 dark:border-dark-border"}`}>
-                                <Image
-                                    src={gift.icon}
-                                    alt={gift.label}
-                                    width={28}
-                                    height={28}
-                                    className="mb-2"
-                                />
-                                <p className="text-xs font-medium text-gray-700 dark:text-neutral-200 text-center">
-                                    {gift.value}
-                                </p>
-                            </div>
-                        ))}
+                    <div className="grid grid-cols-4 md:grid-cols-4 gap-1 md:gap-5 p-2 md:p-6">
+                        {giftsLoading
+                            ? Array.from({ length: 12 }, (_, i) => (
+                                <div key={i} className="h-20 animate-pulse rounded-lg bg-gray-100 dark:bg-dark-raised" />
+                            ))
+                            : gifts.map((gift) => (
+                                <button key={gift.id} type="button" onClick={() => setSelectedGift(gift)} disabled={sending}
+                                    className={`flex flex-col items-center justify-center p-3 rounded-lg border bg-white dark:bg-dark-card shadow-sm hover:shadow-md transition cursor-pointer disabled:cursor-not-allowed
+                                    ${selectedGift?.id === gift.id ? "bg-red-100 dark:bg-red-500/15 border-red-500" : "border-gray-200 dark:border-dark-border"}`}>
+                                    <Image src={gift.icon} alt={gift.name} width={28} height={28} className="mb-2" />
+                                    <p className="text-xs font-medium text-gray-700 dark:text-neutral-200 text-center">
+                                        {t("coinsPrice", { count: gift.coins })}
+                                    </p>
+                                </button>
+                            ))}
                     </div>
                 )}
 
@@ -107,66 +174,48 @@ export default function GiftCard({ onClose, title, image }: any) {
                 {active === "ruby" && (
                     <div className="p-4">
                         <div className="flex items-center gap-3 mb-5">
-                            <Image
-                                src={image}
-                                alt="book"
-                                width={100}
-                                height={100}
-                                className="rounded-lg"
-                            />
-                            <div>
-                                <p className="font-semibold text-gray-900 dark:text-white">{title}</p>
-                                <p className="text-sm text-gray-600 dark:text-neutral-300">{t("readersVoted", { count: 400 })}</p>
+                            <Image src={image || FALLBACK_COVER} alt={title ?? ""} width={100} height={100} className="rounded-lg" />
+                            <div className="min-w-0">
+                                <p className="font-semibold text-gray-900 dark:text-white line-clamp-2">{title}</p>
+                                {voters !== null && (
+                                    <p className="text-sm text-gray-600 dark:text-neutral-300">{t("readersVoted", { count: voters })}</p>
+                                )}
                             </div>
                         </div>
                         <h2 className="text-red-400 text-xl mb-5">{t("howToGet")}</h2>
                         <div>
                             {rubyTasks.map((task) => (
-                                <div
-                                    className="flex justify-between items-center mb-5"
-                                    key={task.id}>
-
+                                <div className="flex justify-between items-center mb-5" key={task.id}>
                                     <div>
                                         <div className="flex items-center gap-2 text-gray-900 dark:text-white">
                                             <span>{t(task.title)}</span>
-
-                                            <Image
-                                                src="/fang_pictures/gift-icons/ruby.png"
-                                                alt="gems"
-                                                width={20}
-                                                height={20}
-                                            />
-
-                                            <span className="text-red-500">
-                                                {task.amount}
-                                            </span>
+                                            <Image src="/fang_pictures/gift-icons/ruby.png" alt="gems" width={20} height={20} />
+                                            <span className="text-red-500">{task.amount}</span>
                                         </div>
-
-                                        <p className="text-[8px] md:text-xs text-gray-500 dark:text-neutral-400">
-                                            {t(task.desc)}
-                                        </p>
+                                        <p className="text-[8px] md:text-xs text-gray-500 dark:text-neutral-400">{t(task.desc)}</p>
                                     </div>
 
-
                                     {task.title === "topUp" && (
-                                        <button className="text-red-500 text-xs md:text-sm font-semibold cursor-pointer">
+                                        <Link href="/profile/wallet" className="text-red-500 text-xs md:text-sm font-semibold">
                                             {t("topUpLink")} {">"}
-                                        </button>
+                                        </Link>
                                     )}
-
                                 </div>
                             ))}
-
                         </div>
 
                         <div className="flex justify-between items-center mt-8">
-                            <div >
+                            <div>
                                 <div className="border rounded-full px-4 py-1 flex gap-3 items-center">
-                                    <button onClick={() => setSelectedGems(prev => Math.max(0, prev - 1))}>
+                                    <button type="button" disabled={sending || selectedGems <= 0}
+                                        onClick={() => setSelectedGems((prev) => Math.max(0, prev - 1))}
+                                        className="disabled:opacity-40" aria-label="-">
                                         -
                                     </button>
                                     <span>{selectedGems}</span>
-                                    <button onClick={() => setSelectedGems(prev => Math.min(ownedGems, prev + 1))}>
+                                    <button type="button" disabled={sending || selectedGems >= maxGems}
+                                        onClick={() => setSelectedGems((prev) => Math.min(maxGems, prev + 1))}
+                                        className="disabled:opacity-40" aria-label="+">
                                         +
                                     </button>
                                 </div>
@@ -175,18 +224,27 @@ export default function GiftCard({ onClose, title, image }: any) {
                                     <p>{t("gemsLeft", { count: ownedGems - selectedGems })}</p>
                                 </div>
                             </div>
-                            <button disabled={selectedGems == 0} onClick={() => alert(t("votesSent", { count: selectedGems }))} className={`${selectedGems === 0 ? "bg-red-200 dark:bg-red-500/25" : "bg-red-700"} cursor-pointer text-white px-8 py-3 rounded-full font-semibold flex items-center gap-3`}>
+                            <button type="button" disabled={selectedGems === 0 || sending} onClick={vote}
+                                className={`${selectedGems === 0 || sending ? "bg-red-200 dark:bg-red-500/25 cursor-not-allowed" : "bg-red-700 cursor-pointer"} text-white px-8 py-3 rounded-full font-semibold flex items-center gap-3`}>
                                 <Image src="/fang_pictures/gift-icons/ruby.png" alt="gems" width={20} height={20} />
-                                <span>{t("vote")}</span>
+                                <span>{sending ? t("sending") : t("vote")}</span>
                             </button>
                         </div>
                     </div>
                 )}
-                {/* Button */}
+
+                {/* Send */}
                 {active === "gifts" && (
                     <div className="p-4">
-                        <button disabled={!selectedGift} onClick={() => alert(t("giftSent", { gift: selectedGift?.label ?? "" }))} className={`w-full cursor-pointer py-3 rounded-full ${selectedGift ? "bg-red-700" : "bg-red-300"} text-white font-semibold transition`}>
-                            {t("send")}
+                        {selectedGift && user && !canAffordSelected && (
+                            <p className="mb-2 text-center text-xs text-red-600 dark:text-red-400">
+                                {t("needBoughtCoins")}{" "}
+                                <Link href="/profile/wallet" className="font-semibold underline">{t("topUpLink")}</Link>
+                            </p>
+                        )}
+                        <button type="button" disabled={!selectedGift || sending} onClick={sendGift}
+                            className={`w-full py-3 rounded-full ${selectedGift && !sending ? "bg-red-700 cursor-pointer" : "bg-red-300 cursor-not-allowed"} text-white font-semibold transition`}>
+                            {sending ? t("sending") : t("send")}
                         </button>
                     </div>
                 )}
