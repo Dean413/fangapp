@@ -1327,6 +1327,10 @@
         "ratingOutOf": "{rating} / 5"
     },
     "Meta": {
-        "description": "Strona do czytania dla wszystkich"
+        "description": "Strona do czytania dla wszystkich",
+        "bookTitle": "{title} – {author} | FANG",
+        "bookTitleNoAuthor": "{title} | FANG",
+        "bookDescription": "Przeczytaj {title} autora {author}, historię z gatunku {genre} na FANG.",
+        "bookDescriptionNoAuthor": "Przeczytaj {title}, historię z gatunku {genre} na FANG."
     }
 }

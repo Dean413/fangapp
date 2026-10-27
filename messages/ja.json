@@ -1327,6 +1327,10 @@
         "ratingOutOf": "{rating} / 5"
     },
     "Meta": {
-        "description": "みんなのための読書サイト"
+        "description": "みんなのための読書サイト",
+        "bookTitle": "{title} - {author} | FANG",
+        "bookTitleNoAuthor": "{title} | FANG",
+        "bookDescription": "{author}による{genre}の物語「{title}」をFANGで読む。",
+        "bookDescriptionNoAuthor": "{genre}の物語「{title}」をFANGで読む。"
     }
 }

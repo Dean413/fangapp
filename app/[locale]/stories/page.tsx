@@ -153,7 +153,7 @@ const GenreBrowser = () => {
                             ))}
                         </div>
                         {/* TEMPORARY: more of the same books in a random order as the reader scrolls */}
-                        {/* <FillerBooks books={books} /> */}
+                        <FillerBooks books={books} />
                     </>
                 )}
             </div>

@@ -382,11 +382,7 @@ export default function ReaderPage() {
             const cleanUrl = `${window.location.origin}/stories/${story?.genreSlug || genre}/${story?.slug || slug}`;
 
             if (navigator.share) {
-                await navigator.share({
-                    title: story?.title || t("story"),
-                    text: t("shareText", { title: story?.title ?? "" }),
-                    url: cleanUrl,
-                });
+                await navigator.share({ url: cleanUrl });
             } else {
                 await navigator.clipboard.writeText(cleanUrl);
                 setLinkCopied(true);

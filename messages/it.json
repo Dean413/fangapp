@@ -1327,6 +1327,10 @@
         "ratingOutOf": "{rating} / 5"
     },
     "Meta": {
-        "description": "Un sito di lettura per tutti"
+        "description": "Un sito di lettura per tutti",
+        "bookTitle": "{title} di {author} | FANG",
+        "bookTitleNoAuthor": "{title} | FANG",
+        "bookDescription": "Leggi {title} di {author}, una storia {genre} su FANG.",
+        "bookDescriptionNoAuthor": "Leggi {title}, una storia {genre} su FANG."
     }
 }

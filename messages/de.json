@@ -1327,6 +1327,10 @@
         "ratingOutOf": "{rating} / 5"
     },
     "Meta": {
-        "description": "Eine Leseseite für alle"
+        "description": "Eine Leseseite für alle",
+        "bookTitle": "{title} von {author} | FANG",
+        "bookTitleNoAuthor": "{title} | FANG",
+        "bookDescription": "Lies {title} von {author}, eine {genre}-Geschichte auf FANG.",
+        "bookDescriptionNoAuthor": "Lies {title}, eine {genre}-Geschichte auf FANG."
     }
 }

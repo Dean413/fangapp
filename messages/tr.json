@@ -1327,6 +1327,10 @@
         "ratingOutOf": "{rating} / 5"
     },
     "Meta": {
-        "description": "Herkes için bir okuma sitesi"
+        "description": "Herkes için bir okuma sitesi",
+        "bookTitle": "{title} - {author} | FANG",
+        "bookTitleNoAuthor": "{title} | FANG",
+        "bookDescription": "FANG'da {author} tarafından yazılan {genre} hikayesi {title}'yi oku.",
+        "bookDescriptionNoAuthor": "FANG'da {genre} hikayesi {title}'yi oku."
     }
 }
