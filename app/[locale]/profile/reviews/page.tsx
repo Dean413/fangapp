@@ -7,6 +7,7 @@ import { formatDate, StarRating } from "@/components/reviews/stars";
 import { ConfirmDialog, EditReviewDialog, sendJson } from "@/components/reviews/reviewsDialog";
 import { useTranslations } from "next-intl";
 import Footer from "@/components/footer";
+import Imprint from "@/components/imprint";
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
 
@@ -37,9 +38,10 @@ type Tab = "reviews" | "comments";
 function Cover({ src, alt }: { src: string | null; alt: string }) {
     const [failed, setFailed] = useState(false);
     return (
-        <div className="w-18 h-24 sm:w-24 sm:h-32 shrink-0 rounded-lg overflow-hidden bg-gray-200 dark:bg-neutral-800">
+        <div className="relative w-18 h-24 sm:w-24 sm:h-32 shrink-0 rounded-lg overflow-hidden bg-gray-200 dark:bg-neutral-800">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={!src || failed ? FALLBACK_COVER : src} alt={alt} onError={() => setFailed(true)} className="w-full h-full object-cover" />
+            <Imprint size="sm" />
         </div>
     );
 }

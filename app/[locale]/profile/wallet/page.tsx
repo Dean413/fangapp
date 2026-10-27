@@ -7,8 +7,10 @@ import { useWalletStore } from "@/lib/store/wallet-action-store";
 import { useAuthStore } from "@/lib/store/authStore";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/routing";
 
 export default function WalletPage() {
+    const router = useRouter()
     const { active, setActive } = useWalletStore()
     const t = useTranslations("Wallet")
     const wallet = useAuthStore((s) => s.user?.wallet)
@@ -70,7 +72,7 @@ export default function WalletPage() {
                         <div className="">
                             <div className="flex gap-3">
                                 <button type="button" onClick={() => setActive("topup")} className="bg-red-500 dark:bg-[#D90404] px-4 py-2 rounded-full text-xs md:text-sm">{t("plusTopUp")}</button>
-                                <button type="button" className="bg-white/10 dark:bg-neutral-800 px-4 py-2 rounded-full text-sm">{t("history")}</button>
+                                <button onClick={() => router.push("/profile/transaction-history")} type="button" className="bg-white/10 dark:bg-neutral-800 px-4 py-2 rounded-full text-sm">{t("history")}</button>
                             </div>
                         </div>
 

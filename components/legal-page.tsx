@@ -69,7 +69,7 @@ export default async function LegalPage({ doc }: { doc: LegalKey }) {
 
     return (
         <div className="w-full flex justify-center py-4 md:py-10 bg-gray-50 dark:bg-dark">
-            <div className="w-[90%] text-black dark:text-white space-y-8 bg-white dark:bg-dark-card p-5 md:p-8">
+            <div className="md:w-[90%] text-black dark:text-white space-y-8 bg-white dark:bg-dark-card p-5 md:p-8">
                 <h1 className="text-4xl text-center mb-8 font-bold">{page.title}</h1>
                 {locale !== "en" && docs.notice && BINDING.includes(doc) && (
                     <p className="text-sm text-gray-500 dark:text-neutral-400 italic">{docs.notice}</p>

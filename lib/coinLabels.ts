@@ -20,6 +20,7 @@ export function coinDescription(t: T, reason: string | undefined, refId: string 
         case "purchase": return t("topUp");
         case "unlock": return t("chapterUnlock");
         case "vip": return t("vip");
+        case "gift": return t("gift");
         case "expired": return coinSource(t, refId);
         default: return fallback || (reason ?? "").replace(/_/g, " ");
     }
@@ -33,6 +34,7 @@ export function coinType(t: T, reason: string | undefined, amount: number): stri
         case "reading_time": return t("typeReward");
         case "purchase": return t("typeTopUp");
         case "unlock": return t("typeUnlock");
+        case "gift": return t("typeGift");
         case "expired": return t("typeExpired");
         default: return amount > 0 ? t("typeAdded") : t("typeSpent");
     }

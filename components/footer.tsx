@@ -65,7 +65,7 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={name}
-                    className="flex h-14 w-14 items-center justify-center rounded-full border border-gray-600 text-gray-300 md:h-11 md:w-11">
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-600 text-gray-300 md:h-11 md:w-11">
                     <Icon className={`h-5 w-5 transition ${hover}`} />
                 </a>
             ))}

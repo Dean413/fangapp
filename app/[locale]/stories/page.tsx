@@ -7,8 +7,6 @@ import { fetchStories } from "@/lib/fetch-stories";
 import { languageForLocale } from "@/lib/language";
 import type { StoryCard } from "@/lib/stories";
 import { useLocale, useTranslations } from "next-intl";
-// TEMPORARY: repeats the books in a random order below the real ones (see the file to remove it)
-import FillerBooks from "@/components/cards/two-column-cards/fillerBooks";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
 
@@ -153,7 +151,7 @@ const GenreBrowser = () => {
                             ))}
                         </div>
                         {/* TEMPORARY: more of the same books in a random order as the reader scrolls */}
-                        <FillerBooks books={books} />
+                        {/* <FillerBooks books={books} /> */}
                     </>
                 )}
             </div>

@@ -15,7 +15,7 @@ import EditProfileCard from "@/components/editProfileCard";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useLibraryStore } from "@/lib/store/library-store";
 import LanguageChange from "@/components/language-change";
-import { SlidersHorizontal } from "lucide-react";
+import { MessageSquareText, SlidersHorizontal } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
@@ -23,7 +23,7 @@ import { useTheme } from "next-themes";
 import { toast } from "@/lib/store/toastStore";
 import { FaFacebookF, FaFile, FaShieldHalved, FaUserPen, FaUserShield } from "react-icons/fa6";
 import { FiLifeBuoy, FiLink } from "react-icons/fi";
-import { FaApple, FaInfoCircle, FaQuestionCircle } from "react-icons/fa";
+import { FaApple, FaComment, FaInfoCircle, FaQuestionCircle } from "react-icons/fa";
 import { useLocale, useTranslations } from "next-intl";
 import AutoRenewRow from "@/components/profile-components/settings/auto-renew-row";
 import TwoFactorCard from "@/components/authCards/twoFactorCards";
@@ -265,6 +265,11 @@ export default function SettingsPage() {
                         />
                     }
                 />
+
+                <SettingRow icon={<MessageSquareText />}
+                    title={t("community")}
+                    link="/profile/community"
+                />
             </SettingsSection>
 
             <SettingsSection title={t("preferences")} icon={<SlidersHorizontal size={20} className="text-red-500" />}>
@@ -317,7 +322,11 @@ export default function SettingsPage() {
 
                 </div>
             </SettingsSection>
-            <p className="text-center text-gray-500 dark:text-neutral-400">{t("version", { version: "2.4.1", year: 2026 })}</p>
+            <div>
+                <p className="text-center text-gray-500 dark:text-neutral-400">© 2026 FANG . All rights reserved.</p>
+                <p className="text-center text-gray-500 dark:text-neutral-400">Powered by FANGVAULT</p>
+            </div>
+
 
             {/* POPUPS */}
             <EditProfileCard open={dialog === "profile"} onClose={() => { setDialog(null); load(); }} />

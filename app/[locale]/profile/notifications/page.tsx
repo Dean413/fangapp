@@ -136,6 +136,8 @@ function cardParts(n: Notification, now: number, t: T, ct: T): CardParts {
                     // wholeCardLink: true,
                 };
             }
+
+
             return {
                 icon: (
                     <div className="bg-yellow-100 dark:bg-yellow-500/15 p-3 rounded-xl">
@@ -159,6 +161,19 @@ function cardParts(n: Notification, now: number, t: T, ct: T): CardParts {
                     subtitle: time,
                     action: <Spent amount={amount} />,
                     // wholeCardLink: true,
+                };
+            }
+
+            if (n.reason === "gift") {
+                return {
+                    icon: (
+                        <div className="bg-pink-100 dark:bg-pink-500/15 p-3 rounded-xl">
+                            <FaGift size={20} color="deeppink" />
+                        </div>
+                    ),
+                    title: t("giftSent"),
+                    subtitle: time,
+                    action: <Spent amount={amount} />,
                 };
             }
             return {

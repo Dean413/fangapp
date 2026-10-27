@@ -8,6 +8,7 @@ import Link from "next/link";
 import type { HomeBook, HomeCollection } from "@/lib/home";
 import { useOptionNames } from "@/hooks/useOptionName";
 import { SectionHeader, bookHref } from "./bookBits";
+import Imprint from "../imprint";
 
 const SHOWN = 9;
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
@@ -32,6 +33,7 @@ export function BookCard({ book }: { book: HomeBook }) {
                     alt={book.title}
                     className="absolute inset-0 h-full w-full object-cover"
                 />
+                <Imprint />
             </div>
             <div className="min-w-0 flex-1 sm:py-1">
                 <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-gray-900 sm:line-clamp-1 dark:text-white">

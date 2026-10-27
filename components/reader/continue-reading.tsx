@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useAuthStore } from "@/lib/store/authStore";
 import { SectionHeader } from "@/components/home/bookBits";
 import { useTranslations } from "next-intl";
+import Imprint from "@/components/imprint";
 
 type ContinueBook = {
     slug: string;
@@ -26,13 +27,16 @@ const CARD = "w-[80%] shrink-0 snap-start sm:w-auto";
 function BookCover({ book }: { book: ContinueBook }) {
     const [failed, setFailed] = useState(false);
     return (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-            src={failed ? FALLBACK_COVER : book.image}
-            onError={() => setFailed(true)}
-            alt={book.title}
-            className="w-20 h-28 shrink-0 rounded-md object-cover"
-        />
+        <div className="relative w-20 h-28 shrink-0 overflow-hidden rounded-md">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+                src={failed ? FALLBACK_COVER : book.image}
+                onError={() => setFailed(true)}
+                alt={book.title}
+                className="w-full h-full object-cover"
+            />
+            <Imprint size="sm" />
+        </div>
     );
 }
 

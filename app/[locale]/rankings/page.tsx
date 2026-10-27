@@ -10,6 +10,7 @@ import { FaBookmark, FaRegBookmark, FaRegEye } from "react-icons/fa";
 import { useLibraryStore } from "@/lib/store/library-store";
 import { useOptionNames } from "@/hooks/useOptionName";
 import { Suspense, useEffect, useRef, useState } from "react";
+import Imprint from "@/components/imprint";
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
 
@@ -65,6 +66,7 @@ function Cover({ src, alt, sizes }: { src?: string; alt: string; sizes: string }
                 onError={() => setFailed(true)}
                 className="object-cover"
             />
+            <Imprint />
         </>
     );
 }

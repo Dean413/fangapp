@@ -326,11 +326,11 @@ const NavBar = () => {
 
                     {/* Phones: Sign up (guests), language, theme, then the avatar (opens My Account) */}
                     <div className="flex items-center gap-2 md:hidden">
-                        {!user && (
+                        {/* {!user && (
                             <button onClick={openSignUp} className="rounded-full bg-[#D90404] px-4 py-2 text-sm font-medium text-white">
                                 {t("SignUp")}
                             </button>
-                        )}
+                        )} */}
                         <LanguageChange />
                         <button onClick={() => setTheme(isDark ? "light" : "dark")} aria-label={t("toggleTheme")} className="p-1.5">
                             {isDark ? <Sun size={22} className="text-white" /> : <MoonStarIcon size={22} className="text-black" />}

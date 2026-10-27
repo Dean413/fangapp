@@ -25,6 +25,7 @@ import { BookGrid, SectionHeader } from "@/hooks/bookData";
 import { BookCard as YouMayLikeCard } from "@/components/home/youMayLike";
 import { toast } from "@/lib/store/toastStore";
 import ViewTracker from "@/components/book-controls/view-tracker";
+import Imprint from "@/components/imprint";
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
 // The reader's own display choices (theme, font, size), kept in this browser
@@ -93,6 +94,7 @@ function Cover({ src }: { src?: string | null }) {
                 onError={() => { setFailed(true); setLoaded(true); }}
                 className="relative w-40 h-45 object-cover"
             />
+            <Imprint />
         </div>
     );
 }

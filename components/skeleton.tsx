@@ -32,33 +32,6 @@ export function CoverPlaceholder() {
     );
 }
 
-// Book page header: cover + title, author, tags, stats, buttons
-export function BookHeroSkeleton() {
-    return (
-        <div className="flex flex-col sm:flex-row gap-6 pr-10 md:pr-20">
-            <Bone className="w-32 md:w-44 aspect-3/4 rounded-xl shrink-0" />
-            <div className="flex-1 space-y-4 pt-2">
-                <Bone className="h-7 w-2/3" />
-                <Bone className="h-4 w-1/3" />
-                <div className="flex gap-2">
-                    <Bone className="h-6 w-16 rounded-full" />
-                    <Bone className="h-6 w-20 rounded-full" />
-                    <Bone className="h-6 w-14 rounded-full" />
-                </div>
-                <div className="flex gap-6">
-                    <Bone className="h-10 w-16" />
-                    <Bone className="h-10 w-16" />
-                    <Bone className="h-10 w-16" />
-                </div>
-                <div className="flex gap-3">
-                    <Bone className="h-10 w-36 rounded-full" />
-                    <Bone className="h-10 w-28 rounded-full" />
-                </div>
-            </div>
-        </div>
-    );
-}
-
 export function TextSkeleton({ lines = 4 }: { lines?: number }) {
     const widths = ["w-full", "w-11/12", "w-full", "w-4/5", "w-10/12", "w-full", "w-3/4", "w-9/12"];
     return (

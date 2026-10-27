@@ -7,6 +7,7 @@ import { CoverPlaceholder } from "@/components/skeleton";
 import { useTranslations } from "next-intl";
 import { useLibraryStore } from "@/lib/store/library-store";
 import { useOptionNames } from "@/hooks/useOptionName";
+import Imprint from "@/components/imprint";
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
 const MAX_TAGS = 3;
@@ -74,6 +75,7 @@ export const GenreCard = (genreCard: cardDataProps) => {
                     onError={() => setFailed(true)}
                     className="object-cover"
                 />
+                <Imprint />
             </div>
 
             {/* Content */}

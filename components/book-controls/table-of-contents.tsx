@@ -27,7 +27,7 @@ export default function TocSheet({ chapters, currentChapter, onClose }: any) {
             <div className="flex-1" onClick={onClose} />
 
             {/* PANEL */}
-            <div className="w-80 md:w-105 fixed md:right-15 right-5 top-1/2 -translate-y-1/2 bg-white dark:bg-dark-card rounded-xl shadow-xl p-4 z-50">
+            <div className="w-80 md:w-105 fixed md:right-15 right-5 top-1/2 -translate-y-1/2 bg-white dark:bg-dark-card text-gray-900 dark:text-white rounded-xl shadow-xl p-4 z-50">
                 <h2 className="text-center border-b border-gray-300 dark:border-neutral-700 pb-3 font-bold mb-4">{t("contents")}</h2>
 
                 {/* key: a new range starts at the top of the list */}
