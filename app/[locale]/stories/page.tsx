@@ -80,8 +80,8 @@ const GenreBrowser = () => {
                 // A genre = the admin's curated list for it, in the admin's order. "All" = every book, newest first.
                 const data = await fetchStories(
                     selected
-                        ? { genre: selected, language, curated: true, limit: 60 }
-                        : { language, sort: "new", limit: 60 }
+                        ? { genre: selected, language, curated: true, limit: 100 }
+                        : { language, curated: true, limit: 500 }
                 );
                 cache.current.set(key, data);
                 if (latest.current === key) setBooks(data); // ignore answers for a genre / language no longer picked
@@ -153,7 +153,7 @@ const GenreBrowser = () => {
                             ))}
                         </div>
                         {/* TEMPORARY: more of the same books in a random order as the reader scrolls */}
-                        <FillerBooks books={books} />
+                        {/* <FillerBooks books={books} /> */}
                     </>
                 )}
             </div>

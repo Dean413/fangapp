@@ -535,3 +535,39 @@ export async function listCuratedGenreBooks(genre: string, language: string, lim
 
     return rows.map((r) => ({ ...toCard(r), rating: r.rating != null ? Number(r.rating) : null }));
 }
+
+// "All" on the genre page: every book in any enabled genre curation for this language, each once.
+// Ordered by the genre's place in the admin's order, then the book's position in that genre.
+export async function listCuratedAllBooks(language: string, limit?: number): Promise<StoryCard[]> {
+    const params: any[] = [READER_TENANT, language, READER_PLATFORM];
+    const where = visibility(params);
+    params.push(Math.min(Math.max(Number(limit) || 200, 1), 500));
+
+    const { rows } = await dbPool.query(
+        `
+        SELECT * FROM (
+            SELECT DISTINCT ON (s.id)
+                   ${STORY_COLUMNS}, rv.rating,
+                   cc.display_order AS genre_order, i.position AS item_position
+            ${STORY_FROM}
+            JOIN curation_items i ON i.story_id = s.id
+            JOIN curation_collections cc ON cc.id = i.collection_id
+            JOIN metadata_options o ON o.id = cc.genre_option_id
+            LEFT JOIN LATERAL (
+                SELECT round(avg(r.rating), 1) AS rating
+                FROM book_reviews r WHERE r.story_id = s.id AND NOT r.hidden
+            ) rv ON true
+            WHERE cc.section = 'genre' AND cc.enabled AND o.enabled
+              AND cc.tenant = $1 AND cc.language = $2 AND cc.platform = $3
+              AND $1 = ANY(s.tenants)
+              AND ${where.join(" AND ")}
+            ORDER BY s.id, cc.display_order, i.position
+        ) books
+        ORDER BY genre_order, item_position
+        LIMIT $${params.length}
+        `,
+        params
+    );
+
+    return rows.map((r) => ({ ...toCard(r), rating: r.rating != null ? Number(r.rating) : null }));
+}
