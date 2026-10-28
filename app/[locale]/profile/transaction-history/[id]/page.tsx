@@ -7,7 +7,7 @@ import { toast } from "@/lib/store/toastStore";
 import { useLocale, useTranslations } from "next-intl";
 import { coinDescription, coinType } from "@/lib/coinLabels";
 
-const SUPPORT_EMAIL = "support@fangapp.com";
+const SUPPORT_EMAIL = "support@fangapp.io";
 
 type Transaction = {
     id: string;

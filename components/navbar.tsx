@@ -20,7 +20,7 @@ import Swal from "sweetalert2";
 import UnreadBadge from "@/components/unreadBadge";
 
 // Genres live under /stories (genre list, a genre's books, book pages and the reader)
-const GENRES_PATH = "/stories";
+const GENRES_PATH = "/genre";
 const NOTIFICATIONS_PATH = "/profile/notifications";
 const WALLET_PATH = "/profile/wallet";
 const SEARCH_PATH = "/search";

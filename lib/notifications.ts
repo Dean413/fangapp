@@ -324,10 +324,11 @@ export async function listNotifications(userId: string, tab: NotificationTab, be
                     n.data, n.created_at, n.read_at,
                     s.title AS story_title, COALESCE(s.slug, s.book_id, s.id::text) AS slug, COALESCE(s.genre, '') AS genre,
                     a.name AS author
-                    FROM reader_notifications n
-                    LEFT JOIN payments pay ON n.kind = 'coins_added' AND n.data->>'reason' IN ('purchase', 'topup')
-                    AND pay.id::text = n.data->>'refId' AND pay.user_id = n.user_id
-                    LEFT JOIN LATERAL (
+             FROM reader_notifications n
+             LEFT JOIN stories s ON n.kind = 'new_chapter' AND s.id::text = n.data->>'storyId'
+             LEFT JOIN payments pay ON n.kind = 'coins_added' AND n.data->>'reason' IN ('purchase', 'topup')
+                                   AND pay.id::text = n.data->>'refId' AND pay.user_id = n.user_id
+             LEFT JOIN LATERAL (
                  SELECT COALESCE(NULLIF(trim(pen_name), ''), NULLIF(trim(full_name), ''), 'Unknown') AS name
                  FROM user_profiles WHERE user_id = s.user_id ORDER BY created_at DESC LIMIT 1
              ) a ON n.kind = 'new_chapter'
