@@ -182,7 +182,6 @@ const NavBar = () => {
     // The My Account sheet (avatar)
     const accountLinks: PanelRow[] = [
         { href: "/profile", label: t("Profile"), icon: UserIcon, exact: true },
-        { href: "/library", label: t("Library"), icon: LibraryIcon },
         { href: WALLET_PATH, label: t("Wallet"), icon: WalletIcon },
         { href: "/profile/transaction-history", label: t("TransactionHistory"), icon: HistoryIcon },
         { href: "/profile/community", label: t("Community"), icon: Users },
