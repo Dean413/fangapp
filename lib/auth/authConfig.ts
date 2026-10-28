@@ -1,7 +1,7 @@
 export const AUTH_CONFIG = {
     appName: "Fang",
     siteUrl: process.env.SITE_URL || "",
-    logoUrl: "https://fangapp.io/fang_pictures/fanglogo1.svg",
+    logoUrl: "https://fangapp.io/fanglogo1.svg",
     supportEmail: "support@fangapp.io",
     publicIdPrefix: "FR",
     jwtAccessSecret: process.env.JWT_ACCESS_SECRET || "",
