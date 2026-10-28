@@ -1,43 +1,61 @@
 import { dbPool } from "@/lib/db";
+import { generateAccessToken, verifyAccessToken } from "@/lib/auth/token";
+import { createReaderProfile } from "@/lib/auth/account";
+import { sendCodeEmail } from "@/lib/auth/email";
 
 export const dynamic = "force-dynamic";
-const KEY = "diag-7f3a91c2"; // change this, and delete the whole file after use
+const KEY = "diag-7f3a91c2"; // delete this whole file after use
+
+const run = async (fn: () => Promise<unknown>) => {
+    try {
+        return { ok: true, result: (await fn()) ?? null };
+    } catch (e) {
+        return { ok: false, error: (e as Error).message };
+    }
+};
 
 export async function GET(req: Request) {
-    if (new URL(req.url).searchParams.get("k") !== KEY) return new Response("Not found", { status: 404 });
+    const url = new URL(req.url);
+    if (url.searchParams.get("k") !== KEY) return new Response("Not found", { status: 404 });
 
-    const names = [
-        "DATABASE_URL", "SITE_URL", "JWT_ACCESS_SECRET", "JWT_REFRESH_SECRET", "EMAIL_CODE",
-        "RESEND_API_KEY", "GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET", "STORY_TENANT",
-    ];
-    const out: Record<string, unknown> = {
-        nodeEnv: process.env.NODE_ENV,
-        siteUrl: process.env.SITE_URL ?? null,
-        envSet: Object.fromEntries(names.map((n) => [n, Boolean(process.env[n])])),
-    };
+    const out: Record<string, unknown> = {};
 
-    try {
-        const u = new URL(process.env.DATABASE_URL ?? "");
-        out.dbTarget = `${u.hostname}${u.pathname}`; // host and database name only, no password
-    } catch {
-        out.dbTarget = "DATABASE_URL missing or not a valid URL";
-    }
+    // 1. Can login tokens be signed and read back (JWT secrets)?
+    out.jwt = await run(async () => {
+        const token = await generateAccessToken({ id: "00000000-0000-0000-0000-000000000000", email: "t@t.com", role: "reader" });
+        await verifyAccessToken(token);
+        return "signed and verified";
+    });
 
-    try {
-        const tables = ["users", "reader_profiles", "user_profiles", "email_codes", "user_identities", "wallet_lots", "wallet_ledger", "stories", "payments", "vip_subscriptions"];
-        const t = await dbPool.query(`SELECT t AS name FROM unnest($1::text[]) t WHERE to_regclass('public.' || t) IS NULL`, [tables]);
-        out.missingTables = t.rows.map((r) => r.name);
+    // 2. Does the sign-up database work? Everything is rolled back.
+    out.signupDryRun = await run(async () => {
+        const client = await dbPool.connect();
+        try {
+            await client.query("BEGIN");
+            const u = await client.query(
+                `INSERT INTO users (email, password_hash, role, email_verified_at)
+                 VALUES ('diag-test@example.invalid', 'x', 'reader', NULL) RETURNING id`
+            );
+            await createReaderProfile(client, u.rows[0].id, "Diag Test");
+            await client.query(
+                `INSERT INTO email_codes (user_id, purpose, code_hash, attempts, expires_at, sent_at, send_times)
+                 VALUES ($1, 'verify_email', 'x', 0, now() + interval '15 minutes', now(), ARRAY[now()])`,
+                [u.rows[0].id]
+            );
+            return "user, reader profile and email code all inserted";
+        } finally {
+            await client.query("ROLLBACK");
+            client.release();
+        }
+    });
 
-        const c = await dbPool.query(
-            `SELECT col FROM unnest($1::text[]) col
-             WHERE NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'users' AND column_name = col)`,
-            [["sessions_valid_after", "account_status", "email_verified_at", "password_hash", "role", "last_active_at"]]
-        );
-        out.missingUserColumns = c.rows.map((r) => r.col);
-
-        out.users = (await dbPool.query(`SELECT count(*)::int AS n FROM users`)).rows[0].n;
-    } catch (e) {
-        out.dbError = (e as Error).message;
+    // 3. Does Resend send? Add &to=you@example.com to send a test email to yourself.
+    const to = url.searchParams.get("to");
+    if (to) {
+        out.email = await run(async () => {
+            await sendCodeEmail("verify_email", to, "123456");
+            return `sent to ${to}`;
+        });
     }
 
     return Response.json(out);
