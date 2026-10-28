@@ -61,11 +61,6 @@ function SearchResults() {
                 <h1 className="text-2xl md:text-3xl font-bold text-black dark:text-white">
                     {q ? t("resultsFor", { q }) : t("dialog")}
                 </h1>
-                {!loading && !failed && q.length >= 2 && (
-                    <p className="mt-1 text-sm text-gray-500 dark:text-neutral-400">
-                        {t("bookCount", { count: books.length })}
-                    </p>
-                )}
 
                 <div className="mt-6">
                     {loading ? (
@@ -80,7 +75,7 @@ function SearchResults() {
                         <p className="py-16 text-center text-sm text-gray-500 dark:text-neutral-400">{t("noBooks")}</p>
                     ) : (
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                            {books.map((b) => <GenreCard key={b.id} {...b} />)}
+                            {books.map((b) => <GenreCard key={b.id} {...b} highlight={q} />)}
                         </div>
                     )}
                 </div>

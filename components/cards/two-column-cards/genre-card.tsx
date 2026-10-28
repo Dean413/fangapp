@@ -26,10 +26,32 @@ interface cardDataProps {
     status: string;
     chapter: number;
     rating?: number | null;
+    highlight?: string; // the searched words, marked in the title, author and tags
+}
+
+// Wraps the searched words in a marker (not case sensitive)
+function Highlight({ text, words }: { text: string; words?: string }) {
+    const q = (words ?? "").trim();
+    if (q.length < 2) return <>{text}</>;
+    const safe = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const parts = text.split(new RegExp(`(${safe})`, "gi"));
+    return (
+        <>
+            {parts.map((part, i) =>
+                i % 2 === 1 ? (
+                    <mark key={i} className="rounded-sm bg-red-700 px-0.5 text-white">
+                        {part}
+                    </mark>
+                ) : (
+                    part
+                )
+            )}
+        </>
+    );
 }
 
 export const GenreCard = (genreCard: cardDataProps) => {
-    const { id, image, title, slug, genreSlug, author, genre, tags, chapter, summary, views, rating } = genreCard;
+    const { id, image, title, slug, genreSlug, author, genre, tags, chapter, summary, views, rating, highlight } = genreCard;
     const [failed, setFailed] = useState(false);
     const [saving, setSaving] = useState(false);
     const t = useTranslations("Books");
@@ -59,7 +81,8 @@ export const GenreCard = (genreCard: cardDataProps) => {
     const tagList = (Array.isArray(tags) ? tags : [tags])
         .filter((x) => x && x.toLowerCase() !== (genre ?? "").toLowerCase())
         .slice(0, MAX_TAGS);
-
+    // "by {author}" in the site's language, with the author name marked when searched
+    const [beforeAuthor, afterAuthor = ""] = t("byAuthor", { author: "\u0001" }).split("\u0001");
     return (
         <Link
             href={`/stories/${genreSlug || "all"}/${slug}`}
@@ -101,18 +124,18 @@ export const GenreCard = (genreCard: cardDataProps) => {
                         <span
                             key={x}
                             className={`min-w-0 shrink truncate rounded-full bg-gray-100 px-2.5 py-0.5 text-[11px] sm:text-xs font-medium text-gray-600 dark:bg-neutral-200 dark:text-neutral-900 ${i >= 1 ? "max-sm:hidden" : ""}`}>
-                            {tr(x)}
+                            <Highlight text={tr(x)} words={highlight} />
                         </span>
                     ))}
                 </div>
 
                 <h3 className="mt-2 line-clamp-1 text-lg sm:text-xl leading-snug text-gray-900 dark:text-white">
-                    {title}
+                    <Highlight text={title} words={highlight} />
                 </h3>
 
                 {/* by Author · 198 chapters */}
                 <p className="mt-0.5 truncate text-sm text-gray-500 dark:text-neutral-400">
-                    {t("byAuthor", { author })} · {bk("chapters", { count: chapter })}
+                    {beforeAuthor}<Highlight text={author} words={highlight} />{afterAuthor} · {bk("chapters", { count: chapter })}
                 </p>
 
                 {/* Views and rating */}
