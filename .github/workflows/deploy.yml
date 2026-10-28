@@ -1,0 +1,46 @@
+name: Deploy Fang Reader App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/ec2_key
+          chmod 600 ~/.ssh/ec2_key
+          ssh-keyscan -H "${{ secrets.EC2_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Copy application to EC2
+        run: |
+          rsync -az --delete \
+            --exclude ".git" \
+            --exclude "node_modules" \
+            --exclude ".next" \
+            --exclude ".env*" \
+            -e "ssh -i ~/.ssh/ec2_key" \
+            ./ ubuntu@${{ secrets.EC2_HOST }}:/var/www/fang-reader-app/
+
+      - name: Build and restart
+        run: |
+          ssh -i ~/.ssh/ec2_key ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
+            set -e
+            cd /var/www/fang-reader-app
+
+            rm -rf node_modules
+            npm install
+            npm run build
+
+            pm2 restart fang-reader-app || pm2 start npm --name "fang-reader-app" -- start
+
+            pm2 save
+          EOF
