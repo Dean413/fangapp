@@ -84,15 +84,13 @@ export default async function RootLayout({
     <html
       suppressHydrationWarning
       lang={locale}
-      className={poppins.className}
-    >
+      className={poppins.className}>
       <head>
-        <Script
-          id="google-adsense"
+        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+        <script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6932405185560645"
           crossOrigin="anonymous"
-          strategy="afterInteractive"
         />
       </head>
 
