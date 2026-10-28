@@ -5,7 +5,7 @@ import { FaInstagram, FaFacebook, FaLinkedin } from "react-icons/fa";
 import { FaTiktok, FaXTwitter } from "react-icons/fa6";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { useTranslations } from "next-intl";
 
 const SOCIALS = [
@@ -73,8 +73,9 @@ const Footer = () => {
     );
 
     return (
-        <footer className="bg-gray-950 dark:bg-black dark:border-t dark:border-dark-border text-white py-10 md:py-12 px-6">
-            <div className="max-w-8xl mx-auto grid grid-cols-1 md:grid-cols-6 gap-6 md:gap-10">
+        <footer className="bg-gray-950 dark:bg-black dark:border-t dark:border-dark-border text-white py-10 md:py-14 px-6">
+            {/* Desktop: a wide brand column, then three equal link columns. Phones: one column */}
+            <div className="max-w-7xl mx-auto grid grid-cols-1 gap-6 md:grid-cols-[1.5fr_1fr_1fr_1fr] md:gap-12">
 
                 {/* Brand */}
                 <div className="flex flex-col items-start text-left">
@@ -90,7 +91,7 @@ const Footer = () => {
                             }}
                         />
                     </div>
-                    <p className="mt-2 text-[#A3A3A3] text-lg md:text-base">{t("tagline")}</p>
+                    <p className="mt-2 max-w-xs text-[#A3A3A3] text-lg md:text-base">{t("tagline")}</p>
 
                     {/* App Store / Google Play: ready for when the apps are live (uncomment) */}
                     {/* <div className="mt-5 flex gap-3">
@@ -105,7 +106,7 @@ const Footer = () => {
                     </div> */}
 
                     {/* Social circles on desktop (phones have their own "Follow" block below) */}
-                    <div className="mt-4 hidden max-w-40 flex-wrap gap-2 md:flex">{socialCircles}</div>
+                    <div className="mt-5 hidden flex-wrap gap-2 md:flex">{socialCircles}</div>
                 </div>
 
                 {/* Link sections: open/close rows on phones, plain lists on desktop */}
@@ -123,7 +124,9 @@ const Footer = () => {
                             </button>
                             <ul className={`${isOpen ? "block" : "hidden"} space-y-3 pb-4 text-[#A3A3A3] md:block md:space-y-2 md:pb-0`}>
                                 {s.links.map((l) => (
-                                    <li key={l.label}><Link href={l.href}>{l.label}</Link></li>
+                                    <li key={l.label}>
+                                        <Link href={l.href} className="transition hover:text-white">{l.label}</Link>
+                                    </li>
                                 ))}
                             </ul>
                         </div>
@@ -138,7 +141,7 @@ const Footer = () => {
             </div>
 
             {/* Bottom bar */}
-            <div className="max-w-8xl mx-auto mt-8 md:mt-10 flex flex-col items-center gap-1 border-t border-gray-800 pt-6 text-center text-sm text-[#A3A3A3] md:flex-row md:justify-between md:text-xs">
+            <div className="max-w-7xl mx-auto mt-8 md:mt-10 flex flex-col items-center gap-1 border-t border-gray-800 pt-6 text-center text-sm text-[#A3A3A3] md:flex-row md:justify-between md:text-xs">
                 <p>{t("rights", { year: new Date().getFullYear() })}</p>
                 <p>{t("poweredBy")}</p>
             </div>

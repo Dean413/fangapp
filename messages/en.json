@@ -1173,7 +1173,7 @@
         "darkMode": "Dark Mode",
         "darkModeText": "Lower-light reading experience",
         "language": "Language",
-        "languageText": "App + reading language",
+        "languageText": "Reading language",
         "notifications": "Notification Preferences",
         "notificationsText": "Choose which alerts you receive",
         "configure": "Configure",
@@ -1263,7 +1263,7 @@
         "comments": "{count, plural, one {# Comment} other {# Comments}}",
         "shares": "{count} Shares",
         "trending": "Trending Topics",
-        "popularMembers": "Popular Members",
+        "popularMembers": "Popular Authors",
         "followers": "{count, number} followers",
         "follow": "Follow",
         "onlineNow": "Online Now",
@@ -1331,6 +1331,7 @@
         "ratingOutOf": "{rating} / 5"
     },
     "Meta": {
+        "title": "FANG | WHERE OBSESSION BITES",
         "description": "A reading website for everyone",
         "bookTitle": "{title} by {author} | FANG",
         "bookTitleNoAuthor": "{title} | FANG",

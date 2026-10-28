@@ -63,8 +63,18 @@ const poppins = Poppins({
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("Meta");
   return {
-    title: "FANG",
+    title: t("title"),
     description: t("description"),
+    icons: {
+      icon: [{ url: "/favicon.ico", sizes: "any" }],
+      shortcut: "/favicon.ico",
+    },
+    openGraph: {
+      title: t("title"),
+      description: t("description"),
+      siteName: "FANG",
+      type: "website",
+    },
     other: {
       "google-adsense-account": "ca-pub-6932405185560645",
     },

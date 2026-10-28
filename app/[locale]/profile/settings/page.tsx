@@ -268,7 +268,7 @@ export default function SettingsPage() {
 
                 <SettingRow icon={<MessageSquareText />}
                     title={t("community")}
-                    link="/profile/community"
+                    link="https://web.facebook.com/fangappio"
                 />
             </SettingsSection>
 
@@ -281,7 +281,6 @@ export default function SettingsPage() {
 
                 <SettingRow
                     title={t("language")}
-                    description={t("languageText")}
                     action={
                         <div className="z-999">
                             <LanguageChange />

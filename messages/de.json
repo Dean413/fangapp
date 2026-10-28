@@ -1173,7 +1173,7 @@
         "darkMode": "Dunkelmodus",
         "darkModeText": "Lesen bei wenig Licht",
         "language": "Sprache",
-        "languageText": "Sprache der App und des Lesens",
+        "languageText": "Lesesprache",
         "notifications": "Benachrichtigungseinstellungen",
         "notificationsText": "Wähle, welche Hinweise du erhältst",
         "configure": "Konfigurieren",
@@ -1263,7 +1263,7 @@
         "comments": "{count, plural, one {# Kommentar} other {# Kommentare}}",
         "shares": "{count, plural, one {# Mal geteilt} other {# Mal geteilt}}",
         "trending": "Trendthemen",
-        "popularMembers": "Beliebte Mitglieder",
+        "popularMembers": "Beliebte Autoren",
         "followers": "{count, plural, one {# Follower} other {# Follower}}",
         "follow": "Folgen",
         "onlineNow": "Jetzt online",
@@ -1331,6 +1331,7 @@
         "ratingOutOf": "{rating} / 5"
     },
     "Meta": {
+        "title": "FANG | WO BESESSENHEIT ZUBEISST",
         "description": "Eine Leseseite für alle",
         "bookTitle": "{title} von {author} | FANG",
         "bookTitleNoAuthor": "{title} | FANG",

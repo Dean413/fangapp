@@ -1173,7 +1173,7 @@
         "darkMode": "Modalità scura",
         "darkModeText": "Un'esperienza di lettura con meno luce",
         "language": "Lingua",
-        "languageText": "Lingua dell'app e della lettura",
+        "languageText": "Lingua di lettura",
         "notifications": "Preferenze di notifica",
         "notificationsText": "Scegli quali avvisi ricevere",
         "configure": "Configura",
@@ -1263,7 +1263,7 @@
         "comments": "{count, plural, one {# commento} other {# commenti}}",
         "shares": "{count, plural, one {# condivisione} other {# condivisioni}}",
         "trending": "Argomenti di tendenza",
-        "popularMembers": "Membri popolari",
+        "popularMembers": "Autori popolari",
         "followers": "{count, plural, one {# follower} other {# follower}}",
         "follow": "Segui",
         "onlineNow": "Online ora",
@@ -1331,6 +1331,7 @@
         "ratingOutOf": "{rating} / 5"
     },
     "Meta": {
+        "title": "FANG | DOVE L'OSSESSIONE MORDE",
         "description": "Un sito di lettura per tutti",
         "bookTitle": "{title} di {author} | FANG",
         "bookTitleNoAuthor": "{title} | FANG",

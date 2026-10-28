@@ -174,7 +174,7 @@ const NavBar = () => {
         { href: "/", label: t("Home"), icon: HomeIcon, exact: true },
         { href: GENRES_PATH, label: t("Genres"), icon: LayoutGrid },
         { href: "/rankings", label: t("Rankings"), icon: Trophy },
-        { href: "https://www.fangwriters.com", label: t("WriterArena"), icon: PenLine, external: true },
+        { href: "https://fangwriters.com", label: t("WriterArena"), icon: PenLine, external: true },
         { href: "/library", label: t("Library"), icon: LibraryIcon },
 
     ];
@@ -274,7 +274,11 @@ const NavBar = () => {
                         <Link href="/rankings" className={`transition ${isActive("/rankings") ? "text-red-600" : "border-transparent"}`}>
                             {t("Rankings")}
                         </Link>
-                        <a href="https://www.fangwriters.com" className={`transition ${isActive("/writer-arena") ? "text-red-600" : "border-transparent"}`}>
+                        <a
+                            href="https://fangwriters.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="transition border-transparent">
                             {t("WriterArena")}
                         </a>
                         <Link href="/library" className={` transition ${isActive("/library") ? "text-red-600" : "border-transparent"}`}>

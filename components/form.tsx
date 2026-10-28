@@ -44,7 +44,7 @@ const ReusableInput = ({ fullName, placeholder, label, showStrengthBar, email, s
                     <Image src="https://www.svgrepo.com/show/355037/google.svg" alt="Google" width={20} height={20} className="w-5" />
                     <span className="font-medium md:text-sm text-xs">Google</span>
                 </button>
-
+                {/* 
                 <button
                     type="button"
                     onClick={() => startSocialSignIn("facebook")}
@@ -53,7 +53,7 @@ const ReusableInput = ({ fullName, placeholder, label, showStrengthBar, email, s
                         <FaFacebookF size={11} />
                     </div>
                     <span className="font-medium md:text-sm text-xs">Facebook</span>
-                </button>
+                </button> */}
 
                 <button type="button" onClick={() => startAppleSignIn(window.location.pathname + window.location.search)} className=" border bg-gray-100 dark:bg-dark-raised border-gray-300 dark:border-neutral-700 rounded-3xl py-3 px-4 flex items-center justify-center md:gap-3 gap-1 hover:bg-gray-50 dark:hover:bg-neutral-800 transition cursor-pointer">
                     <Image src="https://www.svgrepo.com/show/503173/apple-logo.svg" alt="apple-logo" width={20} height={20} />

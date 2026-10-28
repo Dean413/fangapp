@@ -1173,7 +1173,7 @@
         "darkMode": "Karanlık mod",
         "darkModeText": "Düşük ışıkta okuma",
         "language": "Dil",
-        "languageText": "Uygulama ve okuma dili",
+        "languageText": "Okuma dili",
         "notifications": "Bildirim tercihleri",
         "notificationsText": "Hangi uyarıları alacağını seç",
         "configure": "Ayarla",
@@ -1263,7 +1263,7 @@
         "comments": "{count, plural, one {# yorum} other {# yorum}}",
         "shares": "{count} paylaşım",
         "trending": "Gündemdekiler",
-        "popularMembers": "Popüler üyeler",
+        "popularMembers": "Popüler yazarlar",
         "followers": "{count} takipçi",
         "follow": "Takip et",
         "onlineNow": "Şu an çevrimiçi",
@@ -1331,6 +1331,7 @@
         "ratingOutOf": "{rating} / 5"
     },
     "Meta": {
+        "title": "FANG | TAKINTININ ISIRDIĞI YER",
         "description": "Herkes için bir okuma sitesi",
         "bookTitle": "{title} - {author} | FANG",
         "bookTitleNoAuthor": "{title} | FANG",

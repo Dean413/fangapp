@@ -1173,7 +1173,7 @@
         "darkMode": "Tryb ciemny",
         "darkModeText": "Czytanie przy słabszym świetle",
         "language": "Język",
-        "languageText": "Język aplikacji i czytania",
+        "languageText": "Język czytania",
         "notifications": "Ustawienia powiadomień",
         "notificationsText": "Wybierz, jakie powiadomienia otrzymujesz",
         "configure": "Skonfiguruj",
@@ -1263,7 +1263,7 @@
         "comments": "{count, plural, one {# komentarz} few {# komentarze} many {# komentarzy} other {# komentarza}}",
         "shares": "{count, plural, one {# udostępnienie} few {# udostępnienia} many {# udostępnień} other {# udostępnienia}}",
         "trending": "Popularne tematy",
-        "popularMembers": "Popularni użytkownicy",
+        "popularMembers": "Popularni autorzy",
         "followers": "{count, plural, one {# obserwujący} few {# obserwujących} many {# obserwujących} other {# obserwującego}}",
         "follow": "Obserwuj",
         "onlineNow": "Teraz online",
@@ -1331,6 +1331,7 @@
         "ratingOutOf": "{rating} / 5"
     },
     "Meta": {
+        "title": "FANG | GDZIE OBSESJA GRYZIE",
         "description": "Strona do czytania dla wszystkich",
         "bookTitle": "{title} – {author} | FANG",
         "bookTitleNoAuthor": "{title} | FANG",

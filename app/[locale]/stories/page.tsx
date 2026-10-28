@@ -124,8 +124,7 @@ const GenreBrowser = () => {
                             key={genre.slug}
                             type="button"
                             onClick={() => pick(genre.slug)}
-                            className={`shrink-0 whitespace-nowrap ${genreClass(selected === genre.slug)}`}
-                        >
+                            className={`shrink-0 whitespace-nowrap ${genreClass(selected === genre.slug)}`}>
                             {genre.name}
                         </button>
                     ))}

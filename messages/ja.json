@@ -1173,7 +1173,7 @@
         "darkMode": "ダークモード",
         "darkModeText": "光を抑えた読書体験",
         "language": "言語",
-        "languageText": "アプリと閲覧の言語",
+        "languageText": "閲覧言語",
         "notifications": "通知設定",
         "notificationsText": "受け取る通知を選択します",
         "configure": "設定する",
@@ -1263,7 +1263,7 @@
         "comments": "{count, plural, other {コメント#件}}",
         "shares": "シェア{count}件",
         "trending": "トレンドのトピック",
-        "popularMembers": "人気のメンバー",
+        "popularMembers": "人気の著者",
         "followers": "フォロワー{count, number}人",
         "follow": "フォロー",
         "onlineNow": "オンライン中",
@@ -1331,6 +1331,7 @@
         "ratingOutOf": "{rating} / 5"
     },
     "Meta": {
+        "title": "FANG | 執着が噛みつく場所",
         "description": "みんなのための読書サイト",
         "bookTitle": "{title} - {author} | FANG",
         "bookTitleNoAuthor": "{title} | FANG",

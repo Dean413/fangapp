@@ -1173,7 +1173,7 @@
         "darkMode": "Modo oscuro",
         "darkModeText": "Una experiencia de lectura con menos luz",
         "language": "Idioma",
-        "languageText": "Idioma de la app y de lectura",
+        "languageText": "Idioma de lectura",
         "notifications": "Preferencias de notificaciones",
         "notificationsText": "Elige qué alertas recibes",
         "configure": "Configurar",
@@ -1263,7 +1263,7 @@
         "comments": "{count, plural, one {# comentario} other {# comentarios}}",
         "shares": "{count} veces compartido",
         "trending": "Temas en tendencia",
-        "popularMembers": "Miembros populares",
+        "popularMembers": "Autores populares",
         "followers": "{count, number} seguidores",
         "follow": "Seguir",
         "onlineNow": "En línea ahora",
@@ -1331,6 +1331,7 @@
         "ratingOutOf": "{rating} / 5"
     },
     "Meta": {
+        "title": "FANG | DONDE LA OBSESIÓN MUERDE",
         "description": "Un sitio de lectura para todos",
         "bookTitle": "{title} de {author} | FANG",
         "bookTitleNoAuthor": "{title} | FANG",
