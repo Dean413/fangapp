@@ -22,10 +22,9 @@ export default function SettingRow({ title, link, description, icon, action }: P
                         else router.push(link)
                     }}
                     className={`font-semibold ${link ? "cursor-pointer" : ""} flex items-center gap-2 ${title === "Delete Account" ? "text-red-500" : ""}`}>
+                    {icon && <span>{icon}</span>}
+                    {title}
                 </button>
-
-
-
 
                 {description && (
                     <p className="text-sm text-gray-500 dark:text-neutral-400">

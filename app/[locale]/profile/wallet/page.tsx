@@ -27,7 +27,7 @@ export default function WalletPage() {
         return () => { alive = false }
     }, [])
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-dark p-6">
+        <div className="min-h-screen bg-gray-50 dark:bg-dark p-2 md:p-6">
 
             <div className="max-w-6xl mx-auto space-y-6">
                 {/* Header */}
