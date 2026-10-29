@@ -897,6 +897,7 @@
         "chapterUnlock": "Odblokowanie rozdziału",
         "vip": "Subskrypcja VIP",
         "gift": "Prezent",
+        "referral": "Nagroda za polecenie",
         "bonusCoins": "Monety bonusowe",
         "typeBonus": "Bonus",
         "typeReward": "Nagroda",
@@ -1329,6 +1330,17 @@
         "following": "Obserwujesz",
         "followFailed": "Nie udało się zaktualizować obserwowania. Spróbuj ponownie.",
         "ratingOutOf": "{rating} / 5"
+    },
+    "Referral": {
+        "title": "Zaproś przyjaciół",
+        "text": "Zaproś przyjaciół i zdobądź {coins} monet, gdy się dołączą.",
+        "shareText": "Dołącz do mnie na FANG i zdobądź nagrody!",
+        "copy": "Kopiuj",
+        "copied": "Skopiowano!",
+        "share": "Udostępnij",
+        "joined": "{count, plural, one {# przyjaciel dołączył} few {# przyjaciele dołączyli} many {# przyjaciół dołączyło} other {# przyjaciół dołączyło}}",
+        "rewarded": "{count}/{max} nagrodzonych",
+        "earned": "{coins} zdobytych monet"
     },
     "Meta": {
         "title": "FANG | GDZIE OBSESJA GRYZIE",

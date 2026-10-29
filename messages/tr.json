@@ -897,6 +897,7 @@
         "chapterUnlock": "Bölüm kilidi açma",
         "vip": "VIP aboneliği",
         "gift": "Hediye",
+        "referral": "Davet ödülü",
         "bonusCoins": "Bonus jeton",
         "typeBonus": "Bonus",
         "typeReward": "Ödül",
@@ -1329,6 +1330,17 @@
         "following": "Takip Ediliyor",
         "followFailed": "Takip güncellenemedi. Lütfen tekrar deneyin.",
         "ratingOutOf": "{rating} / 5"
+    },
+    "Referral": {
+        "title": "Arkadaşlarını Davet Et",
+        "text": "Arkadaşlarını davet et ve katıldıklarında {coins} coin kazan.",
+        "shareText": "FANG'da bana katıl ve ödül kazan!",
+        "copy": "Kopyala",
+        "copied": "Kopyalandı!",
+        "share": "Paylaş",
+        "joined": "{count} arkadaş katıldı",
+        "rewarded": "{count}/{max} ödüllendirildi",
+        "earned": "{coins} coin kazanıldı"
     },
     "Meta": {
         "title": "FANG | TAKINTININ ISIRDIĞI YER",

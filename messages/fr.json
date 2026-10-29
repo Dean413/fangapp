@@ -897,6 +897,7 @@
         "chapterUnlock": "Déblocage de chapitre",
         "vip": "Abonnement VIP",
         "gift": "Cadeau",
+        "referral": "Récompense de parrainage",
         "bonusCoins": "Pièces bonus",
         "typeBonus": "Bonus",
         "typeReward": "Récompense",
@@ -1329,6 +1330,17 @@
         "following": "Abonné",
         "followFailed": "Impossible de mettre à jour l’abonnement. Veuillez réessayer.",
         "ratingOutOf": "{rating} / 5"
+    },
+    "Referral": {
+        "title": "Inviter des amis",
+        "text": "Invitez des amis et gagnez {coins} pièces lorsqu'ils rejoignent.",
+        "shareText": "Rejoins-moi sur FANG et sois récompensé !",
+        "copy": "Copier",
+        "copied": "Copié !",
+        "share": "Partager",
+        "joined": "{count, plural, one {# ami a rejoint} other {# amis ont rejoint}}",
+        "rewarded": "{count}/{max} récompensés",
+        "earned": "{coins} pièces gagnées"
     },
     "Meta": {
         "title": "FANG | OÙ L'OBSESSION MORD",

@@ -9,6 +9,7 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/routing";
 import { useEffect, useState } from "react";
+import InviteFriends from "@/components/profile-components/wallet-cards/invite-friends";
 
 export default function WalletPage() {
     const router = useRouter()
@@ -94,7 +95,13 @@ export default function WalletPage() {
 
 
                 {/* EARN PAGE */}
-                {active === "earn" && (<EarnSection />)}
+                {/* {active === "earn" && (<EarnSection />)} */}
+                {active === "earn" && (
+                    <>
+                        <EarnSection />
+                        <InviteFriends />
+                    </>
+                )}
                 {active === "topup" && (<CoinCard isVip />)}
                 {active === "vip" && (<VipPlans />)}
             </div>

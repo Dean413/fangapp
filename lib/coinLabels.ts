@@ -21,6 +21,7 @@ export function coinDescription(t: T, reason: string | undefined, refId: string 
         case "unlock": return t("chapterUnlock");
         case "vip": return t("vip");
         case "gift": return t("gift");
+        case "referral": return t("referral");
         case "expired": return coinSource(t, refId);
         default: return fallback || (reason ?? "").replace(/_/g, " ");
     }
@@ -29,7 +30,8 @@ export function coinDescription(t: T, reason: string | undefined, refId: string 
 // The short label for the Type column / badge
 export function coinType(t: T, reason: string | undefined, amount: number): string {
     switch (reason) {
-        case "signup_bonus": return t("typeBonus");
+        case "signup_bonus":
+        case "referral": return t("typeBonus");
         case "daily_checkin":
         case "reading_time": return t("typeReward");
         case "purchase": return t("typeTopUp");

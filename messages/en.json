@@ -761,7 +761,7 @@
         "inProgress": "In progress",
         "gemEarned": "+{count} gem for 30 minutes of reading",
         "vipSyncBonus": "VIP bonus: +{coins} coins",
-        "payTitle": "Payment Method",
+        "payTitle": "Select Payment Method",
         "payStripe": "Stripe",
         "payPaypal": "Paypal",
         "payTotal": "Total",
@@ -897,6 +897,7 @@
         "chapterUnlock": "Chapter unlock",
         "vip": "VIP subscription",
         "gift": "Gift",
+        "referral": "Referral reward",
         "bonusCoins": "Bonus coins",
         "typeBonus": "Bonus",
         "typeReward": "Reward",
@@ -1329,6 +1330,17 @@
         "following": "Following",
         "followFailed": "Couldn't update follow. Please try again.",
         "ratingOutOf": "{rating} / 5"
+    },
+    "Referral": {
+        "title": "Invite Friends",
+        "text": "Invite friends and earn {coins} coins when they join.",
+        "shareText": "Join me on FANG and get rewarded!",
+        "copy": "Copy",
+        "copied": "Copied!",
+        "share": "Share",
+        "joined": "{count, plural, one {# friend joined} other {# friends joined}}",
+        "rewarded": "{count}/{max} rewarded",
+        "earned": "{coins} coins earned"
     },
     "Meta": {
         "title": "FANG | WHERE OBSESSION BITES",

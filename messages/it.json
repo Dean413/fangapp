@@ -897,6 +897,7 @@
         "chapterUnlock": "Sblocco del capitolo",
         "vip": "Abbonamento VIP",
         "gift": "Regalo",
+        "referral": "Premio invito",
         "bonusCoins": "Monete bonus",
         "typeBonus": "Bonus",
         "typeReward": "Ricompensa",
@@ -1329,6 +1330,17 @@
         "following": "Segui già",
         "followFailed": "Impossibile aggiornare il follow. Riprova.",
         "ratingOutOf": "{rating} / 5"
+    },
+    "Referral": {
+        "title": "Invita amici",
+        "text": "Invita amici e guadagna {coins} monete quando si uniscono.",
+        "shareText": "Unisciti a me su FANG e ottieni ricompense!",
+        "copy": "Copia",
+        "copied": "Copiato!",
+        "share": "Condividi",
+        "joined": "{count, plural, one {# amico si è unito} other {# amici si sono uniti}}",
+        "rewarded": "{count}/{max} premiati",
+        "earned": "{coins} monete guadagnate"
     },
     "Meta": {
         "title": "FANG | DOVE L'OSSESSIONE MORDE",

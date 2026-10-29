@@ -897,6 +897,7 @@
         "chapterUnlock": "チャプターのロック解除",
         "vip": "VIPサブスクリプション",
         "gift": "ギフト",
+        "referral": "紹介報酬",
         "bonusCoins": "ボーナスコイン",
         "typeBonus": "ボーナス",
         "typeReward": "報酬",
@@ -1329,6 +1330,17 @@
         "following": "フォロー中",
         "followFailed": "フォローを更新できませんでした。もう一度お試しください。",
         "ratingOutOf": "{rating} / 5"
+    },
+    "Referral": {
+        "title": "友達を招待",
+        "text": "友達を招待して、参加すると{coins}コインを獲得しよう。",
+        "shareText": "FANGで一緒に特典をもらおう!",
+        "copy": "コピー",
+        "copied": "コピーしました!",
+        "share": "共有",
+        "joined": "{count}人の友達が参加しました",
+        "rewarded": "{count}/{max} 件が報酬を獲得",
+        "earned": "{coins}コイン獲得"
     },
     "Meta": {
         "title": "FANG | 執着が噛みつく場所",

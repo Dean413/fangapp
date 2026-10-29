@@ -236,6 +236,7 @@ export async function syncNotifications(userId: string) {
 function describeCoins(reason: string, refId: string | null): string {
     switch (reason) {
         case "signup_bonus": return "Sign-up bonus";
+        case "referral": return "Referral reward";
         case "daily_checkin": return refId ? `Daily check-in · Day ${refId}` : "Daily check-in";
         case "reading_time": return refId ? `Reading reward · ${refId} minutes` : "Reading reward";
         case "purchase":

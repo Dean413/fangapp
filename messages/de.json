@@ -897,6 +897,7 @@
         "chapterUnlock": "Kapitel-Freischaltung",
         "vip": "VIP-Abo",
         "gift": "Geschenk",
+        "referral": "Empfehlungsprämie",
         "bonusCoins": "Bonus-Münzen",
         "typeBonus": "Bonus",
         "typeReward": "Belohnung",
@@ -1329,6 +1330,17 @@
         "following": "Folge ich",
         "followFailed": "Folgen konnte nicht aktualisiert werden. Bitte versuche es erneut.",
         "ratingOutOf": "{rating} / 5"
+    },
+    "Referral": {
+        "title": "Freunde einladen",
+        "text": "Lade Freunde ein und verdiene {coins} Münzen, wenn sie beitreten.",
+        "shareText": "Komm zu FANG und lass dich belohnen!",
+        "copy": "Kopieren",
+        "copied": "Kopiert!",
+        "share": "Teilen",
+        "joined": "{count, plural, one {# Freund beigetreten} other {# Freunde beigetreten}}",
+        "rewarded": "{count}/{max} belohnt",
+        "earned": "{coins} Münzen verdient"
     },
     "Meta": {
         "title": "FANG | WO BESESSENHEIT ZUBEISST",

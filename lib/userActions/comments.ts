@@ -111,6 +111,30 @@ export async function listChapterComments(chapterId: string, viewerId: string | 
 }
 
 export type AddResult = { ok: true; comment: ChapterComment; parentId: string | null } | { ok: false; status: number; message: Msg };
+// Tells the book's writer (FangWriters inbox) about a new reader comment.
+// One notification per chapter per day; it updates its count as more comments come in.
+async function notifyWriterOfComment(chapter: { id: string; title: string; number: number; writer_id: string }) {
+    try {
+        await dbPool.query(
+            `INSERT INTO notifications (user_id, type, category, title, description, ref)
+             SELECT $1::uuid, 'info', 'story',
+                    CASE WHEN n.cnt = 1 THEN 'New Comment' ELSE 'New Comments' END,
+                    CASE WHEN n.cnt = 1
+                         THEN '"' || $2::text || '" has a new comment on Chapter ' || $3::text || E'.\nOpen Comments to read and reply.'
+                         ELSE '"' || $2::text || '" has ' || n.cnt || ' new comments on Chapter ' || $3::text || E' today.\nOpen Comments to read and reply.' END,
+                    $4::text
+             FROM (SELECT count(*)::int AS cnt FROM comments
+                    WHERE chapter_id = $5::uuid AND NOT is_author AND NOT blocked
+                      AND (created_at AT TIME ZONE 'UTC')::date = (now() AT TIME ZONE 'UTC')::date) n
+             ON CONFLICT (user_id, ref) WHERE ref IS NOT NULL
+             DO UPDATE SET title = EXCLUDED.title, description = EXCLUDED.description,
+                           unread = true, created_at = now()`,
+            [chapter.writer_id, chapter.title, chapter.number, `cmt:${chapter.id}:${new Date().toISOString().slice(0, 10)}`, chapter.id]
+        );
+    } catch (error) {
+        console.error("Writer comment notification failed:", error);
+    }
+}
 
 export async function addComment(userId: string, chapterId: unknown, contentValue: unknown, parentValue: unknown): Promise<AddResult> {
     const chapter = typeof chapterId === "string" ? await findChapter(chapterId) : null;
@@ -155,6 +179,9 @@ export async function addComment(userId: string, chapterId: unknown, contentValu
     );
     const { rows: me } = await dbPool.query(`SELECT public_id FROM reader_profiles WHERE user_id = $1`, [userId]);
     const comment = toComment({ ...rows[0], likes: 0, liked: false, public_id: me[0]?.public_id ?? null, account_status: "active" }, userId);
+
+    // Tell the book's writer (their FangWriters inbox) about a new reader comment
+    if (!isAuthor) await notifyWriterOfComment(chapter);
 
     if (parent) {
         await notifyReply(

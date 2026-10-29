@@ -107,6 +107,8 @@ function describe(r: any): { type: string; category: TxCategory; description: st
     switch (reason) {
         case "signup_bonus":
             return { type: "Bonus", category: "bonus", description: "Sign-up bonus" };
+        case "referral":
+            return { type: "Bonus", category: "bonus", description: "Referral reward" };
         case "daily_checkin":
             return { type: "Reward", category: "reward", description: ref ? `Daily check-in · Day ${ref}` : "Daily check-in" };
         case "reading_time":

@@ -10,6 +10,7 @@ import "server-only";
 import { withTransaction } from "@/lib/auth/transaction";
 import { VIP_PLAN_INFO, isVipPlan } from "@/lib/vipRates";
 import { BONUS_EXPIRY_DAYS, VIP_BONUS_EXPIRY_DAYS } from "./packages";
+import { rewardReferrer } from "../referral";
 
 // Used only if the store_fee_percent row is missing from platform_settings,
 // so a purchase is never left unpaid because of a missing setting
@@ -93,6 +94,7 @@ export async function creditPayment(paymentId: number, providerTxn: string | nul
         await lot("coin", "bonus", p.bonus_coins, "topup_bonus", BONUS_EXPIRY_DAYS, null, null);
         await lot("coin", "vip_bonus", p.vip_bonus_coins, "topup_vip_bonus", VIP_BONUS_EXPIRY_DAYS, null, null);
         await lot("gem", "earned", p.gems, "topup_gem", null, null, null);
+        await rewardReferrer(client, p.user_id, p.id);
         return true;
     });
 }

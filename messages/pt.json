@@ -897,6 +897,7 @@
         "chapterUnlock": "Desbloqueio de capítulo",
         "vip": "Assinatura VIP",
         "gift": "Presente",
+        "referral": "Recompensa de indicação",
         "bonusCoins": "Moedas bônus",
         "typeBonus": "Bônus",
         "typeReward": "Recompensa",
@@ -1329,6 +1330,17 @@
         "following": "Seguindo",
         "followFailed": "Não foi possível atualizar. Tente novamente.",
         "ratingOutOf": "{rating} / 5"
+    },
+    "Referral": {
+        "title": "Convide amigos",
+        "text": "Convide amigos e ganhe {coins} moedas quando eles entrarem.",
+        "shareText": "Junte-se a mim no FANG e seja recompensado!",
+        "copy": "Copiar",
+        "copied": "Copiado!",
+        "share": "Compartilhar",
+        "joined": "{count, plural, one {# amigo entrou} other {# amigos entraram}}",
+        "rewarded": "{count}/{max} recompensados",
+        "earned": "{coins} moedas ganhas"
     },
     "Meta": {
         "title": "FANG | ONDE A OBSESSÃO MORDE",

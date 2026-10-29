@@ -897,6 +897,7 @@
         "chapterUnlock": "Desbloqueo de capítulo",
         "vip": "Suscripción VIP",
         "gift": "Regalo",
+        "referral": "Recompensa por invitación",
         "bonusCoins": "Monedas de bonificación",
         "typeBonus": "Bonificación",
         "typeReward": "Recompensa",
@@ -1329,6 +1330,17 @@
         "following": "Siguiendo",
         "followFailed": "No se pudo actualizar el seguimiento. Inténtalo de nuevo.",
         "ratingOutOf": "{rating} / 5"
+    },
+    "Referral": {
+        "title": "Invitar amigos",
+        "text": "Invita a tus amigos y gana {coins} monedas cuando se unan.",
+        "shareText": "¡Únete a mí en FANG y consigue recompensas!",
+        "copy": "Copiar",
+        "copied": "¡Copiado!",
+        "share": "Compartir",
+        "joined": "{count, plural, one {# amigo se unió} other {# amigos se unieron}}",
+        "rewarded": "{count}/{max} recompensados",
+        "earned": "{coins} monedas ganadas"
     },
     "Meta": {
         "title": "FANG | DONDE LA OBSESIÓN MUERDE",

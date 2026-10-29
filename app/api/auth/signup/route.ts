@@ -1,4 +1,3 @@
-
 import { NextRequest } from "next/server";
 import { hashPassword } from "@/lib/auth/token";
 import { withTransaction } from "@/lib/auth/transaction";
@@ -6,6 +5,7 @@ import { issueCode } from "@/lib/auth/emailCode";
 import { sendCodeEmail } from "@/lib/auth/email";
 import { cleanName, createReaderProfile } from "@/lib/auth/account";
 import { isEmail, newPasswordProblem, normalizeEmail, readJson, reply } from "@/lib/auth/rules";
+import { rememberReferrer } from "@/lib/referral";
 import { logError } from "@/lib/log";
 
 export async function POST(request: NextRequest) {
@@ -50,6 +50,9 @@ export async function POST(request: NextRequest) {
             await createReaderProfile(client, created[0].id, fullName);
             return created[0].id as string;
         });
+
+        // The invite link's cookie is in this request: save who invited this reader (never fails the sign-up)
+        await rememberReferrer(userId);
 
         // Email the code (if one went out less than a minute ago, that one still works)
         const issued = await issueCode(userId, "verify_email");
