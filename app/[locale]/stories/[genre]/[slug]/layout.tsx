@@ -1,4 +1,4 @@
-// The book page is a client component, so the link preview (WhatsApp, Telegram, X, Facebook) comes from here.
+// The link preview (WhatsApp, Telegram, X, Facebook) and the book page's own address (canonical) come from here.
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { getStoryBySlug } from "@/lib/stories";
@@ -9,10 +9,10 @@ const SITE = /^https?:\/\//i.test(RAW_SITE)
     ? RAW_SITE
     : `${/^(localhost|127\.)/i.test(RAW_SITE) ? "http" : "https"}://${RAW_SITE}`;
 
-type Props = { children: React.ReactNode; params: Promise<{ slug: string }> };
+type Props = { children: React.ReactNode; params: Promise<{ locale: string; slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    const { slug } = await params;
+    const { locale, slug } = await params;
     const story = await getStoryBySlug(slug).catch(() => null);
     if (!story) return {};
 
@@ -30,7 +30,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         metadataBase: new URL(SITE),
         title,
         description,
-        openGraph: { title, description, type: "website", siteName: "FANG", images: [{ url: image, alt: story.title }] },
+        // Each book names its own address, with the language prefix for every language except English
+        alternates: { canonical: `${SITE}${locale === "en" ? "" : `/${locale}`}/stories/${story.genreSlug}/${story.slug}` },
+        openGraph: { title, description, type: "website", url: `${SITE}${locale === "en" ? "" : `/${locale}`}/stories/${story.genreSlug}/${story.slug}`, siteName: "FANG", images: [{ url: image, alt: story.title }] },
         twitter: { card: "summary_large_image", title, description, images: [image] },
     };
 }
