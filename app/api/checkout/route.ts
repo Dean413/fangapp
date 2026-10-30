@@ -205,8 +205,6 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ url });
     } catch (error) {
         console.error("Checkout error:", error);
-        // TEMPORARY DIAGNOSTIC: shows the real reason in the browser Network tab. Remove after fixing.
-        const reason = error instanceof Error ? error.message : String(error);
-        return fail(500, `Couldn't start the payment. [debug: ${reason}]`);
+        return fail(500, "Couldn't start the payment. Please try again.");
     }
 }
