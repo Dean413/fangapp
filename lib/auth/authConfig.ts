@@ -1,7 +1,7 @@
 export const AUTH_CONFIG = {
     appName: "Fang",
     siteUrl: process.env.SITE_URL || "",
-    logoUrl: "fangapp.vercel.app/fang-logo.png",
+    logoUrl: "https://fangapp.io/fanglogo1.svg",
     supportEmail: "support@fangapp.io",
     publicIdPrefix: "FR",
     jwtAccessSecret: process.env.JWT_ACCESS_SECRET || "",

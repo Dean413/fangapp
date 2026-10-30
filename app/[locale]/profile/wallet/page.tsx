@@ -8,6 +8,8 @@ import { useAuthStore } from "@/lib/store/authStore";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/routing";
+import { useEffect, useState } from "react";
+import InviteFriends from "@/components/profile-components/wallet-cards/invite-friends";
 
 export default function WalletPage() {
     const router = useRouter()
@@ -15,8 +17,17 @@ export default function WalletPage() {
     const t = useTranslations("Wallet")
     const wallet = useAuthStore((s) => s.user?.wallet)
     const totalBalance = (wallet?.coins ?? 0) + (wallet?.bonusCoins ?? 0) + (wallet?.vipBonusCoins ?? 0)
+    const [isVip, setIsVip] = useState(false)
+    useEffect(() => {
+        let alive = true
+        fetch("/api/vip/status", { credentials: "include", cache: "no-store" })
+            .then((res) => (res.ok ? res.json() : null))
+            .then((data) => { if (alive) setIsVip(Boolean((data?.vip ?? data)?.active)) })
+            .catch(() => { })
+        return () => { alive = false }
+    }, [])
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-dark p-6">
+        <div className="min-h-screen bg-gray-50 dark:bg-dark p-2 md:p-6">
 
             <div className="max-w-6xl mx-auto space-y-6">
                 {/* Header */}
@@ -61,7 +72,9 @@ export default function WalletPage() {
                             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm md:text-base text-gray-300 dark:text-neutral-400">
                                 <span>{t("coins", { amount: (wallet?.coins ?? 0).toLocaleString() })}</span>
                                 <span>{t("bonus", { amount: (wallet?.bonusCoins ?? 0).toLocaleString() })}</span>
-                                <span>{t("vipBonus", { amount: (wallet?.vipBonusCoins ?? 0).toLocaleString() })}</span>
+                                {isVip && (
+                                    <span>{t("vipBonus", { amount: (wallet?.vipBonusCoins ?? 0).toLocaleString() })}</span>
+                                )}
                                 <span className="flex items-center gap-2">
                                     <Image src="/fang_pictures/gift-icons/ruby.png" width={22} height={22} alt={t("gems")} />
                                     <span className="text-white">{(wallet?.gems ?? 0).toLocaleString()}</span>
@@ -82,7 +95,13 @@ export default function WalletPage() {
 
 
                 {/* EARN PAGE */}
-                {active === "earn" && (<EarnSection />)}
+                {/* {active === "earn" && (<EarnSection />)} */}
+                {active === "earn" && (
+                    <>
+                        <EarnSection />
+                        <InviteFriends />
+                    </>
+                )}
                 {active === "topup" && (<CoinCard isVip />)}
                 {active === "vip" && (<VipPlans />)}
             </div>

@@ -195,7 +195,7 @@ export default function MyReviews() {
                             <p className="text-gray-500 dark:text-neutral-400 mb-4">
                                 {tab === "reviews" ? t("noReviews") : t("noComments")}
                             </p>
-                            <Link href="/stories" className="inline-block bg-red-500 text-white px-5 py-2 rounded-full text-sm font-medium">{t("findBook")}</Link>
+                            <Link href="/genre" className="inline-block bg-red-500 text-white px-5 py-2 rounded-full text-sm font-medium">{t("findBook")}</Link>
                         </div>
                     ) : (
                         <div className="space-y-4">

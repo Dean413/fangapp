@@ -418,7 +418,7 @@ export default function NotificationsPage() {
         .filter((g) => g.list.length > 0);
 
     return (
-        <div className="max-w-7xl mx-auto p-6">
+        <div className="max-w-7xl mx-auto p-2 md:p-6">
             <div className="md:flex justify-between items-center mb-8">
                 <h1 className="text-xl md:text-3xl font-bold">{t("title")}</h1>
                 <NotificationTabs

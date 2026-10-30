@@ -11,7 +11,7 @@ import { toast } from "@/lib/store/toastStore";
 import { VIP_PLAN_INFO, formatUsd, type VipPlanId } from "@/lib/vipRates";
 
 // Change these to your logo file, your Terms and Privacy pages, and the company details
-const LOGO_SRC = "/fang_pictures/fang_logo2.png";
+const LOGO_SRC = "/fanglogo1.svg";
 const TERMS_HREF = "/terms";
 const PRIVACY_HREF = "/privacy";
 const COMPANY_LINES = ["IFO DIGITAL MEDIA, LLC", "1111B S Governors Ave STE 52111, Dover, DE 19904, United States."];
@@ -99,14 +99,12 @@ export default function TopUpModal({ pkg = null, plan = null, vipPercent = 0, on
             className="fixed inset-0 z-90 flex items-end justify-center bg-black/50 p-0 sm:items-center sm:p-4"
             onMouseDown={(e) => {
                 if (e.target === e.currentTarget && !busy) onClose();
-            }}
-        >
+            }}>
             <div
                 role="dialog"
                 aria-modal="true"
                 aria-label={t("payTitle")}
-                className="flex max-h-[95vh] w-full flex-col overflow-hidden rounded-t-2xl bg-white shadow-xl dark:bg-dark-card sm:max-w-md sm:rounded-2xl"
-            >
+                className="flex max-h-[95vh] w-full flex-col overflow-hidden rounded-t-2xl bg-white shadow-xl dark:bg-dark-card sm:max-w-md sm:rounded-2xl">
                 {/* Header (stays put) */}
                 <div className="shrink-0 px-5 pt-5 sm:px-6 sm:pt-6">
                     <div className="flex items-center justify-between">
@@ -116,8 +114,7 @@ export default function TopUpModal({ pkg = null, plan = null, vipPercent = 0, on
                             onClick={onClose}
                             disabled={busy}
                             aria-label={t("payClose")}
-                            className="rounded-full p-1.5 text-gray-500 transition hover:bg-gray-100 disabled:opacity-50 dark:text-neutral-300 dark:hover:bg-neutral-800"
-                        >
+                            className="rounded-full p-1.5 text-gray-500 transition hover:bg-gray-100 disabled:opacity-50 dark:text-neutral-300 dark:hover:bg-neutral-800">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M6 6l12 12M18 6 6 18" /></svg>
                         </button>
                     </div>

@@ -52,7 +52,7 @@ const EarnSection = () => {
 
                         /> */}
 
-                        <EngagementItem
+                        {/* <EngagementItem
                             icon={
                                 <div className="bg-red-200 dark:bg-red-500/25 p-3 rounded-lg">
                                     <FaUserPlus size={30} color="red" />
@@ -67,7 +67,7 @@ const EarnSection = () => {
 
 
 
-                        />
+                        /> */}
                         {/* <EngagementItem
                             icon={
                                 <div className="bg-red-200 dark:bg-red-500/25 p-3 rounded-lg">

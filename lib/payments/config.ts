@@ -7,7 +7,7 @@ export const PAYMENT_CONFIG = {
     // Where readers come back to after paying: SITE_URL (the same address sign-in uses), otherwise
     // the Vercel site on the live server and localhost during npm run dev
     siteUrl: process.env.SITE_URL || (isProduction
-        ? "https://fang-app.vercel.app"
+        ? "https://fangapp.io"
         : "http://localhost:3000"),
 
     // Stripe

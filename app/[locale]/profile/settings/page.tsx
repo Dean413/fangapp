@@ -171,7 +171,7 @@ export default function SettingsPage() {
     const s = settings;
 
     return (
-        <div className="max-w-6xl mx-auto p-6 space-y-6">
+        <div className="max-w-6xl mx-auto p-2 md:p-6 space-y-6">
             <div>
                 <h1 className="text-3xl font-bold">{t("title")}</h1>
                 <p className="text-gray-500 dark:text-neutral-400">{t("subtitle")}</p>
@@ -268,7 +268,7 @@ export default function SettingsPage() {
 
                 <SettingRow icon={<MessageSquareText />}
                     title={t("community")}
-                    link="/profile/community"
+                    link="https://web.facebook.com/fangappio"
                 />
             </SettingsSection>
 
@@ -281,7 +281,7 @@ export default function SettingsPage() {
 
                 <SettingRow
                     title={t("language")}
-                    description={t("languageText")}
+
                     action={
                         <div className="z-999">
                             <LanguageChange />

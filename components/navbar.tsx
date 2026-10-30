@@ -20,7 +20,7 @@ import Swal from "sweetalert2";
 import UnreadBadge from "@/components/unreadBadge";
 
 // Genres live under /stories (genre list, a genre's books, book pages and the reader)
-const GENRES_PATH = "/stories";
+const GENRES_PATH = "/genre";
 const NOTIFICATIONS_PATH = "/profile/notifications";
 const WALLET_PATH = "/profile/wallet";
 const SEARCH_PATH = "/search";
@@ -174,7 +174,7 @@ const NavBar = () => {
         { href: "/", label: t("Home"), icon: HomeIcon, exact: true },
         { href: GENRES_PATH, label: t("Genres"), icon: LayoutGrid },
         { href: "/rankings", label: t("Rankings"), icon: Trophy },
-        { href: "https://www.fangwriters.com", label: t("WriterArena"), icon: PenLine, external: true },
+        { href: "https://fangwriters.com", label: t("WriterArena"), icon: PenLine, external: true },
         { href: "/library", label: t("Library"), icon: LibraryIcon },
 
     ];
@@ -182,7 +182,6 @@ const NavBar = () => {
     // The My Account sheet (avatar)
     const accountLinks: PanelRow[] = [
         { href: "/profile", label: t("Profile"), icon: UserIcon, exact: true },
-        { href: "/library", label: t("Library"), icon: LibraryIcon },
         { href: WALLET_PATH, label: t("Wallet"), icon: WalletIcon },
         { href: "/profile/transaction-history", label: t("TransactionHistory"), icon: HistoryIcon },
         { href: "/profile/community", label: t("Community"), icon: Users },
@@ -275,7 +274,11 @@ const NavBar = () => {
                         <Link href="/rankings" className={`transition ${isActive("/rankings") ? "text-red-600" : "border-transparent"}`}>
                             {t("Rankings")}
                         </Link>
-                        <a href="https://www.fangwriters.com" className={`transition ${isActive("/writer-arena") ? "text-red-600" : "border-transparent"}`}>
+                        <a
+                            href="https://fangwriters.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="transition border-transparent">
                             {t("WriterArena")}
                         </a>
                         <Link href="/library" className={` transition ${isActive("/library") ? "text-red-600" : "border-transparent"}`}>

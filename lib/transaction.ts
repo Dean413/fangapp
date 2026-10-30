@@ -51,13 +51,25 @@ export type Transaction = {
 // Every coin event for one reader, with the running balance after each
 const EVENTS = `
     WITH events AS (
-        SELECT CASE WHEN pay.provider_txn IS NOT NULL AND l.kind = 'base' THEN pay.provider_txn ELSE l.tx_code END AS id,
+        -- everything except paid top-ups: one entry per ledger row
+        SELECT l.tx_code AS id,
                l.created_at AS at, l.delta, l.kind, l.reason, l.ref_type, l.ref_id,
-               w.expires_at, pay.provider AS pay_provider, pay.provider_txn AS pay_txn, NULL::int AS pay_cents
+               w.expires_at, NULL AS pay_provider, NULL AS pay_txn, NULL::int AS pay_cents
         FROM wallet_ledger l
         LEFT JOIN wallet_lots w ON w.id = l.lot_id
-        LEFT JOIN payments pay ON l.ref_type = 'payment' AND pay.id::text = l.ref_id AND pay.user_id = l.user_id
         WHERE l.user_id = $1 AND l.currency = 'coin'
+          AND NOT (l.ref_type = 'payment' AND l.reason IN ('topup', 'purchase'))
+        UNION ALL
+        -- a paid top-up: one entry for the whole payment (bought + bonus + VIP bonus coins),
+        -- named by the provider's own id
+        SELECT COALESCE(pay.provider_txn, MIN(l.tx_code)),
+               MIN(l.created_at), SUM(l.delta), 'base', 'topup', 'payment', l.ref_id,
+               NULL::timestamptz, pay.provider, pay.provider_txn, NULL::int
+        FROM wallet_ledger l
+        LEFT JOIN payments pay ON pay.id::text = l.ref_id AND pay.user_id = l.user_id
+        WHERE l.user_id = $1 AND l.currency = 'coin'
+          AND l.ref_type = 'payment' AND l.reason IN ('topup', 'purchase')
+        GROUP BY l.ref_id, pay.provider, pay.provider_txn
         UNION ALL
         SELECT w.expiry_code, w.expires_at, -w.remaining, w.kind, 'expired', 'lot', w.source, w.expires_at, NULL, NULL, NULL::int
         FROM wallet_lots w
@@ -95,6 +107,8 @@ function describe(r: any): { type: string; category: TxCategory; description: st
     switch (reason) {
         case "signup_bonus":
             return { type: "Bonus", category: "bonus", description: "Sign-up bonus" };
+        case "referral":
+            return { type: "Bonus", category: "bonus", description: "Referral reward" };
         case "daily_checkin":
             return { type: "Reward", category: "reward", description: ref ? `Daily check-in · Day ${ref}` : "Daily check-in" };
         case "reading_time":
@@ -171,7 +185,6 @@ export async function listTransactions(userId: string, filter: TxFilter, before?
     return { transactions: rows.slice(0, TX_PAGE_SIZE).map(toTx), hasMore };
 }
 
-// One entry (only the reader's own)
 // One entry (only the reader's own)
 export async function getTransaction(userId: string, id: string): Promise<Transaction | null> {
     if (!TX_ID.test(id)) return null;

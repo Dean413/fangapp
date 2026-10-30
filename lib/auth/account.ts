@@ -18,6 +18,7 @@ import { cancelCodes } from "@/lib/auth/emailCode";
 import { isClosedAccount, CLOSED_MESSAGE } from "@/lib/auth/loginLimit";
 import { canUseReaderApp, type TokenUser } from "@/lib/auth/token";
 import { AUTH_CONFIG } from "@/lib/auth/authConfig";
+import { rememberReferrer } from "@/lib/referral";
 import { logError } from "@/lib/log";
 
 export type Provider = "google" | "facebook" | "apple";
@@ -81,14 +82,15 @@ async function ensureReaderProfile(client: PoolClient, userId: string, fullName:
     );
 }
 
-// After every successful sign-in: make sure the reader profile exists and give the sign-up bonus (once).
-// Never blocks the sign-in if something goes wrong.
+// After every successful sign-in: make sure the reader profile exists, remember who invited a brand new reader,
+// and give the sign-up bonus (once). Never blocks the sign-in if something goes wrong.
 export async function prepareReader(userId: string) {
     try {
         await withTransaction((client) => ensureReaderProfile(client, userId, ""));
     } catch (error) {
         logError("Reader profile setup failed:", error);
     }
+    await rememberReferrer(userId);
     await grantSignupBonusSafely(userId);
 }
 

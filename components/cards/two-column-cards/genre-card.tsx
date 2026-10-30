@@ -10,7 +10,7 @@ import { useOptionNames } from "@/hooks/useOptionName";
 import Imprint from "@/components/imprint";
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
-const MAX_TAGS = 3;
+const MAX_TAGS = 2;
 
 interface cardDataProps {
     id?: string | number;
@@ -26,10 +26,32 @@ interface cardDataProps {
     status: string;
     chapter: number;
     rating?: number | null;
+    highlight?: string; // the searched words, marked in the title, author and tags
+}
+
+// Wraps the searched words in a marker (not case sensitive)
+function Highlight({ text, words }: { text: string; words?: string }) {
+    const q = (words ?? "").trim();
+    if (q.length < 2) return <>{text}</>;
+    const safe = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const parts = text.split(new RegExp(`(${safe})`, "gi"));
+    return (
+        <>
+            {parts.map((part, i) =>
+                i % 2 === 1 ? (
+                    <mark key={i} className="rounded-sm bg-red-700 px-0.5 text-white">
+                        {part}
+                    </mark>
+                ) : (
+                    part
+                )
+            )}
+        </>
+    );
 }
 
 export const GenreCard = (genreCard: cardDataProps) => {
-    const { id, image, title, slug, genreSlug, author, genre, tags, chapter, summary, views, rating } = genreCard;
+    const { id, image, title, slug, genreSlug, author, genre, tags, chapter, summary, views, rating, status, highlight } = genreCard;
     const [failed, setFailed] = useState(false);
     const [saving, setSaving] = useState(false);
     const t = useTranslations("Books");
@@ -55,10 +77,14 @@ export const GenreCard = (genreCard: cardDataProps) => {
         }
     };
 
-    // The genre in red, then at most 3 tags (no repeat of the genre)
+    // The genre in red, then at most MAX_TAGS tags (no repeat of the genre)
     const tagList = (Array.isArray(tags) ? tags : [tags])
         .filter((x) => x && x.toLowerCase() !== (genre ?? "").toLowerCase())
         .slice(0, MAX_TAGS);
+
+    // "Ongoing" / "Completed" in the site's language
+    const statusKey = (status ?? "").toLowerCase();
+    const statusLabel = statusKey === "completed" ? t("completed") : statusKey === "ongoing" ? t("ongoing") : "";
 
     return (
         <Link
@@ -79,7 +105,7 @@ export const GenreCard = (genreCard: cardDataProps) => {
             </div>
 
             {/* Content */}
-            <div className="relative flex min-w-0 flex-1 flex-col">
+            <div className="relative flex min-w-0 flex-1 flex-col self-stretch">
                 {/* Bookmark, top right */}
                 <button
                     type="button"
@@ -90,50 +116,52 @@ export const GenreCard = (genreCard: cardDataProps) => {
                     <Bookmark size={24} className={saved ? "fill-red-600 text-red-600" : ""} />
                 </button>
 
-                {/* Genre and tags: one line, cut with "…" */}
-                <div className="flex flex-nowrap items-center gap-2 overflow-hidden pr-9">
-                    {genre && (
-                        <span className="min-w-0 shrink truncate rounded-full bg-red-50 px-2.5 py-0.5 text-[11px] sm:text-xs font-semibold text-red-600 dark:bg-red-500/15 dark:text-red-300">
-                            {tr(genre)}
-                        </span>
-                    )}
-                    {tagList.map((x, i) => (
-                        <span
-                            key={x}
-                            className={`min-w-0 shrink truncate rounded-full bg-gray-100 px-2.5 py-0.5 text-[11px] sm:text-xs font-medium text-gray-600 dark:bg-neutral-200 dark:text-neutral-900 ${i >= 1 ? "max-sm:hidden" : ""}`}>
-                            {tr(x)}
-                        </span>
-                    ))}
-                </div>
-
-                <h3 className="mt-2 line-clamp-1 text-lg sm:text-xl leading-snug text-gray-900 dark:text-white">
-                    {title}
+                <h3 className="line-clamp-1 pr-8 text-lg sm:text-xl font-semibold leading-snug text-gray-900 dark:text-white">
+                    <Highlight text={title} words={highlight} />
                 </h3>
 
-                {/* by Author · 198 chapters */}
-                <p className="mt-0.5 truncate text-sm text-gray-500 dark:text-neutral-400">
-                    {t("byAuthor", { author })} · {bk("chapters", { count: chapter })}
+                {/* Ongoing · 287 Chapters · Author */}
+                <p className="mt-1 truncate text-sm text-gray-500 dark:text-neutral-400">
+                    {statusLabel && <span className="font-semibold text-gray-700 dark:text-neutral-200">{statusLabel} · </span>}
+                    {bk("chapters", { count: chapter })} · <Highlight text={author} words={highlight} />
                 </p>
-
-                {/* Views and rating */}
-                <div className="mt-1.5 flex items-center gap-4 text-sm text-gray-500 dark:text-neutral-400">
-                    {views && (
-                        <span className="inline-flex items-center gap-1.5">
-                            <Eye size={16} /> {views}
-                        </span>
-                    )}
-                    {rating != null && (
-                        <span className="inline-flex items-center gap-1.5">
-                            <Star size={14} className="fill-amber-400 text-amber-400" /> {rating.toFixed(1)}
-                        </span>
-                    )}
-                </div>
 
                 {summary && (
                     <p className="mt-2 line-clamp-2 sm:line-clamp-3 md:line-clamp-5 text-sm leading-relaxed text-gray-700 dark:text-neutral-300">
                         {summary}
                     </p>
                 )}
+
+                {/* Genre and tags on one line, cut with "…"; views (and rating) at the end */}
+                <div className=" flex items-center gap-3 pt-3">
+                    <div className="flex min-w-0 flex-1 flex-nowrap items-center gap-2 overflow-hidden">
+                        {genre && (
+                            <span className="min-w-0 shrink truncate rounded-full bg-red-50 px-2.5 py-0.5 text-[11px] sm:text-xs font-semibold text-red-600 dark:bg-red-500/15 dark:text-red-300">
+                                {tr(genre)}
+                            </span>
+                        )}
+                        {tagList.map((x, i) => (
+                            <span
+                                key={x}
+                                className={`min-w-0 shrink truncate rounded-full bg-gray-100 px-2.5 py-0.5 text-[11px] sm:text-xs font-medium text-gray-600 dark:bg-neutral-200 dark:text-neutral-900 ${i >= 1 ? "max-sm:hidden" : ""}`}>
+                                <Highlight text={tr(x)} words={highlight} />
+                            </span>
+                        ))}
+                    </div>
+
+                    <div className="flex shrink-0 items-center gap-3 text-xs sm:text-sm text-gray-500 dark:text-neutral-400">
+                        {views && (
+                            <span className="inline-flex items-center gap-1">
+                                <Eye size={15} /> {views}
+                            </span>
+                        )}
+                        {rating != null && (
+                            <span className="inline-flex items-center gap-1">
+                                <Star size={13} className="fill-amber-400 text-amber-400" /> {rating.toFixed(1)}
+                            </span>
+                        )}
+                    </div>
+                </div>
             </div>
         </Link>
     );

@@ -21,7 +21,7 @@ const socialLinks = [
     { name: "X", icon: "x.png", href: "https://x.com/fangappio?s=11" },
     { name: "TikTok", icon: "tiktok.png", href: "https://www.tiktok.com/@fangappio?_r=1&_t=ZP-9AdbUCzjQv1" },
     { name: "Facebook", icon: "facebook.png", href: "https://www.facebook.com/fangappio?" },
-    { name: "Instagram", icon: "instagram.png", href: "https://www.instagram.com/fangwriters?igsi=OWFjYms5Y2RjZ25i&utm_source=qr" },
+    { name: "Instagram", icon: "instagram.png", href: "https://www.instagram.com/fangappio" },
     { name: "YouTube", icon: "youtube.png", href: "https://youtube.com/@fangappio?si=rehBWrVdPZji-tf6" },
     { name: "LinkedIn", icon: "linkedin.png", href: "https://www.linkedin.com/company/fangappio/" },
     // { name: "Discord", icon: "discord.png", href: "https://discord.gg/7PDuynS9U" },
