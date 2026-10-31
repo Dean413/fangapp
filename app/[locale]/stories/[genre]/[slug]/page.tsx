@@ -14,7 +14,10 @@ type Props = { params: Promise<{ locale: string; genre: string; slug: string }> 
 export default async function Page({ params }: Props) {
     const { locale, genre, slug } = await params;
     const book = await getStoryBySlug(slug);
-    if (!book) notFound();
+    if (!book) {
+        console.error("BOOK PAGE 404:", { locale, genre, slug });
+        notFound();
+    }
 
     // Same book, but the link is old (renamed book, or the genre changed): send Google and readers to the current one
     const prefix = locale === "en" ? "" : `/${locale}`;

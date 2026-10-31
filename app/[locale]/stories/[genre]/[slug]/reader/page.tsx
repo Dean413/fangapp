@@ -26,6 +26,7 @@ import { BookCard as YouMayLikeCard } from "@/components/home/youMayLike";
 import { toast } from "@/lib/store/toastStore";
 import ViewTracker from "@/components/book-controls/view-tracker";
 import Imprint from "@/components/imprint";
+import AuthorNote from "@/components/reader/authorNotes";
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
 // The reader's own display choices (theme, font, size), kept in this browser
@@ -506,6 +507,18 @@ export default function ReaderPage() {
                                 />
                             </div>
                         </div>
+                    )}
+                    dddd{data?.note}
+                    {/* AUTHOR NOTE (optional, at the end of the chapter) */}
+                    {!loading && !data.chapter.isLocked && data.chapter.note && data?.story?.author && (
+                        <AuthorNote
+                            name={data.story.author}
+                            slug={data.story.authorSlug}
+                            image={data.chapter.authorImage}
+                            note={data.chapter.note}
+                            books={data.chapter.noteBooks}
+                            dark={popupsDark}
+                        />
                     )}
 
                     {/* NAVIGATION */}
