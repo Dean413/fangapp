@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
 import { dbPool } from "@/lib/db";
-import { genreSlug, listGenres } from "@/lib/stories";
+import { genreSlug, listCuratedGenres, listGenres } from "@/lib/stories";
 import { locales, defaultLocale, type Locale } from "@/i18n/routing";
+import { languageForLocale } from "@/lib/language";
 
 const RAW_SITE = (process.env.SITE_URL || "https://fangapp.io").trim().replace(/\/+$/, "");
 // A value without http(s):// (e.g. "fangapp.io" or "localhost:3000") would make new URL() throw
@@ -18,7 +19,7 @@ const STATIC_PATHS = [
     "",
     "about",
     "faq",
-    "stories",
+    "genre",
     "shorties",
     "rankings",
     "community-guidelines",
@@ -89,11 +90,17 @@ async function authorPaths(): Promise<{ path: string; lastModified: Date }[]> {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const [genres, stories, authors] = await Promise.all([listGenres(), storyPaths(), authorPaths()]);
+    const [genres, stories, authors, curated] = await Promise.all([
+        listGenres(),
+        storyPaths(),
+        authorPaths(),
+        // The genre pages each language really has (the admin's Genre curation), same list the pages use
+        Promise.all(locales.map((locale) => listCuratedGenres(languageForLocale(locale)).catch(() => []))),
+    ]);
 
     const entries: MetadataRoute.Sitemap = [];
 
-    for (const locale of locales) {
+    for (const [i, locale] of locales.entries()) {
         for (const path of STATIC_PATHS) {
             entries.push({
                 url: localeUrl(locale, path),
@@ -101,8 +108,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
                 priority: path === "" ? 1 : 0.6,
             });
         }
+        for (const genre of curated[i]) {
+            entries.push({ url: localeUrl(locale, `genre/${genre.slug}`), changeFrequency: "daily", priority: 0.7 });
+        }
         for (const genre of genres) {
-            entries.push({ url: localeUrl(locale, `stories/${genre.slug}`), changeFrequency: "daily", priority: 0.7 });
             entries.push({ url: localeUrl(locale, `shorties/${genre.slug}`), changeFrequency: "daily", priority: 0.6 });
         }
     }

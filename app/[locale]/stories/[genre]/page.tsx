@@ -1,7 +1,8 @@
-import { redirect } from "next/navigation";
+import { permanentRedirect } from "next/navigation";
 
-// Genres are picked on /stories now; old genre links open it with that genre selected
-export default async function GenrePage({ params }: { params: Promise<{ genre: string }> }) {
-    const { genre } = await params;
-    redirect(`/stories?genre=${encodeURIComponent(genre)}`);
+// Old genre links (/stories/urban) open the new genre page (/genre/urban)
+export default async function Page({ params }: { params: Promise<{ locale: string; genre: string }> }) {
+    const { locale, genre } = await params;
+    const prefix = locale === "en" ? "" : `/${locale}`;
+    permanentRedirect(`${prefix}/genre/${encodeURIComponent(genre)}`);
 }

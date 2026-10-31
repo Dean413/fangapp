@@ -27,6 +27,17 @@ export interface StoryFilters {
     limit?: number;
 }
 
+// Notes are saved as <p> paragraphs; the reader shows them as plain text, one line per paragraph
+const noteText = (raw: unknown) =>
+    String(raw ?? "")
+        .replace(/<\/p>\s*<p>/g, "\n")
+        .replace(/<br\s*\/?>/g, "\n")
+        .replace(/<[^>]*>/g, "")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&amp;/g, "&")
+        .trim();
+
 // "Romántica Oscura" -> "romantica-oscura". Same rules as the database's fang_slugify() (used in genreSlugSql)
 // and slugify() in components/home/bookBits.tsx, so links built anywhere filter correctly.
 export function genreSlug(name: string): string {
@@ -212,6 +223,9 @@ export async function listStories(filters: StoryFilters = {}): Promise<StoryCard
     return rows.map((r) => ({ ...toCard(r), rating: r.rating != null ? Number(r.rating) : null }));
 }
 
+// Is this book title written in the text as its own words (not inside another word)?
+const titleIn = (text: string, title: string) =>
+    new RegExp(`(?<![\\p{L}\\p{N}])${title.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?![\\p{L}\\p{N}])`, "iu").test(text);
 
 // The story a link points to: its current slug first, then an old slug of a renamed story,
 // then the older link forms (book_id "FS123", or the uuid). Returns the story id and whether the link is old.
@@ -293,6 +307,7 @@ const PUBLISHED_CHAPTERS_CTE = `
             c.content,
             c.words,
             c.published_at,
+            c.note,
             COALESCE(
                 c.chapter_number,
                 ROW_NUMBER() OVER (ORDER BY COALESCE(c.published_at, c.created_at), c.created_at, c.id)
@@ -348,7 +363,7 @@ export async function getChapter(story: StoryCard, chapterNumber: number, viewer
         dbPool.query(
             `
             ${PUBLISHED_CHAPTERS_CTE}
-            SELECT id, title, content, words, published_at, chapter_number
+            SELECT id, title, content, words, published_at, chapter_number, note
             FROM published
             WHERE chapter_number = $2
             LIMIT 1;
@@ -367,7 +382,35 @@ export async function getChapter(story: StoryCard, chapterNumber: number, viewer
     // Cleaned HTML. A locked chapter only sends its first paragraphs, never the full text.
     const html = chapterHtml(ch.content);
     const content = locked ? previewHtml(html, PREVIEW_RATIO) : html;
+    // The writer's optional note at the end of the chapter (only when the reader can open the chapter)
+    const note = locked ? "" : noteText(ch.note);
+    let authorImage: string | null = null;
+    let noteBooks: { title: string; href: string }[] = [];
+    if (note) {
+        const { rows: photo } = await dbPool.query(
+            `SELECT NULLIF(trim(profile_image), '') AS image FROM user_profiles
+             WHERE user_id = (SELECT user_id FROM stories WHERE id = $1) ORDER BY created_at DESC LIMIT 1`,
+            [story.id]
+        );
+        authorImage = photo[0]?.image ?? null;
 
+        // Titles of other live books written in the note become links to those books
+        const params: any[] = [note.toLowerCase(), story.id];
+        const where = visibility(params);
+        const { rows: found } = await dbPool.query(
+            `SELECT trim(s.title) AS title, COALESCE(s.slug, s.book_id, s.id::text) AS slug, COALESCE(s.genre, '') AS genre
+             FROM stories s
+             WHERE s.id <> $2 AND length(trim(s.title)) > 2
+               AND position(lower(trim(s.title)) in $1) > 0
+               AND ${where.join(" AND ")}
+             ORDER BY length(trim(s.title)) DESC
+             LIMIT 20`,
+            params
+        );
+        noteBooks = found
+            .filter((r) => titleIn(note, r.title))
+            .map((r) => ({ title: r.title as string, href: `/stories/${genreSlug(r.genre) || "all"}/${r.slug}` }));
+    }
     // A locked chapter: the first earlier paid chapter this reader hasn't unlocked (unlocking goes in order)
     let firstLocked: number | null = null;
     if (locked && viewerId && story.startPaywallChapter) {
@@ -389,6 +432,9 @@ export async function getChapter(story: StoryCard, chapterNumber: number, viewer
         words: ch.words,
         published_at: ch.published_at,
         content,
+        note: note || null,
+        authorImage,
+        noteBooks,
         isPaid: paid,
         price: paid ? priceForWords(chapterWords(ch.words, html)) : 0,
         isLocked: locked,
