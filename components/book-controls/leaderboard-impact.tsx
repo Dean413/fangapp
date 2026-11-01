@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { ChevronRight, Gem, Gift } from "lucide-react";
 import GiftCard from "@/components/book-controls/gift";
+import Image from "next/image";
 
 type Summary = { supporters: number; top: { name: string | null; avatar: string | null }[] };
 
@@ -46,7 +47,7 @@ export default function LeaderboardImpact({ book }: Props) {
     const votesHref = `/stories/${book.genreSlug}/${book.slug}/votes`;  // Fan Contributions (votes)
     const buttonClass = "shrink-0 rounded-md bg-red-600 px-5 py-1.5 text-xs font-semibold text-white hover:bg-red-700";
     const linkClass = "group flex min-w-0 flex-1 items-center gap-3 text-sm text-gray-600 hover:text-red-600 dark:text-neutral-300";
-    const arrow = <ChevronRight size={16} className="shrink-0 text-gray-400 group-hover:text-red-600" aria-hidden="true" />;
+
 
     return (
         <section className="rounded-xl border border-gray-200 bg-white p-4 dark:border-dark-border dark:bg-dark-card">
@@ -59,14 +60,14 @@ export default function LeaderboardImpact({ book }: Props) {
                     <span className="min-w-0 flex-1 truncate">
                         {supporters > 0 ? t("supporters", { count: supporters }) : t("beFirst")}
                     </span>
-                    {arrow}
+
                 </Link>
                 <button type="button" onClick={() => setCard("gifts")} className={buttonClass}>{t("gift")}</button>
             </div>
 
             {/* Votes: opens the voters ranking (Fan Contributions) */}
             <div className="mt-3 flex items-center gap-3 border-t border-gray-100 pt-3 dark:border-dark-border">
-                <Gem size={22} className="shrink-0 text-red-600" aria-hidden="true" />
+                <Image src="/fang_pictures/gift-icons/ruby.png" alt="gems" width={20} height={20} />
                 <Link href={votesHref} className={linkClass}>
                     <span className="truncate">{t("fanContribution")}</span>
                     {hasFans && (
@@ -74,7 +75,6 @@ export default function LeaderboardImpact({ book }: Props) {
                             {summary!.top.map((fan, i) => <Face key={i} name={fan.name} src={fan.avatar} />)}
                         </span>
                     )}
-                    <span className={hasFans ? "" : "ml-auto"}>{arrow}</span>
                 </Link>
                 <button type="button" onClick={() => setCard("ruby")} className={buttonClass}>{t("vote")}</button>
             </div>
