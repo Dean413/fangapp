@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { toast } from "@/lib/store/toastStore";
 import { useAuthStore } from "@/lib/store/authStore";
 
@@ -11,6 +11,8 @@ const FALLBACK_COVER = "/fang_pictures/bookFace.png";
 const MAX_GEMS_PER_VOTE = 1000;
 
 type Gift = { id: number; slug: string; name: string; icon: string; coins: number };
+type PanelFan = { rank: number; name: string | null; avatar: string | null; points: number; you: boolean };
+type Panel = { gifts: number; fans: PanelFan[]; me: { rank: number | null; points: number } };
 
 const rubyTasks = [
     { id: 1, title: "readingTask", amount: "+1", desc: "readingTaskDesc" },
@@ -22,24 +24,44 @@ type GiftCardProps = {
     title?: string;
     image?: string;
     book: string; // the book's slug
+    initial?: "gifts" | "ruby"; // which tab opens first
 };
 
-export default function GiftCard({ onClose, title, image, book }: GiftCardProps) {
+// A fan's photo, or their initial when there is none (or it fails to load)
+function Face({ name, src }: { name: string | null; src: string | null }) {
+    const [failed, setFailed] = useState(false);
+    const initial = (name ?? "?").trim().charAt(0).toUpperCase() || "?";
+    return (
+        <span className="flex h-7 w-7 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gray-200 text-[11px] font-semibold text-gray-600 dark:bg-dark-raised dark:text-neutral-300">
+            {src && !failed ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={src} alt={name ?? ""} onError={() => setFailed(true)} className="h-full w-full object-cover" />
+            ) : initial}
+        </span>
+    );
+}
+
+export default function GiftCard({ onClose, title, image, book, initial = "gifts" }: GiftCardProps) {
     const t = useTranslations("Gift");
+    const f = useTranslations("Fans");
+    const locale = useLocale();
     const user = useAuthStore((s) => s.user);
     const wallet = user?.wallet;
     // Gifts can only be paid with bought coins; votes with gems
     const boughtCoins = wallet?.coins ?? 0;
     const ownedGems = wallet?.gems ?? 0;
 
-    const [active, setActive] = useState<"gifts" | "ruby">("gifts");
+    const [active, setActive] = useState<"gifts" | "ruby">(initial);
     const [gifts, setGifts] = useState<Gift[]>([]);
     const [giftsLoading, setGiftsLoading] = useState(true);
     const [selectedGift, setSelectedGift] = useState<Gift | null>(null);
     const [selectedGems, setSelectedGems] = useState(0);
     const [voters, setVoters] = useState<number | null>(null);
+    const [panel, setPanel] = useState<Panel | null>(null);
     const [sending, setSending] = useState(false);
     const busy = useRef(false); // blocks a second tap before the page re-draws
+
+    const n = (value: number) => new Intl.NumberFormat(locale).format(value);
 
     // The gifts on offer
     useEffect(() => {
@@ -62,6 +84,17 @@ export default function GiftCard({ onClose, title, image, book }: GiftCardProps)
             .catch(() => { });
         return () => { alive = false; };
     }, [book]);
+
+    // This month's gifts for the book: the count, the top fans and the reader's own place
+    const loadPanel = useCallback(() => {
+        if (!book) return;
+        fetch(`/api/stories/${encodeURIComponent(book)}/fans/panel`, { credentials: "include", cache: "no-store" })
+            .then((r) => (r.ok ? r.json() : null))
+            .then((data) => { if (data) setPanel(data); })
+            .catch(() => { });
+    }, [book]);
+
+    useEffect(() => { loadPanel(); }, [loadPanel]);
 
     // Keep the chosen number of gems within what the reader has
     const maxGems = Math.min(ownedGems, MAX_GEMS_PER_VOTE);
@@ -95,6 +128,7 @@ export default function GiftCard({ onClose, title, image, book }: GiftCardProps)
             if (!ok) return void toast.error(data.message || t("sendFailed"));
             toast.success(data.message || t("giftSent", { gift: selectedGift.name }));
             setSelectedGift(null);
+            loadPanel(); // the new gift moves the ranking
         } catch {
             toast.error(t("sendFailed"));
         } finally {
@@ -122,11 +156,12 @@ export default function GiftCard({ onClose, title, image, book }: GiftCardProps)
     };
 
     const canAffordSelected = selectedGift ? boughtCoins >= selectedGift.coins : false;
+    const me = panel?.me ?? { rank: null, points: 0 };
 
     return (
         <div className="fixed inset-0 z-50 flex">
             <div className="flex-1" onClick={onClose} />
-            <div className="w-80 md:w-125 fixed md:right-15 right-5 top-1/2 -translate-y-1/2 bg-white dark:bg-dark-card rounded-xl shadow-xl z-50">
+            <div className="w-80 md:w-125 fixed md:right-15 right-5 top-1/2 -translate-y-1/2 max-h-[92vh] overflow-y-auto bg-white dark:bg-dark-card rounded-xl shadow-xl z-50">
                 {/* Tabs */}
                 <div className="flex border-b border-gray-500 dark:border-neutral-600">
                     <button type="button" onClick={() => setActive("ruby")}
@@ -141,14 +176,35 @@ export default function GiftCard({ onClose, title, image, book }: GiftCardProps)
                 </div>
 
                 {/* Header */}
-                <div className="flex items-center justify-between gap-3 bg-red-100 dark:bg-red-500/15 px-4 py-3 font-semibold text-gray-800 dark:text-neutral-100">
+                {/* <div className="flex items-center justify-between gap-3 bg-red-100 dark:bg-red-500/15 px-4 py-3 font-semibold text-gray-800 dark:text-neutral-100">
                     <span>{t("fansContribution")}</span>
                     {active === "gifts" && user && (
                         <span className="text-xs font-medium text-gray-600 dark:text-neutral-300">
                             {t("boughtCoins", { count: boughtCoins })}
                         </span>
                     )}
-                </div>
+                </div> */}
+
+                {/* Gifts: what the book received this month and who gave the most */}
+                {/* {active === "gifts" && panel && (
+                    <div className="px-4 pt-4">
+                        <p className="text-sm font-semibold text-gray-900 dark:text-white">{f("giftsReceived", { count: panel.gifts })}</p>
+                        {panel.fans.length === 0 ? (
+                            <p className="mt-2 text-xs text-gray-500 dark:text-neutral-400">{f("noGiftsYet")}</p>
+                        ) : (
+                            <div className="mt-2 divide-y divide-gray-100 dark:divide-dark-border">
+                                {panel.fans.map((fan) => (
+                                    <div key={fan.rank} className="flex items-center gap-3 py-2">
+                                        <span className="w-6 text-xs text-gray-500 dark:text-neutral-400">{String(fan.rank).padStart(2, "0")}</span>
+                                        <Face name={fan.name} src={fan.avatar} />
+                                        <span className="min-w-0 flex-1 truncate text-sm text-gray-900 dark:text-white">{fan.name ?? f("anonymous")}</span>
+                                        <span className="text-sm font-bold text-gray-900 dark:text-white">{n(fan.points)}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+                )} */}
 
                 {/* Gifts */}
                 {active === "gifts" && (
@@ -233,6 +289,7 @@ export default function GiftCard({ onClose, title, image, book }: GiftCardProps)
                     </div>
                 )}
 
+                {/* Your place, and the button that sends the chosen gift */}
                 {/* Send */}
                 {active === "gifts" && (
                     <div className="p-4">
