@@ -86,7 +86,7 @@ export default function AuthorNote({ name, slug, image, note, books = [], dark =
                 </div>
             </div>
 
-            <p className={`mt-3 whitespace-pre-line break-words rounded-lg border px-4 py-3 text-sm ${dark ? "border-white/10 bg-black/20 text-gray-200" : "border-gray-200 bg-white text-gray-800"}`}>
+            <p className={`mt-3 whitespace-pre-line wra rounded-lg border px-4 py-3 text-sm ${dark ? "border-white/10 bg-black/20 text-gray-200" : "border-gray-200 bg-white text-gray-800"}`}>
                 {withLinks(note, books)}
             </p>
         </section>
