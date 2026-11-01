@@ -18,11 +18,11 @@ export default function ProfileLayout({ children, }: { children: React.ReactNode
     if (loading && !user) {
         return <div className="w-full min-h-screen bg-gray-50 dark:bg-dark" />;
     }
-
     if (!user) {
         return (
-            <div className="flex items-center justify-center min-h-screen">
+            <div className="fixed inset-0 z-20 flex items-center justify-center overflow-y-auto">
                 <div>
+                    <img src="/fanglogo1.svg" alt="logo" width={200} className="mx-auto block" />
                     <h1 className="font-bold text-2xl text-center mb-4">{t("joinPrompt")}</h1>
                     <Button onClick={openSignUp} label={t("signUp")} />
                 </div>

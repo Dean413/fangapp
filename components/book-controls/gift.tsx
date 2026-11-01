@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { toast } from "@/lib/store/toastStore";
 import { useAuthStore } from "@/lib/store/authStore";
+import { useAuthModals } from "@/lib/store/auth-card-store";
 
 const FALLBACK_COVER = "/fang_pictures/bookFace.png";
 const MAX_GEMS_PER_VOTE = 1000;
@@ -47,10 +48,9 @@ export default function GiftCard({ onClose, title, image, book, initial = "gifts
     const locale = useLocale();
     const user = useAuthStore((s) => s.user);
     const wallet = user?.wallet;
-    // Gifts can only be paid with bought coins; votes with gems
+    const openSignIn = useAuthModals((s) => s.openSignIn);
     const boughtCoins = wallet?.coins ?? 0;
     const ownedGems = wallet?.gems ?? 0;
-
     const [active, setActive] = useState<"gifts" | "ruby">(initial);
     const [gifts, setGifts] = useState<Gift[]>([]);
     const [giftsLoading, setGiftsLoading] = useState(true);
@@ -60,8 +60,13 @@ export default function GiftCard({ onClose, title, image, book, initial = "gifts
     const [panel, setPanel] = useState<Panel | null>(null);
     const [sending, setSending] = useState(false);
     const busy = useRef(false); // blocks a second tap before the page re-draws
-
     const n = (value: number) => new Intl.NumberFormat(locale).format(value);
+    useEffect(() => {
+        if (!user) {
+            onClose();
+            openSignIn();
+        }
+    }, [user, onClose, openSignIn]);
 
     // The gifts on offer
     useEffect(() => {
@@ -156,7 +161,8 @@ export default function GiftCard({ onClose, title, image, book, initial = "gifts
     };
 
     const canAffordSelected = selectedGift ? boughtCoins >= selectedGift.coins : false;
-    const me = panel?.me ?? { rank: null, points: 0 };
+
+    if (!user) return null;
 
     return (
         <div className="fixed inset-0 z-50 flex">

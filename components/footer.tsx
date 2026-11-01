@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { FaInstagram, FaFacebook, FaLinkedin } from "react-icons/fa";
-import { FaTiktok, FaXTwitter } from "react-icons/fa6";
+import { FaInstagram, FaFacebook, FaLinkedin, FaYoutube } from "react-icons/fa";
+import { FaThreads, FaTiktok, FaXTwitter } from "react-icons/fa6";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 import { Link } from "@/i18n/routing";
@@ -14,6 +14,8 @@ const SOCIALS = [
     { name: "Facebook", href: "https://www.facebook.com/fangappio", Icon: FaFacebook, hover: "hover:text-blue-600" },
     { name: "LinkedIn", href: "https://www.linkedin.com/company/fangappio", Icon: FaLinkedin, hover: "hover:text-blue-600" },
     { name: "TikTok", href: "https://www.tiktok.com/@fangappio", Icon: FaTiktok, hover: "hover:text-pink-400" },
+    { name: "YouTube", href: "https://youtube.com/@fangappio?si=rehBWrVdPZji-tf6", Icon: FaYoutube, hover: "hover:text-pink-400" },
+    { name: "Threads", href: "https://www.threads.com/@fangappio?igshid=NTc4MTIwNjQ2YQ==", Icon: FaThreads, hover: "hover:text-pink-400" },
 ];
 
 const Footer = () => {
@@ -56,21 +58,47 @@ const Footer = () => {
         },
     ];
 
+
+
     const socialCircles = (
-        <>
-            {SOCIALS.map(({ name, href, Icon, hover }) => (
-                <a
-                    key={name}
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={name}
-                    className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-600 text-gray-300 md:h-11 md:w-11">
-                    <Icon className={`h-5 w-5 transition ${hover}`} />
-                </a>
-            ))}
-        </>
+        <div className="flex flex-col gap-2">
+            {/* First row: 4 icons */}
+            <div className="flex justify-center gap-2">
+                {SOCIALS.slice(0, 4).map(({ name, href, Icon, hover }) => (
+                    <a
+                        key={name}
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={name}
+                        className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-600 text-gray-300 md:h-11 md:w-11"
+                    >
+                        <Icon className={`h-5 w-5 transition ${hover}`} />
+                    </a>
+                ))}
+            </div>
+
+            {/* Second row: 3 centered icons */}
+            <div className="flex justify-center gap-2">
+                {SOCIALS.slice(4, 7).map(({ name, href, Icon, hover }) => (
+                    <a
+                        key={name}
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={name}
+                        className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-600 text-gray-300 md:h-11 md:w-11"
+                    >
+                        <Icon className={`h-5 w-5 transition ${hover}`} />
+                    </a>
+                ))}
+            </div>
+        </div>
     );
+
+
+
+
 
     return (
         <footer className="bg-gray-950 dark:bg-black dark:border-t dark:border-dark-border text-white py-10 md:py-14 px-6">
@@ -106,7 +134,9 @@ const Footer = () => {
                     </div> */}
 
                     {/* Social circles on desktop (phones have their own "Follow" block below) */}
-                    <div className="mt-5 hidden flex-wrap gap-2 md:flex">{socialCircles}</div>
+                    <div className="mt-5 hidden md:block">
+                        {socialCircles}
+                    </div>
                 </div>
 
                 {/* Link sections: open/close rows on phones, plain lists on desktop */}
@@ -134,8 +164,8 @@ const Footer = () => {
                 })}
 
                 {/* Phones: Follow */}
-                <div className="md:hidden">
-                    <h3 className="mb-4 text-lg font-bold tracking-wide">{t("follow")}</h3>
+                <div className="md:hidden mx-auto">
+                    <h3 className="mb-4 text-lg text-center font-bold tracking-wide">{t("follow")}</h3>
                     <div className="flex flex-wrap gap-3">{socialCircles}</div>
                 </div>
             </div>

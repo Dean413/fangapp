@@ -350,8 +350,6 @@ export default function BookView({ book }: { book: Book }) {
 
             {/* BODY */}
             <div className="mx-auto max-w-7xl px-4 md:px-8 pt-6 md:pt-8 text-gray-800 dark:text-neutral-200">
-
-
                 <div className="flex gap-8 border-b border-gray-200 dark:border-dark-border">
                     <button
                         onClick={() => setActive("overview")}

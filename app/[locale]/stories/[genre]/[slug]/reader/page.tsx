@@ -508,7 +508,7 @@ export default function ReaderPage() {
                             </div>
                         </div>
                     )}
-                    dddd{data?.note}
+                    {data?.note}
                     {/* AUTHOR NOTE (optional, at the end of the chapter) */}
                     {!loading && !data.chapter.isLocked && data.chapter.note && data?.story?.author && (
                         <AuthorNote

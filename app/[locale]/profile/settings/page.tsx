@@ -268,7 +268,7 @@ export default function SettingsPage() {
 
                 <SettingRow icon={<MessageSquareText />}
                     title={t("community")}
-                    link="https://web.facebook.com/fangappio"
+                    link="https://www.facebook.com/groups/2231047734419745/?ref=share_group_link"
                 />
             </SettingsSection>
 
