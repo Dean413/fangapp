@@ -233,7 +233,7 @@ export default function BookView({ book }: { book: Book }) {
                 disabled={savingBook}
                 className={`flex flex-1 md:flex-none items-center justify-center rounded-xl md:rounded-md border px-3 md:px-6 py-3 md:py-2 text-center text-sm md:text-xs font-semibold leading-tight disabled:opacity-60 ${saved
                     ? "border-red-600 bg-red-50 dark:bg-red-500/10 text-red-700 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-500/15"
-                    : "border-gray-200 bg-white text-black hover:bg-gray-100 dark:hover:bg-dark-raised"
+                    : "border-gray-200 bg-white text-black dark:hover:text-white hover:bg-gray-100 dark:hover:bg-dark-raised"
                     }`}>
                 {saved ? t("inLibrary") : t("addToLibrary")}
             </button>
