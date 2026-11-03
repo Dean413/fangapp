@@ -18,6 +18,7 @@ import {
     verifyRefreshToken,
     type TokenUser,
 } from "./token"
+import { logActivity } from "../activity";
 
 const ACCESS_COOKIE = "fang_access";
 const REFRESH_COOKIE = "fang_refresh";
@@ -30,11 +31,14 @@ const baseCookie = {
 };
 
 // Signs the account in on this browser (route handlers only)
-export async function startSession(user: TokenUser) {
+// Signs the account in on this browser (route handlers only).
+// signIn is what the admin's activity page shows; pass null when the session is only renewed (password or email change).
+export async function startSession(user: TokenUser, signIn: string | null = "Web Login") {
     const store = await cookies();
     store.set(ACCESS_COOKIE, await generateAccessToken(user), { ...baseCookie, maxAge: ACCESS_MINUTES * 60 });
     store.set(REFRESH_COOKIE, await generateRefreshToken(user), { ...baseCookie, maxAge: REFRESH_DAYS * 24 * 60 * 60 });
     Sentry.setUser({ id: user.id, email: user.email });
+    if (signIn) await logActivity(user.id, "login", signIn);
 }
 
 // Signs out on this browser

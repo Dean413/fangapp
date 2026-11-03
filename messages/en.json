@@ -950,7 +950,11 @@
         "vipStarted": "Your <b>{plan} VIP</b> is now active",
         "vipRenewed": "Your <b>{plan} VIP</b> has been renewed",
         "vipCancelled": "Auto-renewal for your <b>{plan} VIP</b> is turned off",
-        "vipEnded": "Your <b>{plan} VIP</b> has ended"
+        "vipEnded": "Your <b>{plan} VIP</b> has ended",
+        "notice_announcement": "Announcement",
+        "notice_account": "Account Notice",
+        "notice_reward": "Reward",
+        "notice_update": "Update"
     },
     "Transactions": {
         "loadFailed": "Couldn't load your transactions",
@@ -1349,6 +1353,12 @@
         "bookTitleNoAuthor": "{title} | FANG",
         "bookDescription": "Read {title} by {author}, a {genre} story on FANG.",
         "bookDescriptionNoAuthor": "Read {title}, a {genre} story on FANG."
+    },
+    "NotFound": {
+        "title": "Page not found",
+        "description": "The page you're looking for doesn't exist, or may have moved.",
+        "home": "Back to Home",
+        "browse": "Browse Stories"
     },
     "Fans": {
         "title": "Fan Contributions",

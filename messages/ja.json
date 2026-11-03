@@ -950,7 +950,11 @@
         "vipStarted": "<b>{plan}VIP</b>が有効になりました",
         "vipRenewed": "<b>{plan}VIP</b>が更新されました",
         "vipCancelled": "<b>{plan}VIP</b>の自動更新がオフになりました",
-        "vipEnded": "<b>{plan}VIP</b>が終了しました"
+        "vipEnded": "<b>{plan}VIP</b>が終了しました",
+        "notice_announcement": "お知らせ",
+        "notice_account": "アカウント通知",
+        "notice_reward": "リワード",
+        "notice_update": "アップデート"
     },
     "Transactions": {
         "loadFailed": "取引を読み込めませんでした",
@@ -1349,6 +1353,12 @@
         "bookTitleNoAuthor": "{title} | FANG",
         "bookDescription": "{author}による{genre}の物語「{title}」をFANGで読む。",
         "bookDescriptionNoAuthor": "{genre}の物語「{title}」をFANGで読む。"
+    },
+    "NotFound": {
+        "title": "ページが見つかりません",
+        "description": "お探しのページは存在しないか、移動した可能性があります。",
+        "home": "ホームに戻る",
+        "browse": "ストーリーを探す"
     },
         "Fans": {
         "title": "ファン貢献",

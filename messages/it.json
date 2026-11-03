@@ -950,7 +950,11 @@
         "vipStarted": "Il tuo <b>VIP {plan}</b> è ora attivo",
         "vipRenewed": "Il tuo <b>VIP {plan}</b> è stato rinnovato",
         "vipCancelled": "Il rinnovo automatico del tuo <b>VIP {plan}</b> è disattivato",
-        "vipEnded": "Il tuo <b>VIP {plan}</b> è terminato"
+        "vipEnded": "Il tuo <b>VIP {plan}</b> è terminato",
+        "notice_announcement": "Annuncio",
+        "notice_account": "Avviso account",
+        "notice_reward": "Premio",
+        "notice_update": "Aggiornamento"
     },
     "Transactions": {
         "loadFailed": "Impossibile caricare le tue transazioni",
@@ -1349,6 +1353,12 @@
         "bookTitleNoAuthor": "{title} | FANG",
         "bookDescription": "Leggi {title} di {author}, una storia {genre} su FANG.",
         "bookDescriptionNoAuthor": "Leggi {title}, una storia {genre} su FANG."
+    },
+    "NotFound": {
+        "title": "Pagina non trovata",
+        "description": "La pagina che stai cercando non esiste o potrebbe essere stata spostata.",
+        "home": "Torna alla Home",
+        "browse": "Esplora le storie"
     },
 
         "Fans": {

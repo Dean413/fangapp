@@ -2,7 +2,7 @@
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { UserPlus } from "lucide-react";
+import { Bell, UserPlus } from "lucide-react";
 import NotificationTabs from "@/components/profile-components/notification/notification-tabs";
 import NotificationCard from "@/components/profile-components/notification/notification-cards";
 import NotificationSection from "@/components/profile-components/notification/notification-section";
@@ -14,7 +14,7 @@ import { coinDescription } from "@/lib/coinLabels";
 // Translators for the Notifications and Coins messages
 type T = (key: string, values?: Record<string, string | number>) => string;
 
-type Kind = "new_chapter" | "coins_added" | "coins_spent" | "coins_expired" | "bonus_expiring" | "checkin_ready" | "reply" | "vip_started" | "vip_renewed" | "vip_cancelled" | "vip_ended";
+type Kind = "new_chapter" | "coins_added" | "coins_spent" | "coins_expired" | "bonus_expiring" | "checkin_ready" | "reply" | "vip_started" | "vip_renewed" | "vip_cancelled" | "vip_ended" | "admin_message";
 
 type Notification = {
     id: string;
@@ -37,6 +37,7 @@ type Notification = {
     plan?: "weekly" | "monthly";
     endsAt?: string;
     amountCents?: number;
+    notice?: string
 };
 
 const TAB_PARAM: Record<string, string> = { All: "all", Unread: "unread", Mentions: "mentions" };
@@ -254,6 +255,17 @@ function cardParts(n: Notification, now: number, t: T, ct: T): CardParts {
                 // wholeCardLink: Boolean(n.href),
             };
         }
+
+        case "admin_message":
+            return {
+                icon: (
+                    <div className="bg-gray-100 dark:bg-dark-raised p-3 rounded-xl">
+                        <Bell />
+                    </div>
+                ),
+                title: n.description || "",
+                subtitle: `${time} • ${t(`notice_${n.notice ?? "announcement"}`)}`,
+            };
 
         default:
             return {

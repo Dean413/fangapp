@@ -950,7 +950,11 @@
         "vipStarted": "Twój <b>VIP {plan}</b> jest już aktywny",
         "vipRenewed": "Twój <b>VIP {plan}</b> został odnowiony",
         "vipCancelled": "Automatyczne odnawianie <b>VIP {plan}</b> jest wyłączone",
-        "vipEnded": "Twój <b>VIP {plan}</b> wygasł"
+        "vipEnded": "Twój <b>VIP {plan}</b> wygasł",
+        "notice_announcement": "Ogłoszenie",
+        "notice_account": "Powiadomienie o koncie",
+        "notice_reward": "Nagroda",
+        "notice_update": "Aktualizacja"
     },
     "Transactions": {
         "loadFailed": "Nie udało się wczytać transakcji",
@@ -1349,6 +1353,12 @@
         "bookTitleNoAuthor": "{title} | FANG",
         "bookDescription": "Przeczytaj {title} autora {author}, historię z gatunku {genre} na FANG.",
         "bookDescriptionNoAuthor": "Przeczytaj {title}, historię z gatunku {genre} na FANG."
+    },
+    "NotFound": {
+        "title": "Strona nie znaleziona",
+        "description": "Strona, którą szukasz, nie istnieje lub została przeniesiona.",
+        "home": "Wróć do strony głównej",
+        "browse": "Przeglądaj historie"
     },
 
         "Fans": {

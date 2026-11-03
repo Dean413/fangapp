@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Fresh login cookies carrying the new email
-        await startSession({ ...user, email: finished.newEmail });
+        await startSession({ ...user, email: finished.newEmail }, null);
         sendEmailChangedNotice(finished.oldEmail).catch((err) => console.error("Email changed notice failed:", err));
         return reply(200, "emailChanged", { email: finished.newEmail });
     } catch (error) {

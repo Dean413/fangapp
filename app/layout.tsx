@@ -109,16 +109,13 @@ export default async function RootLayout({
       suppressHydrationWarning
       lang={locale}
       className={poppins.className}>
-      <head>
-        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
-        <script
+      <body className="min-h-full flex flex-col">
+        <Script
           async
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6932405185560645"
           crossOrigin="anonymous"
+          strategy="afterInteractive"
         />
-      </head>
-
-      <body className="min-h-full flex flex-col">
         <ProtectContent />
 
         <ThemeProvider
