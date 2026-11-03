@@ -11,11 +11,20 @@ interface Props {
 const BLOCK = /<(p|h1|h2|h3|blockquote|ul|ol)>[\s\S]*?<\/\1>|<hr\s*\/?>/g;
 
 // Locked chapters: the server only sends a preview. Show its first half clearly and blur the rest.
+// Locked chapters: the server only sends a preview. Show its first half clearly and blur the rest.
 function splitPreview(html: string): [string, string] {
     const blocks = html.match(BLOCK) ?? [];
-    if (blocks.length < 2) return [html, ""];
-    const half = Math.ceil(blocks.length / 2);
-    return [blocks.slice(0, half).join(""), blocks.slice(half).join("")];
+    if (blocks.length >= 2) {
+        const half = Math.ceil(blocks.length / 2);
+        return [blocks.slice(0, half).join(""), blocks.slice(half).join("")];
+    }
+
+    // One long paragraph: split its words in half instead, so the end can still fade out.
+    // (Formatting inside that one paragraph is dropped; it is only a short preview.)
+    const words = html.replace(/<[^>]*>/g, " ").split(/\s+/).filter(Boolean);
+    if (words.length < 8) return [html, ""];
+    const half = Math.ceil(words.length / 2);
+    return [`<p>${words.slice(0, half).join(" ")}</p>`, `<p>${words.slice(half).join(" ")}</p>`];
 }
 
 // Styles for the Tiptap HTML. Sizes are in em so they follow the reader's font size setting.
