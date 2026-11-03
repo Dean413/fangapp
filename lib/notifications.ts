@@ -26,7 +26,7 @@ const WALLET_PATH = "/profile/wallet";
 
 export type NotificationKind =
     | "new_chapter" | "coins_added" | "coins_spent" | "coins_expired" | "bonus_expiring" | "checkin_ready" | "reply"
-    | "vip_started" | "vip_renewed" | "vip_cancelled" | "vip_ended";
+    | "vip_started" | "vip_renewed" | "vip_cancelled" | "vip_ended" | "admin_message";
 
 export type NotificationItem = {
     id: string;
@@ -53,6 +53,8 @@ export type NotificationItem = {
     plan?: "weekly" | "monthly";
     endsAt?: string;
     amountCents?: number;
+    // admin_message
+    notice?: string;
 };
 
 const TAB_SQL: Record<NotificationTab, string> = {
@@ -296,6 +298,13 @@ function toItem(r: any, checkinRef: string | null): NotificationItem {
             return { ...base, amount: Number(d.amount) || 0, expiresAt: d.expiresAt ? new Date(d.expiresAt).toISOString() : undefined, href: WALLET_PATH };
         case "checkin_ready":
             return { ...base, day: Number(d.day) || 1, coins: Number(d.coins) || 0, claimable: checkinRef === r.ref, href: WALLET_PATH };
+
+        case "admin_message":
+            return {
+                ...base,
+                description: typeof d.text === "string" ? d.text : "",
+                notice: typeof d.type === "string" ? d.type : "announcement",
+            };
         default:
             return { ...base, description: typeof d.text === "string" ? d.text : "", href: typeof d.href === "string" ? d.href : null };
     }

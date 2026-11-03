@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
         // "none" = no password yet (Google / Facebook account): setting a first one is allowed
 
         await setPassword(user.id, await hashPassword(body!.password as string));
-        await startSession(user);
+        await startSession(user, null);
         return reply(200, check === "none" ? "passwordSet" : "passwordChanged");
     } catch (error) {
         console.error("Password change error:", error);

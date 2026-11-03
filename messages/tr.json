@@ -950,7 +950,11 @@
         "vipStarted": "<b>{plan} VIP</b> üyeliğin artık aktif",
         "vipRenewed": "<b>{plan} VIP</b> üyeliğin yenilendi",
         "vipCancelled": "<b>{plan} VIP</b> üyeliğinin otomatik yenilemesi kapatıldı",
-        "vipEnded": "<b>{plan} VIP</b> üyeliğin sona erdi"
+        "vipEnded": "<b>{plan} VIP</b> üyeliğin sona erdi",
+        "notice_announcement": "Duyuru",
+        "notice_account": "Hesap Bildirimi",
+        "notice_reward": "Ödül",
+        "notice_update": "Güncelleme"
     },
     "Transactions": {
         "loadFailed": "İşlemlerin yüklenemedi",
@@ -1349,6 +1353,12 @@
         "bookTitleNoAuthor": "{title} | FANG",
         "bookDescription": "FANG'da {author} tarafından yazılan {genre} hikayesi {title}'yi oku.",
         "bookDescriptionNoAuthor": "FANG'da {genre} hikayesi {title}'yi oku."
+    },
+    "NotFound": {
+        "title": "Sayfa bulunamadı",
+        "description": "Aradığın sayfa mevcut değil veya taşınmış olabilir.",
+        "home": "Ana Sayfaya Dön",
+        "browse": "Hikayelere Göz At"
     },
 
         "Fans": {

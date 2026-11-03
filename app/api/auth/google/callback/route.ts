@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
         const result = await signInWithProvider(profile);
         if (!result.ok) return finish(result.code.toLowerCase());
 
-        await startSession(result.user);
+        await startSession(result.user, "Google Login");
         await prepareReader(result.user.id);
         return finish();
     } catch (error) {

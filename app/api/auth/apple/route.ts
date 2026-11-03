@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
         const result = await signInWithProvider(profile);
         if (!result.ok) return fail(result.code.toLowerCase(), 403);
 
-        await startSession(result.user);
+        await startSession(result.user, "Apple Login");
         await prepareReader(result.user.id);
         return NextResponse.json({ ok: true });
     } catch (error) {

@@ -105,4 +105,91 @@ describe("concurrency", () => {
         const { rows: lots } = await dbPool.query(`SELECT count(*) FROM wallet_lots WHERE user_id = $1`, [user]);
         expect(Number(lots[0].count)).toBe(1);
     });
+
+    it("unlockChapter: many different readers unlocking the same chapter at the same time each get charged exactly once, independently", async () => {
+        const writer = await makeUser();
+        const story = await makeStory(writer, { start_paywall_chapter: 1 });
+        await makeChapter(story, 1, { words: 500 });
+        const price = priceForWords(500);
+
+        const readers = await Promise.all(Array.from({ length: 20 }, () => makeUser()));
+        await Promise.all(readers.map((r) => giveCoins(r, price)));
+
+        const results = await Promise.all(readers.map((r) => unlockChapter(r, story, 1, 1)));
+
+        expect(results.every((r) => r.ok && (r as any).charged === price)).toBe(true);
+
+        const wallets = await Promise.all(readers.map((r) => getWalletBalance(r)));
+        expect(wallets.every((w) => w.coins === 0)).toBe(true); // every reader charged exactly once, no cross-contamination
+
+        const { rows } = await dbPool.query(
+            `SELECT user_id, count(*) FROM chapter_unlocks WHERE story_id = $1 GROUP BY user_id`,
+            [story]
+        );
+        expect(rows).toHaveLength(readers.length);
+        expect(rows.every((r) => Number(r.count) === 1)).toBe(true);
+    });
+
+    it("unlockChapter: one reader unlocking chapter 1 of many different stories at once, no deadlock, each charged independently", async () => {
+        // Each story's own paywall chapter has no "earlier chapter" dependency, so this isolates the
+        // deadlock/account-row-lock question from the separate sequential-unlock-order business rule
+        // (covered below), while still hammering the same reader's account row and wallet_lots concurrently.
+        const storyCount = 15;
+        const reader = await makeUser();
+        const stories = await Promise.all(
+            Array.from({ length: storyCount }, async () => {
+                const writer = await makeUser();
+                const story = await makeStory(writer, { start_paywall_chapter: 1 });
+                await makeChapter(story, 1, { words: 500 });
+                return story;
+            })
+        );
+        const price = priceForWords(500);
+        await giveCoins(reader, price * storyCount);
+
+        const results = await Promise.all(stories.map((story) => unlockChapter(reader, story, 1, 1)));
+
+        expect(results.every((r) => r.ok && (r as any).charged === price)).toBe(true);
+
+        const wallet = await getWalletBalance(reader);
+        expect(wallet.coins).toBe(0); // exactly storyCount * price spent, nothing left and nothing over-charged
+
+        const { rows } = await dbPool.query(`SELECT count(*) FROM chapter_unlocks WHERE user_id = $1`, [reader]);
+        expect(Number(rows[0].count)).toBe(storyCount);
+    });
+
+    it("unlockChapter: firing unlocks for chapters 1-5 of the same story all at once only lets them through in order", async () => {
+        // The business rule requires reading (and unlocking) in order. When every request races in
+        // at once, at most the chapters whose earlier chapters already committed can succeed; any
+        // chapter whose earlier chapter hadn't unlocked yet correctly gets EARLIER_LOCKED, never a
+        // wrong charge or a skipped-ahead unlock.
+        const writer = await makeUser();
+        const story = await makeStory(writer, { start_paywall_chapter: 1 });
+        const chapterCount = 5;
+        for (let i = 0; i < chapterCount; i++) await makeChapter(story, i + 1, { words: 500 });
+        const price = priceForWords(500);
+        const reader = await makeUser();
+        await giveCoins(reader, price * chapterCount);
+
+        const results = await Promise.all(
+            Array.from({ length: chapterCount }, (_, i) => unlockChapter(reader, story, 1, i + 1))
+        );
+
+        const succeeded = results.filter((r) => r.ok).map((r) => (r as any).charged);
+        const failed = results.filter((r) => !r.ok);
+        expect(failed.every((r) => (r as any).code === "EARLIER_LOCKED")).toBe(true);
+
+        const { rows } = await dbPool.query(
+            `SELECT c.chapter_number FROM chapter_unlocks u JOIN chapters c ON c.id = u.chapter_id
+             WHERE u.user_id = $1 ORDER BY c.chapter_number`,
+            [reader]
+        );
+        const unlockedNumbers = rows.map((r) => Number(r.chapter_number));
+        // Whatever subset got through, it must be a contiguous prefix starting at chapter 1 — never a gap
+        expect(unlockedNumbers).toEqual(Array.from({ length: unlockedNumbers.length }, (_, i) => i + 1));
+        expect(succeeded).toHaveLength(unlockedNumbers.length);
+
+        const wallet = await getWalletBalance(reader);
+        expect(wallet.coins).toBe(price * chapterCount - succeeded.reduce((a, b) => a + b, 0)); // charged only for what actually unlocked
+    });
 });
