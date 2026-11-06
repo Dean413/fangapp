@@ -259,7 +259,8 @@
         "failedFetchChapters": "No se pudieron obtener los capítulos de la historia",
         "failedFetchChapter": "No se pudo obtener el capítulo.",
         "failedLoadVip": "No se pudo cargar el estado VIP.",
-        "failedLoadHome": "No se pudieron cargar las colecciones de la página de inicio"
+        "failedLoadHome": "No se pudieron cargar las colecciones de la página de inicio",
+        "communityBanned": "Tienes prohibido publicar y comentar en la comunidad."
     },
     "Email": {
         "preview": "Tu código de {app} es {code}",
@@ -1399,5 +1400,8 @@
         "topFansSubtitle": "Los lectores que le dan a esta historia un poco más de cariño.",
         "rubyContribution": "Aporte de rubíes",
         "noVotesYet": "Aún no hay votos. Sé el primero en votar."
+    },
+    "Suspension": {
+        "notice": "Tu cuenta ha sido suspendida{hasUntil, select, yes { hasta el {until}} other {}}{hasReason, select, yes { ({reason})} other {}}. Ponte en contacto con <mail>{email}</mail>."
     }
 }

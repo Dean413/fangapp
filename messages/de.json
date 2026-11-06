@@ -259,7 +259,8 @@
         "failedFetchChapters": "Kapitel der Geschichte konnten nicht abgerufen werden",
         "failedFetchChapter": "Kapitel konnte nicht abgerufen werden.",
         "failedLoadVip": "Der VIP-Status konnte nicht geladen werden.",
-        "failedLoadHome": "Die Sammlungen der Startseite konnten nicht geladen werden"
+        "failedLoadHome": "Die Sammlungen der Startseite konnten nicht geladen werden",
+        "communityBanned": "Du bist von Beiträgen und Kommentaren in der Community ausgeschlossen."
     },
     "Email": {
         "preview": "Dein {app}-Code lautet {code}",
@@ -1399,5 +1400,8 @@
         "topFansSubtitle": "Die Leser, die dieser Geschichte noch etwas mehr Liebe schenken.",
         "rubyContribution": "Ruby-Beitrag",
         "noVotesYet": "Noch keine Stimmen. Sei die erste Person, die abstimmt."
+    },
+    "Suspension": {
+        "notice": "Dein Konto wurde gesperrt{hasUntil, select, yes { bis zum {until}} other {}}{hasReason, select, yes { ({reason})} other {}}. Bitte wende dich an <mail>{email}</mail>."
     }
 }

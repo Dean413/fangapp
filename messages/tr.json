@@ -259,7 +259,8 @@
         "failedFetchChapters": "Hikayenin bölümleri alınamadı",
         "failedFetchChapter": "Bölüm alınamadı.",
         "failedLoadVip": "VIP durumu yüklenemedi.",
-        "failedLoadHome": "Ana sayfa koleksiyonları yüklenemedi"
+        "failedLoadHome": "Ana sayfa koleksiyonları yüklenemedi",
+        "communityBanned": "Toplulukta paylaşım yapma ve yorum yazma yetkiniz kaldırıldı."
     },
     "Email": {
         "preview": "{app} kodun: {code}",
@@ -1399,5 +1400,8 @@
         "topFansSubtitle": "Bu hikâyeye biraz daha sevgi veren okuyucular.",
         "rubyContribution": "Ruby katkısı",
         "noVotesYet": "Henüz oy yok. İlk oy veren sen ol."
+    },
+    "Suspension": {
+        "notice": "Hesabın{hasUntil, select, yes { {until} tarihine kadar} other {}} askıya alındı{hasReason, select, yes { ({reason})} other {}}. Lütfen <mail>{email}</mail> adresinden bize ulaş."
     }
 }

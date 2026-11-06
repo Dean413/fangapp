@@ -6,6 +6,7 @@ import AuthProvider from "@/lib/store/auth-provider";
 import ModalRoot from "@/components/authCards/auth-modal";
 import I18nBridge from "@/components/i18n-bridge";
 import VipSync from "@/components/vip-sync";
+import AccountGate from "@/components/accountGate";
 
 
 export default async function LocaleLayout({
@@ -30,7 +31,7 @@ export default async function LocaleLayout({
             <I18nBridge />
             <AuthProvider>
                 <NavBar />
-                {children}
+                <AccountGate>{children}</AccountGate>
                 <ModalRoot />
                 <VipSync />
             </AuthProvider>

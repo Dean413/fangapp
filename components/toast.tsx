@@ -8,7 +8,7 @@ export default function ToastHost() {
     return (
         <div
             aria-live="polite"
-            className="pointer-events-none fixed inset-0 z-100 flex items-center justify-center px-4"
+            className="pointer-events-none fixed inset-0 z-1000 flex items-center justify-center px-4"
         >
             <div
                 className={`max-w-sm rounded-lg bg-neutral-800/95 px-4 py-2.5 text-center text-sm shadow-lg transition-all duration-300 ${kind === "error" ? "text-red-300" : "text-white"

@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
 
     try {
         const result = await createPost(user.id, body, imageUrl, poll);
-        if (result.error) return reply(429, result.error);
+        if (result.error) return reply(result.error === "communityBanned" ? 403 : 429, result.error);
         const post = await getPost(user.id, result.id);
         return NextResponse.json({ post });
     } catch (error) {
