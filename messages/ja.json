@@ -259,7 +259,8 @@
         "failedFetchChapters": "チャプターを取得できませんでした",
         "failedFetchChapter": "チャプターを取得できませんでした。",
         "failedLoadVip": "VIPの状況を読み込めませんでした。",
-        "failedLoadHome": "ホームのコレクションを読み込めませんでした"
+        "failedLoadHome": "ホームのコレクションを読み込めませんでした",
+        "communityBanned": "コミュニティへの投稿とコメントが禁止されています。"
     },
     "Email": {
         "preview": "あなたの{app}コードは{code}です",
@@ -1398,5 +1399,8 @@
         "topFansSubtitle": "この作品にもう少し愛を贈る読者たち。",
         "rubyContribution": "ルビー貢献度",
         "noVotesYet": "まだ投票がありません。最初に投票しましょう。"
+    },
+    "Suspension": {
+        "notice": "あなたのアカウントは{hasUntil, select, yes {{until}まで}other {}}停止されています{hasReason, select, yes {(理由: {reason})} other {}}。<mail>{email}</mail> までご連絡ください。"
     }
 }

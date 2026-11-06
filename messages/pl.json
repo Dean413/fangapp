@@ -259,7 +259,8 @@
         "failedFetchChapters": "Nie udało się pobrać rozdziałów historii",
         "failedFetchChapter": "Nie udało się pobrać rozdziału.",
         "failedLoadVip": "Nie udało się wczytać statusu VIP.",
-        "failedLoadHome": "Nie udało się wczytać kolekcji strony głównej"
+        "failedLoadHome": "Nie udało się wczytać kolekcji strony głównej",
+        "communityBanned": "Masz zablokowaną możliwość publikowania i komentowania w społeczności."
     },
     "Email": {
         "preview": "Twój kod {app} to {code}",
@@ -1399,5 +1400,8 @@
         "topFansSubtitle": "Czytelnicy, którzy obdarzają tę historię odrobiną dodatkowej miłości.",
         "rubyContribution": "Wkład w rubinach",
         "noVotesYet": "Jeszcze nie ma głosów. Bądź pierwszym, kto zagłosuje."
+    },
+    "Suspension": {
+        "notice": "Twoje konto zostało zawieszone{hasUntil, select, yes { do {until}} other {}}{hasReason, select, yes { ({reason})} other {}}. Skontaktuj się z nami pod adresem <mail>{email}</mail>."
     }
 }

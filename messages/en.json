@@ -259,7 +259,8 @@
         "failedFetchChapters": "Failed to fetch story chapters",
         "failedFetchChapter": "Failed to fetch chapter.",
         "failedLoadVip": "Failed to load VIP status.",
-        "failedLoadHome": "Failed to load homepage collections"
+        "failedLoadHome": "Failed to load homepage collections",
+        "communityBanned": "You're banned from posting and commenting in the community."
     },
     "Email": {
         "preview": "Your {app} code is {code}",
@@ -1398,6 +1399,9 @@
         "topFansSubtitle": "The readers who give this story a little more love.",
         "rubyContribution": "Ruby contribution",
         "noVotesYet": "No votes yet. Be the first to vote."
-       
+
+    },
+    "Suspension": {
+        "notice": "Your account has been suspended{hasUntil, select, yes { until {until}} other {}}{hasReason, select, yes { ({reason})} other {}}. Please reach out to <mail>{email}</mail>."
     }
 }

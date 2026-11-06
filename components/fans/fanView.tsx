@@ -95,8 +95,8 @@ export default function FansView({ kind, book, tab, board }: Props) {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 dark:bg-dark">
-            <div className="mx-auto w-[90%] max-w-6xl pb-12 pt-6">
+        <div className="flex min-h-screen flex-col bg-gray-50 dark:bg-dark">
+            <div className="mx-auto w-[90%] max-w-6xl flex-1 pb-12 pt-6">
                 <nav className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-gray-500 dark:text-neutral-400">
                     <Link href="/" className="hover:text-red-600">{b("home")}</Link>
                     <span>/</span>

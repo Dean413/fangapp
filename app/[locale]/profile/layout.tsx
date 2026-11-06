@@ -3,6 +3,7 @@
 import { Button } from "@/components/Button";
 import MobileProfileNav from "@/components/mobile-navigation";
 import ProfileSidebar from "@/components/profile-components/profileSidebar";
+import SuspensionNotice from "@/components/suspensionNotice";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useAuthModals } from "@/lib/store/auth-card-store";
 import { useTranslations } from "next-intl";
@@ -47,6 +48,8 @@ export default function ProfileLayout({ children, }: { children: React.ReactNode
 
                 {/* Main content */}
                 <main className="flex-1 w-full">
+                    {/* Suspension notice: in the content column, so the sidebar stays where it is */}
+                    <SuspensionNotice className="max-w-6xl mx-auto px-2 pt-2 md:px-6 md:pt-6" />
                     {children}
                 </main>
             </div>

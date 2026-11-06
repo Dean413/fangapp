@@ -31,7 +31,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
 
     try {
         const result = await addComment(user.id, id, body);
-        if (result.error) return reply(result.error === "postNotFound" ? 404 : 429, result.error);
+        if (result.error) return reply(result.error === "postNotFound" ? 404 : result.error === "communityBanned" ? 403 : 429, result.error);
         return NextResponse.json({ comment: result.comment });
     } catch (error) {
         logError("Adding a community comment failed:", error);

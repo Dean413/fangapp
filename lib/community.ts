@@ -153,7 +153,14 @@ async function queryPosts(viewerId: string | null, q: Query) {
 }
 
 export const listPosts = (viewerId: string | null, q: Query) => queryPosts(viewerId, q);
-
+// Banned from posting by staff (admin Community Moderation): permanent, or the ban hasn't ended yet
+async function isBanned(userId: string) {
+    const { rowCount } = await dbPool.query(
+        `SELECT 1 FROM community_bans WHERE user_id = $1 AND lifted_at IS NULL AND (until IS NULL OR until > now())`,
+        [userId]
+    );
+    return (rowCount ?? 0) > 0;
+}
 export async function getPost(viewerId: string | null, id: string) {
     const { posts } = await queryPosts(viewerId, { id, limit: 1 });
     return posts[0] ?? null;
@@ -165,6 +172,7 @@ export async function createPost(
     imageUrl: string | null,
     poll: { options: string[]; days: number } | null = null
 ) {
+    if (await isBanned(userId)) return { error: "communityBanned" as const };
     const { rows: recent } = await dbPool.query(
         `SELECT COUNT(*)::int AS n FROM community_posts WHERE user_id = $1 AND created_at > now() - interval '1 hour'`,
         [userId]
@@ -282,6 +290,7 @@ export async function listComments(viewerId: string | null, postId: string, curs
 }
 
 export async function addComment(userId: string, postId: string, body: string) {
+    if (await isBanned(userId)) return { error: "communityBanned" as const };
     const { rowCount: exists } = await dbPool.query(
         `SELECT 1 FROM community_posts WHERE id = $1 AND NOT hidden`,
         [postId]
