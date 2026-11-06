@@ -84,15 +84,15 @@ export async function listChapterComments(chapterId: string, viewerId: string | 
     const [{ rows }, { rows: total }] = await Promise.all([
         dbPool.query(
             `${COMMENT_SELECT("$2::uuid")}
-             WHERE c.chapter_id = $1 AND c.parent_id IS NULL AND NOT c.blocked ${cursor}
+             WHERE c.chapter_id = $1 AND c.parent_id IS NULL AND NOT c.blocked AND c.taken_down_at IS NULL ${cursor}
              ORDER BY c.created_at DESC, c.id DESC
              LIMIT $${params.length}`,
             params
         ),
         dbPool.query(
             `SELECT count(*)::int AS n FROM comments c
-             WHERE c.chapter_id = $1 AND NOT c.blocked
-               AND (c.parent_id IS NULL OR NOT EXISTS (SELECT 1 FROM comments p WHERE p.id = c.parent_id AND p.blocked))`,
+                WHERE c.chapter_id = $1 AND NOT c.blocked AND c.taken_down_at IS NULL
+               AND (c.parent_id IS NULL OR NOT EXISTS (SELECT 1 FROM comments p WHERE p.id = c.parent_id AND (p.blocked OR p.taken_down_at IS NOT NULL)))`,
             [chapterId]
         ),
     ]);
@@ -100,7 +100,8 @@ export async function listChapterComments(chapterId: string, viewerId: string | 
     if (top.length) {
         const { rows: replies } = await dbPool.query(
             `${COMMENT_SELECT("$2::uuid")}
-             WHERE c.parent_id = ANY($1::uuid[]) AND NOT c.blocked
+           WHERE c.parent_id = ANY($1::uuid[]) 
+           AND NOT c.blocked AND c.taken_down_at IS NULL
              ORDER BY c.created_at, c.id`,
             [top.map((c) => c.id), viewerId]
         );
@@ -149,7 +150,7 @@ export async function addComment(userId: string, chapterId: unknown, contentValu
         if (typeof parentValue !== "string" || !UUID.test(parentValue)) return { ok: false, status: 404, message: "commentNotFound" };
         const { rows } = await dbPool.query(
             `SELECT COALESCE(p.parent_id, p.id) AS id, p.user_id AS reply_to_user
-             FROM comments p WHERE p.id = $1 AND p.chapter_id = $2 AND NOT p.blocked`,
+             FROM comments p WHERE p.id = $1 AND p.chapter_id = $2 AND NOT p.blocked AND p.taken_down_at IS NULL`,
             [parentValue, chapter.id]
         );
         if (!rows[0]) return { ok: false, status: 404, message: "commentNotFound" };
@@ -206,7 +207,7 @@ export type CommentLikeResult = { ok: true; liked: boolean; likes: number } | { 
 
 export async function setCommentLike(userId: string, commentId: string, like: boolean): Promise<CommentLikeResult> {
     if (!UUID.test(commentId)) return { ok: false, status: 404, message: "commentNotFound" };
-    const { rows } = await dbPool.query(`SELECT user_id FROM comments WHERE id = $1 AND NOT blocked`, [commentId]);
+    const { rows } = await dbPool.query(`SELECT user_id FROM comments WHERE id = $1 AND NOT blocked AND taken_down_at IS NULL`, [commentId]);
     if (!rows[0]) return { ok: false, status: 404, message: "commentNotFound" };
     if (rows[0].user_id === userId) return { ok: false, status: 400, message: "cantLikeOwnComment" };
     if (like) {
