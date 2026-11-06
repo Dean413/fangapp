@@ -102,6 +102,7 @@ export async function getRankingBooks(listId: string, filters: RankingFilters = 
          ) p ON true
          WHERE i.collection_id = $1
            AND s.is_deleted = false
+            AND s.taken_down_at IS NULL
            AND $2 = ANY(s.tenants)
            AND EXISTS (SELECT 1 FROM chapters pc WHERE pc.story_id = s.id AND pc.status = 'published')
            AND ($3 = '' OR lower(COALESCE(NULLIF(trim(s.target_audience), ''), 'general')) IN ($3, 'general'))

@@ -75,6 +75,7 @@ const STORY_ITEMS = `
     ${RATING}
     WHERE i.collection_id = ANY($1::bigint[])
       AND COALESCE(b.is_deleted, false) = false
+        AND b.taken_down_at IS NULL
       AND $2 = ANY(b.tenants)
       AND EXISTS (SELECT 1 FROM chapters c WHERE c.story_id = b.id AND c.status = 'published')
     ORDER BY i.position, i.created_at`;
@@ -173,6 +174,7 @@ export async function getRecommended(userId: string, { tenant, language = "Engli
          ${SIGNED_PLAN("story_id")}
          ${RATING}
          WHERE COALESCE(b.is_deleted, false) = false
+            AND b.taken_down_at IS NULL
            AND $2 = ANY(b.tenants)
            AND b.language = $3
            AND (fang_slugify(b.genre) IN (SELECT slug FROM fav) OR COALESCE(fang_slugify(b.secondary_genre) IN (SELECT slug FROM fav), false))

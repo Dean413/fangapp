@@ -85,6 +85,7 @@ export async function getAuthorPage(slug: string, viewerId: string | null): Prom
              FROM stories s
              WHERE s.user_id = $1
                AND s.is_deleted = false
+                AND s.taken_down_at IS NULL
                AND EXISTS (SELECT 1 FROM chapters c WHERE c.story_id = s.id AND c.status = '${PUBLISHED_CHAPTER_STATUS}')
                AND ($2::text IS NULL OR $2 = ANY(s.tenants))
              ORDER BY s.views DESC NULLS LAST, s.created_at DESC

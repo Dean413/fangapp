@@ -2,6 +2,7 @@
 import { dbPool } from "@/lib/db";
 import { chapterHtml, previewHtml } from "@/lib/chapterHtml";
 import { chapterWords, getReaderAccess, priceForWords } from "@/lib/unlock";
+import { getCurrentUser } from "./auth/session";
 
 const PUBLISHED_CHAPTER_STATUS = "published";
 const SHORT_STORY_LENGTH_PATTERN = "short%";
@@ -105,9 +106,10 @@ const STORY_FROM = `
 
 // Visibility rules shared by every reader query. Returns the WHERE fragments and their params.
 // status is compared as-is (not lower()) so Postgres can use the published-chapters index.
-function visibility(params: any[]): string[] {
+function visibility(params: any[], includeTakenDown = false): string[] {
     const where = [
         `s.is_deleted = false`,
+        ...(includeTakenDown ? [] : [`s.taken_down_at IS NULL`]),
         `EXISTS (SELECT 1 FROM chapters pc WHERE pc.story_id = s.id AND pc.status = '${PUBLISHED_CHAPTER_STATUS}')`,
     ];
     if (STORY_TENANT) {
@@ -256,19 +258,32 @@ export async function getStoryBySlug(slug: string): Promise<StoryDetail | null> 
     if (!found) return null;
 
     const params: any[] = [found.id];
-    const where = visibility(params);
+    const where = visibility(params, true);
 
     const { rows } = await dbPool.query(
         `
-        SELECT ${STORY_COLUMNS}
+        SELECT ${STORY_COLUMNS}, (s.taken_down_at IS NOT NULL) AS taken_down
         ${STORY_FROM}
         WHERE s.id = $1 AND ${where.join(" AND ")}
         LIMIT 1;
         `,
         params
     );
+    const row = rows[0];
+    if (!row) return null;
 
-    return rows[0] ? { ...toCard(rows[0]), moved: found.moved } : null;
+    // A taken-down book opens only for readers who already have it in their library
+    if (row.taken_down) {
+        const viewer = await getCurrentUser().catch(() => null);
+        if (!viewer) return null;
+        const { rowCount } = await dbPool.query(
+            `SELECT 1 FROM reader_library WHERE user_id = $1 AND story_id = $2`,
+            [viewer.id, row.id]
+        );
+        if (!rowCount) return null;
+    }
+
+    return { ...toCard(row), moved: found.moved };
 }
 
 export async function listGenres() {
@@ -541,6 +556,7 @@ export async function listCuratedGenres(language: string) {
               JOIN stories s ON s.id = i.story_id
               WHERE i.collection_id = cc.id
                 AND s.is_deleted = false
+                AND s.taken_down_at IS NULL
                 AND $1 = ANY(s.tenants)
                 AND EXISTS (SELECT 1 FROM chapters pc WHERE pc.story_id = s.id AND pc.status = '${PUBLISHED_CHAPTER_STATUS}')
           )
