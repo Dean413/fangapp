@@ -188,7 +188,7 @@ export default function TransactionHistory() {
     const showTools = !loading && transactions.length > 0;
 
     return (
-        <div className="bg-white dark:bg-dark-card rounded-3xl p-6 md:p-8">
+        <div className="bg-gray-50 dark:bg-dark rounded-3xl p-6 md:p-8">
             {/* Header */}
             <div className="flex items-start justify-between mb-8">
                 <div>
