@@ -109,8 +109,8 @@ export default function ProfileSidebar() {
                         {isActive(link.href) && (
                             <span className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full bg-red-600" />
                         )}
-                        <Icon size={18} className={`${isActive(link.href) ? "red" : "black"}`} />
-                        <span className="">
+                        <Icon size={18} className={`shrink-0 ${isActive(link.href) ? "red" : "black"}`} />
+                        <span className="min-w-0 leading-snug">
                             {t(link.name)}
                         </span>
                         {link.href === NOTIFICATIONS_PATH && <UnreadBadge className="ml-auto" />}

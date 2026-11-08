@@ -131,7 +131,7 @@ export default function CommunityComponent() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-dark font-sans">
+        <div className="min-h-screen bg-gray-50 dark:bg-dark font-sans">
             <div className="max-w-6xl mx-auto px-2 sm:px-4 py-6 grid grid-cols-[minmax(0,1fr)] lg:grid-cols-3 gap-4 sm:gap-6">
                 {/* Main Feed */}
                 <div className="lg:col-span-2 flex flex-col gap-4 min-w-0">
