@@ -268,15 +268,15 @@ export default function TransactionHistory() {
                         <p className="text-center text-gray-500 dark:text-neutral-400 py-20">{filter === "all" ? t("empty_filtered") : t(`empty_${filter}`)}</p>
                     )
                 ) : (
-                    <table className="w-full min-w-225">
+                    <table className="w-full min-w-225 table-fixed">
                         <thead>
                             <tr className="border-b text-left text-gray-500 dark:text-neutral-400 text-sm">
                                 {selecting && <th className="pb-4 w-10" />}
-                                <th className="pb-4 font-medium">{t("date")}</th>
-                                <th className="pb-4 font-medium">{t("type")}</th>
-                                <th className="pb-4 font-medium">{t("description")}</th>
-                                <th className="pb-4 font-medium">{t("amount")}</th>
-                                <th className="pb-4 font-medium">{t("balance")}</th>
+                                <th className="pb-4 font-medium w-[22%]">{t("date")}</th>
+                                <th className="pb-4 font-medium w-[20%]">{t("type")}</th>
+                                <th className="pb-4 font-medium w-[38%]">{t("description")}</th>
+                                <th className="pb-4 font-medium w-[20%]">{t("amount")}</th>
+                                {/* <th className="pb-4 font-medium">{t("balance")}</th> */}
                             </tr>
                         </thead>
 
@@ -308,16 +308,13 @@ export default function TransactionHistory() {
 
                                     <td className="py-5">
                                         <div className="flex items-center gap-3">
-                                            <span
-                                                className={`w-2.5 h-2.5 rounded-full ${DOT[item.category]}`}
-                                            />
+                                            <span className={`w-2.5 h-2.5 rounded-full ${DOT[item.category]}`} />
                                             <span>{item.category === "vip" ? t("typeVip") : coinType(ct, item.reason, item.amount)}</span>
                                         </div>
                                     </td>
 
-                                    <td className="py-5 text-gray-700 dark:text-neutral-200">
+                                    <td className="py-5 pr-4 text-gray-700 dark:text-neutral-200">
                                         {item.category === "vip" ? (item.refId === "monthly" ? t("vipMonthly") : t("vipWeekly")) : item.reason === "expired" ? t("expiredEntry", { source: coinDescription(ct, item.reason, item.refId) }) : coinDescription(ct, item.reason, item.refId, item.description)}
-
                                     </td>
 
                                     <td
@@ -326,9 +323,9 @@ export default function TransactionHistory() {
                                         {item.category === "vip" && item.amountCents != null ? formatMoney(item.amountCents, locale) : `${formatAmount(item.amount)} ${item.coinKind === "coins" ? t("unitCoins") : t("unitBonusCoins")}`}
                                     </td>
 
-                                    <td className="py-5 text-gray-800 dark:text-neutral-100">
-                                        {item.category === "vip" ? "—" : item.balance.toLocaleString()}
-                                    </td>
+                                    {/* <td className="py-5 text-gray-800 dark:text-neutral-100">
+                    {item.category === "vip" ? "—" : item.balance.toLocaleString()}
+                </td> */}
                                 </tr>
                             ))}
                         </tbody>
