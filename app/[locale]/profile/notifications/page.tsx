@@ -2,7 +2,7 @@
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Bell, UserPlus } from "lucide-react";
+import { Bell, Trash2, UserPlus } from "lucide-react";
 import NotificationTabs from "@/components/profile-components/notification/notification-tabs";
 import NotificationCard from "@/components/profile-components/notification/notification-cards";
 import NotificationSection from "@/components/profile-components/notification/notification-section";
@@ -10,6 +10,7 @@ import { FaBookOpen, FaClock, FaCrown, FaGift } from "react-icons/fa6";
 import { FaUnlockAlt } from "react-icons/fa";
 import { useTranslations } from "next-intl";
 import { coinDescription } from "@/lib/coinLabels";
+import { toast } from "@/lib/store/toastStore";
 
 // Translators for the Notifications and Coins messages
 type T = (key: string, values?: Record<string, string | number>) => string;
@@ -313,6 +314,13 @@ export default function NotificationsPage() {
     const [offset, setOffset] = useState(0);
     const [now, setNow] = useState<number>(Date.now());
 
+    // Choosing notifications to delete
+    const [selecting, setSelecting] = useState(false);
+    const [selected, setSelected] = useState<Set<string>>(new Set());
+    const [ask, setAsk] = useState<"selected" | "all" | null>(null);
+    const [deleting, setDeleting] = useState(false);
+    const deletingNow = useRef(false);
+
     const requestId = useRef(0);
     const moreBusy = useRef(false);
     const sentinel = useRef<HTMLDivElement | null>(null);
@@ -382,6 +390,9 @@ export default function NotificationsPage() {
         load(active);
     }, [active, load]);
 
+    // Ticks only make sense for the tab that is on screen
+    useEffect(() => { setSelected(new Set()); }, [active]);
+
     // Keep "2 mins ago" fresh
     useEffect(() => {
         const timer = setInterval(() => setNow(Date.now()), 60000);
@@ -425,6 +436,55 @@ export default function NotificationsPage() {
     const serverNow = now + offset;
     // Chapter unlocks aren't shown here (they're in the transaction history)
     const visible = items.filter((n) => !(n.kind === "coins_spent" && n.reason === "unlock"));
+
+    // ---------- Deleting (a soft delete: the notification is only marked as deleted) ----------
+
+    const stopSelecting = () => {
+        setSelecting(false);
+        setSelected(new Set());
+    };
+
+    const toggle = (id: string) =>
+        setSelected((prev) => {
+            const next = new Set(prev);
+            if (next.has(id)) next.delete(id);
+            else next.add(id);
+            return next;
+        });
+
+    const allTicked = visible.length > 0 && visible.every((n) => selected.has(n.id));
+    const toggleAll = () => setSelected(allTicked ? new Set() : new Set(visible.map((n) => n.id)));
+
+    const confirmDelete = async () => {
+        if (!ask || deletingNow.current) return;
+        deletingNow.current = true;
+        setDeleting(true);
+        try {
+            const body = ask === "all" ? { all: true, tab: TAB_PARAM[active] } : { ids: [...selected] };
+            const res = await fetch("/api/notifications", {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify(body),
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) {
+                toast.error(data.message || t("deleteFailed"));
+                return;
+            }
+            toast.success(t("deleted"));
+            setAsk(null);
+            stopSelecting();
+            load(active);
+        } catch {
+            toast.error(c("networkError"));
+        } finally {
+            deletingNow.current = false;
+            setDeleting(false);
+        }
+    };
+
+    const showTools = !loading && !error && visible.length > 0;
     const groups: { title: Group; list: Notification[] }[] = (["Today", "Yesterday", "Earlier"] as Group[])
         .map((title) => ({ title, list: visible.filter((n) => groupOf(n.at, serverNow) === title) }))
         .filter((g) => g.list.length > 0);
@@ -438,6 +498,42 @@ export default function NotificationsPage() {
                     setActive={setActive}
                 />
             </div>
+
+            {showTools && (
+                <div className="mb-6 flex flex-wrap items-center justify-end gap-2">
+                    {selecting ? (
+                        <>
+                            <span className="mr-auto text-sm text-gray-500 dark:text-neutral-400">
+                                {t("selectedCount", { count: selected.size })}
+                            </span>
+                            <button type="button" onClick={toggleAll} className="border rounded-xl px-4 py-2 text-sm text-gray-700 dark:text-neutral-200 hover:bg-gray-50 dark:hover:bg-dark-card">
+                                {allTicked ? t("deselectAll") : t("selectAll")}
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => setAsk("selected")}
+                                disabled={selected.size === 0}
+                                className="flex items-center gap-2 rounded-xl bg-red-600 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50">
+                                <Trash2 size={16} />
+                                {t("deleteSelected")}
+                            </button>
+                            <button type="button" onClick={stopSelecting} className="border rounded-xl px-4 py-2 text-sm text-gray-700 dark:text-neutral-200 hover:bg-gray-50 dark:hover:bg-dark-card">
+                                {c("cancel")}
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <button type="button" onClick={() => setSelecting(true)} className="border rounded-xl px-4 py-2 text-sm text-gray-700 dark:text-neutral-200 hover:bg-gray-50 dark:hover:bg-dark-card">
+                                {t("select")}
+                            </button>
+                            <button type="button" onClick={() => setAsk("all")} className="flex items-center gap-2 border border-red-200 rounded-xl px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:border-red-900 dark:hover:bg-red-950">
+                                <Trash2 size={16} />
+                                {t("deleteAll")}
+                            </button>
+                        </>
+                    )}
+                </div>
+            )}
 
             {loading ? (
                 <Skeleton />
@@ -466,6 +562,21 @@ export default function NotificationsPage() {
                                             action={parts.action}
                                         />
                                     );
+                                    // While choosing, the whole row ticks / unticks and the card's own buttons are switched off
+                                    if (selecting) {
+                                        return (
+                                            <div key={n.id} onClick={() => toggle(n.id)} className="flex cursor-pointer items-center gap-3">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selected.has(n.id)}
+                                                    onChange={() => toggle(n.id)}
+                                                    onClick={(e) => e.stopPropagation()}
+                                                    className="h-4 w-4 shrink-0 accent-red-600"
+                                                />
+                                                <div className="pointer-events-none min-w-0 flex-1">{card}</div>
+                                            </div>
+                                        );
+                                    }
                                     return parts.wholeCardLink && n.href ? (
                                         <Link key={n.id} href={n.href} className="block">
                                             {card}
@@ -485,6 +596,34 @@ export default function NotificationsPage() {
                         </div>
                     )}
                 </>
+            )}
+
+            {/* Delete popup */}
+            {ask && (
+                <div className="fixed inset-0 z-999 flex items-center justify-center bg-black/60 backdrop-blur-sm p-3 sm:p-4">
+                    <div className="w-full max-w-md bg-white dark:bg-zinc-900 rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 animate-in fade-in zoom-in duration-300">
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                            {ask === "selected" ? t("deleteTitleSelected") : t(`deleteTitleAll_${TAB_PARAM[active]}`)}
+                        </h2>
+                        <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">{t("deleteText")}</p>
+                        <div className="mt-6 flex gap-3">
+                            <button
+                                type="button"
+                                onClick={() => setAsk(null)}
+                                disabled={deleting}
+                                className="flex-1 rounded-xl border py-3 font-semibold text-gray-700 dark:text-neutral-200 hover:bg-gray-50 dark:hover:bg-zinc-800 disabled:opacity-60">
+                                {c("cancel")}
+                            </button>
+                            <button
+                                type="button"
+                                onClick={confirmDelete}
+                                disabled={deleting}
+                                className="flex-1 rounded-xl bg-red-600 py-3 font-semibold text-white disabled:opacity-60">
+                                {deleting ? t("deleting") : c("delete")}
+                            </button>
+                        </div>
+                    </div>
+                </div>
             )}
         </div>
     );

@@ -3,6 +3,8 @@
 // Bonus coins that ran out unused show as "Expired" entries at the time they expired (from wallet_lots),
 // so the running balance always matches what the wallet shows.
 // Coins only (bought coins + bonus coins); gems have their own balance.
+// A reader can delete entries from their own history. That is a soft delete: the entry is only noted in
+// reader_hidden_transactions, nothing in the ledger changes, the balances still add up, and the admin still sees everything.
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import "server-only";
 import { dbPool } from "@/lib/db";
@@ -86,6 +88,13 @@ const EVENTS = `
     )
 `;
 
+// Entries this reader deleted from their history. Applied AFTER the running balance is worked out,
+// so the balance shown on the entries that are left is still the real one.
+const NOT_HIDDEN = `NOT EXISTS (SELECT 1 FROM reader_hidden_transactions h WHERE h.user_id = $1 AND h.tx_id = ordered.id)`;
+
+// The most entries one request can delete
+const MAX_HIDE = 500;
+
 const FILTER_SQL: Record<TxFilter, string> = {
     all: "true",
     topup: "reason IN ('purchase', 'topup')",
@@ -146,6 +155,26 @@ function toTx(r: any): Transaction {
     };
 }
 
+// The dates part of a filter. Days are the reader's own days (users.timezone, UTC if it isn't a real zone).
+// Adds to `params` and returns the SQL to put after the other conditions.
+function rangeSql(params: any[], userId: string, range: TxRange): string {
+    const from = cleanDay(range.from);
+    const to = cleanDay(range.to);
+    if (!from && !to) return "";
+    params.push(userId);
+    const tz = `COALESCE((SELECT z.name FROM users u JOIN pg_timezone_names z ON z.name = u.timezone WHERE u.id = $${params.length}), 'UTC')`;
+    let sql = "";
+    if (from) {
+        params.push(from);
+        sql += ` AND (at AT TIME ZONE ${tz})::date >= $${params.length}::date`;
+    }
+    if (to) {
+        params.push(to);
+        sql += ` AND (at AT TIME ZONE ${tz})::date <= $${params.length}::date`;
+    }
+    return sql;
+}
+
 // A page of history, newest first. `before` = the last id of the previous page.
 export async function listTransactions(userId: string, filter: TxFilter, before?: string | null, range: TxRange = {}) {
     const params: any[] = [userId];
@@ -156,27 +185,13 @@ export async function listTransactions(userId: string, filter: TxFilter, before?
         extra += ` AND (at, id) < (SELECT at, id FROM ordered WHERE id = $${params.length})`;
     }
 
-    // Days are the reader's own days (users.timezone, UTC if it isn't a real zone)
-    const from = cleanDay(range.from);
-    const to = cleanDay(range.to);
-    if (from || to) {
-        params.push(userId);
-        const tz = `COALESCE((SELECT z.name FROM users u JOIN pg_timezone_names z ON z.name = u.timezone WHERE u.id = $${params.length}), 'UTC')`;
-        if (from) {
-            params.push(from);
-            extra += ` AND (at AT TIME ZONE ${tz})::date >= $${params.length}::date`;
-        }
-        if (to) {
-            params.push(to);
-            extra += ` AND (at AT TIME ZONE ${tz})::date <= $${params.length}::date`;
-        }
-    }
+    extra += rangeSql(params, userId, range);
 
     params.push(TX_PAGE_SIZE + 1);
     const { rows } = await dbPool.query(
         `${EVENTS}
          SELECT * FROM ordered
-         WHERE ${FILTER_SQL[filter]}${extra}
+         WHERE ${FILTER_SQL[filter]}${extra} AND ${NOT_HIDDEN}
          ORDER BY at DESC, id DESC
          LIMIT $${params.length}`,
         params
@@ -185,10 +200,40 @@ export async function listTransactions(userId: string, filter: TxFilter, before?
     return { transactions: rows.slice(0, TX_PAGE_SIZE).map(toTx), hasMore };
 }
 
-// One entry (only the reader's own)
+// Deletes the chosen entries from this reader's history (soft delete). Only entries that really are theirs are noted.
+export async function hideTransactions(userId: string, ids: string[]): Promise<number> {
+    const clean = [...new Set(ids.filter((id) => typeof id === "string" && TX_ID.test(id)))].slice(0, MAX_HIDE);
+    if (clean.length === 0) return 0;
+    const { rowCount } = await dbPool.query(
+        `${EVENTS}
+         INSERT INTO reader_hidden_transactions (user_id, tx_id)
+         SELECT $1::uuid, id FROM ordered
+         WHERE id = ANY($2::text[]) AND ${NOT_HIDDEN}
+         ON CONFLICT DO NOTHING`,
+        [userId, clean]
+    );
+    return rowCount ?? 0;
+}
+
+// Deletes everything that matches the type and dates the reader is looking at (all of it when no filter is set)
+export async function hideAllTransactions(userId: string, filter: TxFilter, range: TxRange = {}): Promise<number> {
+    const params: any[] = [userId];
+    const extra = rangeSql(params, userId, range);
+    const { rowCount } = await dbPool.query(
+        `${EVENTS}
+         INSERT INTO reader_hidden_transactions (user_id, tx_id)
+         SELECT $1::uuid, id FROM ordered
+         WHERE ${FILTER_SQL[filter]}${extra} AND ${NOT_HIDDEN}
+         ON CONFLICT DO NOTHING`,
+        params
+    );
+    return rowCount ?? 0;
+}
+
+// One entry (only the reader's own, and only if they haven't deleted it)
 export async function getTransaction(userId: string, id: string): Promise<Transaction | null> {
     if (!TX_ID.test(id)) return null;
-    const { rows } = await dbPool.query(`${EVENTS} SELECT * FROM ordered WHERE id = $2`, [userId, id]);
+    const { rows } = await dbPool.query(`${EVENTS} SELECT * FROM ordered WHERE id = $2 AND ${NOT_HIDDEN}`, [userId, id]);
     if (!rows[0]) return null;
     const tx = toTx(rows[0]);
 

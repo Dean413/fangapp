@@ -64,10 +64,10 @@ const TAB_SQL: Record<NotificationTab, string> = {
     transactions: "n.kind IN ('coins_added', 'coins_spent', 'coins_expired', 'vip_started', 'vip_renewed')",
 };
 
-// ---------- Filling in ----------
+// Gifts a reader sent already show in their transaction history, so they never show here
+// (this also hides gift notifications that were made before this change)
+const NOT_GIFT = `NOT (n.kind = 'coins_spent' AND n.data->>'reason' = 'gift')`;
 
-// Takes this reader's turn to fill in (at most every 15 seconds; requests at the same moment don't both do it).
-// Returns the cut-off time: nothing older than it is filled in.
 async function claimSync(userId: string): Promise<Date | null> {
     const { rows } = await dbPool.query(
         `INSERT INTO reader_notification_state (user_id, started_at, synced_at) VALUES ($1, now(), now())
@@ -112,6 +112,7 @@ const COIN_ACTIVITY = `
            l.created_at
     FROM wallet_ledger l
     WHERE l.user_id = $1 AND l.currency = 'coin' AND l.delta <> 0 AND l.tx_code IS NOT NULL AND l.created_at > $2
+      AND l.reason <> 'gift'
     GROUP BY l.reason, l.ref_type, l.ref_id, l.created_at, sign(l.delta)
     ${SKIP_SEEN}`;
 
@@ -343,7 +344,9 @@ export async function listNotifications(userId: string, tab: NotificationTab, be
                  FROM user_profiles WHERE user_id = s.user_id ORDER BY created_at DESC LIMIT 1
              ) a ON n.kind = 'new_chapter'
              WHERE n.user_id = $1
-               AND (n.kind <> 'new_chapter' OR (s.id IS NOT NULL AND s.is_deleted = false))
+                            AND (n.kind <> 'new_chapter' OR (s.id IS NOT NULL AND s.is_deleted = false))
+                             AND ${NOT_GIFT}
+               AND NOT n.is_deleted
                AND ${TAB_SQL[tab]} ${cursor}
              ORDER BY n.created_at DESC, n.id DESC
              LIMIT $${params.length}`,
@@ -362,7 +365,8 @@ export async function listNotifications(userId: string, tab: NotificationTab, be
 
 export async function unreadCount(userId: string): Promise<number> {
     const { rows } = await dbPool.query(
-        `SELECT COUNT(*)::int AS n FROM reader_notifications WHERE user_id = $1 AND read_at IS NULL`,
+        `SELECT COUNT(*)::int AS n FROM reader_notifications n
+         WHERE n.user_id = $1 AND n.read_at IS NULL AND NOT n.is_deleted AND ${NOT_GIFT}`,
         [userId]
     );
     return Number(rows[0]?.n ?? 0);
@@ -381,4 +385,26 @@ export async function markRead(userId: string, ids: string[]) {
 
 export async function markAllRead(userId: string) {
     await dbPool.query(`UPDATE reader_notifications SET read_at = now() WHERE user_id = $1 AND read_at IS NULL`, [userId]);
+}
+
+
+// Deletes the reader's chosen notifications. A soft delete: the row stays (marked is_deleted), so the fill-in
+// above can never make the same notification again, and the list and the unread count skip it.
+export async function deleteNotifications(userId: string, ids: string[]) {
+    const clean = [...new Set(ids.filter((id) => typeof id === "string" && /^\d{1,18}$/.test(id)))].slice(0, 500);
+    if (clean.length === 0) return 0;
+    const { rowCount } = await dbPool.query(
+        `UPDATE reader_notifications SET is_deleted = true WHERE user_id = $1 AND id = ANY($2::bigint[]) AND NOT is_deleted`,
+        [userId, clean]
+    );
+    return rowCount ?? 0;
+}
+
+// Deletes everything in the tab the reader is on (All, Unread or Mentions)
+export async function deleteAllNotifications(userId: string, tab: NotificationTab) {
+    const { rowCount } = await dbPool.query(
+        `UPDATE reader_notifications n SET is_deleted = true WHERE n.user_id = $1 AND NOT n.is_deleted AND ${TAB_SQL[tab]}`,
+        [userId]
+    );
+    return rowCount ?? 0;
 }
