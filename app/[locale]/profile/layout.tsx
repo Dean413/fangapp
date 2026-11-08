@@ -37,7 +37,7 @@ export default function ProfileLayout({ children, }: { children: React.ReactNode
                 {/* Sidebar */}
                 <aside className="hidden md:block w-64 shrink-0 border-r border-gray-100 dark:border-dark-border">
 
-                    <div className="fixed h-screen flex flex-col bg-white dark:bg-black pt-4 pr-4">
+                    <div className="fixed h-screen flex flex-col bg-gray-50 dark:bg-black pt-4 pr-4">
 
                         {/* Top content */}
                         <div className="flex-1 overflow-y-auto">

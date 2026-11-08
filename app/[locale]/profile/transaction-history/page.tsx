@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Trash2 } from "lucide-react";
 import { toast } from "@/lib/store/toastStore";
 import { useWalletStore } from "@/lib/store/wallet-action-store";
 import { useLocale, useTranslations } from "next-intl";
@@ -41,11 +42,15 @@ const formatTime = (iso: string, locale: string) => new Date(iso).toLocaleTimeSt
 const formatMoney = (cents: number, locale: string) => new Intl.NumberFormat(locale, { style: "currency", currency: "USD" }).format(cents / 100);
 const formatAmount = (n: number) => `${n > 0 ? "+" : "−"}${Math.abs(n).toLocaleString()}`;
 
+// What the delete popup is about: the ticked entries, or everything the reader is looking at
+type Ask = "selected" | "all" | null;
+
 export default function TransactionHistory() {
     const router = useRouter()
     const setActive = useWalletStore((s) => s.setActive)
     const t = useTranslations("Transactions")
     const ct = useTranslations("Coins")
+    const c = useTranslations("Common")
     const locale = useLocale()
 
     const [filter, setFilter] = useState<TxFilter>("all");
@@ -55,6 +60,15 @@ export default function TransactionHistory() {
     const [loading, setLoading] = useState(true);
     const [loadingMore, setLoadingMore] = useState(false);
     const busy = useRef(false);
+
+    // Choosing entries to delete
+    const [selecting, setSelecting] = useState(false);
+    const [selected, setSelected] = useState<Set<string>>(new Set());
+    const [ask, setAsk] = useState<Ask>(null);
+    const [deleting, setDeleting] = useState(false);
+    const deletingNow = useRef(false);
+    // Goes up after a delete, so the list is fetched again from the first page
+    const [reloadTick, setReloadTick] = useState(0);
 
     // Changes with every filter, so an answer for older filters is never shown
     const latest = useRef("");
@@ -75,7 +89,7 @@ export default function TransactionHistory() {
         return data as { transactions: Transaction[]; hasMore: boolean };
     }, [t]);
 
-    // First page (again when the type or the dates change)
+    // First page (again when the type or the dates change, or after a delete)
     useEffect(() => {
         // A custom range waits until both days are picked
         if (range.preset === "custom" && (!range.from || !range.to)) return;
@@ -91,7 +105,10 @@ export default function TransactionHistory() {
             .finally(() => { if (!cancelled) setLoading(false); });
         return () => { cancelled = true; };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [filter, range.from, range.to, range.preset, load]);
+    }, [filter, range.from, range.to, range.preset, load, reloadTick]);
+
+    // Ticks only make sense for the list that is on screen
+    useEffect(() => { setSelected(new Set()); }, [filter, range.from, range.to]);
 
     const loadMore = async () => {
         if (busy.current || !hasMore || transactions.length === 0) return;
@@ -116,6 +133,60 @@ export default function TransactionHistory() {
         router.push(WALLET_PATH);
     };
 
+    // ---------- Deleting (hides entries from the reader, nothing is lost) ----------
+
+    const stopSelecting = () => {
+        setSelecting(false);
+        setSelected(new Set());
+    };
+
+    const toggle = (id: string) =>
+        setSelected((prev) => {
+            const next = new Set(prev);
+            if (next.has(id)) next.delete(id);
+            else next.add(id);
+            return next;
+        });
+
+    const allTicked = transactions.length > 0 && transactions.every((item) => selected.has(item.id));
+    const toggleAll = () => setSelected(allTicked ? new Set() : new Set(transactions.map((item) => item.id)));
+
+    // Delete all, with no type or dates chosen = the whole history
+    const wholeHistory = filter === "all" && range.preset === "all";
+
+    const confirmDelete = async () => {
+        if (!ask || deletingNow.current) return;
+        deletingNow.current = true;
+        setDeleting(true);
+        try {
+            const body = ask === "all"
+                ? { all: true, filter, from: range.from || null, to: range.to || null }
+                : { ids: [...selected] };
+            const res = await fetch("/api/wallet/transactions", {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify(body),
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) {
+                toast.error(data.message || t("deleteFailed"));
+                return;
+            }
+            toast.success(t("deleted"));
+            setAsk(null);
+            stopSelecting();
+            setReloadTick((n) => n + 1);
+        } catch {
+            toast.error(c("networkError"));
+        } finally {
+            deletingNow.current = false;
+            setDeleting(false);
+        }
+    };
+
+    const showTools = !loading && transactions.length > 0;
+
     return (
         <div className="bg-white dark:bg-dark-card rounded-3xl p-6 md:p-8">
             {/* Header */}
@@ -131,6 +202,43 @@ export default function TransactionHistory() {
 
                 <TransactionFilters type={filter} onType={setFilter} range={range} onRange={setRange} />
             </div>
+
+            {/* Select / delete */}
+            {showTools && (
+                <div className="mb-4 flex flex-wrap items-center justify-end gap-2">
+                    {selecting ? (
+                        <>
+                            <span className="mr-auto text-sm text-gray-500 dark:text-neutral-400">
+                                {t("selectedCount", { count: selected.size })}
+                            </span>
+                            <button type="button" onClick={toggleAll} className="border rounded-xl px-4 py-2 text-sm text-gray-700 dark:text-neutral-200 hover:bg-gray-50 dark:hover:bg-dark-card">
+                                {allTicked ? t("deselectAll") : t("selectAll")}
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => setAsk("selected")}
+                                disabled={selected.size === 0}
+                                className="flex items-center gap-2 rounded-xl bg-red-600 px-4 py-2 text-sm font-semibold text-white disabled:opacity-50">
+                                <Trash2 size={16} />
+                                {t("deleteSelected")}
+                            </button>
+                            <button type="button" onClick={stopSelecting} className="border rounded-xl px-4 py-2 text-sm text-gray-700 dark:text-neutral-200 hover:bg-gray-50 dark:hover:bg-dark-card">
+                                {c("cancel")}
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <button type="button" onClick={() => setSelecting(true)} className="border rounded-xl px-4 py-2 text-sm text-gray-700 dark:text-neutral-200 hover:bg-gray-50 dark:hover:bg-dark-card">
+                                {t("select")}
+                            </button>
+                            <button type="button" onClick={() => setAsk("all")} className="flex items-center gap-2 border border-red-200 rounded-xl px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:border-red-900 dark:hover:bg-red-950">
+                                <Trash2 size={16} />
+                                {t("deleteAll")}
+                            </button>
+                        </>
+                    )}
+                </div>
+            )}
 
             {/* Table */}
             <div className="overflow-x-auto">
@@ -160,14 +268,15 @@ export default function TransactionHistory() {
                         <p className="text-center text-gray-500 dark:text-neutral-400 py-20">{filter === "all" ? t("empty_filtered") : t(`empty_${filter}`)}</p>
                     )
                 ) : (
-                    <table className="w-full min-w-225">
+                    <table className="w-full min-w-225 table-fixed">
                         <thead>
                             <tr className="border-b text-left text-gray-500 dark:text-neutral-400 text-sm">
-                                <th className="pb-4 font-medium">{t("date")}</th>
-                                <th className="pb-4 font-medium">{t("type")}</th>
-                                <th className="pb-4 font-medium">{t("description")}</th>
-                                <th className="pb-4 font-medium">{t("amount")}</th>
-                                <th className="pb-4 font-medium">{t("balance")}</th>
+                                {selecting && <th className="pb-4 w-10" />}
+                                <th className="pb-4 font-medium w-[22%]">{t("date")}</th>
+                                <th className="pb-4 font-medium w-[20%]">{t("type")}</th>
+                                <th className="pb-4 font-medium w-[38%]">{t("description")}</th>
+                                <th className="pb-4 font-medium w-[20%]">{t("amount")}</th>
+                                {/* <th className="pb-4 font-medium">{t("balance")}</th> */}
                             </tr>
                         </thead>
 
@@ -175,8 +284,19 @@ export default function TransactionHistory() {
                             {transactions.map((item) => (
                                 <tr
                                     key={item.id}
-                                    onClick={() => router.push(`/profile/transaction-history/${item.id}`)}
-                                    className="border-b cursor-pointer border-gray-100 dark:border-dark-border hover:bg-gray-50 dark:hover:bg-dark-card transition">
+                                    onClick={() => (selecting ? toggle(item.id) : router.push(`/profile/transaction-history/${item.id}`))}
+                                    className={`border-b cursor-pointer border-gray-100 dark:border-dark-border hover:bg-gray-50 dark:hover:bg-dark-card transition ${selecting && selected.has(item.id) ? "bg-red-50/60 dark:bg-red-950/20" : ""}`}>
+                                    {selecting && (
+                                        <td className="py-5 pr-2">
+                                            <input
+                                                type="checkbox"
+                                                checked={selected.has(item.id)}
+                                                onChange={() => toggle(item.id)}
+                                                onClick={(e) => e.stopPropagation()}
+                                                className="h-4 w-4 accent-red-600"
+                                            />
+                                        </td>
+                                    )}
                                     <td className="py-5">
                                         <div className="font-medium text-gray-900 dark:text-white">
                                             {formatDate(item.at, locale)}
@@ -188,16 +308,13 @@ export default function TransactionHistory() {
 
                                     <td className="py-5">
                                         <div className="flex items-center gap-3">
-                                            <span
-                                                className={`w-2.5 h-2.5 rounded-full ${DOT[item.category]}`}
-                                            />
+                                            <span className={`w-2.5 h-2.5 rounded-full ${DOT[item.category]}`} />
                                             <span>{item.category === "vip" ? t("typeVip") : coinType(ct, item.reason, item.amount)}</span>
                                         </div>
                                     </td>
 
-                                    <td className="py-5 text-gray-700 dark:text-neutral-200">
+                                    <td className="py-5 pr-4 text-gray-700 dark:text-neutral-200">
                                         {item.category === "vip" ? (item.refId === "monthly" ? t("vipMonthly") : t("vipWeekly")) : item.reason === "expired" ? t("expiredEntry", { source: coinDescription(ct, item.reason, item.refId) }) : coinDescription(ct, item.reason, item.refId, item.description)}
-
                                     </td>
 
                                     <td
@@ -206,9 +323,9 @@ export default function TransactionHistory() {
                                         {item.category === "vip" && item.amountCents != null ? formatMoney(item.amountCents, locale) : `${formatAmount(item.amount)} ${item.coinKind === "coins" ? t("unitCoins") : t("unitBonusCoins")}`}
                                     </td>
 
-                                    <td className="py-5 text-gray-800 dark:text-neutral-100">
-                                        {item.category === "vip" ? "—" : item.balance.toLocaleString()}
-                                    </td>
+                                    {/* <td className="py-5 text-gray-800 dark:text-neutral-100">
+                    {item.category === "vip" ? "—" : item.balance.toLocaleString()}
+                </td> */}
                                 </tr>
                             ))}
                         </tbody>
@@ -223,6 +340,36 @@ export default function TransactionHistory() {
                     <button type="button" onClick={loadMore} disabled={loadingMore} className={`border rounded-xl px-6 py-3 text-gray-700 dark:text-neutral-200 hover:bg-gray-50 dark:hover:bg-dark-card disabled:opacity-60`}>
                         {loadingMore ? t("loading") : t("loadMore")}
                     </button>
+                </div>
+            )}
+
+            {/* Delete popup */}
+            {ask && (
+                <div className="fixed inset-0 z-999 flex items-center justify-center bg-black/60 backdrop-blur-sm p-3 sm:p-4">
+                    <div className="w-full max-w-md bg-white dark:bg-zinc-900 rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 animate-in fade-in zoom-in duration-300">
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                            {ask === "selected" ? t("deleteTitleSelected") : wholeHistory ? t("deleteTitleAll") : t("deleteTitleFiltered")}
+                        </h2>
+                        <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
+                            {ask === "all" && !wholeHistory ? t("deleteTextFiltered") : t("deleteText")}
+                        </p>
+                        <div className="mt-6 flex gap-3">
+                            <button
+                                type="button"
+                                onClick={() => setAsk(null)}
+                                disabled={deleting}
+                                className="flex-1 rounded-xl border py-3 font-semibold text-gray-700 dark:text-neutral-200 hover:bg-gray-50 dark:hover:bg-zinc-800 disabled:opacity-60">
+                                {c("cancel")}
+                            </button>
+                            <button
+                                type="button"
+                                onClick={confirmDelete}
+                                disabled={deleting}
+                                className="flex-1 rounded-xl bg-red-600 py-3 font-semibold text-white disabled:opacity-60">
+                                {deleting ? t("deleting") : c("delete")}
+                            </button>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>
