@@ -6,10 +6,12 @@
 //   username  3–20 letters, numbers or _, unique (capital letters don't count)
 //   bio       "About you", up to 300 characters ("" clears it)
 //   genreIds  favourite genre IDs from /api/genres, up to 10 (replaces the old list)
+//   gender    "male" | "female" | "prefer_not_to_say" (null clears it)        private, never shown publicly
+//   birthDate "YYYY-MM-DD", a real date from 1900 to today (null clears it)  private, never shown publicly
 import { NextRequest } from "next/server";
 import { getCurrentUser } from "@/lib/auth/session";
 import { withTransaction } from "@/lib/auth/transaction";
-import { BIO_MAX, MAX_GENRES, USERNAME_RULE, getReaderProfile } from "@/lib/readerProfile";
+import { BIO_MAX, MAX_GENRES, USERNAME_RULE, cleanBirthDate, getReaderProfile, isGender, type Gender } from "@/lib/readerProfile";
 import { cleanName, newPublicId } from "@/lib/auth/account";
 import { readJson, reply } from "@/lib/auth/rules";
 import { msg } from "@/lib/i18n";
@@ -54,6 +56,18 @@ export async function POST(request: NextRequest) {
         if (genreIds.length > MAX_GENRES) return reply(400, msg("chooseUpToGenres", { max: MAX_GENRES }), { field: "genres" });
     }
 
+    let gender: Gender | null | undefined;
+    if (body.gender !== undefined) {
+        if (body.gender !== null && !isGender(body.gender)) return reply(400, "invalidRequest", { field: "gender" });
+        gender = body.gender;
+    }
+
+    let birthDate: string | null | undefined;
+    if (body.birthDate !== undefined) {
+        birthDate = body.birthDate === null ? null : cleanBirthDate(body.birthDate);
+        if (body.birthDate !== null && birthDate === null) return reply(400, "invalidRequest", { field: "birthDate" });
+    }
+
     try {
         const result = await withTransaction(async (client) => {
             // Make the reader profile first if it's missing
@@ -90,9 +104,18 @@ export async function POST(request: NextRequest) {
                     full_name  = CASE WHEN $2::boolean THEN $3 ELSE full_name END,
                     username   = CASE WHEN $4::boolean THEN $5 ELSE username END,
                     bio        = CASE WHEN $6::boolean THEN $7 ELSE bio END,
+                    gender     = CASE WHEN $8::boolean THEN $9 ELSE gender END,
+                    birth_date = CASE WHEN $10::boolean THEN $11::date ELSE birth_date END,
                     updated_at = now()
                  WHERE user_id = $1`,
-                [user.id, fullName !== undefined, fullName ?? null, username !== undefined, username ?? null, bio !== undefined, bio ?? null]
+                [
+                    user.id,
+                    fullName !== undefined, fullName ?? null,
+                    username !== undefined, username ?? null,
+                    bio !== undefined, bio ?? null,
+                    gender !== undefined, gender ?? null,
+                    birthDate !== undefined, birthDate ?? null,
+                ]
             );
 
             if (genreIds !== undefined) {
