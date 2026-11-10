@@ -265,7 +265,7 @@ export default function FangBot() {
     if (!conversation) {
         return (
             <div className="flex items-start justify-center bg-gray-50 dark:bg-black/10 px-4 py-10">
-                <div className="flex flex-col w-[80%] bg-white dark:bg-dark-card border rounded-lg border-gray-300 dark:border-neutral-700 h-150 my-6">
+                <div className="flex flex-col w-full md:w-[80%] bg-white dark:bg-dark-card border rounded-lg border-gray-300 dark:border-neutral-700 my-6">
                     <div className="flex-1 flex flex-col items-center justify-center px-6 py-8">
                         <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full flex items-center justify-center mb-4">
                             <Image src={BOT_IMAGE} alt="fang bot" width={100} height={100} />
@@ -275,14 +275,13 @@ export default function FangBot() {
                             Hi! I&apos;m Ava, your Fang assistant. Ask me a question or <br className="hidden sm:block" />
                             select a topic below, and I&apos;ll be happy to help.
                         </p>
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 w-[80%]">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 w-[80%]">
                             {(data?.topics ?? []).map((topic) => (
                                 <button
                                     key={topic.id}
                                     disabled={disabled}
                                     onClick={() => act({ action: "topic", topicId: topic.id })}
-                                    className="flex items-center gap-2 px-3 py-2 border border-gray-200 dark:border-dark-border rounded-lg text-sm text-gray-700 dark:text-neutral-200 hover:bg-pink-50 dark:hover:bg-pink-500/10 hover:border-pink-300 dark:hover:border-pink-500/40 transition-colors disabled:opacity-60 disabled:hover:bg-transparent"
-                                >
+                                    className="flex items-center gap-2 px-3 py-2 border border-gray-200 dark:border-dark-border rounded-lg text-sm text-gray-700 dark:text-neutral-200 hover:bg-pink-50 dark:hover:bg-pink-500/10 hover:border-pink-300 dark:hover:border-pink-500/40 transition-colors disabled:opacity-60 disabled:hover:bg-transparent">
                                     {topic.icon && <span>{topic.icon}</span>}
                                     <span className="text-left leading-tight">{topic.label}</span>
                                 </button>
@@ -297,7 +296,7 @@ export default function FangBot() {
 
     // ---------------- In a chat ----------------
     return (
-        <div className="flex flex-col mx-auto w-[80%] bg-white dark:bg-dark-card border rounded-lg border-gray-300 dark:border-neutral-700 my-6">
+        <div className="flex flex-col mx-auto w-full md:w-[80%] bg-white dark:bg-dark-card border rounded-lg border-gray-300 dark:border-neutral-700 my-6">
             <h1 className="px-4 pt-4 pb-3 text-lg font-bold text-gray-800 dark:text-neutral-100">Live Chat with FANG</h1>
             <div
                 ref={scrollRef}
