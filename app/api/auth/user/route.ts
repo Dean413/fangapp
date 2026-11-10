@@ -33,6 +33,8 @@ export async function GET() {
                 cover_url: profile?.cover_url ?? null,
                 genre_ids: profile?.genre_ids ?? [],
                 joined_at: profile?.joined_at ?? null,
+                gender: profile?.gender ?? null, // private: only the reader sees this
+                birth_date: profile?.birth_date ?? null, // private: only the reader sees this
                 wallet,
             },
         });
