@@ -1,3 +1,4 @@
+// lib/stories.ts
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { dbPool } from "@/lib/db";
 import { chapterHtml, previewHtml } from "@/lib/chapterHtml";
@@ -540,10 +541,13 @@ export async function searchStories(query: string, language: string | null, limi
 
 // ---------- Genres from the admin's Curation → Genre ----------
 const READER_TENANT = "fang"; // this app's tenant id in the admin
-const READER_PLATFORM = "Websites";
+
+// Which curation to read: the website's, or the mobile app's ("Apps" in the admin's Multi-Tenant Curation)
+export type CurationPlatform = "Websites" | "Apps";
+export const toCurationPlatform = (value: unknown): CurationPlatform => (value === "Apps" ? "Apps" : "Websites");
 
 // The genre pills: enabled genre curations for this language, in the admin's order. A genre with no live books is left out.
-export async function listCuratedGenres(language: string) {
+export async function listCuratedGenres(language: string, platform: CurationPlatform = "Websites") {
     const { rows } = await dbPool.query(
         `
         SELECT o.name, fang_slugify(o.name) AS slug
@@ -562,14 +566,19 @@ export async function listCuratedGenres(language: string) {
           )
         ORDER BY cc.display_order, cc.created_at
         `,
-        [READER_TENANT, language, READER_PLATFORM]
+        [READER_TENANT, language, platform]
     );
     return rows.map((r) => ({ name: r.name as string, slug: r.slug as string }));
 }
 
 // One genre's books, in the order the admin set
-export async function listCuratedGenreBooks(genre: string, language: string, limit?: number): Promise<StoryCard[]> {
-    const params: any[] = [READER_TENANT, language, READER_PLATFORM, genre];
+export async function listCuratedGenreBooks(
+    genre: string,
+    language: string,
+    limit?: number,
+    platform: CurationPlatform = "Websites"
+): Promise<StoryCard[]> {
+    const params: any[] = [READER_TENANT, language, platform, genre];
     const where = visibility(params);
     params.push(Math.min(Math.max(Number(limit) || 60, 1), 100));
 
@@ -600,8 +609,12 @@ export async function listCuratedGenreBooks(genre: string, language: string, lim
 
 // "All" on the genre page: every book in any enabled genre curation for this language, each once.
 // Ordered by the genre's place in the admin's order, then the book's position in that genre.
-export async function listCuratedAllBooks(language: string, limit?: number): Promise<StoryCard[]> {
-    const params: any[] = [READER_TENANT, language, READER_PLATFORM];
+export async function listCuratedAllBooks(
+    language: string,
+    limit?: number,
+    platform: CurationPlatform = "Websites"
+): Promise<StoryCard[]> {
+    const params: any[] = [READER_TENANT, language, platform];
     const where = visibility(params);
     params.push(Math.min(Math.max(Number(limit) || 200, 1), 500));
 
