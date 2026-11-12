@@ -1364,7 +1364,7 @@
         "follow": "Seguir",
         "following": "Seguindo",
         "followFailed": "Não foi possível atualizar. Tente novamente.",
-        "ratingOutOf": "{rating} / 5"
+        "ratingOutOf": "{rating} / 10"
     },
     "Referral": {
         "title": "Convide amigos",

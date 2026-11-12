@@ -310,7 +310,7 @@ export default function SettingsPage() {
 
                     <SettingRow icon={<FiLifeBuoy />}
                         title={t("helpCenter")}
-                        link="/profile/live-chat"
+                        link="/dmca"
 
                     />
 

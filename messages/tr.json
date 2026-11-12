@@ -1364,7 +1364,7 @@
         "follow": "Takip Et",
         "following": "Takip Ediliyor",
         "followFailed": "Takip güncellenemedi. Lütfen tekrar deneyin.",
-        "ratingOutOf": "{rating} / 5"
+        "ratingOutOf": "{rating} / 10"
     },
     "Referral": {
         "title": "Arkadaşlarını Davet Et",

@@ -1364,7 +1364,7 @@
         "follow": "Segui",
         "following": "Segui già",
         "followFailed": "Impossibile aggiornare il follow. Riprova.",
-        "ratingOutOf": "{rating} / 5"
+        "ratingOutOf": "{rating} / 10"
     },
     "Referral": {
         "title": "Invita amici",

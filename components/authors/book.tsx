@@ -61,7 +61,7 @@ export default async function AuthorBookRow({ book }: { book: AuthorBook }) {
 
                 {book.rating != null && (
                     <div className="mt-2 flex items-center gap-2">
-                        <Stars value={book.rating} />
+                        <Stars value={book.rating / 2} />
                         <span className="text-sm font-semibold text-gray-900 dark:text-white">{a("ratingOutOf", { rating: book.rating.toFixed(1) })}</span>
                     </div>
                 )}

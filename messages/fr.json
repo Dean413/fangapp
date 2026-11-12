@@ -1364,7 +1364,7 @@
         "follow": "Suivre",
         "following": "Abonné",
         "followFailed": "Impossible de mettre à jour l’abonnement. Veuillez réessayer.",
-        "ratingOutOf": "{rating} / 5"
+        "ratingOutOf": "{rating} / 10"
     },
     "Referral": {
         "title": "Inviter des amis",

@@ -1,5 +1,6 @@
 // app/api/live-chat/route.ts
 // GET:  the reader's topics and current chat (polled; with ?token=<the one you hold> it answers just { unchanged: true } when nothing is new)
+//       ?history=1[&before=<ISO date>] answers { chats, hasMore }: the reader's older resolved chats, a few at a time
 // POST: { action: "topic", topicId } | { action: "option", optionId } | { action: "answer", answer: "yes" | "no" }
 //       | { action: "message", text } | { action: "rate", conversationId, rating } | { action: "skip", conversationId }
 // Signed-in readers only; suspended readers can't use Live Chat.
@@ -14,6 +15,7 @@ import {
     chooseOption,
     chooseTopic,
     ensureDefaultScripts,
+    getChatHistory,
     getChatState,
     getChatToken,
     getTopics,
@@ -37,6 +39,10 @@ export async function GET(request: NextRequest) {
     if (!user) return reply(401, "Please sign in to use Live Chat.");
     try {
         const suspended = await isSuspended(user.id);
+        // Older resolved chats: ?history=1 (newest few), then &before=<createdAt of the oldest one loaded> for the next page
+        if (request.nextUrl.searchParams.get("history")) {
+            return reply(200, "OK", { ...(await getChatHistory(user.id, request.nextUrl.searchParams.get("before"))) });
+        }
         // Polling: the page sends the token it holds. Nothing changed -> answer without loading the chat.
         const known = request.nextUrl.searchParams.get("token");
         if (known && known === (await getChatToken(user.id, suspended))) return reply(200, "OK", { unchanged: true });

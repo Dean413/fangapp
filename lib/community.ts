@@ -1,5 +1,6 @@
 // lib/community.ts
 // Community posts, likes, comments, polls and trending tags. Following uses the authors' own follow (lib/authors.ts).
+// A post can recommend one book (story_id): the feed shows it with its cover, views, likes and genre.
 import "server-only";
 import { dbPool } from "@/lib/db";
 
@@ -44,6 +45,18 @@ export type CommunityPost = {
     mine: boolean;
     poll: CommunityPoll | null;
     edited: boolean;
+    book: CommunityBook | null;
+};
+
+// The book a post recommends
+export type CommunityBook = {
+    slug: string;
+    title: string;
+    author: string;
+    image: string | null;
+    genre: string;
+    views: number;
+    likes: number;
 };
 
 export type CommunityComment = {
@@ -98,6 +111,17 @@ const mapPost = (r: Row, viewerId: string | null): CommunityPost => ({
     liked: r.liked,
     mine: viewerId !== null && r.user_id === viewerId,
     poll: mapPoll(r),
+    book: r.book_slug
+        ? {
+            slug: r.book_slug,
+            title: r.book_title,
+            author: r.book_author ?? "Unknown",
+            image: r.book_image ?? null,
+            genre: r.book_genre ?? "",
+            views: Number(r.book_views) || 0,
+            likes: Number(r.book_likes) || 0,
+        }
+        : null,
 });
 
 type Query = { cursor?: string | null; author?: string | null; following?: boolean; id?: string | null; tag?: string | null; limit?: number };
@@ -133,10 +157,15 @@ async function queryPosts(viewerId: string | null, q: Query) {
                           GROUP BY g.i) x
                 ) END AS poll_counts,
                 (SELECT v.option_idx::int FROM community_poll_votes v
-                  WHERE v.post_id = p.id AND v.user_id = $1::uuid) AS poll_my_vote
+                  WHERE v.post_id = p.id AND v.user_id = $1::uuid) AS poll_my_vote,
+                COALESCE(bs.slug, bs.book_id, bs.id::text) AS book_slug, bs.title AS book_title, bs.image AS book_image,
+                COALESCE(bs.genre, '') AS book_genre, bs.views AS book_views, bs.likes AS book_likes,
+                (SELECT COALESCE(NULLIF(trim(bp.pen_name), ''), NULLIF(trim(bp.full_name), ''), 'Unknown')
+                   FROM user_profiles bp WHERE bp.user_id = bs.user_id ORDER BY bp.created_at DESC LIMIT 1) AS book_author
          FROM community_posts p
          LEFT JOIN reader_profiles rp ON rp.user_id = p.user_id
          LEFT JOIN community_polls pl ON pl.post_id = p.id
+         LEFT JOIN stories bs ON bs.id = p.story_id AND bs.is_deleted = false AND bs.taken_down_at IS NULL
          WHERE NOT p.hidden
            AND ($2::bigint IS NULL OR p.id < $2::bigint)
            AND ($3::uuid IS NULL OR p.user_id = $3::uuid)
@@ -170,7 +199,8 @@ export async function createPost(
     userId: string,
     body: string,
     imageUrl: string | null,
-    poll: { options: string[]; days: number } | null = null
+    poll: { options: string[]; days: number } | null = null,
+    storyId: string | null = null
 ) {
     if (await isBanned(userId)) return { error: "communityBanned" as const };
     const { rows: recent } = await dbPool.query(
@@ -183,8 +213,8 @@ export async function createPost(
     try {
         await client.query("BEGIN");
         const { rows } = await client.query(
-            `INSERT INTO community_posts (user_id, body, image_url) VALUES ($1, $2, $3) RETURNING id::text`,
-            [userId, body, imageUrl]
+            `INSERT INTO community_posts (user_id, body, image_url, story_id) VALUES ($1, $2, $3, $4) RETURNING id::text`,
+            [userId, body, imageUrl, storyId]
         );
         if (poll) {
             await client.query(

@@ -1,3 +1,4 @@
+// app/api/community/posts/route.ts
 import { NextRequest, NextResponse } from "next/server";
 import crypto from "crypto";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
@@ -7,6 +8,7 @@ import { readJson, reply } from "@/lib/auth/rules";
 import { msg } from "@/lib/i18n";
 import { logError } from "@/lib/log";
 import { POLL_OPTION_MAX, POST_MAX, createPost, getPost, listPosts, validId } from "@/lib/community";
+import { getStoryBySlug } from "@/lib/stories";
 
 const MAX_BYTES = 2 * 1024 * 1024;
 const TYPES: Record<string, string> = { "image/png": ".png", "image/jpeg": ".jpg", "image/webp": ".webp" };
@@ -41,7 +43,7 @@ export async function GET(request: NextRequest) {
     }
 }
 
-// POST /api/community/posts  { body, image? (data URL), poll? { options: string[], days: 1|3|7 } }
+// POST /api/community/posts  { body, image? (data URL), poll? { options: string[], days: 1|3|7 }, book? (a book's slug, to recommend it) }
 export async function POST(request: NextRequest) {
     const user = await getCurrentUser();
     if (!user) return reply(401, "signInFirst");
@@ -51,6 +53,16 @@ export async function POST(request: NextRequest) {
     const image = typeof input?.image === "string" ? input.image : "";
     if (body.length > POST_MAX) return reply(400, msg("postTooLong", { max: POST_MAX }));
     if (!body && !image) return reply(400, "postEmpty");
+
+    // A recommended book (optional): must be a real, live book
+    let storyId: string | null = null;
+    const book = typeof input?.book === "string" ? input.book.trim() : "";
+    if (book) {
+        if (book.length > 200) return reply(400, "invalidRequest");
+        const story = await getStoryBySlug(book).catch(() => null);
+        if (!story) return reply(404, "storyNotFound");
+        storyId = String(story.id);
+    }
 
     let poll: { options: string[]; days: number } | null = null;
     const rawPoll = input?.poll;
@@ -94,7 +106,7 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-        const result = await createPost(user.id, body, imageUrl, poll);
+        const result = await createPost(user.id, body, imageUrl, poll, storyId);
         if (result.error) return reply(result.error === "communityBanned" ? 403 : 429, result.error);
         const post = await getPost(user.id, result.id);
         return NextResponse.json({ post });

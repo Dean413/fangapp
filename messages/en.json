@@ -124,6 +124,9 @@
         "couldntUpdateLike": "Couldn't update the like. Please try again.",
         "cantLikeOwnComment": "You can't like your own comment",
         "cantLikeOwnReview": "You can't like your own review",
+        "chaptersUnlocked": "{count, plural, one {# chapter unlocked} other {# chapters unlocked}}",
+        "nothingToUnlock": "There are no chapters left to unlock.",
+        "priceChanged": "The price has changed. Please check it and try again.",
         "commentDeleted": "Comment deleted",
         "commentPosted": "Comment posted",
         "couldntDeleteComment": "Couldn't delete your comment. Please try again.",
@@ -262,7 +265,20 @@
         "failedFetchChapter": "Failed to fetch chapter.",
         "failedLoadVip": "Failed to load VIP status.",
         "failedLoadHome": "Failed to load homepage collections",
-        "communityBanned": "You're banned from posting and commenting in the community."
+        "communityBanned": "You're banned from posting and commenting in the community.",
+        "pushNewChapter": "Chapter {chapter} is out. Tap to read.",
+"pushCheckinTitle": "Your daily check-in is ready",
+"pushCheckinBody": "Claim {coins} coins for Day {day}.",
+"pushExpiringTitle": "Bonus coins expiring soon",
+"pushExpiringBody": "{amount} bonus coins run out in the next 24 hours.",
+"pushExpiredTitle": "Bonus coins expired",
+"pushExpiredBody": "{amount} bonus coins have run out.",
+"pushVipCancelledTitle": "Your VIP won't renew",
+"pushVipCancelledBody": "You keep VIP until the end of this period.",
+"pushVipEndedTitle": "Your VIP has ended",
+"pushVipEndedBody": "Renew to get your daily free unlocks back.",
+"pushReplyTitle": "New reply",
+"pushReplyBody": "Someone replied to you."
     },
     "Email": {
         "preview": "Your {app} code is {code}",
@@ -1364,7 +1380,7 @@
         "follow": "Follow",
         "following": "Following",
         "followFailed": "Couldn't update follow. Please try again.",
-        "ratingOutOf": "{rating} / 5"
+        "ratingOutOf": "{rating} / 10"
     },
     "Referral": {
         "title": "Invite Friends",

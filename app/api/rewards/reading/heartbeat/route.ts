@@ -1,8 +1,10 @@
 // app/api/rewards/reading/heartbeat/route.ts
 // "Still reading" signal from the reading page (signed-in readers). The server counts the time itself.
 // At 30 minutes in a period the reading gem is added by itself; the answer then carries the new wallet.
+// At 15 minutes, the friend who invited this reader gets their "friend reads" reward (once).
 import { getCurrentUser } from "@/lib/auth/session";
 import { grantReadingGem, READING_GEM, recordReadingBeat } from "@/lib/readingReward";
+import { rewardReferralReading } from "@/lib/referral";
 import { getWalletBalance } from "@/lib/wallet";
 import { reply } from "@/lib/auth/rules";
 import { logError } from "@/lib/log";
@@ -22,6 +24,8 @@ export async function POST() {
                 logError("Reading gem error:", error);
             }
         }
+
+        await rewardReferralReading(user.id, seconds); // never fails
 
         return reply(200, "OK", {
             seconds,

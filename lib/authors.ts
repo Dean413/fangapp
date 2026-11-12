@@ -28,7 +28,7 @@ export type AuthorBook = {
     summary: string;
     status: string;           // ONGOING | COMPLETED
     views: number;
-    rating: number | null;    // average from the reviews (null = no reviews yet)
+    rating: number | null;    // average from the reviews, as a score out of 10 (1 star = 2); null = no reviews yet
 };
 
 // The author a page address points to (null = no such author)
@@ -81,7 +81,7 @@ export async function getAuthorPage(slug: string, viewerId: string | null): Prom
                     COALESCE(s.blurb, '') AS summary,
                     s.story_status,
                     s.views,
-                    (SELECT round(avg(r.rating), 1) FROM book_reviews r WHERE r.story_id = s.id AND NOT r.hidden) AS rating
+                    (SELECT round(avg(r.rating) * 2, 1) FROM book_reviews r WHERE r.story_id = s.id AND NOT r.hidden) AS rating
              FROM stories s
              WHERE s.user_id = $1
                AND s.is_deleted = false

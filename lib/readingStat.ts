@@ -77,7 +77,7 @@ export type ReadingStatsResult = {
     totalBooks: number;                                          // every book read, all time
     books: { key: number; count: number }[];                     // per month (1-12) or per day of the month
     genres: { name: string; count: number; percent: number }[];  // top 5
-    streak: { days: number; recent: boolean[] };                 // recent = last 28 days, oldest first, today last
+    streak: { days: number; recent: boolean[]; today: string };  // recent = last 28 days, oldest first, today last; today = "YYYY-MM-DD" in the reader's timezone ("" when unknown)
     activeDay: { index: number; perDay: number[] };              // index 0 = Monday, -1 = no data; perDay = average seconds
 };
 
@@ -85,7 +85,7 @@ const EMPTY: ReadingStatsResult = {
     totalBooks: 0,
     books: [],
     genres: [],
-    streak: { days: 0, recent: Array<boolean>(RECENT_DAYS).fill(false) },
+    streak: { days: 0, recent: Array<boolean>(RECENT_DAYS).fill(false), today: "" },
     activeDay: { index: -1, perDay: Array<number>(7).fill(0) },
 };
 
@@ -198,7 +198,7 @@ export async function getReadingStats(userId: string, range: StatsRange): Promis
         totalBooks: Number(totalRes.rows[0]?.n ?? 0),
         books,
         genres,
-        streak: { days: streak, recent },
+        streak: { days: streak, recent, today },
         activeDay: { index, perDay },
     };
 }

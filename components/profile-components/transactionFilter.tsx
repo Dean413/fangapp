@@ -4,7 +4,7 @@ import { Calendar, ChevronDown, Filter } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 
-export type TxFilter = "all" | "topup" | "vip" | "earned" | "spent" | "expired";
+export type TxFilter = "all" | "topup" | "vip" | "earned" | "spent" | "expired" | "purchases";
 export type Preset = "all" | "today" | "7d" | "30d" | "year" | "custom";
 export type DateRange = { preset: Preset; from: string; to: string };
 export const EMPTY_RANGE: DateRange = { preset: "all", from: "", to: "" };

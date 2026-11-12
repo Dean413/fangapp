@@ -132,7 +132,9 @@ export default function BookView({ book }: { book: Book }) {
     const [lastChapter, setLastChapter] = useState<number | null>(null);
     // Average rating and number of reviews, from the Reader Reviews section
     const [reviewSummary, setReviewSummary] = useState<ReviewSummary | null>(null);
-    const ratingText = reviewSummary?.average != null ? reviewSummary.average.toFixed(1) : book?.rating;
+    // The book's score is out of 10 (1 star = 2), shown beside the views and chapters
+    const ratingScore = reviewSummary?.average != null ? reviewSummary.average : book?.rating != null && book.rating !== "" ? Number(book.rating) : null;
+    const ratingText = ratingScore != null && !Number.isNaN(ratingScore) ? `${ratingScore.toFixed(1)}/10` : null;
 
     // The book's current link, once it's loaded (the URL may be an old one)
     const bookPath = book ? `/stories/${book.genreSlug}/${book.slug}` : `/stories/${safeGenre}/${safeSlug}`;

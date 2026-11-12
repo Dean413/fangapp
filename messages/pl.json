@@ -1364,7 +1364,7 @@
         "follow": "Obserwuj",
         "following": "Obserwujesz",
         "followFailed": "Nie udało się zaktualizować obserwowania. Spróbuj ponownie.",
-        "ratingOutOf": "{rating} / 5"
+        "ratingOutOf": "{rating} / 10"
     },
     "Referral": {
         "title": "Zaproś przyjaciół",
