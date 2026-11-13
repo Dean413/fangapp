@@ -1,5 +1,7 @@
 // lib/userActions/review.ts
 // Book reviews: 0.5–5 stars (half stars) and text, one per reader per book, editable.
+// A book's rating (the average shown on cards, rankings and the book page) is a score out of 10: stars x 2.
+// Reviews are still stored and shown in stars; only the averages are doubled (in the queries that average them).
 //  - only readers who've reached the book's halfway chapter can review (half its published chapters, rounded up:
 //    chapter 20 of 40). Readers who reviewed before keep being able to edit.
 //  - the "Enjoying this book? Drop a review" popup: when they finish the halfway chapter and when they finish the
@@ -184,7 +186,7 @@ export async function reviewPromptAt(userId: string, bookId: string, chapterNumb
 
 export async function getSummary(storyId: string): Promise<ReviewSummary> {
     const { rows } = await dbPool.query(
-        `SELECT round(avg(rating), 1) AS average, count(*)::int AS count FROM book_reviews WHERE story_id = $1 AND NOT hidden`,
+        `SELECT round(avg(rating) * 2, 1) AS average, count(*)::int AS count FROM book_reviews WHERE story_id = $1 AND NOT hidden`,
         [storyId]
     );
     const count = Number(rows[0]?.count ?? 0);

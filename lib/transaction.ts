@@ -9,8 +9,8 @@
 import "server-only";
 import { dbPool } from "@/lib/db";
 
-export type TxFilter = "all" | "topup" | "vip" | "earned" | "spent" | "expired";
-export const TX_FILTERS: TxFilter[] = ["all", "topup", "vip", "earned", "spent", "expired"];
+export type TxFilter = "all" | "topup" | "vip" | "earned" | "spent" | "expired" | "purchases";
+export const TX_FILTERS: TxFilter[] = ["all", "topup", "vip", "earned", "spent", "expired", "purchases"];
 
 // A day range (YYYY-MM-DD, in the reader's own timezone). Either end can be left out.
 export type TxRange = { from?: string | null; to?: string | null };
@@ -102,6 +102,7 @@ const FILTER_SQL: Record<TxFilter, string> = {
     earned: "delta > 0 AND reason NOT IN ('purchase', 'topup')",
     spent: "delta < 0 AND reason <> 'expired'",
     expired: "reason = 'expired'",
+    purchases: "(reason IN ('purchase', 'topup', 'vip') OR (delta < 0 AND reason <> 'expired'))",
 };
 
 const SOURCE_NAMES: Record<string, string> = {

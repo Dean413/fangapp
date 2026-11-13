@@ -1,18 +1,21 @@
 "use client";
 // app/[locale]/profile/live-chat/page.tsx
 // Live Chat with FANG. Topics, options and answers come from the database (/api/live-chat).
-// No chat yet: bot greeting + topic buttons. In a chat: messages, "We're here to help!", input. A resolved chat opens a rating pop-up (Skip closes the chat).
+// No chat yet: bot greeting + topic buttons. In a chat: messages, "We're here to help!", input. A resolved chat opens a rating pop-up.
+// Resolved chats are never closed off: the newest stays on screen with a "Start a new chat" panel under it, and older
+// chats sit above it as one scrollable thread (loaded a few at a time with "Load earlier chats").
 // While an agent has the chat (waiting / active) it checks for new messages: every 3 seconds right after something happens,
 // then slower the longer the chat is quiet. Each check is tiny: the server only sends the chat again when something changed.
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { toast } from "@/lib/store/toastStore";
 
 type ChatButton = { type: "option"; id: string; label: string } | { type: "answer"; value: "yes" | "no"; label: string };
 type ChatMessage = { id: string; sender: "user" | "bot" | "staff"; staffName: string | null; body: string; buttons: ChatButton[] | null; createdAt: string };
-type ChatConversation = { id: string; status: "bot" | "waiting" | "active" | "resolved"; topicLabel: string | null; rating: number | null; createdAt: string; resolvedAt: string | null };
+type ChatConversation = { id: string; status: "bot" | "waiting" | "active" | "resolved"; topicLabel: string | null; rating: number | null; createdAt: string; resolvedAt: string | null; ratingPending: boolean };
+type PastChat = { conversation: ChatConversation; messages: ChatMessage[] };
 type ChatTopic = { id: string; icon: string | null; label: string };
 type ChatData = { topics: ChatTopic[]; suspended: boolean; token: string; conversation: ChatConversation | null; messages: ChatMessage[] };
 type ChatReply = Partial<ChatData> & { message?: string; unchanged?: boolean };
@@ -20,6 +23,18 @@ type ChatReply = Partial<ChatData> & { message?: string; unchanged?: boolean };
 const MAX_LENGTH = 2000;
 const BOT_IMAGE = "/fang_pictures/fangbot.png";
 const timeOf = (iso: string) => new Date(iso).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+const dateOf = (iso: string) => new Date(iso).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+
+// A thin labelled line between chats: "Account & Login Issues · Nov 11, 2026"
+function Divider({ children }: { children: ReactNode }) {
+    return (
+        <div className="flex items-center gap-3 text-xs text-gray-400 dark:text-neutral-500" role="separator">
+            <span className="h-px flex-1 bg-gray-200 dark:bg-neutral-700" />
+            <span className="text-center">{children}</span>
+            <span className="h-px flex-1 bg-gray-200 dark:bg-neutral-700" />
+        </div>
+    );
+}
 
 // How often to check for new messages: quick right after something happens, slower the longer the chat is quiet
 function pollDelay(idleMs: number) {
@@ -55,17 +70,64 @@ export default function FangBot() {
     const [hoverStar, setHoverStar] = useState(0);
     const [picked, setPicked] = useState(0);
     const [showRate, setShowRate] = useState(false);
+    const [past, setPast] = useState<PastChat[]>([]); // older resolved chats, oldest first
+    const [hasMore, setHasMore] = useState(false);
+    const [loadingMore, setLoadingMore] = useState(false);
     const scrollRef = useRef<HTMLDivElement>(null);
-    const lastCount = useRef(0);
+    const lastKey = useRef<string | null>(null);
+    const historyRequest = useRef(0); // ignore history answers that arrive after a newer request
+    const historyForRef = useRef<string | null>(null); // the current chat the loaded history belongs to
+    // What to do with the scroll position once older chats are in: stay on the same line, or jump to the newest
+    const scrollAnchor = useRef<{ mode: "keep"; height: number } | { mode: "bottom" } | null>(null);
     const tokenRef = useRef<string | null>(null); // what the server last told us about this chat
     const activityRef = useRef(Date.now()); // when the chat last changed (sets the polling speed)
 
-    // Take in a fresh chat state; if it differs from what we had, the chat is "active" again, so polling speeds back up
-    const apply = useCallback((res: ChatData) => {
-        if (res.token !== tokenRef.current) activityRef.current = Date.now();
-        tokenRef.current = res.token ?? null;
-        setData(res);
+    // Older chats: the newest few load with the page (and again whenever a new chat starts); "Load earlier chats" adds more
+    const applyHistory = useCallback((chats: PastChat[], more: boolean, before: string | null) => {
+        const el = scrollRef.current;
+        scrollAnchor.current = before && el ? { mode: "keep", height: el.scrollHeight } : { mode: "bottom" };
+        setPast((old) => (before ? [...chats, ...old] : chats));
+        setHasMore(more);
     }, []);
+
+    // Resolves true when the page was fetched (a newer request makes an older answer a no-op)
+    const fetchHistory = useCallback(
+        async (before: string | null) => {
+            const request = ++historyRequest.current;
+            try {
+                const url = `/api/live-chat?history=1${before ? `&before=${encodeURIComponent(before)}` : ""}`;
+                const res = await fetch(url, { credentials: "include", cache: "no-store" });
+                const body = (await res.json().catch(() => ({}))) as { chats?: PastChat[]; hasMore?: boolean };
+                if (!res.ok) return false;
+                if (request === historyRequest.current) applyHistory(body.chats ?? [], Boolean(body.hasMore), before);
+                return true;
+            } catch {
+                return false;
+            }
+        },
+        [applyHistory]
+    );
+
+    // Take in a fresh chat state; if it differs from what we had, the chat is "active" again, so polling speeds back up.
+    // A different current chat (first load, or a new chat started) also means the history above it needs reloading.
+    const apply = useCallback(
+        (res: ChatData) => {
+            if (res.token !== tokenRef.current) activityRef.current = Date.now();
+            tokenRef.current = res.token ?? null;
+            setData(res);
+            const id = res.conversation?.id ?? null;
+            if (id !== historyForRef.current) {
+                historyForRef.current = id;
+                // No current chat means no chats at all, so there is no history to fetch
+                if (id) {
+                    fetchHistory(null).then((ok) => {
+                        if (!ok) toast.error("Couldn't load your earlier chats. Please try again.");
+                    });
+                }
+            }
+        },
+        [fetchHistory]
+    );
 
     // poll = true: send the token we hold, and the server answers "unchanged" when nothing is new
     const load = useCallback(
@@ -82,6 +144,16 @@ export default function FangBot() {
             if (!ok) toast.error("Couldn't load Live Chat. Please try again.");
         });
     }, [load]);
+
+    const currentId = data?.conversation?.id ?? null;
+
+    async function loadEarlier() {
+        if (loadingMore || !past.length) return;
+        setLoadingMore(true);
+        const ok = await fetchHistory(past[0].conversation.createdAt);
+        setLoadingMore(false);
+        if (!ok) toast.error("Couldn't load earlier chats. Please try again.");
+    }
 
     // Poll only while an agent has (or is about to take) the chat, and only when the tab is visible
     const status = data?.conversation?.status;
@@ -112,14 +184,24 @@ export default function FangBot() {
         };
     }, [status, load]);
 
-    // Keep the newest message in view
+    // Keep the newest message in view (also when the chat resolves and the "start a new chat" panel appears under it)
     const messageCount = data?.messages.length ?? 0;
+    const scrollKey = `${currentId}|${status}|${messageCount}`;
     useEffect(() => {
-        if (messageCount !== lastCount.current && scrollRef.current) {
-            scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: lastCount.current ? "smooth" : "auto" });
+        if (scrollKey !== lastKey.current && scrollRef.current) {
+            scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: lastKey.current ? "smooth" : "auto" });
         }
-        lastCount.current = messageCount;
-    }, [messageCount]);
+        lastKey.current = scrollKey;
+    }, [scrollKey]);
+
+    // Older chats just landed above: keep the reader on the same line (load more), or stay at the newest message (first load)
+    useLayoutEffect(() => {
+        const el = scrollRef.current;
+        const anchor = scrollAnchor.current;
+        scrollAnchor.current = null;
+        if (!el || !anchor) return;
+        el.scrollTop = anchor.mode === "keep" ? el.scrollTop + (el.scrollHeight - anchor.height) : el.scrollHeight;
+    }, [past]);
 
     const conversation = data?.conversation ?? null;
     const messages = data?.messages ?? [];
@@ -156,7 +238,7 @@ export default function FangBot() {
         if (await act({ action: "rate", conversationId: conversation.id, rating: stars })) toast.success("Thank you for your feedback!");
     }
 
-    // Skip the rating: the chat closes and the greeting comes back
+    // Skip the rating: the pop-up goes away, the chat stays
     async function skip() {
         if (!conversation || conversation.status !== "resolved") return;
         await act({ action: "skip", conversationId: conversation.id });
@@ -165,7 +247,7 @@ export default function FangBot() {
     // Only the newest bot message's buttons work, and only while the bot has the chat
     const lastMessage = messages[messages.length - 1];
     const liveButtonsId = conversation?.status === "bot" && lastMessage?.sender === "bot" ? lastMessage.id : null;
-    const needsRating = conversation?.status === "resolved" && !conversation.rating;
+    const needsRating = conversation?.ratingPending === true;
 
     // Show the rating pop-up a moment after the chat is resolved, so the last message can be read first
     useEffect(() => {
@@ -189,7 +271,7 @@ export default function FangBot() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [showRate, conversation?.id, busy]);
 
-    // Rating pop-up: appears once the chat is resolved. Skipping closes the chat without a rating.
+    // Rating pop-up: appears once the chat is resolved. Skipping just dismisses it (no rating is saved).
     const ratingModal = showRate && conversation ? (
         <div
             className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4"
@@ -275,7 +357,7 @@ export default function FangBot() {
                             Hi! I&apos;m Ava, your Fang assistant. Ask me a question or <br className="hidden sm:block" />
                             select a topic below, and I&apos;ll be happy to help.
                         </p>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 w-[80%]">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 w-full md:w-[80%]">
                             {(data?.topics ?? []).map((topic) => (
                                 <button
                                     key={topic.id}
@@ -295,16 +377,9 @@ export default function FangBot() {
     }
 
     // ---------------- In a chat ----------------
-    return (
-        <div className="flex flex-col mx-auto w-full md:w-[80%] bg-white dark:bg-dark-card border rounded-lg border-gray-300 dark:border-neutral-700 my-6">
-            <h1 className="px-4 pt-4 pb-3 text-lg font-bold text-gray-800 dark:text-neutral-100">Live Chat with FANG</h1>
-            <div
-                ref={scrollRef}
-                className="mx-4 border border-gray-200 dark:border-neutral-700 rounded-md px-3 sm:px-5 py-4 h-[60vh] min-h-80 overflow-y-auto flex flex-col gap-5"
-            >
-                {messages.map((m) => {
+    // One message bubble. `live` = its buttons still work (only the newest bot message of the open chat).
+    const renderMessage = (m: ChatMessage, live: boolean) => {
                     const mine = m.sender === "user";
-                    const live = m.id === liveButtonsId;
                     return (
                         <div key={m.id} className={`flex gap-3 ${mine ? "justify-end" : "justify-start"}`}>
                             {!mine && (
@@ -366,7 +441,73 @@ export default function FangBot() {
                             </div>
                         </div>
                     );
-                })}
+    };
+
+    const chatHeading = (c: ChatConversation) => (
+        <Divider>
+            {c.topicLabel ? `${c.topicLabel} · ` : ""}
+            {dateOf(c.createdAt)}
+        </Divider>
+    );
+    const chatFooter = (c: ChatConversation) =>
+        c.status === "resolved" ? (
+            <Divider>
+                Chat resolved{c.resolvedAt ? ` · ${dateOf(c.resolvedAt)}, ${timeOf(c.resolvedAt)}` : ""}
+                {c.rating ? ` · Rated ${"★".repeat(c.rating)}` : ""}
+            </Divider>
+        ) : null;
+
+    // Under a resolved chat: start fresh. (Typing a message below also starts a new chat.)
+    const newChatPanel = (
+        <div className="rounded-md border border-dashed border-gray-300 dark:border-neutral-600 px-4 py-4">
+            <p className="font-bold text-gray-800 dark:text-neutral-100">Start a new chat</p>
+            <p className="mt-1 mb-3 text-sm text-gray-500 dark:text-neutral-400">
+                Your earlier chats stay above. Choose a topic, or type a message below.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {(data?.topics ?? []).map((topic) => (
+                    <button
+                        key={topic.id}
+                        disabled={disabled}
+                        onClick={() => act({ action: "topic", topicId: topic.id })}
+                        className="flex items-center gap-2 px-3 py-2 border border-gray-200 dark:border-dark-border rounded-lg text-sm text-gray-700 dark:text-neutral-200 hover:bg-pink-50 dark:hover:bg-pink-500/10 hover:border-pink-300 dark:hover:border-pink-500/40 transition-colors disabled:opacity-60 disabled:hover:bg-transparent">
+                        {topic.icon && <span>{topic.icon}</span>}
+                        <span className="text-left leading-tight">{topic.label}</span>
+                    </button>
+                ))}
+            </div>
+        </div>
+    );
+
+    return (
+        <div className="flex flex-col mx-auto w-full md:w-[80%] bg-white dark:bg-dark-card border rounded-lg border-gray-300 dark:border-neutral-700 my-6">
+            <h1 className="px-4 pt-4 pb-3 text-lg font-bold text-gray-800 dark:text-neutral-100">Live Chat with FANG</h1>
+            <div
+                ref={scrollRef}
+                className="mx-4 border border-gray-200 dark:border-neutral-700 rounded-md px-3 sm:px-5 py-4 h-[60vh] min-h-80 overflow-y-auto flex flex-col gap-5"
+            >
+                {hasMore && (
+                    <button
+                        type="button"
+                        onClick={loadEarlier}
+                        disabled={loadingMore}
+                        className="self-center rounded-full border border-gray-300 dark:border-neutral-600 px-4 py-1.5 text-xs font-medium text-gray-700 dark:text-neutral-200 enabled:hover:bg-gray-100 dark:enabled:hover:bg-neutral-700 disabled:opacity-60">
+                        {loadingMore ? "Loading…" : "Load earlier chats"}
+                    </button>
+                )}
+
+                {past.map((chat) => (
+                    <div key={chat.conversation.id} className="flex flex-col gap-5">
+                        {chatHeading(chat.conversation)}
+                        {chat.messages.map((m) => renderMessage(m, false))}
+                        {chatFooter(chat.conversation)}
+                    </div>
+                ))}
+
+                {conversation && chatHeading(conversation)}
+                {messages.map((m) => renderMessage(m, m.id === liveButtonsId))}
+                {conversation && chatFooter(conversation)}
+                {conversation?.status === "resolved" && newChatPanel}
             </div>
 
             <div className="px-4 pt-4 pb-3">

@@ -14,8 +14,8 @@ import { dbPool } from "@/lib/db";
 import { genreSlug } from "@/lib/stories";
 import { getCheckinStatus } from "@/lib/reward";
 
-export type NotificationTab = "all" | "unread" | "mentions" | "transactions";
-export const NOTIFICATION_TABS: NotificationTab[] = ["all", "unread", "mentions", "transactions"];
+export type NotificationTab = "all" | "unread" | "mentions" | "transactions" | "updates";
+export const NOTIFICATION_TABS: NotificationTab[] = ["all", "unread", "mentions", "transactions", "updates"];
 export const NOTIFICATIONS_PAGE_SIZE = 20;
 
 const STORY_TENANT = process.env.STORY_TENANT || null;
@@ -62,6 +62,7 @@ const TAB_SQL: Record<NotificationTab, string> = {
     unread: "n.read_at IS NULL",
     mentions: "n.kind = 'reply'",
     transactions: "n.kind IN ('coins_added', 'coins_spent', 'coins_expired', 'vip_started', 'vip_renewed')",
+    updates: "n.kind IN ('new_chapter', 'checkin_ready', 'bonus_expiring', 'coins_expired', 'vip_cancelled', 'vip_ended', 'reply', 'admin_message')",
 };
 
 // Gifts a reader sent already show in their transaction history, so they never show here

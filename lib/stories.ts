@@ -202,7 +202,7 @@ export async function listStories(filters: StoryFilters = {}): Promise<StoryCard
     // Each book's average rating (null = no reviews yet)
     const ratingJoin = `
         LEFT JOIN LATERAL (
-            SELECT round(avg(r.rating), 1) AS rating
+            SELECT round(avg(r.rating) * 2, 1) AS rating
             FROM book_reviews r WHERE r.story_id = s.id AND NOT r.hidden
         ) rv ON true
     `;
@@ -590,7 +590,7 @@ export async function listCuratedGenreBooks(
         JOIN curation_collections cc ON cc.id = i.collection_id
         JOIN metadata_options o ON o.id = cc.genre_option_id
         LEFT JOIN LATERAL (
-            SELECT round(avg(r.rating), 1) AS rating
+            SELECT round(avg(r.rating) * 2, 1) AS rating
             FROM book_reviews r WHERE r.story_id = s.id AND NOT r.hidden
         ) rv ON true
         WHERE cc.section = 'genre' AND cc.enabled AND o.enabled
@@ -629,7 +629,7 @@ export async function listCuratedAllBooks(
             JOIN curation_collections cc ON cc.id = i.collection_id
             JOIN metadata_options o ON o.id = cc.genre_option_id
             LEFT JOIN LATERAL (
-                SELECT round(avg(r.rating), 1) AS rating
+                SELECT round(avg(r.rating) * 2, 1) AS rating
                 FROM book_reviews r WHERE r.story_id = s.id AND NOT r.hidden
             ) rv ON true
             WHERE cc.section = 'genre' AND cc.enabled AND o.enabled

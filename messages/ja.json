@@ -1364,7 +1364,7 @@
         "follow": "フォロー",
         "following": "フォロー中",
         "followFailed": "フォローを更新できませんでした。もう一度お試しください。",
-        "ratingOutOf": "{rating} / 5"
+        "ratingOutOf": "{rating} / 10"
     },
     "Referral": {
         "title": "友達を招待",

@@ -5,6 +5,8 @@
 //   Yes  -> status 'waiting' (staff take it from the admin Live Chat page, status 'active')
 //   No   -> status 'resolved' by the bot
 // A typed message goes straight to an agent. Staff resolve from the admin; the reader then rates 1-5.
+// Resolved chats are never hidden: the newest one stays on screen under a "start a new chat" panel and older
+// ones load on demand (getChatHistory), so the reader can scroll back through everything they have discussed.
 import "server-only";
 import type { PoolClient } from "pg";
 import { db } from "@/lib/db";
@@ -34,9 +36,12 @@ export type ChatConversation = {
     rating: number | null;
     createdAt: string;
     resolvedAt: string | null;
+    ratingPending: boolean; // resolved within the last day and neither rated nor skipped: show the rating pop-up
 };
 export type ChatTopic = { id: string; icon: string | null; label: string };
 export type ChatState = { conversation: ChatConversation | null; messages: ChatMessage[] };
+export type ChatHistoryItem = { conversation: ChatConversation; messages: ChatMessage[] };
+export type ChatHistory = { chats: ChatHistoryItem[]; hasMore: boolean };
 
 export class ChatError extends Error {
     constructor(public status: number, message: string) {
@@ -111,7 +116,8 @@ export async function getTopics(): Promise<ChatTopic[]> {
 }
 
 const CONVERSATION_COLUMNS = `
-    c.id, c.status, c.rating, c.created_at, c.resolved_at, t.label AS topic_label`;
+    c.id, c.status, c.rating, c.created_at, c.resolved_at, t.label AS topic_label,
+    (c.status = 'resolved' AND c.rated_at IS NULL AND c.resolved_at > now() - interval '1 day') AS rating_pending`;
 
 function toConversation(r: Record<string, unknown>): ChatConversation {
     return {
@@ -121,20 +127,21 @@ function toConversation(r: Record<string, unknown>): ChatConversation {
         rating: r.rating == null ? null : Number(r.rating),
         createdAt: new Date(r.created_at as string).toISOString(),
         resolvedAt: r.resolved_at ? new Date(r.resolved_at as string).toISOString() : null,
+        ratingPending: r.rating_pending === true,
     };
 }
 
-// The chat the reader sees: the open one, or the last resolved one from the past day that hasn't been rated or skipped yet
+// The chat the reader sees at the bottom: the open one, or else the newest resolved one (it stays on screen,
+// under a "start a new chat" panel). Everything older is history. Shared with getChatToken so both agree.
+const CURRENT_ORDER = `ORDER BY (c.status <> 'resolved') DESC, c.created_at DESC LIMIT 1`;
+
 async function findCurrent(q: Pick<PoolClient, "query">, userId: string) {
     const { rows } = await q.query(
         `SELECT ${CONVERSATION_COLUMNS}
          FROM support_conversations c
          LEFT JOIN support_topics t ON t.id = c.topic_id
          WHERE c.tenant = $1 AND c.user_id = $2
-           AND (c.status IN ('bot', 'waiting', 'active')
-                OR (c.status = 'resolved' AND c.rated_at IS NULL AND c.resolved_at > now() - interval '1 day'))
-         ORDER BY (c.status <> 'resolved') DESC, c.created_at DESC
-         LIMIT 1`,
+         ${CURRENT_ORDER}`,
         [CHAT_TENANT, userId]
     );
     return rows[0] ? toConversation(rows[0]) : null;
@@ -160,6 +167,50 @@ async function loadMessages(q: Pick<PoolClient, "query">, conversationId: string
 export async function getChatState(userId: string): Promise<ChatState> {
     const conversation = await findCurrent(db, userId);
     return { conversation, messages: conversation ? await loadMessages(db, conversation.id) : [] };
+}
+
+// Older resolved chats, a few at a time. `before` is the createdAt of the oldest chat already loaded.
+const HISTORY_PAGE_SIZE = 3;
+
+export async function getChatHistory(userId: string, before: string | null): Promise<ChatHistory> {
+    const current = await findCurrent(db, userId);
+    const cursor = before && !Number.isNaN(Date.parse(before)) ? new Date(before) : null;
+    const { rows } = await db.query(
+        `SELECT ${CONVERSATION_COLUMNS}
+         FROM support_conversations c
+         LEFT JOIN support_topics t ON t.id = c.topic_id
+         WHERE c.tenant = $1 AND c.user_id = $2 AND c.status = 'resolved'
+           AND ($3::text IS NULL OR c.id::text <> $3)
+           AND ($4::timestamptz IS NULL OR c.created_at < $4)
+         ORDER BY c.created_at DESC
+         LIMIT ${HISTORY_PAGE_SIZE + 1}`,
+        [CHAT_TENANT, userId, current?.id ?? null, cursor]
+    );
+    const hasMore = rows.length > HISTORY_PAGE_SIZE;
+    const page = rows.slice(0, HISTORY_PAGE_SIZE).map(toConversation);
+    if (!page.length) return { chats: [], hasMore: false };
+
+    const { rows: messageRows } = await db.query(
+        `SELECT conversation_id, id, sender_type, staff_name, body, options, created_at
+         FROM support_messages WHERE conversation_id = ANY($1)
+         ORDER BY created_at, id`,
+        [page.map((c) => c.id)]
+    );
+    const byChat = new Map<string, ChatMessage[]>();
+    for (const r of messageRows) {
+        const list = byChat.get(String(r.conversation_id)) ?? [];
+        list.push({
+            id: r.id,
+            sender: r.sender_type,
+            staffName: r.sender_type === "staff" ? r.staff_name ?? "Support" : null,
+            body: r.body,
+            buttons: Array.isArray(r.options) ? (r.options as ChatButton[]) : null,
+            createdAt: new Date(r.created_at).toISOString(),
+        });
+        byChat.set(String(r.conversation_id), list);
+    }
+    // Pages come newest-first, but each page reads oldest-first so it can sit straight above what is already loaded
+    return { chats: page.reverse().map((conversation) => ({ conversation, messages: byChat.get(conversation.id) ?? [] })), hasMore };
 }
 
 // ---------------------------------------------------------------
@@ -341,7 +392,7 @@ export async function rateChat(userId: string, conversationId: string, rating: n
     if (!rowCount) throw new ChatError(409, "This chat can't be rated.");
 }
 
-// Reader skips the rating pop-up: the chat is closed for good and doesn't come back (no rating is saved)
+// Reader skips the rating pop-up: the pop-up doesn't come back (no rating is saved); the chat stays in their history
 export async function skipRating(userId: string, conversationId: string) {
     await db.query(
         `UPDATE support_conversations SET rated_at = now(), updated_at = now()
@@ -368,10 +419,7 @@ export async function getChatToken(userId: string, suspended: boolean): Promise<
                 (SELECT MAX(m.created_at) FROM support_messages m WHERE m.conversation_id = c.id) AS last_at
          FROM support_conversations c
          WHERE c.tenant = $1 AND c.user_id = $2
-           AND (c.status IN ('bot', 'waiting', 'active')
-                OR (c.status = 'resolved' AND c.rated_at IS NULL AND c.resolved_at > now() - interval '1 day'))
-         ORDER BY (c.status <> 'resolved') DESC, c.created_at DESC
-         LIMIT 1`,
+         ${CURRENT_ORDER}`,
         [CHAT_TENANT, userId]
     );
     const flag = suspended ? 1 : 0;

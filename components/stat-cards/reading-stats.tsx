@@ -10,7 +10,7 @@ type Stats = {
     totalBooks: number;
     books: { key: number; count: number }[];
     genres: { name: string; count: number; percent: number }[];
-    streak: { days: number; recent: boolean[] };
+    streak: { days: number; recent: boolean[]; today: string };
     activeDay: { index: number; perDay: number[] };
 };
 
@@ -35,6 +35,63 @@ const formatDuration = (seconds: number, locale: string) => {
     if (hours > 0) return minutes > 0 ? `${unit(hours, "hour")} ${unit(minutes, "minute")}` : unit(hours, "hour");
     return unit(Math.max(minutes, 1), "minute");
 };
+
+const DAY_MS = 86400000;
+const utcDay = (iso: string) => {
+    const [y, m, d] = iso.split("-").map(Number);
+    return Date.UTC(y, m - 1, d);
+};
+
+// The last 28 days as a small calendar: Monday to Sunday columns, oldest week first, today ringed.
+// Days after today (the rest of this week) are shown dimmed so they don't look like missed days.
+// Dates are worked out from the reader's own "today" sent by the server, so they match how the streak is counted.
+export function StreakCalendar({ streak, locale }: { streak: Stats["streak"]; locale: string }) {
+    let todayMs: number;
+    if (streak.today) {
+        todayMs = utcDay(streak.today);
+    } else {
+        const now = new Date(); // server didn't say: use this device's date
+        todayMs = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+    }
+    const weekday = (new Date(todayMs).getUTCDay() + 6) % 7; // Monday = 0
+    const first = todayMs - (weekday + 21) * DAY_MS; // Monday three weeks before this week's Monday
+    const recentStart = todayMs - (streak.recent.length - 1) * DAY_MS;
+
+    const dayNumber = new Intl.DateTimeFormat(locale, { day: "numeric", timeZone: "UTC" });
+    const monthName = new Intl.DateTimeFormat(locale, { month: "short", timeZone: "UTC" });
+    const fullDate = new Intl.DateTimeFormat(locale, { weekday: "short", month: "short", day: "numeric", timeZone: "UTC" });
+
+    const cells = Array.from({ length: 28 }, (_, i) => {
+        const ms = first + i * DAY_MS;
+        const date = new Date(ms);
+        const future = ms > todayMs;
+        const read = !future && ms >= recentStart && streak.recent[Math.round((ms - recentStart) / DAY_MS)] === true;
+        return { ms, date, future, read, today: ms === todayMs, newMonth: i === 0 || date.getUTCDate() === 1 };
+    });
+
+    return (
+        <div>
+            <div className="grid grid-cols-7 gap-2 sm:gap-3 mb-2 text-center text-xs text-gray-400 dark:text-neutral-500">
+                {weekdayLetters(locale).map((d, i) => <span key={i}>{d}</span>)}
+            </div>
+            <div className="grid grid-cols-7 gap-2 sm:gap-3">
+                {cells.map((c) => (
+                    <div
+                        key={c.ms}
+                        title={fullDate.format(c.date)}
+                        className={`h-12 rounded-md flex flex-col items-center justify-center leading-tight ${c.today ? "ring-2 ring-offset-2 ring-red-500 dark:ring-red-400 ring-offset-white dark:ring-offset-dark-card " : ""}${c.future
+                            ? "border border-dashed border-gray-200 dark:border-neutral-700 text-gray-300 dark:text-neutral-600"
+                            : c.read
+                                ? "bg-red-500 dark:bg-red-300 text-white dark:text-red-950"
+                                : "bg-gray-200 dark:bg-neutral-100 text-gray-500"}`}>
+                        {c.newMonth && <span className="text-[9px] uppercase tracking-wide opacity-80">{monthName.format(c.date)}</span>}
+                        <span className="text-sm font-medium">{dayNumber.format(c.date)}</span>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
 
 export function GenreChart({ genres }: { genres: Stats["genres"] }) {
     return (
@@ -209,11 +266,7 @@ export function ReadingStats({ onTotal }: { onTotal?: (total: number) => void })
                                 <span className="ml-2 text-gray-500 dark:text-neutral-400">{t("days")}</span>
                             </div>
 
-                            <div className="grid grid-cols-7 gap-2 sm:gap-3">
-                                {[...stats.streak.recent].reverse().map((read, i) => (
-                                    <div key={i} className={`h-12 rounded-md ${read ? (i === 0 ? "bg-red-500 dark:bg-red-600" : "bg-red-500 dark:bg-red-300") : "bg-gray-200 dark:bg-neutral-100"}`} />
-                                ))}
-                            </div>
+                            <StreakCalendar streak={stats.streak} locale={locale} />
                         </>
                     )}
                 </StatsCard>

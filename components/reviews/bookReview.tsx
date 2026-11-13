@@ -365,8 +365,9 @@ export default function BookReviews({ bookId, onSummary }: { bookId: string; onS
                 <h2 className="text-sm md:text-lg font-semibold text-gray-700 dark:text-neutral-300">{t("heading", { count: totalLabel })}</h2>
                 {summary.average !== null && (
                     <div className="flex items-center gap-2">
-                        <StarRating rating={summary.average} size="sm" />
-                        <span className="text-sm font-semibold text-gray-700 dark:text-neutral-200">{summary.average.toFixed(1)}/5</span>
+                        {/* The API average is out of 10; the reviews section stays on the 5-star scale */}
+                        <StarRating rating={summary.average / 2} size="sm" />
+                        <span className="text-sm font-semibold text-gray-700 dark:text-neutral-200">{(summary.average / 2).toFixed(1)}/5</span>
                     </div>
                 )}
             </div>

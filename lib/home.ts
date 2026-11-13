@@ -18,7 +18,7 @@ export type HomeBook = {
     chapters?: number;
     completed: boolean;
     exclusive: boolean; // under a signed Exclusive or MAB-Exclusive contract
-    rating: number | null; // average of the readers' reviews (0.5 to 5), null = no reviews yet
+    rating: number | null; // average of the readers' reviews as a score out of 10 (1 star = 2), null = no reviews yet
     createdAt: string | null; // when the book was created (for "New")
 };
 
@@ -50,7 +50,7 @@ const AUTHOR = `
 // Average review rating (stories only; hidden reviews don't count)
 const RATING = `
     LEFT JOIN LATERAL (
-        SELECT round(avg(r.rating), 1) AS rating FROM book_reviews r WHERE r.story_id = b.id AND NOT r.hidden
+        SELECT round(avg(r.rating) * 2, 1) AS rating FROM book_reviews r WHERE r.story_id = b.id AND NOT r.hidden
     ) rv ON true`;
 
 // The contract the book is under: the newest signed one

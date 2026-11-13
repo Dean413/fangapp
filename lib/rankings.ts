@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+// lib/rankings.ts
 import { dbPool } from "@/lib/db";
 import { genreSlug } from "@/lib/stories";
 
@@ -93,7 +94,8 @@ export async function getRankingBooks(listId: string, filters: RankingFilters = 
             s.views,
             COALESCE(s.blurb, '') AS summary,
             COALESCE(s.tags, '{}') AS tags,
-            (SELECT COUNT(*)::int FROM chapters ch WHERE ch.story_id = s.id AND ch.status = 'published') AS chapter_count
+            (SELECT COUNT(*)::int FROM chapters ch WHERE ch.story_id = s.id AND ch.status = 'published') AS chapter_count,
+            (SELECT round(avg(r.rating) * 2, 1) FROM book_reviews r WHERE r.story_id = s.id AND NOT r.hidden) AS rating
          FROM curation_items i
          JOIN stories s ON s.id = i.story_id
          LEFT JOIN LATERAL (
@@ -129,6 +131,7 @@ export async function getRankingBooks(listId: string, filters: RankingFilters = 
             summary: row.summary,
             tags: row.tags ?? [],
             chapter: row.chapter_count,
+            rating: row.rating != null ? Number(row.rating) : null, // average review score (out of 10, 1 star = 2), null when no reviews
         };
     });
 }
