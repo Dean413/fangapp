@@ -89,14 +89,18 @@ async function authorPaths(): Promise<{ path: string; lastModified: Date }[]> {
     }));
 }
 
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const [genres, stories, authors, curated] = await Promise.all([
-        listGenres(),
-        storyPaths(),
-        authorPaths(),
-        // The genre pages each language really has (the admin's Genre curation), same list the pages use
-        Promise.all(locales.map((locale) => listCuratedGenres(languageForLocale(locale)).catch(() => []))),
-    ]);
+    const genres = await listGenres();
+    const stories = await storyPaths();
+    const authors = await authorPaths();
+
+    const curated: Awaited<ReturnType<typeof listCuratedGenres>>[] = [];
+
+    for (const locale of locales) {
+        const result = await listCuratedGenres(languageForLocale(locale)).catch(() => []);
+        curated.push(result);
+    }
 
     const entries: MetadataRoute.Sitemap = [];
 
@@ -108,22 +112,40 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
                 priority: path === "" ? 1 : 0.6,
             });
         }
+
         for (const genre of curated[i]) {
-            entries.push({ url: localeUrl(locale, `genre/${genre.slug}`), changeFrequency: "daily", priority: 0.7 });
+            entries.push({
+                url: localeUrl(locale, `genre/${genre.slug}`),
+                changeFrequency: "daily",
+                priority: 0.7,
+            });
         }
+
         for (const genre of genres) {
-            entries.push({ url: localeUrl(locale, `shorties/${genre.slug}`), changeFrequency: "daily", priority: 0.6 });
+            entries.push({
+                url: localeUrl(locale, `shorties/${genre.slug}`),
+                changeFrequency: "daily",
+                priority: 0.6,
+            });
         }
     }
 
-    // Book and author pages aren't translated per locale, so list each once under its canonical
-    // (default-locale) URL instead of multiplying them by 9 locales — avoids duplicate-content bloat
-    // and keeps the sitemap well under Google's 50,000 URL-per-file limit.
     for (const story of stories) {
-        entries.push({ url: localeUrl(defaultLocale, story.path), lastModified: story.lastModified, changeFrequency: "weekly", priority: 0.8 });
+        entries.push({
+            url: localeUrl(defaultLocale, story.path),
+            lastModified: story.lastModified,
+            changeFrequency: "weekly",
+            priority: 0.8,
+        });
     }
+
     for (const author of authors) {
-        entries.push({ url: localeUrl(defaultLocale, author.path), lastModified: author.lastModified, changeFrequency: "weekly", priority: 0.5 });
+        entries.push({
+            url: localeUrl(defaultLocale, author.path),
+            lastModified: author.lastModified,
+            changeFrequency: "weekly",
+            priority: 0.5,
+        });
     }
 
     return entries;

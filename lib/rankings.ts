@@ -27,6 +27,7 @@ export type NovelType = (typeof NOVEL_TYPES)[number];
 
 export type RankingList = { id: string; name: string };
 export type RankType = { id: string; name: string; lists: RankingList[] };
+export type RankingPlatform = "Websites" | "Apps";
 
 export type RankingFilters = {
     audience?: Audience | null;  // keeps that audience + "General" books
@@ -41,32 +42,42 @@ function formatViews(views: number | null): string {
 }
 
 // The tabs (every enabled rank type) and, under each, its enabled lists for this language + period
-export async function getRankTypes(language: string, period: RankingPeriod): Promise<RankType[]> {
-    const [{ rows: types }, { rows: lists }] = await Promise.all([
-        dbPool.query(
-            `SELECT o.id::text AS id, o.name
-             FROM metadata_options o
-             JOIN metadata_categories mc ON mc.id = o.category_id
-             WHERE mc.slug = 'rank_type' AND o.enabled
-             ORDER BY o.display_order, o.name`
-        ),
-        dbPool.query(
-            `SELECT c.id::text AS id, c.name, c.rank_type_id::text AS rank_type_id
-             FROM curation_collections c
-             WHERE c.section = 'ranking' AND c.enabled
-               AND c.tenant = $1 AND c.language = $2 AND c.platform = $3 AND c.period = $4
-             ORDER BY c.display_order, c.created_at`,
-            [READER_TENANT, language, PLATFORM, period]
-        ),
-    ]);
+// lib/rankings.ts
+// The tabs (every enabled rank type) and, under each, its enabled lists for this language + period.
+// An app asks for its own lists; if the app has none, it gets the website's.
+export async function getRankTypes(
+    language: string,
+    period: RankingPeriod,
+    platform: RankingPlatform = "Websites"
+): Promise<RankType[]> {
+    const { rows: all } = await dbPool.query(
+        `SELECT o.id::text AS id, o.name, COALESCE(o.platform, 'Websites') AS platform
+         FROM metadata_options o
+         JOIN metadata_categories mc ON mc.id = o.category_id
+         WHERE mc.slug = 'rank_type' AND o.enabled
+         ORDER BY o.display_order, o.name`
+    );
+    const use: RankingPlatform = all.some((t: any) => t.platform === platform) ? platform : "Websites";
+    const types = all.filter((t: any) => t.platform === use);
 
-    return types.map((t: any) => ({
+    const { rows: lists } = await dbPool.query(
+        `SELECT c.id::text AS id, c.name, c.rank_type_id::text AS rank_type_id
+         FROM curation_collections c
+         WHERE c.section = 'ranking' AND c.enabled
+           AND c.tenant = $1 AND c.language = $2 AND c.platform::text = $3 AND c.period = $4
+         ORDER BY c.display_order, c.created_at`,
+        [READER_TENANT, language, use, period]
+    );
+
+    const result = types.map((t: any) => ({
         id: t.id,
         name: t.name,
         lists: lists.filter((l: any) => l.rank_type_id === t.id).map((l: any) => ({ id: l.id, name: l.name })),
     }));
-}
 
+    // The app doesn't show tabs that have no lists; the website keeps showing every tab as before
+    return platform === "Websites" ? result : result.filter((t: RankType) => t.lists.length > 0);
+}
 // A ranking list's books in the admin's order (published, not deleted, assigned to this app),
 // narrowed by the reader's filters
 export async function getRankingBooks(listId: string, filters: RankingFilters = {}) {

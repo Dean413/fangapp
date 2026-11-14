@@ -11,7 +11,9 @@ export async function GET(request: Request) {
         const period = searchParams.get("period");
         const safePeriod: RankingPeriod = RANKING_PERIODS.includes(period as RankingPeriod) ? (period as RankingPeriod) : "daily";
 
-        const data = await getRankTypes(language, safePeriod);
+        // app/api/rankings/route.ts
+        const platform = searchParams.get("platform") === "Apps" ? "Apps" : "Websites";
+        const data = await getRankTypes(language, safePeriod, platform);
         return NextResponse.json({ data });
     } catch (error) {
         console.error(error);
